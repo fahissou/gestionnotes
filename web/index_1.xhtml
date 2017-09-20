@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="/template/base.xhtml">
+            
+            <ui:define name="jQueryJS">
+
+            </ui:define>
+
+            <ui:insert name="bottomJS">
+
+            </ui:insert>
+            
+            <ui:define name="title">
+                Gestion des notes
+            </ui:define>
+            
+            <ui:define name="main">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="block">
+                            <div class="head clearfix">
+                                <h2>Formulaire d'ajout</h2>
+                            </div>
+                            <h:form id="formeEx" styleClass="form-horizontal block-fluid">
+                                <div class="content np">                                        
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel for="inputId" value="Un label" styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <p:inputText id="inputId" value="#{messageBean.input1}" required="true" placeholder="Un label"
+                                                         styleClass="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel for="selectId" value="Deux label" styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <p:inputText id="selectId" value="#{messageBean.input2}" required="true" placeholder="2e label"
+                                                         styleClass="form-control"/>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel for="selectSimple" value="Select simple" styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <h:selectOneMenu id="selectSimple" value="#{messageBean.selection}" 
+                                                             required="false" styleClass="form-control">
+                                                <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                                <f:selectItems value="#{messageBean.listChaine}"
+                                                               var="selection"
+                                                               itemValue="#{selection}"
+                                                               itemLabel="#{selection.toUpperCase()}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel value="Sélection" for="departementLibelle" styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <p:selectOneMenu id="departementLibelle" value="#{messageBean.selection}" 
+                                                             required="false" filter="true" filterMatchMode="contains">
+                                                <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                                <f:selectItems value="#{messageBean.listChaine}" var="selection" itemValue="#{selection}"
+                                                               itemLabel="#{selection.toUpperCase()}"
+                                                               />
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel value="Sélection 2" for="selection2" styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <p:autoComplete value="#{messageBean.selection2}" id="selection2"
+                                                            minQueryLength="2" required="false"
+                                                            completeMethod="#{messageBean.completeText}"    
+                                                            var="selectionItem2" itemLabel="#{selectionItem2}"
+                                                            itemValue="#{selectionItem2}"  forceSelection="true"   
+                                                            dropdown="true" placeholder="Commencer par saisir"
+                                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel 
+                                            value="Sélection 3" for="selection3"
+                                            styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <p:selectCheckboxMenu id="selection3" value="#{messageBean.selectedCities}" label="Cities"
+                                                                  filter="true" filterMatchMode="contains" required="false">
+                                                <f:selectItems value="#{messageBean.cities}" />
+                                            </p:selectCheckboxMenu>
+                                        </div>
+                                    </div>
+
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel 
+                                            value="Sélection 4" for="selection4" 
+                                            styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <p:autoComplete value="#{messageBean.selectedCities}" id="selection4"
+                                                            minQueryLength="2" required="false"
+                                                            completeMethod="#{messageBean.completeCitie}"    
+                                                            var="selectionItem4" itemLabel="#{selectionItem4}"
+                                                            itemValue="#{selectionItem4}"  forceSelection="true"   
+                                                            dropdown="false" placeholder="Commencer par saisir"
+                                                            multiple="true"
+                                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel 
+                                            value="DateTime" for="DateTime" 
+                                            styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <p:calendar id="DateTime" required="false" placeholder="Date et heure"
+                                                        value="#{messageBean.date1}" pattern="dd/MM/yyyy HH:mm:ss"
+                                                        navigator="true" showOn="button"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel value="Console" for="console" styleClass="col-sm-3 control-label"/>
+                                        <div class="col-sm-9">
+                                            <p:selectOneRadio id="console" value="#{messageBean.selectedConsole}" layout="grid" columns="1" required="false">
+                                                <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                                                <f:selectItem itemLabel="PS4" itemValue="PS+" />
+                                                <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+
+                                    <div class="controls-row row-form clearfix">
+                                        <p:outputLabel value="CheckBox" for="checkbox" styleClass="col-sm-3 control-label" style="padding-top: 0px"/>
+                                        <div class="col-sm-9">
+                                            <p:selectManyCheckbox  id="checkbox" value="#{messageBean.selectedConsoles}" layout="grid" columns="1" required="false">
+                                                <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                                                <f:selectItem itemLabel="PS4" itemValue="PS+" />
+                                                <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                                            </p:selectManyCheckbox >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <div class="side">
+                                        <div class="form-actions col-sm-offset-3">
+                                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{messageBean.actionListener}" 
+                                                             oncomplete="updateGritter(xhr);" 
+                                                             styleClass="btn btn-primary btn-xs" icon="i-checkmark-2"/>
+
+                                            <p:commandButton value="#{bundle.Cancel}" styleClass="btn btn-default btn-xs" icon="i-cancel-2" process="@this"
+                                                             actionListener="#{messageBean.reset}" update="@form :msgForm:msg">
+                                                <p:resetInput target="formeEx"/>
+                                            </p:commandButton>
+                                            <div class="clearfix">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </h:form>
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="block"> <!--bg-primary b-primary-->
+                            <div class="head">
+                                <h2>Formulaire d'ajout #2</h2>
+
+                            </div>
+                            <h:form id="formeEx2" styleClass="form-horizontal block-fluid" role="form">
+                                <div class="content np">
+                                    <div class="controls-row row-form clearfix">
+                                        <div class="col-sm-12">
+                                            <p:inputText id="inputId" value="#{messageBean.input1}" required="false" placeholder="Un label"
+                                                         styleClass="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="controls-row row-form clearfix">
+
+                                        <div class="col-sm-12">
+                                            <p:inputText id="selectId" value="#{messageBean.input2}" required="false" placeholder="2e label"
+                                                         styleClass="form-control"/>
+                                        </div>
+
+                                    </div>
+                                    <div class="controls-row row-form clearfix">
+
+                                        <div class="col-sm-12">
+                                            <p:inputText id="selectedId" value="#{messageBean.input2}" required="false" placeholder="Adresse"
+                                                         styleClass="form-control"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <div class="side">
+                                        <div class="form-actions col-sm-offset-3">
+                                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" 
+                                                             oncomplete="updateGritter(xhr);" 
+                                                             styleClass="btn btn-xs btn-primary" icon="i-checkmark-2"/>
+                                            <div class="clearfix">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <!--le Tableau-->
+                    <div class="col-md-12">
+                        <div class="block">
+                            <h:form id="ajoutListForm">
+                                <div class="head">
+                                    <h2>Liste des ajouts</h2>
+                                    <ul class="buttons">
+                                        <li>
+                                            <p:commandLink value="#{null}" title="Actualiser" actionListener="#{messageBean.actionListener}"
+                                                           styleClass="block_toggle"
+                                                           style="outline: 0px auto -webkit-focus-ring-color"
+                                                           update="@form :msgForm:msg" oncomplete="updateGritter(xhr);">
+                                                <i class="i-cycle"/>
+                                            </p:commandLink>
+                                        </li>
+                                        <li><a href="#" class="block_toggle slideMe"><span class="i-arrow-down-3"></span></a></li>
+                                        <li><a href="#" class="block_remove"><span class="i-cancel-2"></span></a></li>
+                                    </ul>                                        
+                                </div>
+                                <div class="content np">
+                                    <p:dataTable id="incarcerationTable" var="item"
+                                                 selection="#{messageBean.selectedEssais}"
+                                                 value="#{messageBean.listEssais}"
+                                                 emptyMessage="#{bundle.EmptyListMsg}"
+                                                 rowKey="#{item.input1}"
+                                                 paginator="true"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30"
+                                                 sortMode="multiple"
+                                                 filteredValue="#{messageBean.filteredList}"
+                                                 currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
+                                                 pageLinks="5"
+                                                 rowIndexVar="rowIndex"
+                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
+                                                 {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"> 
+
+                                        <p:column selectionMode="multiple" style="width:50px;text-align:center"/>
+                                        <p:column headerText="Un label"  sortBy="#{item.input1}" 
+                                                  filterBy="#{item.input1}" filterMatchMode="contains"
+                                                  >
+                                            <h:outputText value=" #{item.input1}" />
+                                        </p:column>
+                                        <p:column headerText="Deux label"  sortBy="#{item.input2}" filterBy="#{item.input2}">
+                                            <h:outputText value=" #{item.input2}" />
+                                        </p:column>
+                                        <p:column headerText="Sélection"  sortBy="#{item.selection}" filterBy="#{item.selection}">
+                                            <h:outputText value=" #{item.selection}" />
+                                        </p:column>
+                                        <p:column headerText="Sélection 2"  sortBy="#{item.selection2}" filterBy="#{item.selection2}">
+                                            <h:outputText value=" #{item.selection2}" />
+                                        </p:column>
+                                        <p:column headerText="Date"  sortBy="#{item.date1}" filterBy="#{item.date1}">
+                                            <h:outputText value=" #{item.date1}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
+                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
+                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-zoom-out"/>
+
+                                                <f:setPropertyActionListener value="#{item}" target="#{messageBean.selectedEssai}" />
+                                            </p:commandLink>
+                                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-pencil"/>
+                                                <f:setPropertyActionListener value="#{item}" target="#{messageBean.selectedEssai}" />
+                                            </p:commandLink>
+                                            <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
+                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-trashcan"/>
+                                                <f:setPropertyActionListener value="#{item}" target="#{messageBean.selectedEssai}" />
+                                            </p:commandLink>
+                                            <p:commandLink value="#{null}" title="Default" styleClass="btn btn-success btn-xs"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-list-2"/>
+                                            </p:commandLink>
+                                            <p:commandLink value="#{null}" title="Tertiary" styleClass="btn btn-warning btn-xs"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-file-3"/>
+                                            </p:commandLink>
+                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-dollar"/>
+                                            </p:commandLink>
+                                            <p:commandLink value="#{null}" title="Warning" styleClass="btn btn-link btn-xs"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-cabinet-2"/>
+                                            </p:commandLink>
+                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-info btn-xs"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-download-3"/>
+                                            </p:commandLink>
+                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-primary btn-xs"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-download-3"/>
+                                            </p:commandLink>
+                                        </p:column>
+                                    </p:dataTable>
+
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+
+                <ui:include src="view.xhtml"/>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

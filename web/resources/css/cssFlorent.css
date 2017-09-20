@@ -1,0 +1,23 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17 sept. 2017, 17:35:48
+    Author     : AHISSOU Florent
+*/
+
+.block .head {
+    background: url(./images/styles/default/backgrounds/box-head.jpg.xhtml) left top repeat-x!important;
+    background-clip: padding-box!important;
+    border: 1px solid #335A85!important;
+    border-top-left-radius: 3px!important;
+    border-top-right-radius: 3px!important;
+    height: 40px!important;
+}
+
+h2 {
+        font-size: 21px!important;
+        margin-top: 2px!important;
+}
