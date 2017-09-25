@@ -18,6 +18,32 @@ and open the template in the editor.
 }
 
 h2 {
-        font-size: 21px!important;
-        margin-top: 2px!important;
+    font-size: 21px!important;
+    margin-top: 2px!important;
+    color: #fff;
+    line-height: 0px;
+    padding: -2px 0px;
+    font-weight: bold;
+    margin-left: 10px;
 }
+
+.clearfix .buttons >li{
+    width: 2%!important;
+    position: absolute;
+    top: 18px;
+}
+
+.glyphicon {
+   color: #fff;
+}
+
+/*.enteteTable{
+    width: 86%!important;
+    position: absolute!important;
+    top: 0px;
+    right: 44px;
+}
+
+.ui-datatable{
+    position: absolute!important;
+}*/
