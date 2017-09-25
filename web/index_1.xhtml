@@ -59,7 +59,6 @@
                                             </h:selectOneMenu>
                                         </div>
                                     </div>
-
                                     <div class="controls-row row-form clearfix">
                                         <p:outputLabel value="Sélection" for="departementLibelle" styleClass="col-sm-3 control-label"/>
                                         <div class="col-sm-9">
@@ -220,22 +219,25 @@
                     <div class="col-md-12">
                         <div class="block">
                             <h:form id="ajoutListForm">
-                                <div class="head">
+                                <div class="head clearfix enteteTable">
+                                    <a href="#" > <span class="i-cycle glyphicon glyphicon-refresh"></span>  </a>
                                     <h2>Liste des ajouts</h2>
+                                    
                                     <ul class="buttons">
                                         <li>
                                             <p:commandLink value="#{null}" title="Actualiser" actionListener="#{messageBean.actionListener}"
                                                            styleClass="block_toggle"
                                                            style="outline: 0px auto -webkit-focus-ring-color"
                                                            update="@form :msgForm:msg" oncomplete="updateGritter(xhr);">
-                                                <i class="i-cycle"/>
+                                                <!--<i class="i-cycle glyphicon glyphicon-refresh"/>-->
                                             </p:commandLink>
                                         </li>
-                                        <li><a href="#" class="block_toggle slideMe"><span class="i-arrow-down-3"></span></a></li>
-                                        <li><a href="#" class="block_remove"><span class="i-cancel-2"></span></a></li>
-                                    </ul>                                        
+<!--                                        <li><a href="#" class="block_toggle slideMe"><span class="i-arrow-down-3"></span></a></li>
+                                        <li><a href="#" class="block_remove"><span class="i-cancel-2"></span></a></li>-->
+                                    </ul>
+                                    
                                 </div>
-                                <div class="content np">
+                                <div class="content np block-fluid table-sorting clearfix">
                                     <p:dataTable id="incarcerationTable" var="item"
                                                  selection="#{messageBean.selectedEssais}"
                                                  value="#{messageBean.listEssais}"
@@ -250,7 +252,8 @@
                                                  pageLinks="5"
                                                  rowIndexVar="rowIndex"
                                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
-                                                 {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"> 
+                                                 {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                                                 class="dataTables_wrapper"> 
 
                                         <p:column selectionMode="multiple" style="width:50px;text-align:center"/>
                                         <p:column headerText="Un label"  sortBy="#{item.input1}" 
@@ -274,46 +277,46 @@
                                             <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-zoom-out"/>
+                                                <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
                                                 <f:setPropertyActionListener value="#{item}" target="#{messageBean.selectedEssai}" />
                                             </p:commandLink>
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-pencil"/>
+                                                <i class="i-pencil glyphicon glyphicon-pencil"/>
                                                 <f:setPropertyActionListener value="#{item}" target="#{messageBean.selectedEssai}" />
                                             </p:commandLink>
                                             <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-trashcan"/>
+                                                <i class="i-trashcan glyphicon glyphicon-trash"/>
                                                 <f:setPropertyActionListener value="#{item}" target="#{messageBean.selectedEssai}" />
                                             </p:commandLink>
                                             <p:commandLink value="#{null}" title="Default" styleClass="btn btn-success btn-xs"
                                                            style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-list-2"/>
+                                                <i class="i-list-2 glyphicon glyphicon-list"/>
                                             </p:commandLink>
                                             <p:commandLink value="#{null}" title="Tertiary" styleClass="btn btn-warning btn-xs"
                                                            style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-file-3"/>
+                                                <i class="i-file-3 glyphicon glyphicon-file"/>
                                             </p:commandLink>
-                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"
+<!--                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-dollar"/>
-                                            </p:commandLink>
-                                            <p:commandLink value="#{null}" title="Warning" styleClass="btn btn-link btn-xs"
+                                            </p:commandLink>-->
+<!--                                            <p:commandLink value="#{null}" title="Warning" styleClass="btn btn-link btn-xs"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-cabinet-2"/>
-                                            </p:commandLink>
-                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-info btn-xs"
+                                            </p:commandLink>-->
+<!--                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-info btn-xs"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-download-3"/>
-                                            </p:commandLink>
-                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-primary btn-xs"
+                                            </p:commandLink>-->
+<!--                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-primary btn-xs"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-download-3"/>
-                                            </p:commandLink>
+                                            </p:commandLink>-->
                                         </p:column>
                                     </p:dataTable>
 

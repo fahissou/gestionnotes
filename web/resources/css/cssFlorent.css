@@ -17,7 +17,94 @@ and open the template in the editor.
     height: 40px!important;
 }
 
-h2 {
-        font-size: 21px!important;
-        margin-top: 2px!important;
+.enteteTable >h2 {
+    font-size: 21px!important;
+    margin-top: 2px!important;
+    color: #fff;
+    line-height: 0px;
+    padding: -2px 0px;
+    font-weight: bold;
+    margin-left: 29px;
+    position: absolute;
+    top: 28px;
+}
+
+.clearfix .buttons >li{
+    width: 2%!important;
+    position: absolute;
+    top: 18px;
+}
+
+.glyphicon{
+   color: #fff;
+}
+.enteteTable .glyphicon {
+    top: 11px;
+    margin-left: 6px;
+}
+
+.block{
+    background-color: transparent!important;
+}
+
+.block, .block-fluid {
+    margin-bottom: 0px!important;
+}
+
+.table-sorting{
+    width: 100%;
+    top: 0px;
+    right: 220px;
+}
+
+.ui-datatable table {
+    table-layout: initial!important;
+}
+
+.ui-datatable table, thead, .ui-datatable-tablewrapper {
+    border: 1px solid #ddd!important;    
+}
+
+a.btn{
+    padding: 1px 7px!important;
+    margin-bottom: 3px;
+    font-size: 12px;
+    line-height: 14px!important;
+}
+
+.modal-header {
+    background: url(./images/styles/default/backgrounds/box-head.jpg.xhtml) left top repeat-x!important;
+    padding-bottom: 27px!important;
+    border: white!important;
+}
+
+.modal-header .close {
+    margin-top: -3px!important;
+}
+
+.modal-title {
+    margin: -9px!important;
+    line-height: 1.42857143;
+    color: white!important;
+}
+
+.modal-footer {
+    padding: 9px!important;
+    border-top: 1px solid #ada8a8;
+    background-color: #e5e5e5;
+}
+
+.modal-footer .btn-success, .modal-footer .btn-default{
+    background: #4786b8!important;
+    border-color: #426684!important;
+    height: 22px!important;
+}
+
+.modal-footer .btn .glyphicon{
+    position: relative!important;
+    top: -3px!important;
+}
+
+.ui-datatable .ui-sortable-column, th.ui-state-default:first-child, .ui-datatable thead th {
+    border: 1px solid #ddd!important;
 }
