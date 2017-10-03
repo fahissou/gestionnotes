@@ -8,3 +8,173 @@ and open the template in the editor.
     Author     : AHISSOU Florent
 */
 
+.page-header{
+    margin: 40px 20px 20px!important;
+}
+.head [class*="isw-"]{
+    margin-left: 10px!important;
+}
+
+.head h1{
+    font-size: 12px;
+    color: #fff;
+    line-height: 22px;
+    padding: 8px 0px;
+    margin: 0px;
+    font-weight: bold;
+    margin-left: 10px;
+    display: block;
+    float: left;
+    -moz-text-shadow: 0 1px 0 #333;
+    -webkit-text-shadow: 0 1px 0 #333;
+    text-shadow: 0 1px 0 #333;
+}
+
+.ui-selectonemenu{
+    background: #fff;
+    border: 1px solid #e4e7ea;
+    width: 100%!important;
+    padding: 4px;
+    border-radius: 5px;
+    height: 30px;
+}
+.row-form select{
+    display: none!important;
+}
+.ui-selectonemenu{
+    background: #FDFDFD!important;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon{
+    margin-left: -5px;
+    margin-top: 5px!important;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger:last-child{
+    border-left: none;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger{
+    height: 85%!important;
+    right: 3px!important;
+    top: 2px!important;
+    background: #FDFDFD!important;
+}
+.ui-widget-content {
+    background: #FDFDFD!important;
+}
+.ui-selectonemenu .ui-selectonemenu-label{
+    margin: -8px 0px;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container{
+    display: block!important;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-filter{
+    width: 100%!important;
+    background: #FDFDFD!important;
+        border-radius: 5px;
+}
+.row-form select{
+    background: #FDFDFD!important;
+}
+.ui-autocomplete{
+    width: 100%!important;
+    border: 0px solid #d5d5d5!important;
+}
+.ui-state-default{
+    /*border: 1px solid #d6d6d6;*/
+    background: #fff;
+    font-weight: normal;
+    color: #555;
+    border-right: 1px solid #D5D5D5;
+    border-top: 1px solid #D5D5D5;
+}
+.ui-button{
+    position: absolute!important;
+}
+.ui-state-default:hover{
+    background: #FDFDFD!important;
+}
+.ui-autocomplete .ui-autocomplete-dropdown{
+    border: none!important;
+    background: #FDFDFD!important;
+    border: none!important;
+    height: 75%!important;
+    right: 1px!important;
+    top: 5px;
+}
+/*.ui-autocomplete-dropdown .ui-icon-triangle-1-s:after{
+    content: "\e029";
+    font-family: 'Glyphicons Halflings';
+}*/
+
+.row-form select{
+   -moz padding: 0px 5px 4px!important;
+}
+
+.ui-autocomplete .ui-state-hover{
+    padding: 0!important;
+}
+.row-form{
+    padding: 15px 16px!important;
+}
+li.ui-autocomplete-item.ui-autocomplete-list-item.ui-corner-all.ui-state-highlight {
+    background: #eee;
+}
+.ui-selectonemenu-item ui-selectonemenu-list-item ui-corner-all .ui-state-hover{
+    background: #eee!important;
+}
+.ui-autocomplete-panel{
+    margin: 14px 0px;
+}
+.ui-selectcheckboxmenu{
+    width: 100%!important;
+    height: 25px;
+    background: #FDFDFD;
+    border: 1px solid #d6d6d6;
+    border-radius: 5px;
+}
+.ui-autocomplete-input.ui-autocomplete-dd-input{
+    cursor: pointer;
+}
+.ui-autocomplete-input.ui-autocomplete-dd-input.ui-state-hover{
+    padding: 0px 7px 0px!important;
+}
+.ui-autocomplete .ui-autocomplete-dropdown{
+    height: auto!important;
+}
+/*.ui-selectcheckboxmenu-trigger .ui-state-hover{
+    background: #FDFDFD!important;
+}*/
+/*.ui-selectcheckboxmenu .ui-state-hover{
+    background: #FDFDFD;
+    height: 25px;
+    border: 1px solid #d6d6d6;
+    border-bottom: 1px solid #d6d6d6;
+}*/
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger .ui-icon{
+    margin: 2px 0 0 -2px;
+}
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger{
+    width: 25px!important;
+    height: auto!important;
+    background: #FDFDFD;
+    top: 1px!important;
+}
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger:last-child{
+    border-left: none!important;
+}
+.ui-autocomplete-panel{
+    top: 528px!important;
+}
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-label{
+    display: none!important;
+    padding: 0px!important;
+}
+.ui-autocomplete-multiple-container{
+    border: none;
+    min-height: 0px!important;
+    overflow: visible!important;
+    width: auto!important;
+}
+.ui-autocomplete-input-token{
+    float: none!important;
+    background: #F9F9F9;
+}
