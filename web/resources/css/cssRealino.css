@@ -86,9 +86,9 @@ and open the template in the editor.
     border-right: 1px solid #D5D5D5;
     border-top: 1px solid #D5D5D5;
 }
-.ui-button{
+/*.ui-button{
     position: absolute!important;
-}
+}*/
 .ui-state-default:hover{
     background: #FDFDFD!important;
 }
@@ -178,3 +178,37 @@ li.ui-autocomplete-item.ui-autocomplete-list-item.ui-corner-all.ui-state-highlig
     float: none!important;
     background: #F9F9F9;
 }
+.ui-datepicker-trigger {
+    right: 14px;
+    top: 3px;
+    background: #D7D7D7!important;
+    border: 1px solid #aaaaaa;
+    background: #FDFDFD;
+    height: 83%;
+    border-radius: 3px;
+    position: absolute!important;
+    /* border-top: none; */
+    /* border-bottom: none; */
+}
+.ui-datepicker-trigger:hover{
+    background: #D7D7D7!important;
+}
+
+.ui-radiobutton .ui-radiobutton-box{
+    width: 17px!important;
+    height: 17px!important;
+}
+.ui-radiobutton-icon {
+    margin-left: 0px!important;
+    margin-top: -1px;
+}
+.ui-selectoneradio label{
+    margin: -4px 0px 0px 10px!important;
+}
+.ui-selectmanycheckbox label{
+    margin: -4px 0px 0px 10px!important;
+}
+/*.ui-button .i-checkmark-2:before{
+    content: "\e013";
+    font-family: 'Glyphicons Halflings';
+}*/
