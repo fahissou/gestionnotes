@@ -71,7 +71,7 @@ and open the template in the editor.
     table-layout: initial!important;
 }
 
-.ui-datatable table, thead, .ui-datatable-tablewrapper {
+.ui-datatable table, thead {
     border: 1px solid #ddd!important;    
 }
 
@@ -142,4 +142,14 @@ h2 {
 .ui-icon {
     background-image: url(./images/ui/ui-icons_222222_256x240.png.xhtml)!important;
     /*text-indent: -4px!important;*/
+}
+
+.ui-datatable tbody.ui-datatable-data{
+    border: #ddd!important;
+}
+
+.ui-datatable-tablewrapper{
+    width: 100.2%;
+    position: relative!important;
+    right: 1px!important;
 }
