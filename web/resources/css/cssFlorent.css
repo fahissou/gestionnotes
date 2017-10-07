@@ -107,7 +107,7 @@ a.btn{
 .modal-footer .btn-success, .modal-footer .btn-default{
     background: #4786b8!important;
     border-color: #426684!important;
-    height: 22px!important;
+    height: 20px!important;
 }
 
 .modal-footer .btn .glyphicon{
@@ -152,4 +152,16 @@ h2 {
     width: 100.2%;
     position: relative!important;
     right: 1px!important;
+}
+
+ table tr:nth-child(2n+1) td {
+    background-color: rgba(226, 223, 223, 0.23)!important;
+}
+
+[class*="block"] .table tr td {
+    background-color: #F9F9F9!important;
+}
+
+.ui-datatable tbody td a{
+    border-radius: 4px!important;
 }
