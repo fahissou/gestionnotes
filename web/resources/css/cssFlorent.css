@@ -76,7 +76,7 @@ and open the template in the editor.
 }
 
 a.btn{
-    padding: 1px 7px!important;
+    padding: 1px 4px!important;
     margin-bottom: 3px;
     font-size: 12px;
     line-height: 14px!important;
@@ -112,7 +112,7 @@ a.btn{
 
 .modal-footer .btn .glyphicon{
     position: relative!important;
-    top: -3px!important;
+    top: 1px!important;
 }
 
 .ui-datatable .ui-sortable-column, th.ui-state-default:first-child, .ui-datatable thead th {
@@ -164,4 +164,15 @@ h2 {
 
 .ui-datatable tbody td a{
     border-radius: 4px!important;
+}
+
+.modal-footer .btn-default{
+    color: white!important;
+}
+
+.modal-footer .btn{
+    padding: 0px 14px!important;
+    margin-bottom: 4px!important;
+    font-size: 10px!important;
+    line-height: 12px!important;
 }
