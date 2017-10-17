@@ -212,3 +212,20 @@ li.ui-autocomplete-item.ui-autocomplete-list-item.ui-corner-all.ui-state-highlig
     content: "\e013";
     font-family: 'Glyphicons Halflings';
 }*/
+
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span{
+    background: url(./images/ui/dateArrows.png.xhtml) no-repeat 0!important;
+}
+.ui-datepicker .ui-datepicker-next span{
+    background-position: -8px 0!important;
+}
+
+.ui-datepicker{
+    width: auto!important;
+}
+#ui-datepicker-div .ui-datepicker{
+    width: 25%!important;
+}
+ul{
+    list-style: none!important;
+}

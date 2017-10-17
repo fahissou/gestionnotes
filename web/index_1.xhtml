@@ -167,9 +167,9 @@
                                     <div class="footer tar">
                                         <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{messageBean.actionListener}" 
                                                          oncomplete="updateGritter(xhr);" 
-                                                         class="btn btn-default" icon="glyphicon glyphicon-ok"/>
+                                                         class="btn btn-default"/>
 
-                                        <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" icon="i-cancel-2" process="@this"
+                                        <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
                                                          actionListener="#{messageBean.reset}" update="@form :msgForm:msg">
                                             <p:resetInput target="formeEx"/>
                                         </p:commandButton>
@@ -182,47 +182,49 @@
                     </div>
 
                                         <div class="col-md-12">
-                                            <div class="block"> bg-primary b-primary
-                                                <div class="head">
-                                                    <h2>Formulaire d'ajout #2</h2>
+                                            <div class="block">
+                                                <div class="head clearfix">
+                                                    <div class="isw-grid"></div>
+                                                    <h1>Formulaire d'ajout #2</h1>
                     
                                                 </div>
-                                                <h:form id="formeEx2" styleClass="form-horizontal block-fluid" role="form">
-                                                    <div class="content np">
-                                                        <div class="controls-row row-form clearfix">
-                                                            <div class="col-sm-12">
+                                                <h:form id="formeEx2" styleClass="form-horizontal">
+                                                    <div class="block-fluid">
+                                                        <div class="row-form clearfix">
+                                                            <div class="col-md-9">
                                                                 <p:inputText id="inputId" value="#{messageBean.input1}" required="false" placeholder="Un label"
                                                                              styleClass="form-control"/>
                                                             </div>
                                                         </div>
-                                                        <div class="controls-row row-form clearfix">
+                                                        <div class="row-form clearfix">
                     
-                                                            <div class="col-sm-12">
+                                                            <div class="col-md-9">
                                                                 <p:inputText id="selectId" value="#{messageBean.input2}" required="false" placeholder="2e label"
                                                                              styleClass="form-control"/>
                                                             </div>
                     
                                                         </div>
-                                                        <div class="controls-row row-form clearfix">
+                                                        <div class="row-form clearfix">
                     
-                                                            <div class="col-sm-12">
+                                                            <div class="col-md-9">
                                                                 <p:inputText id="selectedId" value="#{messageBean.input2}" required="false" placeholder="Adresse"
                                                                              styleClass="form-control"/>
                                                             </div>
                     
                                                         </div>
-                                                    </div>
-                                                    <div class="footer">
-                                                        <div class="side">
-                                                            <div class="form-actions col-sm-offset-3">
+                                                        <div class="footer tar">
+                                                        <!--<div class="side">-->
+                                                            <!--<div class="form-actions col-sm-offset-3">-->
                                                                 <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" 
                                                                                  oncomplete="updateGritter(xhr);" 
-                                                                                 styleClass="btn btn-xs btn-primary" icon="i-checkmark-2"/>
-                                                                <div class="clearfix">
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                                                 styleClass="btn btn-default"/>
+<!--                                                                <div class="clearfix">
+                                                                </div>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                     </div>
+                                                    </div>
+                                                    
                                                 </h:form>
                                             </div>
                                         </div>
@@ -235,7 +237,7 @@
                             <h:form id="ajoutListForm">
                                 <div class="head clearfix enteteTable">
                                     <div class="i-cycle glyphicon glyphicon-refresh"></div>
-                                    <h2>Liste des ajouts</h2>
+                                    <h1>Liste des ajouts</h1>
 
                                     <ul class="buttons">
                                         <li>
