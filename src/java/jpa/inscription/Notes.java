@@ -5,7 +5,9 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import jpa.module.Matiere;
 
 /**
  *
@@ -20,6 +22,10 @@ public class Notes implements Serializable {
     private double oldNote;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
+    @ManyToOne
+    private Inscription inscription;
+    @ManyToOne
+    private Matiere matiere;
 
     public Notes() {
     }

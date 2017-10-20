@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -14,7 +16,12 @@ import javax.persistence.Id;
 public class AnneeAcademique implements Serializable {
     @Id
     private String id;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date anneeAcademique;
+    @ManyToOne
+    private Inscription inscription;
+    @ManyToOne
+    private Enseignant enseignant;
 
     public AnneeAcademique() {
     }

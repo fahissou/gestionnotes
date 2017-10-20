@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import jpa.inscription.Etudiant;
 
 /**
  *
@@ -18,11 +19,17 @@ import javax.persistence.OneToMany;
 @Entity
 public class Filiere implements Serializable {
     @OneToMany(mappedBy = "filiere")
+    private List<Etudiant> etudiants;
+    @OneToMany(mappedBy = "filiere")
     private List<GroupeEtudiant> groupeEtudiants;
     @Id
     private String id;
     private String libelle;
 
+    public Filiere() {
+    }
+
+    
     public String getId() {
         return id;
     }

@@ -6,9 +6,14 @@
 package jpa.module;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import jpa.administration.ProgrammerCours;
+import jpa.inscription.Enseignant;
+import jpa.inscription.Notes;
 
 /**
  *
@@ -16,13 +21,20 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class Matiere implements Serializable {
+    @OneToMany(mappedBy = "matiere")
+    private List<ProgrammerCours> programmerCours;
+    @OneToMany(mappedBy = "matiere")
+    private List<Notes> notes;
     @Id
     private String id;
     private String libelle;
     private Double coefficiant;
     @ManyToOne
     private Ue ue;
-
+    @ManyToOne
+    private Enseignant enseignant;
+    
+    
     public String getId() {
         return id;
     }

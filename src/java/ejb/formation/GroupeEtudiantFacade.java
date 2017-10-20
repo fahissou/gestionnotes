@@ -1,0 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ejb.formation;
+
+import ejb.AbstractFacade;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import jpa.formation.GroupeEtudiant;
+
+/**
+ *
+ * @author AHISSOU Florent
+ */
+@Stateless
+public class GroupeEtudiantFacade extends AbstractFacade<GroupeEtudiant> {
+    @PersistenceContext(unitName = "gestionnotesPU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    public GroupeEtudiantFacade() {
+        super(GroupeEtudiant.class);
+    }
+    
+}

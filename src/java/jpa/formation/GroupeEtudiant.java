@@ -7,10 +7,15 @@ package jpa.formation;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import jpa.administration.ProgrammerCours;
+import jpa.inscription.Inscription;
+import jpa.module.Ue;
 
 /**
  *
@@ -18,6 +23,12 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class GroupeEtudiant implements Serializable {
+    @OneToMany(mappedBy = "goupeEtudiant")
+    private List<Ue> ues;
+    @OneToMany(mappedBy = "groupeEtudiant")
+    private List<ProgrammerCours> programmerCours;
+    @OneToMany(mappedBy = "groupeEtudiant")
+    private List<Inscription> inscriptions;
     @Id
     private String id;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -25,6 +36,10 @@ public class GroupeEtudiant implements Serializable {
     @ManyToOne
     private Filiere filiere;
 
+    public GroupeEtudiant() {
+    }
+
+    
     public String getId() {
         return id;
     }

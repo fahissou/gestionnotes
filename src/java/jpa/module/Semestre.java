@@ -23,6 +23,10 @@ public class Semestre implements Serializable {
     private String id;
     private String libelle;
 
+    public Semestre() {
+    }
+
+    
     public String getId() {
         return id;
     }

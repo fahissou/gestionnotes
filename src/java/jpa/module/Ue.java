@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import jpa.formation.GroupeEtudiant;
 
 /**
  *
@@ -26,7 +27,13 @@ public class Ue implements Serializable {
     private int credit;
     @ManyToOne
     private Semestre semestre;
+    @ManyToOne
+    private GroupeEtudiant goupeEtudiant;
 
+    public Ue() {
+    }
+
+    
     public String getId() {
         return id;
     }

@@ -5,7 +5,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import jpa.formation.GroupeEtudiant;
+import jpa.module.Matiere;
 
 /**
  *
@@ -20,10 +23,32 @@ public class ProgrammerCours implements Serializable {
     private Date dateDebut;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateFin;
+    @ManyToOne
+    private Matiere matiere;
+    @ManyToOne
+    private GroupeEtudiant groupeEtudiant;
+    
 
     public ProgrammerCours() {
     }
 
+    public Matiere getMatiere() {
+        return matiere;
+    }
+
+    public void setMatiere(Matiere matiere) {
+        this.matiere = matiere;
+    }
+
+    public GroupeEtudiant getGroupeEtudiant() {
+        return groupeEtudiant;
+    }
+
+    public void setGroupeEtudiant(GroupeEtudiant groupeEtudiant) {
+        this.groupeEtudiant = groupeEtudiant;
+    }
+
+    
     public String getId() {
         return id;
     }

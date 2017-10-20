@@ -2,10 +2,13 @@ package jpa.inscription;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import jpa.module.Matiere;
 
 /**
  *
@@ -26,6 +29,10 @@ public class Enseignant implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
     private String adresse;
+    @OneToMany(mappedBy = "enseignant")
+    private List<AnneeAcademique> anneeAcademiques;
+    @OneToMany(mappedBy = "enseignant")
+    private List<Matiere> matieres;
 
     public Enseignant() {
     }
