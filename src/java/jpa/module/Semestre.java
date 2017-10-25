@@ -71,9 +71,9 @@ public class Semestre implements Serializable {
         return true;
     }
 
-//    @Override
-//    public String toString() {
-//        return "jpa.module.Semestre[ id=" + id + " ]";
-//    }
-    
+public void reset(){
+    this.id = null;
+    this.libelle = null;
+    this.ues = null;
+}    
 }

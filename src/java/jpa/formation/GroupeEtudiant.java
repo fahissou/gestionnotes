@@ -84,9 +84,12 @@ public class GroupeEtudiant implements Serializable {
         return true;
     }
 
-//    @Override
-//    public String toString() {
-//        return "jpa.formation.GroupeEtudiant[ id=" + id + " ]";
-//    }
-    
+public void reset(){
+    this.id = null;
+    this.filiere = null;
+    this.dateCreation = null;
+    this.inscriptions = null;
+    this.programmerCours = null;
+    this.ues = null;
+}    
 }

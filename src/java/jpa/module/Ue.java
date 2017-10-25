@@ -24,7 +24,7 @@ public class Ue implements Serializable {
     @Id
     private String id;
     private String libelle;
-    private int credit;
+    private String credit;
     @ManyToOne
     private Semestre semestre;
     @ManyToOne
@@ -50,11 +50,11 @@ public class Ue implements Serializable {
         this.libelle = libelle;
     }
 
-    public int getCredit() {
+    public String getCredit() {
         return credit;
     }
 
-    public void setCredit(int credit) {
+    public void setCredit(String credit) {
         this.credit = credit;
     }
 
@@ -94,9 +94,13 @@ public class Ue implements Serializable {
         return true;
     }
 
-//    @Override
-//    public String toString() {
-//        return "jpa.module.Ue[ id=" + id + " ]";
-//    }
+public void reset(){
+    this.id = null;
+    this.credit = null;
+    this.goupeEtudiant = null;
+    this.libelle = null;
+    this.matieres = null;
+    this.semestre = null;
+}
     
 }

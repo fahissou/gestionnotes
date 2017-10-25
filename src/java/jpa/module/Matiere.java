@@ -87,9 +87,13 @@ public class Matiere implements Serializable {
         return true;
     }
 
-//    @Override
-//    public String toString() {
-//        return "jpa.module.Matiere[ id=" + id + " ]";
-//    }
-    
+public void reset(){
+    this.id = null;
+    this.coefficiant = null;
+    this.enseignant = null;
+    this.libelle = null;
+    this.notes = null;
+    this.programmerCours = null;
+    this.ue = null;
+}    
 }

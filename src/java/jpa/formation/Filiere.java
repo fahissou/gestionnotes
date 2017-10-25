@@ -74,9 +74,14 @@ public class Filiere implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "jpa.formation.Filiere[ id=" + id + " ]";
+//    @Override
+//    public String toString() {
+//        return "jpa.formation.Filiere[ id=" + id + " ]";
+//    }
+    public void reset(){
+        this.id = null;
+        this.etudiants = null;
+        this.groupeEtudiants = null;
+        this.libelle = null;
     }
-    
 }
