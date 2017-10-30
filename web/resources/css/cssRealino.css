@@ -229,3 +229,7 @@ li.ui-autocomplete-item.ui-autocomplete-list-item.ui-corner-all.ui-state-highlig
 ul{
     list-style: none!important;
 }
+
+.ui-datepicker-title select{
+    color: #000 !important;
+}
