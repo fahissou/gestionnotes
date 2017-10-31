@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <div class="container">
+
+            <div class="col-md-12">
+                <div class="block">
+                    <!--<div class="mb30"></div>-->
+                    <div class="head head1">
+                        <h2 class="title-underblock custom mb30">#{bundle.GroupeAjout}</h2>
+                    </div>
+                    <h:form id="formeEx" styleClass="form-horizontal">
+                        <div class="content np">                                        
+                            <div class="controls-row c1">
+                                <p:outputLabel for="code" class="input-desc" value="#{bundle.Code}"/>
+                                <p:inputText id="code" value="#{groupeBean.newGroupe.code}" required="true" placeholder="#{bundle.Code}"
+                                             styleClass="form-control input-sm"/>
+                            </div>
+                            <!--<div class="mb15"></div> margin -->
+                            <div class="controls-row c2">
+                                <p:outputLabel for="description" class="input-desc" value="#{bundle.Description}"/>
+                                <p:inputText id="description" value="#{groupeBean.newGroupe.libelle}" required="true" placeholder="#{bundle.Description}"
+                                             styleClass="form-control input-sm"/>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="footer input-desc f2">
+                            <div class="side side1">
+                                <div class="form-actions col-sm-offset-3" >
+
+                                    <p:commandButton value="Valider" update=":msgForm:msg @form" 
+                                                     actionListener="#{groupeBean.doCreate}" 
+                                                     oncomplete="updateGritter(xhr);" 
+                                                     styleClass="btn btn-primary btn-xs" icon="i-checkmark-2"/>
+                                    <p:commandButton value="#{bundle.Cancel}" styleClass="btn btn-default btn-xs" 
+                                                     icon="i-cancel-2" process="@this"
+                                                     actionListener="#{groupeBean.reset}" update="@form :msgForm:msg">
+                                        <p:resetInput target="formeEx"/>
+                                    </p:commandButton>
+
+                                    <div class="clearfix">
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </h:form>
+                </div>
+            </div>
+
+        </div>
+    </ui:composition>
+</html>

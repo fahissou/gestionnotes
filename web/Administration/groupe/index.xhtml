@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="/template/base.xhtml">
+
+            <ui:define name="selectMenu">
+                <ui:param name="administration" value="active"/>
+                <ui:param name="groupe" value="active"/>
+                <ui:param name="liste" value="active"/>
+            </ui:define>
+
+            <ui:define name="titre">
+                #{bundle.listeGroupe}
+            </ui:define>
+
+            <ui:define name="topCSS">
+
+            </ui:define>
+
+
+
+            <ui:define name="banner2">
+          
+            </ui:define>
+            
+            <ui:define name="breadcrumb">
+                <h1>#{bundle.Groupe} </h1>
+                        <ol class="breadcrumb">
+                            <li><a href="#">#{bundle.administration1}</a></li>
+                            <li><a href="#">#{bundle.Groupe}</a></li>
+                            <li class="active">#{bundle.listeGroupe}</li>
+                        </ol>
+            </ui:define>
+
+
+            
+            <ui:define name="container">
+                <div class="container">
+<!--                <div class="row">-->
+                  <div class ="nav-position">
+                    <ui:include src="menunav.xhtml"/>
+                    </div>
+                    <ui:include src="liste.xhtml"/>
+                <!--</div>-->
+            </div>
+            </ui:define>
+            
+            
+          
+
+
+
+            <ui:define name="modals">
+                <ui:include src="view.xhtml"/>
+                <ui:include src="edit.xhtml"/>
+                <ui:include src="delete.xhtml"/>
+            </ui:define>
+
+            <ui:define name="bottomJS">
+              
+            </ui:define>
+           
+
+        </ui:composition>
+
+    </body>
+</html>
