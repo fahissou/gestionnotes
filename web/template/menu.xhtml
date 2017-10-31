@@ -7,12 +7,12 @@
 
     <ui:composition> 
 
-        <div class="breadLine">            
+<!--        <div class="breadLine">            
             <div class="arrow"></div>
             <div class="adminControl active">
                 Hi, Aqvatarius
             </div>
-        </div>
+        </div>-->
 
         <div class="admin">
             <div class="image">
@@ -34,6 +34,36 @@
                     <span class="isw-grid"></span><span class="text">#{bundle.Dashbord}</span>
                 </a>
             </li>
+            
+            <li class="openable">
+                <a href="#">
+                    <span class="isw-chat"></span><span class="text">#{bundle.administration1}</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/gestionnotes/administration/groupe">
+                            <span class="glyphicon glyphicon-comment"></span><span class="text">#{bundle.Groupe}</span>
+                        </a>
+
+                        <a href="/gestionnotes/administration/parametres" >                               
+                            <span class="glyphicon glyphicon-comment"></span> <span class="text">#{bundle.Parametres}</span>
+                        </a>
+
+                        <a href="/gestionnotes/administration/programmerCours">                               
+                            <span class="glyphicon glyphicon-comment"></span> <span class="text">#{bundle.ProgrammerCours}</span>
+                        </a>
+
+                        <a href="/gestionnotes/administration/utilisateur">                               
+                            <span class="glyphicon glyphicon-comment"></span> <span class="text">#{bundle.utilisateur}</span>
+                        </a>
+                        
+                    </li>                                        
+                </ul>                
+
+
+            </li>   
+            
+            
             <li class="openable">
                 <a href="#">
                     <span class="isw-list"></span><span class="text">#{bundle.Formation}</span>
@@ -65,7 +95,43 @@
                                                 </a>                  
                                             </li>                        -->
                 </ul>                
-            </li>          
+            </li>      
+            
+            <li class="openable">
+                <a href="#">
+                    <span class="isw-zoom"></span><span class="text">#{bundle.Inscription}</span>                    
+                </a>
+                <ul>
+                    <li>
+                        <a href="/gestionnotes/inscription/anneeAcademique">
+                            <span class="glyphicon glyphicon-picture"></span><span class="text">#{bundle.AnneeAcademique}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/gestionnotes/inscription/enseignant">
+                            <span class="glyphicon glyphicon-pencil"></span><span class="text">#{bundle.Enseignant}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/gestionnotes/inscription/etudiant">
+                            <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
+                        </a>
+                    </li>                        
+                    <li>
+                        <a href="/gestionnotes/inscription/inscription">
+                            <span class="glyphicon glyphicon-upload"></span><span class="text">#{bundle.Inscription}</span>
+                        </a>
+                    </li>  
+
+                    <li>
+                        <a href="/gestionnotes/inscription/notes">
+                            <span class="glyphicon glyphicon-upload"></span><span class="text">#{bundle.notes}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li> 
+            
+            
             <li class="openable">
                 <a href="#">
                     <span class="isw-archive"></span><span class="text">#{bundle.Module}</span>
@@ -93,83 +159,7 @@
                                     <span class="isw-archive"></span><span class="text">Forms stuff</span>                 
                                 </a>
                             </li>                        -->
-            <li class="openable">
-                <a href="#">
-                    <span class="isw-chat"></span><span class="text">#{bundle.administration1}</span>
-                </a>
-                <ul>
-                    <li>
-                        <a href="/gestionnotes/administration/groupe">
-                            <span class="glyphicon glyphicon-comment"></span><span class="text">#{bundle.Groupe}</span>
-                        </a>
-
-                        <a href="/gestionnotes/administration/parametres" >                               
-                            <span class="glyphicon glyphicon-comment"></span> <span class="text">#{bundle.Parametres}</span>
-                        </a>
-
-                        <a href="/gestionnotes/administration/programmerCours">                               
-                            <span class="glyphicon glyphicon-comment"></span> <span class="text">#{bundle.ProgrammerCours}</span>
-                        </a>
-
-                        <a href="/gestionnotes/administration/utilisateur">                               
-                            <span class="glyphicon glyphicon-comment"></span> <span class="text">#{bundle.utilisateur}</span>
-                        </a>
-
-                        <!--                                <div id="navPopMessages" class="popup" style="display: none;">
-                                                            <div class="head clearfix">
-                                                                <div class="arrow"></div>
-                                                                <span class="isw-chats"></span>
-                                                                <span class="name">Personal messages</span>
-                                                            </div>
-                                                            <div class="body messages">
-                        
-                                                                <div class="item clearfix">
-                                                                    <div class="image"><a href="#"> <p:graphicImage library="images/users" name="aqvatarius.jpg" class="img-thumbnail"/> </a></div>
-                                                                        
-                                                                    <div class="info">
-                                                                        <a href="#" class="name">Aqvatarius</a>
-                                                                        <p>Lorem ipsum dolor. In id adipiscing diam. Sed lobortis dui ut odio tempor blandit. Suspendisse scelerisque mi nec nunc gravida quis mollis lacus dignissim.</p>
-                                                                        <span>19 feb 2012 12:45</span>
-                                                                    </div>
-                                                                </div>
-                        
-                                                                <div class="item clearfix">
-                                                                    <div class="image"><a href="#"> <p:graphicImage library="images/users" name="olga.jpg" class="img-thumbnail"/> </a></div>
-                                                                    <div class="info">
-                                                                        <a href="#" class="name">Olga</a>
-                                                                        <p>Cras nec risus dolor, ut tristique neque. Donec mauris sapien, pellentesque at porta id, varius eu tellus.</p>
-                                                                        <span>18 feb 2012 12:45</span>
-                                                                    </div>
-                                                                </div>                        
-                        
-                                                                <div class="item clearfix">
-                                                                    <div class="image"><a href="#"> <p:graphicImage library="images/users" name="dmitry.jpg" class="img-thumbnail"/> </a></div>
-                                                                    <div class="info">
-                                                                        <a href="#" class="name">Dmitry</a>
-                                                                        <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
-                                                                        <span>17 feb 2012 12:45</span>
-                                                                    </div>
-                                                                </div>                         
-                        
-                                                                <div class="item clearfix">
-                                                                    <div class="image"><a href="#"> <p:graphicImage library="images/users" name="helen.jpg" class="img-thumbnail"/> </a></div>
-                                                                    <div class="info">
-                                                                        <a href="#" class="name">Helen</a>
-                                                                        <p>Sed lobortis dui ut odio tempor blandit. Suspendisse scelerisque mi nec nunc gravida quis mollis lacus dignissim. Donec mauris sapien, pellentesque at porta id, varius eu tellus.</p>
-                                                                        <span>15 feb 2012 12:45</span>
-                                                                    </div>
-                                                                </div>                                  
-                        
-                                                            </div>
-                                                            <div class="footer">
-                                                                <button class="btn btn-default link_navPopMessages" type="button">Close</button>
-                                                            </div>
-                                                        </div>                                                                                                                          -->
-                    </li>                                        
-                </ul>                
-
-
-            </li>                                    
+                                             
             <!--                <li>
                                 <a href="statistic.html">
                                     <span class="isw-graph"></span><span class="text">Statistics</span>
@@ -233,39 +223,7 @@
                                 </ul>                                
                             </li>            -->
 
-            <li class="openable">
-                <a href="#">
-                    <span class="isw-zoom"></span><span class="text">#{bundle.Inscription}</span>                    
-                </a>
-                <ul>
-                    <li>
-                        <a href="/gestionnotes/inscription/anneeAcademique">
-                            <span class="glyphicon glyphicon-picture"></span><span class="text">#{bundle.AnneeAcademique}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/gestionnotes/inscription/enseignant">
-                            <span class="glyphicon glyphicon-pencil"></span><span class="text">#{bundle.Enseignant}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/gestionnotes/inscription/etudiant">
-                            <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
-                        </a>
-                    </li>                        
-                    <li>
-                        <a href="/gestionnotes/inscription/inscription">
-                            <span class="glyphicon glyphicon-upload"></span><span class="text">#{bundle.Inscription}</span>
-                        </a>
-                    </li>  
-
-                    <li>
-                        <a href="/gestionnotes/inscription/notes">
-                            <span class="glyphicon glyphicon-upload"></span><span class="text">#{bundle.notes}</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>  
+             
 
 
             <!--                <li class="openable">
