@@ -233,3 +233,9 @@ ul{
 .ui-datepicker-title select{
     color: #000 !important;
 }
+.ui-datatable .ui-column-filter{
+    width: 100%!important;
+}
+.block, .block-fluid{
+    border-top: 1px;
+}

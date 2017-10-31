@@ -66,6 +66,30 @@ public class Matiere implements Serializable {
     public void setUe(Ue ue) {
         this.ue = ue;
     }
+
+    public List<ProgrammerCours> getProgrammerCours() {
+        return programmerCours;
+    }
+
+    public void setProgrammerCours(List<ProgrammerCours> programmerCours) {
+        this.programmerCours = programmerCours;
+    }
+
+    public List<Notes> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Notes> notes) {
+        this.notes = notes;
+    }
+
+    public Enseignant getEnseignant() {
+        return enseignant;
+    }
+
+    public void setEnseignant(Enseignant enseignant) {
+        this.enseignant = enseignant;
+    }
     
     @Override
     public int hashCode() {
