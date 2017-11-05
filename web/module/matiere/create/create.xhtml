@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="col-md-12">
+            <div class="block">
+                <div class="head clearfix">
+                    <div class="isw-documents"></div>
+                    <h1>#{bundle.AjoutMatiere}</h1>
+                </div>
+                <h:form id="formeEx" styleClass="form-horizontal">
+                    <div class="block-fluid">
+                        <div class=" row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="nomMatiere" value="#{bundle.Nom}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="nomMatiere" value="#{matiereBean.newMatiere.libelle}" required="true" placeholder="#{bundle.Nom}"/>
+                            </div>
+                        </div>
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="coefficient" value="#{bundle.Coefficiant}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="coefficient" value="#{matiereBean.newMatiere.coefficiant}" required="true" placeholder="#{bundle.Coefficiant}"/>
+                            </div>
+
+                        </div>
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="ue" value="#{bundle.UE}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="ue" value="#{matiereBean.newMatiere.ue}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{ueBean.listeUes}" var="item"
+                                                   itemValue="#{item.libelle}"/>
+                                    <f:converter  converterId="ueConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel value="#{bundle.Enseignant}" for="enseignant"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:autoComplete value="#{matiereBean.newMatiere.enseignant}" id="enseignant"
+                                                minQueryLength="2" required="true"
+                                                completeMethod="#{enseignant.completeText}"    
+                                                var="itemEnseignant" itemLabel="#{itemEnseignant}"
+                                                itemValue="#{itemEnseignant}"  forceSelection="true"   
+                                                dropdown="true" placeholder="Commencer par saisir" >
+                                    <f:converter  converterId="enseignantConverter"/>
+                                </p:autoComplete>
+                                
+                            </div>
+                        </div>
+
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{matiereBean.doCreate}" 
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="#{matiereBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>                                        
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

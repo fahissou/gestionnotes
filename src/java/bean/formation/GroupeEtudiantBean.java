@@ -7,6 +7,8 @@ package bean.formation;
 
 import ejb.formation.GroupeEtudiantFacade;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -32,6 +34,9 @@ public class GroupeEtudiantBean implements Serializable{
     private List<GroupeEtudiant> listesGroupeEtudiants;
     private List<GroupeEtudiant>filteredList;
     
+    protected static final SimpleDateFormat formatCode = new SimpleDateFormat("ddMMyyyyHHmmss");
+    protected static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+    
     /**
      * Creates a new instance of GroupeEtudiantBean
      */
@@ -43,9 +48,20 @@ public class GroupeEtudiantBean implements Serializable{
         prepareCreate();
         
     }
+    public String createCode(){
+        return formatCode.format(new Date());
+    }
+    public String recupDateSysteme() {
+        return formatDate.format(new Date());
+    }
+    public void code(){
+        this.newGroupeEtudiant.setId(createCode());
+    }
     public void doCreate(ActionEvent event) {
         String msg;
         try {
+            code();
+            //newGroupeEtudiant.setDateCreation(recupDateSysteme());
             groupeEtudiantFacade.create(newGroupeEtudiant);
             msg = JsfUtil.getBundleMsg("GroupeEtudiantCreateSuccessMsg");
             JsfUtil.addSuccessMessage(msg);

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="col-md-12">
+            <div class="block">
+                <div class="head clearfix">
+                    <div class="isw-documents"></div>
+                    <h1>#{bundle.AjoutUe}</h1>
+                </div>
+                <h:form id="formeEx" styleClass="form-horizontal">
+                    <div class="block-fluid">
+                        <div class=" row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="nomUe" value="#{bundle.Nom}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="nomUe" value="#{ueBean.newUe.libelle}" required="true" placeholder="#{bundle.Nom}"/>
+                            </div>
+                        </div>
+                        <!--                        <div class="row-form clearfix">
+                                                    <div class="col-md-3">
+                                                        <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <p:inputText id="semestre" value="#{ueBean.newUe.semestre}" required="true" placeholder="#{bundle.Coefficiant}"/>
+                                                    </div>
+                        
+                                                </div>-->
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="semestre" value="#{ueBean.newUe.semestre}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{semestreBean.listeSemestres}" var="itemSemestre"
+                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.libelle}"/>
+                                    <f:converter  converterId="semestreConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="credit" value="#{bundle.Credit}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="credit" value="#{ueBean.newUe.credit}" required="true" placeholder="#{bundle.Credit}"/>
+                            </div>
+
+                        </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="promotion" value="#{bundle.GroupeEtudiant}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="promotion" value="#{ueBean.newUe.goupeEtudiant}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{groupeEtudiantBean.listesGroupeEtudiants}" var="itemPromotion"
+                                                   itemValue="#{itemPromotion}" itemLabel="#{itemPromotion.libelle}"/>
+                                    <f:converter  converterId="groupeEtudiantConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{ueBean.doCreate}" 
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="#{ueBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>                                        
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

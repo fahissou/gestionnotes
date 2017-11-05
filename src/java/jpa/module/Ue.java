@@ -73,6 +73,14 @@ public class Ue implements Serializable {
     public void setSemestre(Semestre semestre) {
         this.semestre = semestre;
     }
+
+    public GroupeEtudiant getGoupeEtudiant() {
+        return goupeEtudiant;
+    }
+
+    public void setGoupeEtudiant(GroupeEtudiant goupeEtudiant) {
+        this.goupeEtudiant = goupeEtudiant;
+    }
     
     @Override
     public int hashCode() {

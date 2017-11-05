@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="col-md-12">
+            <div class="block">
+                <h:form id="ajoutListForm" styleClass="form-horizontal">
+                    <div class="head clearfix enteteTable">
+                        <h1>Liste des unités d'enseignements</h1>
+                    </div>
+                    
+                    <div class="content np block-fluid table-sorting clearfix">
+                                    <p:dataTable id="incarcerationTable" var="item"
+                                                 selection="#{ueBean.selectedUe}"
+                                                 value="#{ueBean.listeUes}"
+                                                 emptyMessage="#{bundle.EmptyListMsg}"
+                                                 rowKey="#{item.id}"
+                                                 paginator="true"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30"
+                                                 sortMode="multiple"
+                                                 filteredValue="#{ueBean.filteredList}"
+                                                 currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
+                                                 pageLinks="5"
+                                                 rowIndexVar="rowIndex"
+                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
+                                                 {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                                                 > 
+
+                                        <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
+<!--                                        <p:column headerText="Un label"  sortBy="#{item.input1}" 
+                                                  filterBy="#{item.id}" filterMatchMode="contains"
+                                                  >
+                                            <h:outputText value=" #{item.id}" />
+                                        </p:column>-->
+                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
+                                            <h:outputText value=" #{item.libelle}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.Semestre}"  sortBy="#{item.semestre.libelle}" filterBy="#{item.semestre.libelle}">
+                                            <h:outputText value=" #{item.semestre.libelle}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.Credit}"  sortBy="#{item.credit}" filterBy="#{item.credit}">
+                                            <h:outputText value=" #{item.credit}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.GroupeEtudiant}"  sortBy="#{item.goupeEtudiant.libelle}" filterBy="#{item.goupeEtudiant.libelle}">
+                                            <h:outputText value=" #{item.goupeEtudiant.libelle}"/>
+                                        </p:column>
+                                        <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
+                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
+                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
+
+                                                <f:setPropertyActionListener value="#{item}" target="#{ueBean.selectedUe}" />
+                                            </p:commandLink>
+                                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                                           update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-pencil glyphicon glyphicon-pencil"/>
+                                                <f:setPropertyActionListener value="#{item}" target="#{ueBean.selectedUe}" />
+                                            </p:commandLink>
+                                            <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
+                                                           update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-trashcan glyphicon glyphicon-trash"/>
+                                                <f:setPropertyActionListener value="#{item}" target="#{ueBean.selectedUe}" />
+                                            </p:commandLink>
+                                        </p:column>
+                                    </p:dataTable>
+
+                                </div>
+                    
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

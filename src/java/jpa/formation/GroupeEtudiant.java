@@ -31,6 +31,7 @@ public class GroupeEtudiant implements Serializable {
     private List<Inscription> inscriptions;
     @Id
     private String id;
+    private String libelle;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateCreation;
     @ManyToOne
@@ -62,6 +63,38 @@ public class GroupeEtudiant implements Serializable {
 
     public void setFiliere(Filiere filiere) {
         this.filiere = filiere;
+    }
+
+    public List<Ue> getUes() {
+        return ues;
+    }
+
+    public void setUes(List<Ue> ues) {
+        this.ues = ues;
+    }
+
+    public List<ProgrammerCours> getProgrammerCours() {
+        return programmerCours;
+    }
+
+    public void setProgrammerCours(List<ProgrammerCours> programmerCours) {
+        this.programmerCours = programmerCours;
+    }
+
+    public List<Inscription> getInscriptions() {
+        return inscriptions;
+    }
+
+    public void setInscriptions(List<Inscription> inscriptions) {
+        this.inscriptions = inscriptions;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
     
     @Override

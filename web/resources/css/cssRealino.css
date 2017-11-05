@@ -236,6 +236,11 @@ ul{
 .ui-datatable .ui-column-filter{
     width: 100%!important;
 }
-.block, .block-fluid{
+/*.block, .block-fluid{
     border-top: 1px;
+}*/
+
+.control{
+    padding: 15px 16px;
+    border-bottom: 1px solid #DDD;
 }
