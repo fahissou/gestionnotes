@@ -1,12 +1,18 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package bean.administration;
 
 import ejb.administration.ParametresFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.event.ActionEvent;
+import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import jpa.administration.Parametres;
 import util.JsfUtil;
@@ -15,18 +21,24 @@ import util.JsfUtil;
  *
  * @author AHISSOU Florent
  */
-@ViewScoped
+
 @Named(value = "parametresBean")
+@ViewScoped
 public class ParametresBean implements Serializable{
 
+    @EJB
     private ParametresFacade parametresFacade;
     private Parametres selectedParametres;
     private Parametres newParametres;
     private List<Parametres> listeParametress;
     private List<Parametres> filteredList;
+
+    /**
+     * Creates a new instance of ParametresBean
+     */
     public ParametresBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         listeParametress = parametresFacade.findAll();
@@ -112,5 +124,6 @@ public class ParametresBean implements Serializable{
     public void reset(ActionEvent e) {
         this.newParametres.reset();
     }
+    
     
 }

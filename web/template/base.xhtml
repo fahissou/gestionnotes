@@ -8,8 +8,6 @@
        
     <ui:insert name="selectedMenu">
         <ui:param name="board" value="active"/>
-        <!--        <ui:param name="uielement" value="open"/>
-                <ui:param name="element" value="active"/>-->
     </ui:insert>
         
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -88,7 +86,7 @@
                 <ui:include src="breadLine.xhtml"/>
             </ui:insert>
             
-            <ui:insert name="main" > 
+            <ui:insert name="main">
                 <ui:include src="main.xhtml"/>
             </ui:insert>
                     
@@ -158,20 +156,20 @@
                     $(this).find('li').each(function () {
                         summary = $(this).find('span.ui-messages-' + severity + '-summary').text();
                         detail = $(this).find('span.ui-messages-' + severity + '-detail').text();
-                        
+
                         noty({
                             layout: 'bottomRight',
                             type: severity2,
-                            text: "<strong>"+summary+"</strong><br/> "+detail,
+                            text: "<strong>" + summary + "</strong><br/> " + detail,
                             animation: {
-                                    open: {height: 'toggle'},
-                                    close: {height: 'toggle'},
-                                    easing: 'swing',
-                                    speed: 500 
-                                    },
+                                open: {height: 'toggle'},
+                                close: {height: 'toggle'},
+                                easing: 'swing',
+                                speed: 500
+                            },
                             timeout: 5000,
-                            closeWith:  ['click', 'button']
-                            });
+                            closeWith: ['click', 'button']
+                        });
                     });
                 });
             }

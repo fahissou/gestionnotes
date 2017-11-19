@@ -10,7 +10,9 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import jpa.inscription.Enseignant;
 import jpa.inscription.Etudiant;
+import jpa.inscription.Inscription;
 
 /**
  *
@@ -25,10 +27,38 @@ public class Filiere implements Serializable {
     @Id
     private String id;
     private String libelle;
-
+    @OneToMany(mappedBy = "filiere")
+    private List<Enseignant> enseignants;
+    @OneToMany(mappedBy = "filiere")
+    private List<Inscription> inscriptions;
+    
+    
     public Filiere() {
     }
+    
+    public List<Etudiant> getEtudiants() {
+        return etudiants;
+    }
 
+    public void setEtudiants(List<Etudiant> etudiants) {
+        this.etudiants = etudiants;
+    }
+
+    public List<Enseignant> getEnseignants() {
+        return enseignants;
+    }
+
+    public void setEnseignants(List<Enseignant> enseignants) {
+        this.enseignants = enseignants;
+    }
+
+    public List<Inscription> getInscriptions() {
+        return inscriptions;
+    }
+
+    public void setInscriptions(List<Inscription> inscriptions) {
+        this.inscriptions = inscriptions;
+    }
     
     public String getId() {
         return id;
@@ -73,11 +103,7 @@ public class Filiere implements Serializable {
         }
         return true;
     }
-
-//    @Override
-//    public String toString() {
-//        return "jpa.formation.Filiere[ id=" + id + " ]";
-//    }
+    
     public void reset(){
         this.id = null;
         this.etudiants = null;

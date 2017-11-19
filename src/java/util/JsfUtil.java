@@ -37,6 +37,7 @@ import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -79,6 +80,7 @@ public class JsfUtil {
     public static String LDAPURL, GROUPBASEDN, PEOPLEBASEDN, CURRENTPRISONCODE, IDWEZONCODE, IDCOMPTE,
             RECIPIENTSMAIL, SMTPSERVER, SMTPUSER, SMTPPASSWORD, VERSION, CONTACT;
 
+    
     public static String getCONTACT() {
         FacesContext ctx = FacesContext.getCurrentInstance();
         CONTACT = ctx.getExternalContext().getInitParameter("CONTACT");
@@ -717,4 +719,49 @@ public class JsfUtil {
         return f.format(value);
         //return s;
     }
+    
+    public static String generateId() {
+        int length = 6;
+        SimpleDateFormat formatCode = new SimpleDateFormat("ddMMyyyyHHmmss");
+        String code = formatCode.format(new Date());
+        String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; 
+        StringBuffer pass = new StringBuffer();
+        for(int x=0;x<length;x++)   {
+           int i = (int)Math.floor(Math.random() * (chars.length() -1));
+           pass.append(chars.charAt(i));
+        }
+        return pass.toString() + code;
+    }
+    
+    public static List<String> listeNiveauCycle1(){
+        List<String> liste = new ArrayList<>();
+        liste.add("LICENCE 1");
+        liste.add("LICENCE 2");
+        liste.add("LICENCE 3");
+        return liste;
+    }
+    
+    public static List<String> listeNiveauCycle2(){
+        List<String> liste = new ArrayList<>();
+        liste.add("MASTER 1");
+        liste.add("MASTER 2");
+        return liste;
+    }
+    
+    public static List<String> listeNiveauCycle3(){
+        List<String> liste = new ArrayList<>();
+        liste.add("THÈSE 1");
+        liste.add("THÈSE 2");
+        liste.add("THÈSE 3");
+        return liste;
+    }
+    
+    public static List<String> listeCycle(){
+        List<String> liste = new ArrayList<>();
+        liste.add("Cycle 1");
+        liste.add("Cycle 2");
+        liste.add("Cycle 3");
+        return liste;
+    }
+    
 }

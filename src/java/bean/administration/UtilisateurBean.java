@@ -7,10 +7,12 @@ package bean.administration;
 
 import ejb.administration.UtilisateurFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.event.ActionEvent;
+import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import jpa.administration.Utilisateur;
 import util.JsfUtil;
@@ -19,18 +21,24 @@ import util.JsfUtil;
  *
  * @author AHISSOU Florent
  */
-@ViewScoped
+
 @Named(value = "utilisateurBean")
+@ViewScoped
 public class UtilisateurBean implements Serializable{
 
+    @EJB
     private UtilisateurFacade utilisateurFacade;
     private Utilisateur selectedUtilisateur;
     private Utilisateur newUtilisateur;
     private List<Utilisateur> listeUtilisateurs;
     private List<Utilisateur> filteredList;
+
+    /**
+     * Creates a new instance of UtilisateurBean
+     */
     public UtilisateurBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         listeUtilisateurs = utilisateurFacade.findAll();
@@ -116,5 +124,6 @@ public class UtilisateurBean implements Serializable{
     public void reset(ActionEvent e) {
         this.newUtilisateur.reset();
     }
+    
     
 }

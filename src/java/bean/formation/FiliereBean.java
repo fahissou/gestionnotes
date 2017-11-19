@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -24,7 +23,6 @@ import util.JsfUtil;
  * @author Sedjro
  */
 @Named(value = "filiereBean")
-@ManagedBean
 @ViewScoped
 public class FiliereBean implements Serializable{
     @EJB
@@ -33,6 +31,7 @@ public class FiliereBean implements Serializable{
     private Filiere selectedFiliere;
     private List<Filiere> listeFilieres;
     private List<Filiere> filteredList;
+    
     
     protected static final SimpleDateFormat formatCode = new SimpleDateFormat("ddMMyyyyHHmmss");
     protected static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -70,6 +69,7 @@ public class FiliereBean implements Serializable{
             JsfUtil.addErrorMessage(msg);
         }
     }
+    
     public void doEdit(ActionEvent event) {
         String msg;
         try {

@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>    
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="block">
+                    <div class="head clearfix">
+                        <div class="isw-documents"></div>
+                        <h1>#{bundle.listeEnseignants}</h1>
+                    </div>
+                    <h:form id="formeEx" styleClass="form-horizontal">
+                        <div class="block-fluid">                                        
+
+                            <div class=" row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="login" value="#{bundle.UserLogin}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="login" value="#{enseignantBean.newEnseignant.login}" required="true" placeholder="#{bundle.UserLogin}"/>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="nom" value="#{bundle.Nom}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="nom" value="#{enseignantBean.newEnseignant.nom}" required="true" placeholder="#{bundle.Nom}"/>
+                                </div>
+
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="prenom" value="#{bundle.Prenoms}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="prenom" value="#{enseignantBean.newEnseignant.prenom}" required="true" placeholder="#{bundle.Prenoms}"/>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="telephone" value="#{bundle.Telephone}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="telephone" value="#{enseignantBean.newEnseignant.telephone}" required="true" placeholder="#{bundle.Telephone}"/>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="adresse" value="#{bundle.Adresse}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="adresse" value="#{enseignantBean.newEnseignant.adresse}" required="true" placeholder="#{bundle.Adresse}"/>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Genre}" for="genre"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneRadio id="genre" value="#{enseignantBean.newEnseignant.genre}" layout="grid" columns="2" required="false">
+                                        <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
+                                        <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
+                                    </p:selectOneRadio>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Statut}" for="statut"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneRadio id="statut" value="#{enseignantBean.newEnseignant.statut}" layout="grid" columns="2" required="false">
+                                        <f:selectItem itemLabel="#{bundle.Missionnaire}" itemValue="Missionnaire" />
+                                        <f:selectItem itemLabel="#{bundle.Locale}" itemValue="Locale"/>
+                                    </p:selectOneRadio>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneMenu id="filiere" value="#{enseignantBean.newEnseignant.filiere}" 
+                                                     required="false">
+                                        <f:selectItem itemValue="#{null}" itemLabel="selection"/>
+                                        <f:selectItems value="#{filiereBean.listeFilieres}"
+                                                       var="groupeItem"
+                                                       itemValue="#{groupeItem}"
+                                                       itemLabel="#{groupeItem.libelle.toUpperCase()}"/>
+                                        <f:converter  converterId="filiereConverter"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+          
+                            <div class="footer tar">
+                                <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{enseignantBean.doCreate}" 
+                                                 oncomplete="updateGritter(xhr);" 
+                                                 class="btn btn-default"/>
+
+                                <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                                 actionListener="#{enseignantBean.reset}" update="@form :msgForm:msg">
+                                    <p:resetInput target="formeEx"/>
+                                </p:commandButton>
+                            </div> 
+                        </div>
+
+                    </h:form>
+                </div>
+
+            </div>
+
+        </div> 
+
+
+    </ui:composition>
+</html>

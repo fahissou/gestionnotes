@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import jpa.formation.Filiere;
 import jpa.formation.GroupeEtudiant;
 
 /**
@@ -25,11 +26,73 @@ public class Inscription implements Serializable {
     private GroupeEtudiant groupeEtudiant;
     @OneToMany(mappedBy = "inscription")
     private List<AnneeAcademique> anneeAcademiques;
+    @ManyToOne
+    private Filiere filiere;
+    private String cycle;
+    private String niveau;
+    
 
+    
     public Inscription() {
     }
 
+    public String getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
+
+    public String getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(String niveau) {
+        this.niveau = niveau;
+    }
+
     
+    public List<Notes> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Notes> notes) {
+        this.notes = notes;
+    }
+
+    public Etudiant getEtudiant() {
+        return etudiant;
+    }
+
+    public void setEtudiant(Etudiant etudiant) {
+        this.etudiant = etudiant;
+    }
+
+    public GroupeEtudiant getGroupeEtudiant() {
+        return groupeEtudiant;
+    }
+
+    public void setGroupeEtudiant(GroupeEtudiant groupeEtudiant) {
+        this.groupeEtudiant = groupeEtudiant;
+    }
+
+    public List<AnneeAcademique> getAnneeAcademiques() {
+        return anneeAcademiques;
+    }
+
+    public void setAnneeAcademiques(List<AnneeAcademique> anneeAcademiques) {
+        this.anneeAcademiques = anneeAcademiques;
+    }
+
+    public Filiere getFiliere() {
+        return filiere;
+    }
+
+    public void setFiliere(Filiere filiere) {
+        this.filiere = filiere;
+    }
+
     public String getId() {
         return id;
     }

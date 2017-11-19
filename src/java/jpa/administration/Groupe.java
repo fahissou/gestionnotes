@@ -1,8 +1,13 @@
 package jpa.administration;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -12,11 +17,44 @@ import javax.persistence.Id;
 public class Groupe implements Serializable {
     @Id
     private String id;
+    private String libelle;
     private String username;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreation;
+    @OneToMany(mappedBy = "groupe")
+    private List<Utilisateur> utilisateurs;
 
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public Date getDateCreation() {
+        return this.dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    
     public Groupe() {
     }
 
+    
+    public List<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public void setUtilisateurs(List<Utilisateur> utilisateurs) {
+        this.utilisateurs = utilisateurs;
+    }
+
+    
+    
     public String getId() {
         return id;
     }
@@ -53,6 +91,7 @@ public class Groupe implements Serializable {
     public void reset() {
         id = null;
         username = null;
+        libelle=null;
     }
     
 }

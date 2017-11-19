@@ -9,9 +9,10 @@ import ejb.administration.GroupeFacade;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import jpa.administration.Groupe;
 import util.JsfUtil;
 
@@ -19,18 +20,24 @@ import util.JsfUtil;
  *
  * @author AHISSOU Florent
  */
-@ViewScoped
+
 @Named(value = "groupeBean")
+@ViewScoped
 public class GroupeBean implements Serializable{
 
+    @EJB
     private GroupeFacade groupeFacade;
     private Groupe selectedGroupe;
     private Groupe newGroupe;
     private List<Groupe> listeGroupes;
     private List<Groupe> filteredList;
+
+    /**
+     * Creates a new instance of GroupeBean
+     */
     public GroupeBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         listeGroupes = groupeFacade.findAll();
@@ -116,5 +123,6 @@ public class GroupeBean implements Serializable{
     public void reset(ActionEvent e) {
         this.newGroupe.reset();
     }
+    
     
 }

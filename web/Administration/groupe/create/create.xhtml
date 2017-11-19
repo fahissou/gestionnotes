@@ -1,61 +1,60 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
-        <div class="container">
-
-            <div class="col-md-12">
-                <div class="block">
-                    <!--<div class="mb30"></div>-->
-                    <div class="head head1">
-                        <h2 class="title-underblock custom mb30">#{bundle.GroupeAjout}</h2>
-                    </div>
-                    <h:form id="formeEx" styleClass="form-horizontal">
-                        <div class="content np">                                        
-                            <div class="controls-row c1">
-                                <p:outputLabel for="code" class="input-desc" value="#{bundle.Code}"/>
-                                <p:inputText id="code" value="#{groupeBean.newGroupe.code}" required="true" placeholder="#{bundle.Code}"
-                                             styleClass="form-control input-sm"/>
-                            </div>
-                            <!--<div class="mb15"></div> margin -->
-                            <div class="controls-row c2">
-                                <p:outputLabel for="description" class="input-desc" value="#{bundle.Description}"/>
-                                <p:inputText id="description" value="#{groupeBean.newGroupe.libelle}" required="true" placeholder="#{bundle.Description}"
-                                             styleClass="form-control input-sm"/>
-
-                            </div>
 
 
-                        </div>
-
-                        <div class="footer input-desc f2">
-                            <div class="side side1">
-                                <div class="form-actions col-sm-offset-3" >
-
-                                    <p:commandButton value="Valider" update=":msgForm:msg @form" 
-                                                     actionListener="#{groupeBean.doCreate}" 
-                                                     oncomplete="updateGritter(xhr);" 
-                                                     styleClass="btn btn-primary btn-xs" icon="i-checkmark-2"/>
-                                    <p:commandButton value="#{bundle.Cancel}" styleClass="btn btn-default btn-xs" 
-                                                     icon="i-cancel-2" process="@this"
-                                                     actionListener="#{groupeBean.reset}" update="@form :msgForm:msg">
-                                        <p:resetInput target="formeEx"/>
-                                    </p:commandButton>
-
-                                    <div class="clearfix">
+        <div id="createDialog" class="modal fade" data-backdrop="true" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h:form id="createDialogForm" styleClass="form-horizontal">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title">#{bundle.AjoutGroupe}</h3>
+                        </div> <!-- /.modal-header -->
+                        <div class="modal-body">
+                            
+<!--                            <div class="form-group row" style="margin-bottom: 3px!important;">
+                                    <label class="control-label col-sm-4">#{bundle.Code}</label>
+                                    <div class="col-sm-8">
+                                        <label class="form-control input-sm"
+                                               >
+                                            #{groupeBean.selectedGroupe.code}
+                                        </label>
+                                    </div>
+                                </div>-->
+                            
+                                <div class="form-group row" style="margin-bottom: 3px!important;">
+                                    <label class="control-label col-sm-4">#{bundle.Description}</label>
+                                    <div class="col-sm-8">
+                                        
+                                        <p:inputText id="description" value="#{groupeBean.selectedGroupe.libelle}" required="true" placeholder="#{bundle.Description}"
+                                                     styleClass="form-control input-sm"/>
+                                        
                                     </div>
                                 </div>
-                            </div>
-                        </div> 
+
+                        </div> <!-- /.modal-body -->
+                        <div class="modal-footer">
+                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{groupeBean.doCreate}" 
+                                             oncomplete="updateGritter(xhr);j('#createDialog').modal('hide');" 
+                                             styleClass="btn-xs btn-primary " icon="i-checkmark-2"/>
+
+                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal" style="padding: 2px 6px;">
+                                <i class="i-cancel-2" style="font-size: 11px;vertical-align: middle;"/>
+                                #{bundle.Close}
+                            </button>
+                                  
+                        </div> <!-- /.modal-footer --> 
                     </h:form>
                 </div>
             </div>
-
         </div>
     </ui:composition>
+
 </html>

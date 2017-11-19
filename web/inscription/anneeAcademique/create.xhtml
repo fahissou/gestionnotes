@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+
+        <div id="createDialog" class="modal fade" data-backdrop="true" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h:form id="createDialogForm" styleClass="form-horizontal">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title">#{bundle.NouvelleAnneeAcademique}</h3>
+                        </div> <!-- /.modal-header -->
+                        <div class="modal-body">
+                            
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.AnneeAcademique}" for="anneeAcademique"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:calendar id="anneeAcademique" required="false" placeholder="#{bundle.AnneeAcademique}"
+                                                value="#{anneeAcademiqueBean.newAnneeAcademique.anneeAcademique}" pattern="dd/MM/yyyy"
+                                                navigator="true" showOn="button"/>
+                                </div>
+                            </div>
+                            
+                        </div> <!-- /.modal-body -->
+                        <div class="modal-footer">
+                            <p:commandButton value="#{bundle.Enable}" update=":msgForm:msg @form :ajoutListForm" actionListener="#{anneeAcademiqueBean.doCreate}" 
+                                             oncomplete="$('#createDialog').modal('hide');" 
+                                             styleClass="btn-xs btn-primary " icon="i-checkmark-2"/>
+
+                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal" style="padding: 2px 6px;">
+                                <i class="i-cancel-2" style="font-size: 11px;vertical-align: middle;"/>
+                                #{bundle.Close}
+                            </button>                  
+                        </div> <!-- /.modal-footer --> 
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+
+</html>

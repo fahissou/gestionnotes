@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -27,6 +29,7 @@ public class Etudiant implements Serializable {
     private String password;
     private String oldPassword;
     private String telephone;
+    @Enumerated(EnumType.STRING)
     private EnumGenre genre;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
@@ -129,6 +132,24 @@ public class Etudiant implements Serializable {
         this.dateNaissance = dateNaissance;
     }
 
+    public Filiere getFiliere() {
+        return filiere;
+    }
+
+    public void setFiliere(Filiere filiere) {
+        this.filiere = filiere;
+    }
+
+    public List<Inscription> getInscriptions() {
+        return inscriptions;
+    }
+
+    public void setInscriptions(List<Inscription> inscriptions) {
+        this.inscriptions = inscriptions;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

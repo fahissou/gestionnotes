@@ -27,6 +27,11 @@ public class InscriptionBean {
     private Inscription newInscription;
     private List<Inscription> listeInscriptions;
     private List<Inscription> filteredList;
+    private List<String> niveauCycle1;
+    private List<String> niveauCycle2;
+    private List<String> niveauCycle3;
+    private List<String> Cycle;
+    
     public InscriptionBean() {
     }
     
@@ -34,6 +39,10 @@ public class InscriptionBean {
     public void init() {
         listeInscriptions = inscriptionFacade.findAll();
         prepareCreate();
+        niveauCycle1 = JsfUtil.listeNiveauCycle1();
+        niveauCycle2 = JsfUtil.listeNiveauCycle2();
+        niveauCycle3 = JsfUtil.listeNiveauCycle3();
+        Cycle        = JsfUtil.listeCycle();
     }  
 
     public void doCreate(ActionEvent event) {
@@ -49,6 +58,8 @@ public class InscriptionBean {
             JsfUtil.addErrorMessage(msg);
         }
     }
+    
+    
 
     public void doEdit(ActionEvent event) {
         String msg;
@@ -76,6 +87,39 @@ public class InscriptionBean {
         }
     }
 
+    public InscriptionFacade getInscriptionFacade() {
+        return inscriptionFacade;
+    }
+
+    public void setInscriptionFacade(InscriptionFacade inscriptionFacade) {
+        this.inscriptionFacade = inscriptionFacade;
+    }
+
+    public List<String> getNiveauCycle1() {
+        return niveauCycle1;
+    }
+
+    public void setNiveauCycle1(List<String> niveauCycle1) {
+        this.niveauCycle1 = niveauCycle1;
+    }
+
+    public List<String> getNiveauCycle2() {
+        return niveauCycle2;
+    }
+
+    public void setNiveauCycle2(List<String> niveauCycle2) {
+        this.niveauCycle2 = niveauCycle2;
+    }
+
+    public List<String> getNiveauCycle3() {
+        return niveauCycle3;
+    }
+
+    public void setNiveauCycle3(List<String> niveauCycle3) {
+        this.niveauCycle3 = niveauCycle3;
+    }
+
+    
     public Inscription getSelectedInscription() {
         return selectedInscription;
     }
@@ -108,6 +152,15 @@ public class InscriptionBean {
         this.filteredList = filteredList;
     }            
 
+    public List<String> getCycle() {
+        return Cycle;
+    }
+
+    public void setCycle(List<String> Cycle) {
+        this.Cycle = Cycle;
+    }
+
+    
     public void prepareCreate() {
         this.newInscription = new Inscription();
     }

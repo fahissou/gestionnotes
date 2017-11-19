@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="/template/base.xhtml">
+
+            <!--            <ui:define name="selectMenu">
+                            <ui:param name="administration" value="active"/>
+                            <ui:param name="groupe" value="active"/>
+                            <ui:param name="liste" value="active"/>
+                        </ui:define>-->
+
+            <ui:define name="title">
+                #{bundle.listeUtilisateurs}
+            </ui:define>
+
+            <ui:define name="breadLine">
+                <div class="breadLine">
+                    <ul class="breadcrumb">
+                        <li><a href="#">#{bundle.administration1}</a> <span class="divider">></span></li>  
+                        <li><a href="#">#{bundle.utilisateur}</a> <span class="divider">></span></li> 
+                        <li class="active">#{bundle.listeUtilisateurs}</li>
+                    </ul> 
+                </div>
+            </ui:define>
+            
+            <ui:define name="main">
+                <div class="workplace">
+                <div class="row">
+                <div class ="nav-position">
+                    <ui:include src="menunav.xhtml"/>
+                    <ui:include src="liste.xhtml"/>
+                </div>
+                </div>
+                
+                <ui:include src="view.xhtml"/>
+                   <ui:include src="edit.xhtml"/>
+                   <ui:include src="delete.xhtml"/>
+               </div>
+                
+           </ui:define>
+
+
+
+
+
+
+
+
+<!--            <ui:define name="modals">
+                            <ui:include src="view.xhtml"/>
+                            <ui:include src="edit.xhtml"/>
+                            <ui:include src="delete.xhtml"/>
+            </ui:define>-->
+            
+<!--                        <ui:define name="bottomJS">
+                          
+                        </ui:define>-->
+                        
+                        
+                        
+                        
+                        
+
+
+        </ui:composition>
+
+    </body>
+</html>

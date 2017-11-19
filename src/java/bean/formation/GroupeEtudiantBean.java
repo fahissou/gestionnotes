@@ -24,7 +24,6 @@ import util.JsfUtil;
  * @author Sedjro
  */
 @Named(value = "groupeEtudiantBean")
-@ManagedBean
 @ViewScoped
 public class GroupeEtudiantBean implements Serializable{
     @EJB

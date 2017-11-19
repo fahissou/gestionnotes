@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jpa.administration.Parametres;
+import util.JsfUtil;
 
 /**
  *
@@ -18,8 +19,8 @@ import jpa.administration.Parametres;
 @Stateless
 public class ParametresFacade extends AbstractFacade<Parametres> {
     @PersistenceContext(unitName = "gestionnotesPU")
-    private EntityManager em;
-
+    private EntityManager em; 
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -28,5 +29,12 @@ public class ParametresFacade extends AbstractFacade<Parametres> {
     public ParametresFacade() {
         super(Parametres.class);
     }
+       
+    @Override
+    public void create(Parametres parametres) {
+        parametres.setId(JsfUtil.generateId());
+        super.create(parametres);
+    }
+    
     
 }

@@ -1,13 +1,19 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package bean.inscription;
 
 import ejb.inscription.EnseignantFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import jpa.inscription.Enseignant;
 import util.JsfUtil;
 
@@ -15,18 +21,24 @@ import util.JsfUtil;
  *
  * @author AHISSOU Florent
  */
+
+@Named(value = "enseignantBean")
 @ViewScoped
-@Named(value = "enseignant")
 public class EnseignantBean implements Serializable{
 
+    @EJB
     private EnseignantFacade enseignantFacade;
     private Enseignant selectedEnseignant;
     private Enseignant newEnseignant;
     private List<Enseignant> listeEnseignants;
     private List<Enseignant> filteredList;
+
+    /**
+     * Creates a new instance of EnseignantBean
+     */
     public EnseignantBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         listeEnseignants = enseignantFacade.findAll();

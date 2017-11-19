@@ -154,7 +154,7 @@ h2 {
     right: 1px!important;
 }
 
- table tr:nth-child(2n+1) td {
+ #ajoutListForm table tr:nth-child(2n+1) td {
     background-color: rgba(226, 223, 223, 0.23)!important;
 }
 

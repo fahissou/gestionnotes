@@ -17,6 +17,7 @@ import jpa.inscription.AnneeAcademique;
  */
 @Stateless
 public class AnneeAcademiqueFacade extends AbstractFacade<AnneeAcademique> {
+
     @PersistenceContext(unitName = "gestionnotesPU")
     private EntityManager em;
 
@@ -28,5 +29,21 @@ public class AnneeAcademiqueFacade extends AbstractFacade<AnneeAcademique> {
     public AnneeAcademiqueFacade() {
         super(AnneeAcademique.class);
     }
+
+    public static String generate(int length) {
+        String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuffer pass = new StringBuffer();
+        for (int x = 0; x < length; x++) {
+            int i = (int) Math.floor(Math.random() * (chars.length() - 1));
+            pass.append(chars.charAt(i));
+        }
+        return pass.toString();
+    }
     
+    @Override
+    public void create(AnneeAcademique anneeAcademique){
+        anneeAcademique.setId(generate(10));
+        super.create(anneeAcademique);
+    }
+
 }
