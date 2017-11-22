@@ -36,8 +36,8 @@ public class Enseignant implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
     private String adresse;
-    @OneToMany(mappedBy = "enseignant")
-    private List<AnneeAcademique> anneeAcademiques;
+//    @OneToMany(mappedBy = "enseignant")
+//    private List<AnneeAcademique> anneeAcademiques;
     @OneToMany(mappedBy = "enseignant")
     private List<Matiere> matieres;
     @ManyToOne
@@ -135,13 +135,13 @@ public class Enseignant implements Serializable {
         this.statut = statut;
     }
 
-    public List<AnneeAcademique> getAnneeAcademiques() {
-        return anneeAcademiques;
-    }
-
-    public void setAnneeAcademiques(List<AnneeAcademique> anneeAcademiques) {
-        this.anneeAcademiques = anneeAcademiques;
-    }
+//    public List<AnneeAcademique> getAnneeAcademiques() {
+//        return anneeAcademiques;
+//    }
+//
+//    public void setAnneeAcademiques(List<AnneeAcademique> anneeAcademiques) {
+//        this.anneeAcademiques = anneeAcademiques;
+//    }
 
     public List<Matiere> getMatieres() {
         return matieres;

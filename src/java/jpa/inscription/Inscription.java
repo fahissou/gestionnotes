@@ -24,11 +24,13 @@ public class Inscription implements Serializable {
     private Etudiant etudiant;
     @ManyToOne
     private GroupeEtudiant groupeEtudiant;
-    @OneToMany(mappedBy = "inscription")
-    private List<AnneeAcademique> anneeAcademiques;
+//    @OneToMany(mappedBy = "inscription")
+//    private List<AnneeAcademique> anneeAcademiques;
+    @ManyToOne
+    private AnneeAcademique anneeAcademique;
     @ManyToOne
     private Filiere filiere;
-    private String cycle;
+    private String cycleFormation;
     private String niveau;
     
 
@@ -36,12 +38,12 @@ public class Inscription implements Serializable {
     public Inscription() {
     }
 
-    public String getCycle() {
-        return cycle;
+    public String getCycleFormation() {
+        return cycleFormation;
     }
 
-    public void setCycle(String cycle) {
-        this.cycle = cycle;
+    public void setCycleFormation(String cycleFormation) {
+        this.cycleFormation = cycleFormation;
     }
 
     public String getNiveau() {
@@ -76,13 +78,20 @@ public class Inscription implements Serializable {
     public void setGroupeEtudiant(GroupeEtudiant groupeEtudiant) {
         this.groupeEtudiant = groupeEtudiant;
     }
-
-    public List<AnneeAcademique> getAnneeAcademiques() {
-        return anneeAcademiques;
+    
+    public AnneeAcademique getAnneeAcademique() {
+        return anneeAcademique;
     }
 
-    public void setAnneeAcademiques(List<AnneeAcademique> anneeAcademiques) {
-        this.anneeAcademiques = anneeAcademiques;
+//    public List<AnneeAcademique> getAnneeAcademiques() {
+//        return anneeAcademiques;
+//    }
+//
+//    public void setAnneeAcademiques(List<AnneeAcademique> anneeAcademiques) {
+//        this.anneeAcademiques = anneeAcademiques;
+//    }
+    public void setAnneeAcademique(AnneeAcademique anneeAcademique) {    
+        this.anneeAcademique = anneeAcademique;
     }
 
     public Filiere getFiliere() {
