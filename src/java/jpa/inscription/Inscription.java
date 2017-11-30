@@ -20,32 +20,20 @@ public class Inscription implements Serializable {
     private String id;
     @OneToMany(mappedBy = "inscription")
     private List<Notes> notes;
-    @ManyToOne
-    private Etudiant etudiant;
-    @ManyToOne
-    private GroupeEtudiant groupeEtudiant;
-//    @OneToMany(mappedBy = "inscription")
-//    private List<AnneeAcademique> anneeAcademiques;
-    @ManyToOne
-    private AnneeAcademique anneeAcademique;
+    
     @ManyToOne
     private Filiere filiere;
     private String cycleFormation;
     private String niveau;
-    
-
+    private String anneeUniversitaire;
+    private String matriculeEtudiant;
     
     public Inscription() {
     }
 
-    public String getCycleFormation() {
-        return cycleFormation;
-    }
+   
 
-    public void setCycleFormation(String cycleFormation) {
-        this.cycleFormation = cycleFormation;
-    }
-
+    
     public String getNiveau() {
         return niveau;
     }
@@ -63,37 +51,8 @@ public class Inscription implements Serializable {
         this.notes = notes;
     }
 
-    public Etudiant getEtudiant() {
-        return etudiant;
-    }
-
-    public void setEtudiant(Etudiant etudiant) {
-        this.etudiant = etudiant;
-    }
-
-    public GroupeEtudiant getGroupeEtudiant() {
-        return groupeEtudiant;
-    }
-
-    public void setGroupeEtudiant(GroupeEtudiant groupeEtudiant) {
-        this.groupeEtudiant = groupeEtudiant;
-    }
+ 
     
-    public AnneeAcademique getAnneeAcademique() {
-        return anneeAcademique;
-    }
-
-//    public List<AnneeAcademique> getAnneeAcademiques() {
-//        return anneeAcademiques;
-//    }
-//
-//    public void setAnneeAcademiques(List<AnneeAcademique> anneeAcademiques) {
-//        this.anneeAcademiques = anneeAcademiques;
-//    }
-    public void setAnneeAcademique(AnneeAcademique anneeAcademique) {    
-        this.anneeAcademique = anneeAcademique;
-    }
-
     public Filiere getFiliere() {
         return filiere;
     }
@@ -108,6 +67,30 @@ public class Inscription implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCycleFormation() {
+        return cycleFormation;
+    }
+
+    public void setCycleFormation(String cycleFormation) {
+        this.cycleFormation = cycleFormation;
+    }
+
+    public String getAnneeUniversitaire() {
+        return anneeUniversitaire;
+    }
+
+    public void setAnneeUniversitaire(String anneeUniversitaire) {
+        this.anneeUniversitaire = anneeUniversitaire;
+    }
+
+    public String getMatriculeEtudiant() {
+        return matriculeEtudiant;
+    }
+
+    public void setMatriculeEtudiant(String matriculeEtudiant) {
+        this.matriculeEtudiant = matriculeEtudiant;
     }
 
     

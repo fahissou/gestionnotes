@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>    
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="block">
+                    <div class="head clearfix">
+                        <div class="isw-documents"></div>
+                        <h1>#{bundle.Inscription}</h1>
+                    </div>
+                    <h:form id="formeEx" styleClass="form-horizontal" enctype="multipart/form-data">
+                        <div class="block-fluid"> 
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="anneeAcademique" value="#{bundle.AnneeAcademique}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneMenu id="anneeAcademique" value="#{inscriptionBean.newInscription.anneeUniversitaire}" 
+                                                     required="false">
+                                        <f:selectItem itemValue="#{null}" itemLabel="selection"/>
+                                        <f:selectItems value="#{inscriptionBean.listeAnneeUniversitaire}"
+                                                       var="inscriptionItem"
+                                                       itemValue="#{inscriptionItem}"
+                                                       itemLabel="#{inscriptionItem.toUpperCase()}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneMenu id="filiere" value="#{inscriptionBean.newInscription.filiere}" 
+                                                     required="false">
+                                        <f:selectItem itemValue="#{null}" itemLabel="selection"/>
+                                        <f:selectItems value="#{filiereBean.listeFilieres}"
+                                                       var="filiereItem"
+                                                       itemValue="#{filiereItem}"
+                                                       itemLabel="#{filiereItem.libelle.toUpperCase()}"/>
+                                        <f:converter  converterId="filiereConverter"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3"> 
+                                    <p:outputLabel for="cycle" value="Cycle: " />
+                                </div> 
+                                <div class="col-md-9">       
+                                    <p:selectOneMenu id="cycle" value="#{inscriptionBean.cycle}" style="width:150px">
+                                        <p:ajax listener="#{inscriptionBean.onCycleChange}" update="niveau" />
+                                        <f:selectItem itemLabel="Selectionner un cycle" itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{inscriptionBean.listeCycles}" />
+                                    </p:selectOneMenu>
+                                </div>
+
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="niveau" value="Niveau: " />
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneMenu id="niveau" value="#{inscriptionBean.niveau}" style="width:150px">
+                                        <f:selectItem itemLabel="Selectionner un niveau" itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{inscriptionBean.listeNiveau}" />
+                                    </p:selectOneMenu>
+
+                                </div>
+                            </div>
+
+                            <div class="footer tar">
+                                <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{inscriptionBean.doCreate}" 
+                                                 oncomplete="updateGritter(xhr);" 
+                                                 class="btn btn-default"/>
+
+                                <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                                 actionListener="#{enseignantBean.reset}" update="@form :msgForm:msg">
+                                    <p:resetInput target="formeEx"/>
+                                </p:commandButton>
+                            </div> 
+                        </div>
+
+                    </h:form>
+                </div>
+
+            </div>
+
+        </div> 
+
+    </ui:composition>
+</html>

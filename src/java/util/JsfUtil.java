@@ -764,4 +764,23 @@ public class JsfUtil {
         return liste;
     }
     
+    public static boolean validAcademicYear(String arg) {
+        boolean resultat = false;
+        String [] t = arg.split("-");
+        Date date = new Date();
+        int anneeInscrip = Integer.parseInt(t[1].trim());
+        int mois = date.getMonth();
+        int annee = date.getYear() + 1900;
+        if( mois >= 9 && mois <=12 ){
+            if(anneeInscrip == (annee+1)){
+                resultat = true;
+            }
+        }else{
+            if(anneeInscrip == annee) {
+                resultat = true;
+            }
+        }
+        return resultat; 
+    }
+    
 }

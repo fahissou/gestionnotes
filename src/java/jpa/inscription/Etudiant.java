@@ -38,9 +38,7 @@ public class Etudiant implements Serializable {
     private Date dateNaissance;
     @ManyToOne
     private Filiere filiere;
-    @OneToMany(mappedBy = "etudiant")
-    private List<Inscription> inscriptions;
-
+    
     public Etudiant() {
     }
 
@@ -139,16 +137,6 @@ public class Etudiant implements Serializable {
     public void setFiliere(Filiere filiere) {
         this.filiere = filiere;
     }
-
-    public List<Inscription> getInscriptions() {
-        return inscriptions;
-    }
-
-    public void setInscriptions(List<Inscription> inscriptions) {
-        this.inscriptions = inscriptions;
-    }
-
-    
     
     @Override
     public int hashCode() {

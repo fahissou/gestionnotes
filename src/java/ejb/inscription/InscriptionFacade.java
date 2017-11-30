@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jpa.inscription.Inscription;
+import util.JsfUtil;
 
 /**
  *
@@ -29,4 +30,9 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         super(Inscription.class);
     }
     
+    @Override
+    public void create(Inscription inscription) {
+        inscription.setId(JsfUtil.generateId());
+        super.create(inscription);
+    }
 }
