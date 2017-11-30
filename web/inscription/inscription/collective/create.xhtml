@@ -33,7 +33,7 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div>
-                            
+
                             <div class="row-form clearfix">
                                 <div class="col-md-3">
                                     <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
@@ -50,7 +50,7 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div>
-                            
+
                             <div class="row-form clearfix">
                                 <div class="col-md-3"> 
                                     <p:outputLabel for="cycle" value="Cycle: " />
@@ -77,6 +77,21 @@
 
                                 </div>
                             </div>
+
+                     <div class="row-form clearfix">
+                          <div class="col-md-3">
+                                    <p:outputLabel for="file " value="Fichier: " />
+                          </div>
+                         <div class="col-md-9">
+                            <p:fileUpload id="file" fileUploadListener="#{inscriptionBean.handleFileUpload}"
+                                          mode="advanced" 
+                                          update="messages"
+                                          sizeLimit="100000" 
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+
+                            <p:growl id="messages" showDetail="true"/>
+                         </div>
+                      </div>
 
                             <div class="footer tar">
                                 <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{inscriptionBean.doCreate}" 

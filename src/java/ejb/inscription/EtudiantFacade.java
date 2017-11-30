@@ -8,7 +8,10 @@ package ejb.inscription;
 import ejb.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import jpa.inscription.Etudiant;
 
 /**
@@ -29,4 +32,15 @@ public class EtudiantFacade extends AbstractFacade<Etudiant> {
         super(Etudiant.class);
     }
     
+    public Etudiant getByMatricule(String sessionId) {
+        Query q = getEntityManager().createQuery("select E FROM Etudiant E WHERE E.sessionId = :sessionId");
+        // set parameters
+        q.setParameter("sessionId", sessionId);
+        try {
+            Etudiant etudiant = (Etudiant) q.getSingleResult();
+            return etudiant;
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
+    }
 }

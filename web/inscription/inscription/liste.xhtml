@@ -15,7 +15,7 @@
                             <h:form id="ajoutListForm">
                                 <div class="head clearfix enteteTable">
                                     <!--<div class="i-cycle glyphicon glyphicon-refresh"></div>-->
-                                    <h1>#{bundle.listeEnseignants}</h1>
+                                    <h1>#{bundle.listeIncriptions}</h1>
 
                                     <ul class="buttons">
                                         
@@ -26,15 +26,15 @@
                                 </div>
                                 <div class="content np block-fluid table-sorting clearfix">
                                     <p:dataTable id="incarcerationTable" var="item"
-                                                 selection="#{enseignantBean.selectedEnseignant}"
-                                                 value="#{enseignantBean.listeEnseignants}"
+                                                 selection="#{inscriptionBean.selectedInscription}"
+                                                 value="#{inscriptionBean.listeInscriptions}"
                                                  emptyMessage="#{bundle.EmptyListMsg}"
-                                                 rowKey="#{item.login}"
+                                                 rowKey="#{item.id}"
                                                  paginator="true"
                                                  rows="10"
                                                  rowsPerPageTemplate="10,20,30"
                                                  sortMode="multiple"
-                                                 filteredValue="#{enseignantBean.filteredList}"
+                                                 filteredValue="#{inscriptionBean.filteredList}"
                                                  currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
                                                  pageLinks="5"
                                                  rowIndexVar="rowIndex"
@@ -43,18 +43,22 @@
                                                  > 
 
                                         <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
-                                        <p:column headerText="#{bundle.UserLogin}"  sortBy="#{item.login}" 
-                                                  filterBy="#{item.login}" filterMatchMode="contains"
+                                        <p:column headerText="#{bundle.matricule}"  sortBy="#{item.matriculeEtudiant}" 
+                                                  filterBy="#{item.matriculeEtudiant}" filterMatchMode="contains"
                                                   >
-                                            <h:outputText value=" #{item.login}"/>
+                                            <h:outputText value=" #{item.matriculeEtudiant}"/>
                                         </p:column>
                                         
-                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.nom}" filterBy="#{item.nom}">
-                                            <h:outputText value=" #{item.nom}" />
+                                        <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.filiere.libelle}" filterBy="#{item.filiere.libelle}">
+                                            <h:outputText value=" #{item.filiere.libelle}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.prenom}" filterBy="#{item.prenom}">
-                                            <h:outputText value=" #{item.prenom}" />
+                                        <p:column headerText="#{bundle.Cycle}"  sortBy="#{item.cycleFormation}" filterBy="#{item.cycleFormation}">
+                                            <h:outputText value=" #{item.cycleFormation}" />
+                                        </p:column>
+                                        
+                                        <p:column headerText="#{bundle.niveau}"  sortBy="#{item.niveau}" filterBy="#{item.niveau}">
+                                            <h:outputText value=" #{item.niveau}" />
                                         </p:column>
                                         
                                         
@@ -64,21 +68,21 @@
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
-                                                <f:setPropertyActionListener value="#{item}" target="#{enseignantBean.selectedEnseignant}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedInscription}" />
                                             </p:commandLink>
                                             
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-pencil glyphicon glyphicon-pencil"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{enseignantBean.selectedEnseignant}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedInscription}" />
                                             </p:commandLink>
                                             
                                             <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                            update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-trashcan glyphicon glyphicon-trash"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{enseignantBean.selectedEnseignant}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedInscription}" />
                                             </p:commandLink>
                                             
     <!--                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"

@@ -6,6 +6,10 @@
 package bean.inscription;
 
 import ejb.inscription.InscriptionFacade;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,12 +17,21 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import jpa.inscription.Inscription;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import util.ExceptionsGestionnotes;
 import util.JsfUtil;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
 
 /**
  *
@@ -41,6 +54,8 @@ public class InscriptionBean implements Serializable{
     private String niveau;  
     private Map<String,String> listeCycles;
     private Map<String,String> listeNiveau;
+    String fileName;
+    private List<String> contenuLigne;
     /**
      * Creates a new instance of InscriptionBean
      */
@@ -97,6 +112,7 @@ public class InscriptionBean implements Serializable{
             
             newInscription.setCycleFormation(cycle);
             newInscription.setNiveau(niveau);
+//            insertInscription(fileName);
             if(JsfUtil.validAcademicYear(newInscription.getAnneeUniversitaire())){
                 inscriptionFacade.create(newInscription);
                 msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
@@ -245,6 +261,56 @@ public class InscriptionBean implements Serializable{
             listeNiveau = new HashMap<String, String>();
     }
     
+    public void handleFileUpload(FileUploadEvent event) {
+            UploadedFile uploadedFile = event.getFile();
+            fileName = uploadedFile.getFileName();
+        FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
     
+    public void insertInscription(String nomFichier) throws FileNotFoundException, IOException {
+        FileInputStream fichier = new FileInputStream(new File(nomFichier));
+       //créer une instance workbook qui fait référence au fichier xlsx 
+       HSSFWorkbook wb = new HSSFWorkbook(fichier);
+       
+       HSSFSheet sheet = wb.getSheetAt(0);
+  
+       FormulaEvaluator formulaEvaluator = 
+                     wb.getCreationHelper().createFormulaEvaluator();
+  
+       for (Row ligne : sheet) {//parcourir les lignes
+         for (Cell cell : ligne) {//parcourir les colonnes
+           //évaluer le type de la cellule
+           switch (formulaEvaluator.evaluateInCell(cell).getCellType())
+           {
+               
+                 case Cell.CELL_TYPE_NUMERIC:
+//                     System.out.print(cell.getNumericCellValue() +"\t\t");
+                     contenuLigne.add(String.valueOf(cell.getNumericCellValue()));
+                     break;
+                 case Cell.CELL_TYPE_STRING:
+//                     System.out.print(cell.getStringCellValue() +"\t\t");
+                     contenuLigne.add(cell.getStringCellValue());
+                     break;
+                     
+           }
+           
+         }
+         newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
+//         if(contenuLigne.size() == 6) {
+//             newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
+//             inscriptionFacade.create(newInscription);
+//             String matricule = String.valueOf(contenuLigne.get(0));
+//             EnumGenre enumGenre = JsfUtil.convertoEnumGenre(contenuLigne.get(5));
+//             Date dateNaiss = String
+//             newEtudiant(matricule ,contenuLigne.get(1) ,contenuLigne.get(2)
+//             ,contenuLigne.get(3),contenuLigne.get(4),enumGenre,contenuLigne.get(6));
+//             
+//         }
+         
+       }
+    }
+
+
     
 }
