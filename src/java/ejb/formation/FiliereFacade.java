@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jpa.formation.Filiere;
+import util.JsfUtil;
 
 /**
  *
@@ -29,4 +30,9 @@ public class FiliereFacade extends AbstractFacade<Filiere> {
         super(Filiere.class);
     }
     
+    @Override
+    public void create(Filiere filiere) {
+        filiere.setId(JsfUtil.generateId());
+        super.create(filiere);
+    }
 }

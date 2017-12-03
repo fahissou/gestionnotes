@@ -5,6 +5,7 @@
  */
 package bean.inscription;
 
+import ejb.inscription.EtudiantFacade;
 import ejb.inscription.InscriptionFacade;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
+import jpa.inscription.Etudiant;
 import jpa.inscription.Inscription;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -41,7 +43,10 @@ import org.apache.poi.ss.usermodel.Row;
 @Named(value = "inscriptionBean")
 @ViewScoped
 public class InscriptionBean implements Serializable{
-
+    @EJB
+    private EtudiantFacade etudiantFacade;
+    private Etudiant newEtudiant;
+    
     @EJB
     private InscriptionFacade inscriptionFacade;
     private Inscription selectedInscription;
@@ -56,6 +61,7 @@ public class InscriptionBean implements Serializable{
     private Map<String,String> listeNiveau;
     String fileName;
     private List<String> contenuLigne;
+    UploadedFile uploadedFile;
     /**
      * Creates a new instance of InscriptionBean
      */
@@ -245,9 +251,42 @@ public class InscriptionBean implements Serializable{
         this.listeNiveau = listeNiveau;
     }
 
+    public Etudiant getNewEtudiant() {
+        return newEtudiant;
+    }
+
+    public void setNewEtudiant(Etudiant newEtudiant) {
+        this.newEtudiant = newEtudiant;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public List<String> getContenuLigne() {
+        return contenuLigne;
+    }
+
+    public void setContenuLigne(List<String> contenuLigne) {
+        this.contenuLigne = contenuLigne;
+    }
+
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+    
     
     public void prepareCreate() {
         this.newInscription = new Inscription();
+        this.newEtudiant = new Etudiant();
     }
     
     public void reset(ActionEvent e) {
@@ -267,36 +306,48 @@ public class InscriptionBean implements Serializable{
         FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
-    public void insertInscription(String nomFichier) throws FileNotFoundException, IOException {
-        FileInputStream fichier = new FileInputStream(new File(nomFichier));
-       //créer une instance workbook qui fait référence au fichier xlsx 
-       HSSFWorkbook wb = new HSSFWorkbook(fichier);
-       
-       HSSFSheet sheet = wb.getSheetAt(0);
-  
-       FormulaEvaluator formulaEvaluator = 
-                     wb.getCreationHelper().createFormulaEvaluator();
-  
-       for (Row ligne : sheet) {//parcourir les lignes
-         for (Cell cell : ligne) {//parcourir les colonnes
-           //évaluer le type de la cellule
-           switch (formulaEvaluator.evaluateInCell(cell).getCellType())
-           {
-               
-                 case Cell.CELL_TYPE_NUMERIC:
+    public void dummyAction() throws IOException {
+        if(uploadedFile != null) {
+            System.out.println("Uploaded File Name Is :: " + uploadedFile.getFileName() + " :: Uploaded File Size :: " + uploadedFile.getSize());
+            insertInscription();
+        }
+        
+    }
+
+    public void insertInscription() throws FileNotFoundException, IOException {
+        FileInputStream fichier = new FileInputStream(new File(uploadedFile.getFileName()));
+        //créer une instance workbook qui fait référence au fichier xlsx 
+//       InputStream input = uploadedFile.getInputStream();
+//        System.out.println("ici " + uploadedFile.getFileName());
+        
+//        InputStream input = uploadedFile.getInputstream();
+//        HSSFWorkbook wb = new HSSFWorkbook(input);
+        HSSFWorkbook wb = new HSSFWorkbook(fichier);
+
+        HSSFSheet sheet = wb.getSheetAt(0);
+
+        FormulaEvaluator formulaEvaluator
+                = wb.getCreationHelper().createFormulaEvaluator();
+
+        for (Row ligne : sheet) {//parcourir les lignes
+            for (Cell cell : ligne) {//parcourir les colonnes
+                //évaluer le type de la cellule
+                switch (formulaEvaluator.evaluateInCell(cell).getCellType()) {
+
+                    case Cell.CELL_TYPE_NUMERIC:
 //                     System.out.print(cell.getNumericCellValue() +"\t\t");
-                     contenuLigne.add(String.valueOf(cell.getNumericCellValue()));
-                     break;
-                 case Cell.CELL_TYPE_STRING:
+                        contenuLigne.add(String.valueOf(cell.getNumericCellValue()));
+                        break;
+                    case Cell.CELL_TYPE_STRING:
 //                     System.out.print(cell.getStringCellValue() +"\t\t");
-                     contenuLigne.add(cell.getStringCellValue());
-                     break;
-                     
-           }
-           
-         }
-         newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
+                        contenuLigne.add(cell.getStringCellValue());
+                        break;
+
+                }
+
+            }
+            System.out.println("icic "+contenuLigne.get(0));
+            newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
 //         if(contenuLigne.size() == 6) {
 //             newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
 //             inscriptionFacade.create(newInscription);
@@ -307,10 +358,29 @@ public class InscriptionBean implements Serializable{
 //             ,contenuLigne.get(3),contenuLigne.get(4),enumGenre,contenuLigne.get(6));
 //             
 //         }
-         
-       }
+
+        }
     }
 
-
+public void doCreateIndividuelle(ActionEvent event) throws ExceptionsGestionnotes{
+    String msg;
+        try {
+            newEtudiant = newInscription.getEtudiant();
+            newEtudiant.setFiliere(newInscription.getFiliere());
+            etudiantFacade.create(newEtudiant);
+            newInscription.setCycleFormation(cycle);
+            newInscription.setNiveau(niveau);
+            inscriptionFacade.create(newInscription);
+            msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
+                JsfUtil.addSuccessMessage(msg);
+                prepareCreate();
+                listeInscriptions = inscriptionFacade.findAll();
+            
+        }catch (Exception e) {
+            msg = JsfUtil.getBundleMsg("InscriptionCreateErrorMsg");
+            JsfUtil.addErrorMessage(msg);
+        }
+    
+}
     
 }

@@ -9,8 +9,9 @@ import ejb.inscription.EtudiantFacade;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import jpa.inscription.Etudiant;
 import util.JsfUtil;
@@ -22,7 +23,7 @@ import util.JsfUtil;
 @ViewScoped
 @Named(value = "etudiantBean")
 public class EtudiantBean implements Serializable{
-
+    @EJB
     private EtudiantFacade etudiantFacade;
     private Etudiant selectedEtudiant;
     private Etudiant newEtudiant;

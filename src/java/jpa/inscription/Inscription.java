@@ -27,13 +27,13 @@ public class Inscription implements Serializable {
     private String niveau;
     private String anneeUniversitaire;
     private String matriculeEtudiant;
+    @ManyToOne
+    private Etudiant etudiant;
     
     public Inscription() {
+        etudiant = new Etudiant();
     }
 
-   
-
-    
     public String getNiveau() {
         return niveau;
     }
@@ -93,8 +93,14 @@ public class Inscription implements Serializable {
         this.matriculeEtudiant = matriculeEtudiant;
     }
 
-    
-   
+    public Etudiant getEtudiant() {
+        return etudiant;
+    }
+
+    public void setEtudiant(Etudiant etudiant) {
+        this.etudiant = etudiant;
+    }
+       
     
     @Override
     public int hashCode() {

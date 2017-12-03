@@ -57,6 +57,10 @@
                                             <h:outputText value=" #{item.prenom}" />
                                         </p:column>
                                         
+                                        <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.filiere}" filterBy="#{item.filiere}">
+                                            <h:outputText value=" #{item.filiere.libelle}" />
+                                        </p:column>
+                                        
                                         
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                             

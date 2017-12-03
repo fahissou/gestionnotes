@@ -46,7 +46,7 @@
                                         <p:column headerText="#{bundle.matricule}"  sortBy="#{item.matriculeEtudiant}" 
                                                   filterBy="#{item.matriculeEtudiant}" filterMatchMode="contains"
                                                   >
-                                            <h:outputText value=" #{item.matriculeEtudiant}"/>
+                                            <h:outputText value=" #{item.etudiant.login}"/>
                                         </p:column>
                                         
                                         <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.filiere.libelle}" filterBy="#{item.filiere.libelle}">

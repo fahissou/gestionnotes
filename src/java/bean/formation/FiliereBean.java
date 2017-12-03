@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import jpa.formation.Filiere;
@@ -32,10 +32,6 @@ public class FiliereBean implements Serializable{
     private List<Filiere> listeFilieres;
     private List<Filiere> filteredList;
     
-    
-    protected static final SimpleDateFormat formatCode = new SimpleDateFormat("ddMMyyyyHHmmss");
-    protected static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-    
     /**
      * Creates a new instance of FiliereBean
      */
@@ -46,19 +42,9 @@ public class FiliereBean implements Serializable{
         listeFilieres = filiereFacade.findAll();
         prepareCreate();
     }
-    public String createCode(){
-        return formatCode.format(new Date());
-    }
-    public String recupDateSysteme() {
-        return formatDate.format(new Date());
-    }
-    public void code(){
-        this.newFiliere.setId(createCode());
-    }
     public void doCreate(ActionEvent event) {
         String msg;
         try {
-            code();
             filiereFacade.create(newFiliere);
             msg = JsfUtil.getBundleMsg("FiliereCreateSuccessMsg");
             JsfUtil.addSuccessMessage(msg);

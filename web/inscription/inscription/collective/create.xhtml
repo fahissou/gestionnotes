@@ -15,7 +15,7 @@
                         <div class="isw-documents"></div>
                         <h1>#{bundle.Inscription}</h1>
                     </div>
-                    <h:form id="formeEx" styleClass="form-horizontal" enctype="multipart/form-data">
+                    <h:form id="formeEx" styleClass="form-horizontal" enctype="multipart/form-data"  prependId="false">
                         <div class="block-fluid"> 
 
                             <div class="row-form clearfix">
@@ -78,26 +78,23 @@
                                 </div>
                             </div>
 
-                     <div class="row-form clearfix">
-                          <div class="col-md-3">
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
                                     <p:outputLabel for="file " value="Fichier: " />
-                          </div>
-                         <div class="col-md-9">
-                            <p:fileUpload id="file" fileUploadListener="#{inscriptionBean.handleFileUpload}"
-                                          mode="advanced" 
-                                          update="messages"
-                                          sizeLimit="100000" 
-                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                                </div>
+                                <div class="col-md-9">
 
-                            <p:growl id="messages" showDetail="true"/>
-                         </div>
-                      </div>
+                                    <p:fileUpload id="file" value="#{inscriptionBean.uploadedFile}"  mode="simple"></p:fileUpload>
+                                  <h:commandButton value="Dummy Action" action="#{inscriptionBean.dummyAction()}"></h:commandButton>
+                                </div>
+                            </div>
 
                             <div class="footer tar">
+
                                 <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{inscriptionBean.doCreate}" 
                                                  oncomplete="updateGritter(xhr);" 
                                                  class="btn btn-default"/>
-
+                                <a href="../create.xhtml"></a>
                                 <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
                                                  actionListener="#{enseignantBean.reset}" update="@form :msgForm:msg">
                                     <p:resetInput target="formeEx"/>

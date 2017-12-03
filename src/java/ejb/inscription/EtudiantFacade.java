@@ -13,6 +13,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import jpa.inscription.Etudiant;
+import util.JsfUtil;
 
 /**
  *
@@ -43,4 +44,10 @@ public class EtudiantFacade extends AbstractFacade<Etudiant> {
             return null;
         }
     }
+    
+//    @Override
+//    public void create(Etudiant etudiant){
+//        etudiant.setLogin(JsfUtil.generateId());
+//        super.create(etudiant);
+//    }
 }
