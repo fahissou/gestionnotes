@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import jpa.inscription.Enseignant;
 import jpa.inscription.Etudiant;
-import jpa.inscription.Inscription;
+import jpa.inscription.GroupePedagogique;
 
 /**
  *
@@ -30,7 +30,7 @@ public class Filiere implements Serializable {
     @OneToMany(mappedBy = "filiere")
     private List<Enseignant> enseignants;
     @OneToMany(mappedBy = "filiere")
-    private List<Inscription> inscriptions;
+    private List<GroupePedagogique> groupePedagogiques;
     
     
     public Filiere() {
@@ -52,13 +52,6 @@ public class Filiere implements Serializable {
         this.enseignants = enseignants;
     }
 
-    public List<Inscription> getInscriptions() {
-        return inscriptions;
-    }
-
-    public void setInscriptions(List<Inscription> inscriptions) {
-        this.inscriptions = inscriptions;
-    }
     
     public String getId() {
         return id;
@@ -82,6 +75,14 @@ public class Filiere implements Serializable {
 
     public void setGroupeEtudiants(List<GroupeEtudiant> groupeEtudiants) {
         this.groupeEtudiants = groupeEtudiants;
+    }
+
+    public List<GroupePedagogique> getGroupePedagogiques() {
+        return groupePedagogiques;
+    }
+
+    public void setGroupePedagogiques(List<GroupePedagogique> groupePedagogiques) {
+        this.groupePedagogiques = groupePedagogiques;
     }
     
     @Override

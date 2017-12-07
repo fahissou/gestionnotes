@@ -43,22 +43,22 @@
                                                  > 
 
                                         <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
-                                        <p:column headerText="#{bundle.matricule}"  sortBy="#{item.matriculeEtudiant}" 
-                                                  filterBy="#{item.matriculeEtudiant}" filterMatchMode="contains"
+                                        <p:column headerText="#{bundle.matricule}"  sortBy="#{item.etudiant.login}" 
+                                                  filterBy="#{item.etudiant.login}" filterMatchMode="contains"
                                                   >
                                             <h:outputText value=" #{item.etudiant.login}"/>
                                         </p:column>
                                         
-                                        <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.filiere.libelle}" filterBy="#{item.filiere.libelle}">
-                                            <h:outputText value=" #{item.filiere.libelle}" />
+                                        <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.groupePedagogique.filiere.libelle}" filterBy="#{item.groupePedagogique.filiere.libelle}">
+                                            <h:outputText value=" #{item.groupePedagogique.filiere.libelle}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{bundle.Cycle}"  sortBy="#{item.cycleFormation}" filterBy="#{item.cycleFormation}">
-                                            <h:outputText value=" #{item.cycleFormation}" />
+                                        <p:column headerText="#{bundle.Cycle}"  sortBy="#{item.groupePedagogique.cycleEtude}" filterBy="#{item.groupePedagogique.cycleEtude}">
+                                            <h:outputText value=" #{item.groupePedagogique.cycleEtude}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{bundle.niveau}"  sortBy="#{item.niveau}" filterBy="#{item.niveau}">
-                                            <h:outputText value=" #{item.niveau}" />
+                                        <p:column headerText="#{bundle.niveau}"  sortBy="#{item.groupePedagogique.niveauEtude}" filterBy="#{item.groupePedagogique.niveauEtude}">
+                                            <h:outputText value=" #{item.groupePedagogique.niveauEtude}" />
                                         </p:column>
                                         
                                         

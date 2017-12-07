@@ -24,50 +24,24 @@
                                                  required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{inscriptionBean.listeAnneeUniversitaire}"
-                                                       var="inscriptionItem"
-                                                       itemValue="#{inscriptionItem}"
-                                                       itemLabel="#{inscriptionItem.toUpperCase()}"/>
+                                                   var="inscriptionItem"
+                                                   itemValue="#{inscriptionItem}"
+                                                   itemLabel="#{inscriptionItem.toUpperCase()}"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">
-                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                                <p:outputLabel for="groupe" value="#{bundle.groupe}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="filiere" value="#{inscriptionBean.newInscription.filiere}" 
+                                <p:selectOneMenu id="groupe" value="#{inscriptionBean.newInscription.groupePedagogique}" 
                                                  required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
-                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle}"/>
-                                    <f:converter  converterId="filiereConverter"/>
-                                </p:selectOneMenu>
-                            </div>
-                        </div>
-
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="cycleEtude" value="#{bundle.Cycle}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="cycleEtude" value="#{inscriptionBean.cycle}" required="true">
-                                    <p:ajax listener="#{inscriptionBean.onCycleChange}" update="niveau" />
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{inscriptionBean.listeCycles}"/>
-                                </p:selectOneMenu>
-                            </div>
-                        </div>
-
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="niveau" value="#{bundle.GroupeEtudiant}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="niveau" value="#{inscriptionBean.niveau}" 
-                                                 required="true">
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{inscriptionBean.listeNiveau}"/>
+                                    <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}" var="itemGroupe"
+                                                   itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
@@ -105,11 +79,9 @@
                             </div>
 
                             <div class="col-md-9">
-                                <p:selectOneRadio id="genre" value="#{inscriptionBean.newInscription.etudiant.genre}" 
-                                                  converter="genericEnumConverter">
-                                    <f:selectItems value="#{genreBean.genreItems}" var="genreItem" 
-                                                   itemLabel="#{genreItem.label}" 
-                                                   itemValue="#{genreItem}"/>
+                                <p:selectOneRadio id="genre" value="#{inscriptionBean.newInscription.etudiant.genre}">
+                                    <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F" />
+                                    <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M"/>
                                 </p:selectOneRadio>
                             </div>
                         </div>
@@ -142,7 +114,7 @@
                                 <p:inputText id="email" value="#{inscriptionBean.newInscription.etudiant.mail}" required="true" placeholder="#{bundle.Email}"/>
                             </div>
                         </div>
-                        
+
                         <div class="footer tar">
                             <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{inscriptionBean.doCreateIndividuelle}" 
                                              oncomplete="updateGritter(xhr);" 

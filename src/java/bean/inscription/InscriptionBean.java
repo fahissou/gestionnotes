@@ -62,6 +62,7 @@ public class InscriptionBean implements Serializable{
     String fileName;
     private List<String> contenuLigne;
     UploadedFile uploadedFile;
+    private String typeInscription;
     /**
      * Creates a new instance of InscriptionBean
      */
@@ -116,8 +117,8 @@ public class InscriptionBean implements Serializable{
         String msg;
         try {
             
-            newInscription.setCycleFormation(cycle);
-            newInscription.setNiveau(niveau);
+//            newInscription.setCycleFormation(cycle);
+//            newInscription.setNiveau(niveau);
 //            insertInscription(fileName);
             if(JsfUtil.validAcademicYear(newInscription.getAnneeUniversitaire())){
                 inscriptionFacade.create(newInscription);
@@ -282,6 +283,14 @@ public class InscriptionBean implements Serializable{
     public void setUploadedFile(UploadedFile uploadedFile) {
         this.uploadedFile = uploadedFile;
     }
+
+    public String getTypeInscription() {
+        return typeInscription;
+    }
+
+    public void setTypeInscription(String typeInscription) {
+        this.typeInscription = typeInscription;
+    }
     
     
     public void prepareCreate() {
@@ -347,7 +356,7 @@ public class InscriptionBean implements Serializable{
 
             }
             System.out.println("icic "+contenuLigne.get(0));
-            newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
+//            newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
 //         if(contenuLigne.size() == 6) {
 //             newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
 //             inscriptionFacade.create(newInscription);
@@ -366,10 +375,8 @@ public void doCreateIndividuelle(ActionEvent event) throws ExceptionsGestionnote
     String msg;
         try {
             newEtudiant = newInscription.getEtudiant();
-            newEtudiant.setFiliere(newInscription.getFiliere());
+            newEtudiant.setFiliere(newInscription.getGroupePedagogique().getFiliere());
             etudiantFacade.create(newEtudiant);
-            newInscription.setCycleFormation(cycle);
-            newInscription.setNiveau(niveau);
             inscriptionFacade.create(newInscription);
             msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
                 JsfUtil.addSuccessMessage(msg);
@@ -382,5 +389,16 @@ public void doCreateIndividuelle(ActionEvent event) throws ExceptionsGestionnote
         }
     
 }
-    
+    public String inscriptionRedirect(){
+        String page = "";
+        switch (typeInscription) {
+            case "collective":
+                page = this.typeInscription;
+                break;
+            case "individuelle":
+                page = this.typeInscription;
+                break;
+        }
+        return page;
+    }
 }

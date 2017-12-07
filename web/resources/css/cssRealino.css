@@ -203,7 +203,7 @@ li.ui-autocomplete-item.ui-autocomplete-list-item.ui-corner-all.ui-state-highlig
     margin-top: -1px;
 }
 .ui-selectoneradio label{
-    margin: -4px 0px 0px 10px!important;
+    margin: -4px 10px 0px 10px!important;
 }
 .ui-selectmanycheckbox label{
     margin: -4px 0px 0px 10px!important;

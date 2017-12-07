@@ -17,4 +17,22 @@
     <factory>
         <exception-handler-factory>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory</exception-handler-factory>
     </factory>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>collective</from-outcome>
+            <to-view-id>inscription/inscription/collective/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>individuelle</from-outcome>
+            <to-view-id>inscription/inscription/individuelle/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+<!--        <navigation-case>
+            <from-outcome>inscription</from-outcome>
+            <to-view-id>inscription/inscription/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>-->
+    </navigation-rule>
 </faces-config>

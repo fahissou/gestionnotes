@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import jpa.formation.Filiere;
-import jpa.formation.GroupeEtudiant;
 
 /**
  *
@@ -18,47 +16,25 @@ import jpa.formation.GroupeEtudiant;
 public class Inscription implements Serializable {
     @Id
     private String id;
-    @OneToMany(mappedBy = "inscription")
-    private List<Notes> notes;
-    
-    @ManyToOne
-    private Filiere filiere;
-    private String cycleFormation;
-    private String niveau;
     private String anneeUniversitaire;
-    private String matriculeEtudiant;
+    @ManyToOne
+    private GroupePedagogique groupePedagogique;
     @ManyToOne
     private Etudiant etudiant;
     
-    public Inscription() {
-        etudiant = new Etudiant();
-    }
-
-    public String getNiveau() {
-        return niveau;
-    }
-
-    public void setNiveau(String niveau) {
-        this.niveau = niveau;
-    }
-
+    @OneToMany(mappedBy = "inscription")
+    private List<Notes> notes;
     
+    public Inscription() {
+        this.etudiant = new Etudiant();
+    }
+
     public List<Notes> getNotes() {
         return notes;
     }
 
     public void setNotes(List<Notes> notes) {
         this.notes = notes;
-    }
-
- 
-    
-    public Filiere getFiliere() {
-        return filiere;
-    }
-
-    public void setFiliere(Filiere filiere) {
-        this.filiere = filiere;
     }
 
     public String getId() {
@@ -69,14 +45,6 @@ public class Inscription implements Serializable {
         this.id = id;
     }
 
-    public String getCycleFormation() {
-        return cycleFormation;
-    }
-
-    public void setCycleFormation(String cycleFormation) {
-        this.cycleFormation = cycleFormation;
-    }
-
     public String getAnneeUniversitaire() {
         return anneeUniversitaire;
     }
@@ -84,13 +52,13 @@ public class Inscription implements Serializable {
     public void setAnneeUniversitaire(String anneeUniversitaire) {
         this.anneeUniversitaire = anneeUniversitaire;
     }
-
-    public String getMatriculeEtudiant() {
-        return matriculeEtudiant;
+    
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
     }
 
-    public void setMatriculeEtudiant(String matriculeEtudiant) {
-        this.matriculeEtudiant = matriculeEtudiant;
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
     }
 
     public Etudiant getEtudiant() {
@@ -100,8 +68,7 @@ public class Inscription implements Serializable {
     public void setEtudiant(Etudiant etudiant) {
         this.etudiant = etudiant;
     }
-       
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

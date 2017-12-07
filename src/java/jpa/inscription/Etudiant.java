@@ -149,6 +149,7 @@ public class Etudiant implements Serializable {
         this.inscriptions = inscriptions;
     }
     
+    
     @Override
     public int hashCode() {
         int hash = 0;

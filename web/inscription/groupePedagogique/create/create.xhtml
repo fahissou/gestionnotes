@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="col-md-12">
+            <div class="block">
+                <div class="head clearfix">
+                    <div class="isw-documents"></div>
+                    <h1>#{bundle.AjoutGroupePedagogique}</h1>
+                </div>
+                <h:form id="formeEx" styleClass="form-horizontal">
+                    <div class="block-fluid">
+                        <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="description" value="#{bundle.Descripetion}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="description" value="#{groupePedagogiqueBean.newGroupePedagogique.description}" required="true" placeholder="#{bundle.Descripetion}"
+                                                 styleClass="form-control"/>
+                                </div>
+                            </div>
+                            <div class="clearfix control">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="filiere" value="#{groupePedagogiqueBean.newGroupePedagogique.filiere}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{filiereBean.listeFilieres}"
+                                                       var="item" itemValue="#{item}" itemLabel="#{item.libelle}"/>
+                                        <f:converter  converterId="filiereConverter"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="cycleEtude" value="#{bundle.Cycle}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="cycleEtude" value="#{groupePedagogiqueBean.cycle}" required="true">
+                                    <p:ajax listener="#{groupePedagogiqueBean.onCycleChange}" update="niveau" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{groupePedagogiqueBean.listeCycles}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="niveau" value="#{bundle.GroupeEtudiant}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="niveau" value="#{groupePedagogiqueBean.niveau}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{groupePedagogiqueBean.listeNiveau}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{groupePedagogiqueBean.doCreate}" 
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="#{groupePedagogiqueBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>                                        
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

@@ -10,50 +10,58 @@
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1>Liste des filières</h1>
+                        <h1>#{bundle.GroupeTableTitle}</h1>
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
                                     <p:dataTable id="incarcerationTable" var="item"
-                                                 selection="#{filiereBean.selectedFiliere}"
-                                                 value="#{filiereBean.listeFilieres}"
+                                                 selection="#{groupePedagogiqueBean.selectedGroupePedagogique}"
+                                                 value="#{groupePedagogiqueBean.listeGroupePedagogiques}"
                                                  emptyMessage="#{bundle.EmptyListMsg}"
                                                  rowKey="#{item.id}"
                                                  paginator="true"
                                                  rows="10"
                                                  rowsPerPageTemplate="10,20,30"
                                                  sortMode="multiple"
-                                                 filteredValue="#{filiereBean.filteredList}"
+                                                 filteredValue="#{groupePedagogiqueBean.filteredList}"
                                                  currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
                                                  pageLinks="5"
                                                  rowIndexVar="rowIndex"
                                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
                                                  {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
                                                  > 
-
-                                        <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
-                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
-                                            <h:outputText value=" #{item.libelle}" />
+                                        <p:column headerText="#{bundle.Descripetion}"  sortBy="#{item.description}" filterBy="#{item.description}">
+                                            <h:outputText value=" #{item.description}" />
+                                        </p:column>
+                                        
+                                        <p:column headerText="#{bundle.Cycle}"  sortBy="#{item.cycleEtude}" filterBy="#{item.cycleEtude}">
+                                            <h:outputText value=" #{item.cycleEtude}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.niveau}"  sortBy="#{item.niveauEtude}" filterBy="#{item.niveauEtude}">
+                                            <h:outputText value=" #{item.niveauEtude}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.filiere.libelle}" filterBy="#{item.filiere.libelle}">
+                                            <h:outputText value=" #{item.filiere.libelle}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
-                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
+<!--                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
-                                                <f:setPropertyActionListener value="#{item}" target="#{filiereBean.selectedFiliere}" />
-                                            </p:commandLink>
+                                                <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                            </p:commandLink>-->
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-pencil glyphicon glyphicon-pencil"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{filiereBean.selectedFiliere}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
                                             </p:commandLink>
                                             <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                            update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-trashcan glyphicon glyphicon-trash"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{filiereBean.selectedFiliere}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
                                             </p:commandLink>
                                         </p:column>
                                     </p:dataTable>
