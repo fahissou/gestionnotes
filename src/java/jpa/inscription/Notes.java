@@ -21,13 +21,17 @@ public class Notes implements Serializable {
     private double note;
     private double oldNote;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date date;
+    private Date dateEnregistrement;
     @ManyToOne
     private Inscription inscription;
+    
     @ManyToOne
     private Matiere matiere;
-
+    private String etatValidation;
+    
     public Notes() {
+        
+        this.oldNote = -1;
     }
 
     public String getId() {
@@ -54,13 +58,43 @@ public class Notes implements Serializable {
         this.oldNote = oldNote;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateEnregistrement() {
+        return dateEnregistrement;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateEnregistrement(Date dateEnregistrement) {
+        this.dateEnregistrement = dateEnregistrement;
     }
+
+    public Inscription getInscription() {
+        return inscription;
+    }
+
+    public void setInscription(Inscription inscription) {
+        this.inscription = inscription;
+    }
+
+   
+
+    
+
+    public Matiere getMatiere() {
+        return matiere;
+    }
+
+    public void setMatiere(Matiere matiere) {
+        this.matiere = matiere;
+    }
+
+    public String getEtatValidation() {
+        return etatValidation;
+    }
+
+    public void setEtatValidation(String etatValidation) {
+        this.etatValidation = etatValidation;
+    }
+
+    
     
     
     @Override
@@ -84,7 +118,7 @@ public class Notes implements Serializable {
         id = null;
         note = 0.0;
         oldNote = 0.0;
-        date = null;
+        dateEnregistrement = null;
     }
     
 }

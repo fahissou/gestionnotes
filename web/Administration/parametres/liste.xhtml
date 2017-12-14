@@ -40,6 +40,10 @@
                                             <h:outputText value=" #{item.proportionAdmission}" />
                                         </p:column>
                                         
+                                        <p:column headerText="#{bundle.moyenneMatiere}"  sortBy="#{item.proportionAdmission}" filterBy="#{item.moyenneMatiere}">
+                                            <h:outputText value=" #{item.moyenneMatiere}" />
+                                        </p:column>
+                                        
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                             <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
@@ -60,30 +64,6 @@
                                                 <i class="i-trashcan glyphicon glyphicon-trash"/>
                                                 <f:setPropertyActionListener value="#{item}" target="#{parametresBean.selectedParametres}" />
                                             </p:commandLink>
-<!--                                            <p:commandLink value="#{null}" title="Default" styleClass="btn btn-success btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-list-2 glyphicon glyphicon-list"/>
-                                            </p:commandLink>
-                                            <p:commandLink value="#{null}" title="Tertiary" styleClass="btn btn-warning btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-file-3 glyphicon glyphicon-file"/>
-                                            </p:commandLink>-->
-    <!--                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-dollar"/>
-                                            </p:commandLink>-->
-    <!--                                            <p:commandLink value="#{null}" title="Warning" styleClass="btn btn-link btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-cabinet-2"/>
-                                            </p:commandLink>-->
-    <!--                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-info btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-download-3"/>
-                                            </p:commandLink>-->
-    <!--                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-primary btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-download-3"/>
-                                            </p:commandLink>-->
                                         </p:column>
                                     </p:dataTable>
 

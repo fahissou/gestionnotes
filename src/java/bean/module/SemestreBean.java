@@ -7,8 +7,6 @@ package bean.module;
 
 import ejb.module.SemestreFacade;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -34,9 +32,6 @@ public class SemestreBean implements Serializable{
     private List<Semestre> listeSemestres;
     private List<Semestre> filteredList;
     
-    protected static final SimpleDateFormat formatCode = new SimpleDateFormat("ddMMyyyyHHmmss");
-    protected static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-    
     /**
      * Creates a new instance of SemestreBean
      */
@@ -47,19 +42,9 @@ public class SemestreBean implements Serializable{
         listeSemestres = semestreFacade.findAll();
         prepareCreate();
     }
-    public String createCode(){
-        return formatCode.format(new Date());
-    }
-    public String recupDateSysteme() {
-        return formatDate.format(new Date());
-    }
-    public void code(){
-        this.newSemestre.setId(createCode());
-    }
     public void doCreate(ActionEvent event) {
         String msg;
         try {
-            code();
             semestreFacade.create(newSemestre);
             msg = JsfUtil.getBundleMsg("SemestreCreateSuccessMsg");
             JsfUtil.addSuccessMessage(msg);

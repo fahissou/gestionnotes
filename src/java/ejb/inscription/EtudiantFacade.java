@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package ejb.inscription;
-
+import jpa.inscription.Inscription;
 import ejb.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,21 +33,7 @@ public class EtudiantFacade extends AbstractFacade<Etudiant> {
         super(Etudiant.class);
     }
     
-    public Etudiant getByMatricule(String sessionId) {
-        Query q = getEntityManager().createQuery("select E FROM Etudiant E WHERE E.sessionId = :sessionId");
-        // set parameters
-        q.setParameter("sessionId", sessionId);
-        try {
-            Etudiant etudiant = (Etudiant) q.getSingleResult();
-            return etudiant;
-        } catch (NoResultException | NonUniqueResultException e) {
-            return null;
-        }
-    }
     
-//    @Override
-//    public void create(Etudiant etudiant){
-//        etudiant.setLogin(JsfUtil.generateId());
-//        super.create(etudiant);
-//    }
+    
+    
 }

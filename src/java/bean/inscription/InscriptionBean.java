@@ -7,12 +7,17 @@ package bean.inscription;
 
 import ejb.inscription.EtudiantFacade;
 import ejb.inscription.InscriptionFacade;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +28,11 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
+import javax.servlet.ServletContext;
+import jpa.inscription.EnumGenre;
 import jpa.inscription.Etudiant;
 import jpa.inscription.Inscription;
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import util.ExceptionsGestionnotes;
@@ -59,10 +67,12 @@ public class InscriptionBean implements Serializable{
     private String niveau;  
     private Map<String,String> listeCycles;
     private Map<String,String> listeNiveau;
-    String fileName;
+    private String fileName;
     private List<String> contenuLigne;
-    UploadedFile uploadedFile;
+    private UploadedFile uploadedFile;
     private String typeInscription;
+    private String fileExtension;
+    private FileInputStream fichier;
     /**
      * Creates a new instance of InscriptionBean
      */
@@ -117,9 +127,7 @@ public class InscriptionBean implements Serializable{
         String msg;
         try {
             
-//            newInscription.setCycleFormation(cycle);
-//            newInscription.setNiveau(niveau);
-//            insertInscription(fileName);
+
             if(JsfUtil.validAcademicYear(newInscription.getAnneeUniversitaire())){
                 inscriptionFacade.create(newInscription);
                 msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
@@ -315,60 +323,98 @@ public class InscriptionBean implements Serializable{
         FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    public void dummyAction() throws IOException {
-        if(uploadedFile != null) {
-            System.out.println("Uploaded File Name Is :: " + uploadedFile.getFileName() + " :: Uploaded File Size :: " + uploadedFile.getSize());
-            insertInscription();
+    
+   public void docreateCollective() throws IOException, FileNotFoundException, ParseException{
+
+        if(uploadedFile != null) {           
+            fileName = FilenameUtils.getName(uploadedFile.getFileName());
+            fichier = (FileInputStream) uploadedFile.getInputstream();
+            fileExtension = fileName.split("\\.")[1];
+            System.out.println("extension "+fileExtension);
+            insertInscription(fichier);
+            
+        }else{
+            System.out.println("fichier non chargé");
         }
         
     }
 
-    public void insertInscription() throws FileNotFoundException, IOException {
-        FileInputStream fichier = new FileInputStream(new File(uploadedFile.getFileName()));
-        //créer une instance workbook qui fait référence au fichier xlsx 
-//       InputStream input = uploadedFile.getInputStream();
-//        System.out.println("ici " + uploadedFile.getFileName());
-        
-//        InputStream input = uploadedFile.getInputstream();
-//        HSSFWorkbook wb = new HSSFWorkbook(input);
-        HSSFWorkbook wb = new HSSFWorkbook(fichier);
-
-        HSSFSheet sheet = wb.getSheetAt(0);
-
-        FormulaEvaluator formulaEvaluator
-                = wb.getCreationHelper().createFormulaEvaluator();
-
-        for (Row ligne : sheet) {//parcourir les lignes
-            for (Cell cell : ligne) {//parcourir les colonnes
+    public void insertInscription(FileInputStream fichier) throws FileNotFoundException, IOException, ParseException {
+       String msg = null;
+        if(fichier == null){
+            System.out.println("OK in fonction null");
+        }else {
+            if(fileExtension.equals("xls")){
+            HSSFWorkbook wb = new HSSFWorkbook(fichier);
+            HSSFSheet sheet = wb.getSheetAt(0);
+            FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
+            int compteurLigne = 0;
+            for (Row ligne : sheet) {//parcourir les lignes
+            contenuLigne = new ArrayList<>();
+            compteurLigne++;
+             for (Cell cell : ligne) {//parcourir les colonnes
                 //évaluer le type de la cellule
+                
                 switch (formulaEvaluator.evaluateInCell(cell).getCellType()) {
-
+                  
                     case Cell.CELL_TYPE_NUMERIC:
-//                     System.out.print(cell.getNumericCellValue() +"\t\t");
+                     
                         contenuLigne.add(String.valueOf(cell.getNumericCellValue()));
                         break;
                     case Cell.CELL_TYPE_STRING:
-//                     System.out.print(cell.getStringCellValue() +"\t\t");
+                     
                         contenuLigne.add(cell.getStringCellValue());
                         break;
-
+                    
                 }
 
             }
-            System.out.println("icic "+contenuLigne.get(0));
-//            newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
-//         if(contenuLigne.size() == 6) {
-//             newInscription.setMatriculeEtudiant(String.valueOf(contenuLigne.get(0)));
-//             inscriptionFacade.create(newInscription);
-//             String matricule = String.valueOf(contenuLigne.get(0));
-//             EnumGenre enumGenre = JsfUtil.convertoEnumGenre(contenuLigne.get(5));
-//             Date dateNaiss = String
-//             newEtudiant(matricule ,contenuLigne.get(1) ,contenuLigne.get(2)
-//             ,contenuLigne.get(3),contenuLigne.get(4),enumGenre,contenuLigne.get(6));
-//             
-//         }
+            
+            if(compteurLigne > 1){
+                // Etudiant save
+                 if(contenuLigne.size() == 7){
+                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy");
+                 newEtudiant.setLogin(String.valueOf(contenuLigne.get(0)));
+                 newEtudiant.setNom(String.valueOf(contenuLigne.get(1)));
+                 newEtudiant.setPrenom(String.valueOf(contenuLigne.get(2)));
+                 EnumGenre  enumGenre = EnumGenre.valueOf(String.valueOf(contenuLigne.get(3)));
+                 newEtudiant.setGenre(enumGenre);
+//                 System.out.println("cell4 " +contenuLigne.get(4));
+//                 Date dateNaiss = formatter.parse(String.valueOf(contenuLigne.get(4)));
+//                 newEtudiant.setDateNaissance(dateNaiss );
+                 newEtudiant.setTelephone(String.valueOf(contenuLigne.get(5)));
+                 newEtudiant.setMail(String.valueOf(contenuLigne.get(6)));
+                 newEtudiant.setGroupePedagogique(newInscription.getGroupePedagogique());
+                 // Inscritption save
+                 newInscription.setEtudiant(newEtudiant);
+                 
+                 etudiantFacade.create(newEtudiant);
+                 inscriptionFacade.create(newInscription);
+                 
+                 }else{
+                     msg = JsfUtil.getBundleMsg("formatFichierNonPriseEncompte");
+                     JsfUtil.addErrorMessage(msg);
+                     break;
+                 }
+                 
+             }
 
         }
+       }else if(fileExtension.equals("xlsx")){
+            msg = JsfUtil.getBundleMsg("extensionNonpriseCompte");
+         JsfUtil.addErrorMessage(msg); 
+         
+       }else{
+            msg = JsfUtil.getBundleMsg("extensionNonpriseCompte1");
+         JsfUtil.addErrorMessage(msg);  
+       }
+                    
+      }
+         
+            
+            
+
+        
     }
 
 public void doCreateIndividuelle(ActionEvent event) throws ExceptionsGestionnotes{

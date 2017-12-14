@@ -21,22 +21,15 @@ public class Inscription implements Serializable {
     private GroupePedagogique groupePedagogique;
     @ManyToOne
     private Etudiant etudiant;
-    
     @OneToMany(mappedBy = "inscription")
-    private List<Notes> notes;
+    private List<Notes> notess;
+    
+    
     
     public Inscription() {
         this.etudiant = new Etudiant();
     }
-
-    public List<Notes> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List<Notes> notes) {
-        this.notes = notes;
-    }
-
+    
     public String getId() {
         return id;
     }
@@ -67,6 +60,14 @@ public class Inscription implements Serializable {
 
     public void setEtudiant(Etudiant etudiant) {
         this.etudiant = etudiant;
+    }
+
+    public List<Notes> getNotess() {
+        return notess;
+    }
+
+    public void setNotess(List<Notes> notess) {
+        this.notess = notess;
     }
 
     @Override

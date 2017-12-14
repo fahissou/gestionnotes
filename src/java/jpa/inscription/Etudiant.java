@@ -40,7 +40,9 @@ public class Etudiant implements Serializable {
     private Filiere filiere;
     @OneToMany(mappedBy = "etudiant")
     private List<Inscription> inscriptions;
-    
+    @ManyToOne
+    private GroupePedagogique groupePedagogique;
+
     public Etudiant() {
 //        genre = EnumGenre.M;
     }
@@ -148,8 +150,15 @@ public class Etudiant implements Serializable {
     public void setInscriptions(List<Inscription> inscriptions) {
         this.inscriptions = inscriptions;
     }
-    
-    
+
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

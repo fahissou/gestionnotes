@@ -1,40 +1,29 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-
     <ui:composition>
-
-           <div class="row">
-                    <!--le Tableau-->
-                    <div class="col-md-12">
-                        <div class="block">
-                            <h:form id="ajoutListForm">
-                                <div class="head clearfix enteteTable">
-                                    <!--<div class="i-cycle glyphicon glyphicon-refresh"></div>-->
-                                    <h1>#{bundle.listeEtudiant}</h1>
-
-                                    <ul class="buttons">
-                                        
-                                        <li><a href="#" class="block_toggle slideMe"><span class="i-arrow-down-3"></span></a></li>
-                                        <li><a href="#" class="block_remove"><span class="i-cancel-2"></span></a></li>
-                                    </ul>
-
-                                </div>
-                                <div class="content np block-fluid table-sorting clearfix">
+        <div class="col-md-12">
+            <div class="block">
+                <h:form id="ajoutListForm" styleClass="form-horizontal">
+                    <div class="head clearfix enteteTable">
+                        <h1>Liste des matières</h1>
+                    </div>
+                    
+                    <div class="content np block-fluid table-sorting clearfix">
                                     <p:dataTable id="incarcerationTable" var="item"
-                                                 selection="#{etudiantBean.selectedEtudiant}"
-                                                 value="#{etudiantBean.listeEtudiants}"
+                                                 selection="#{notesBean.selectedNotes}"
+                                                 value="#{notesBean.affichage}"
                                                  emptyMessage="#{bundle.EmptyListMsg}"
-                                                 rowKey="#{item.login}"
+                                                 rowKey="#{item.id}"
                                                  paginator="true"
                                                  rows="10"
                                                  rowsPerPageTemplate="10,20,30"
                                                  sortMode="multiple"
-                                                 filteredValue="#{etudiantBean.filteredList}"
+                                                 filteredValue="#{notesBean.filteredList}"
                                                  currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
                                                  pageLinks="5"
                                                  rowIndexVar="rowIndex"
@@ -43,49 +32,51 @@
                                                  > 
 
                                         <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
-                                        <p:column headerText="#{bundle.matricule}"  sortBy="#{item.login}" 
-                                                  filterBy="#{item.login}" filterMatchMode="contains"
+<!--                                        <p:column headerText="Un label"  sortBy="#{item.input1}" 
+                                                  filterBy="#{item.id}" filterMatchMode="contains"
                                                   >
-                                            <h:outputText value=" #{item.login}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.nom}" filterBy="#{item.nom}">
-                                            <h:outputText value=" #{item.nom}" />
-                                        </p:column>
-                                        
-                                        <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.prenom}" filterBy="#{item.prenom}">
-                                            <h:outputText value=" #{item.prenom}" />
-                                        </p:column>
-                                        
-<!--                                        <p:column headerText="#{bundle.GroupePedagogique}"  sortBy="#{item.groupePedagogique}" filterBy="#{item.groupePedagogique}">
-                                            <h:outputText value=" #{item.groupePedagogique.description}" />
+                                            <h:outputText value=" #{item.id}" />
                                         </p:column>-->
-                                        
-                                        
+                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.inscription.etudiant.nom}" filterBy="#{item.inscription.etudiant.nom}">
+                                            <h:outputText value=" #{item.inscription.etudiant.nom}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.inscription.etudiant.prenom}" filterBy="#{item.inscription.etudiant.prenom}">
+                                            <h:outputText value=" #{item.inscription.etudiant.prenom}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.notes}"  sortBy="#{item.note}" filterBy="#{item.note}">
+                                            <h:outputText value=" #{item.note}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.Decision}"  sortBy="#{item.etatValidation}" filterBy="#{item.etatValidation}">
+                                            <h:outputText value="#{item.etatValidation}"/>
+                                        </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
-                                            
                                             <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
-                                                <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
                                             </p:commandLink>
-                                            
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
-                                                           update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
+                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-pencil glyphicon glyphicon-pencil"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
                                             </p:commandLink>
-                                            
                                             <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
-                                                           update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
+                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-trashcan glyphicon glyphicon-trash"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
                                             </p:commandLink>
-                                            
+<!--                                            <p:commandLink value="#{null}" title="Default" styleClass="btn btn-success btn-xs"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-list-2 glyphicon glyphicon-list"/>
+                                            </p:commandLink>
+                                            <p:commandLink value="#{null}" title="Tertiary" styleClass="btn btn-warning btn-xs"
+                                                           style="border-radius: 0px; margin-right: 1px;">
+                                                <i class="i-file-3 glyphicon glyphicon-file"/>
+                                            </p:commandLink>-->
     <!--                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-dollar"/>
@@ -106,10 +97,10 @@
                                     </p:dataTable>
 
                                 </div>
-                            </h:form>
-                        </div>
-                    </div>
-                </div>
-
+                    
+                </h:form>
+            </div>
+        </div>
     </ui:composition>
 </html>
+

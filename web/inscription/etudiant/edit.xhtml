@@ -21,10 +21,10 @@
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
                             <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.utilisateur}</label>
+                                <label class="control-label col-sm-4">#{bundle.etudiant}</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm">                                       
-                                            #{utilisateurBean.selectedUtilisateur.login}
+                                            #{etudiantBean.selectedEtudiant.login}
                                         </label>
                                     </div>
                             </div>
@@ -33,16 +33,16 @@
                                     <label class="control-label col-sm-4">#{bundle.Nom}</label>
                                     <div class="col-sm-8">
                                         
-                                        <p:inputText id="nom" value="#{utilisateurBean.selectedUtilisateur.nom}" required="true" placeholder="#{bundle.Nom}"
+                                        <p:inputText id="nom" value="#{etudiantBean.selectedEtudiant.nom}" required="true" placeholder="#{bundle.Nom}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
-                                </div>
+                            </div>
                             
                             <div class="form-group row" style="margin-bottom: 3px!important;">
                                 <label class="control-label col-sm-4">#{bundle.Prenoms}</label>
                                     <div class="col-sm-8">
                                         
-                                        <p:inputText id="prenom" value="#{utilisateurBean.selectedUtilisateur.prenom}" required="true" placeholder="#{bundle.Prenoms}"
+                                        <p:inputText id="prenom" value="#{etudiantBean.selectedEtudiant.prenom}" required="true" placeholder="#{bundle.Prenoms}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
@@ -50,7 +50,7 @@
                             <div class="form-group row" style="margin-bottom: 3px!important;">
                                  <label class="control-label col-sm-4">#{bundle.Telephone}</label>
                                     <div class="col-sm-8">                                        
-                                        <p:inputText id="telephone" value="#{utilisateurBean.selectedUtilisateur.telephone}" required="true" placeholder="#{bundle.Telephone}"
+                                        <p:inputText id="telephone" value="#{etudiantBean.selectedEtudiant.telephone}" required="true" placeholder="#{bundle.Telephone}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                              </div>
@@ -59,7 +59,7 @@
                                 <label class="control-label col-sm-4">#{bundle.Email}</label>
                                     <div class="col-sm-8">
                                         
-                                        <p:inputText id="adresse" value="#{utilisateurBean.selectedUtilisateur.mail}" required="true" placeholder="#{bundle.Email}"
+                                        <p:inputText id="adresse" value="#{etudiantBean.selectedEtudiant.mail}" required="true" placeholder="#{bundle.Email}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
@@ -68,7 +68,7 @@
                                 <label class="control-label col-sm-4">#{bundle.Adresse}</label>
                                     <div class="col-sm-8">
                                         
-                                        <p:inputText id="boitePostale" value="#{utilisateurBean.selectedUtilisateur.adresse}" required="true" placeholder="#{bundle.Adresse}"
+                                        <p:inputText id="boitePostale" value="#{etudiantBean.selectedEtudiant.adresse}" required="true" placeholder="#{bundle.Adresse}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
@@ -79,7 +79,7 @@
                                 
                                 <div class="radio custom-radio-wrapper">
 
-                                    <p:selectOneRadio id="genre" value="#{utilisateurBean.newUtilisateur.genre}" layout="grid" columns="2" required="false">
+                                    <p:selectOneRadio id="genre" value="#{etudiantBean.selectedEtudiant.genre}" layout="grid" columns="2" required="false">
                                         <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
                                         <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
                                     </p:selectOneRadio>
@@ -90,15 +90,15 @@
                             
                             <div class="controls-row">
                                 
-                                <p:outputLabel for="groupe" class="input-desc" value="#{bundle.Groupe}" />
-                                <h:selectOneMenu id="groupe" value="#{utilisateurBean.newUtilisateur.groupe}" 
+                                <p:outputLabel for="groupe" class="input-desc" value="#{bundle.GroupePedagogique}" />
+                                <h:selectOneMenu id="groupe" value="#{etudiantBean.selectedEtudiant.groupePedagogique}" 
                                                  required="false" styleClass="form-control input-sm">
                                                 <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                                <f:selectItems value="#{groupeBean.listeGroupes}"
+                                                <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}"
                                                                var="groupeItem"
                                                                itemValue="#{groupeItem}"
-                                                               itemLabel="#{groupeItem.libelle.toUpperCase()}"/>
-                                                <f:converter  converterId="groupeConverter"/>
+                                                               itemLabel="#{groupeItem.description.toUpperCase()}"/>
+                                                <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </h:selectOneMenu>
                             </div>
                             
@@ -106,7 +106,7 @@
                             
                         </div> <!-- /.modal-body -->
                         <div class="modal-footer">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{utilisateurBean.doEdit}" 
+                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{etudiantBean.doEdit}" 
                                              oncomplete="updateGritter(xhr);$('#editDialog').modal('hide');" 
                                              styleClass="btn-xs btn-primary " icon="i-checkmark-2"/>
 

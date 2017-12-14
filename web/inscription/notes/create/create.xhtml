@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="col-md-12">
+            <div class="block">
+
+                <div class="head clearfix">
+                    <div class="isw-documents"></div>
+                    <h1>#{bundle.AjouteNotes}</h1>
+                </div>
+                <h:form id="formeEx" styleClass="form-horizontal" enctype="multipart/form-data"  prependId="false">
+                    <div class="block-fluid">
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="anneeAcademique" value="#{bundle.AnneeAcademique}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="anneeAcademique" value="#{notesBean.anneeAcademique}" 
+                                                 required="false">
+                                    <f:selectItem itemValue="#{null}" itemLabel="selection"/>
+                                    <f:selectItems value="#{inscriptionBean.listeAnneeUniversitaire}"
+                                                   var="inscriptionItem"
+                                                   itemValue="#{inscriptionItem}"
+                                                   itemLabel="#{inscriptionItem.toUpperCase()}"/>
+
+                                </p:selectOneMenu>
+
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="matiere" value="#{bundle.Matiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="matiere" value="#{notesBean.newNotes.matiere}" 
+                                                 required="false">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{matiereBean.listeMatieres}" var="itemMatiere"
+                                                   itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle}"/>
+                                    <f:converter  converterId="matiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="file " value="Fichier: " />
+                            </div>
+                            <div class="col-md-9">
+
+                                <p:fileUpload id="file" value="#{notesBean.uploadedFile}"  mode="simple"></p:fileUpload>
+
+                            </div>
+
+                        </div>
+
+                        <div class="footer tar">
+                            <h:commandButton value="Valider"  action="#{notesBean.docreateCollective}" class="btn btn-default"></h:commandButton> 
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="#{matiereBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>                                       
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

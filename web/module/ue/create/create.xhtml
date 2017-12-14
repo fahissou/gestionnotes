@@ -57,11 +57,11 @@
                         
                         <div class="row-form clearfix">
                             <div class="col-md-3">
-                                <p:outputLabel for="promotion" value="#{bundle.GroupeEtudiant}"/>
+                                <p:outputLabel for="promotion" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
                                 <p:selectOneMenu id="promotion" value="#{ueBean.newUe.goupeEtudiant}" 
-                                                 required="true">
+                                                 required="false">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{groupeEtudiantBean.listesGroupeEtudiants}" var="itemPromotion"
                                                    itemValue="#{itemPromotion}" itemLabel="#{itemPromotion.libelle}"/>

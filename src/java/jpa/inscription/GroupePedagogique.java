@@ -20,6 +20,8 @@ import jpa.formation.Filiere;
 @Entity
 public class GroupePedagogique implements Serializable {
     @OneToMany(mappedBy = "groupePedagogique")
+    private List<Etudiant> etudiants;
+    @OneToMany(mappedBy = "groupePedagogique")
     private List<Inscription> inscriptions;
     @Id
     private String id;

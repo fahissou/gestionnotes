@@ -9,7 +9,9 @@ import ejb.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import jpa.module.Matiere;
 import jpa.module.Semestre;
+import util.JsfUtil;
 
 /**
  *
@@ -27,6 +29,12 @@ public class SemestreFacade extends AbstractFacade<Semestre> {
 
     public SemestreFacade() {
         super(Semestre.class);
+    }
+    
+    @Override
+    public void create(Semestre semestre) {
+        semestre.setId(JsfUtil.generateId());
+        super.create(semestre);
     }
     
 }

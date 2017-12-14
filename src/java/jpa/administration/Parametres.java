@@ -15,6 +15,7 @@ public class Parametres implements Serializable {
     private String id;
     private double moyenneUE;
     private double proportionAdmission;
+    private double moyenneMatiere;
 
     public Parametres() {
     }
@@ -42,7 +43,15 @@ public class Parametres implements Serializable {
     public void setProportionAdmission(double proportionAdmission) {
         this.proportionAdmission = proportionAdmission;
     }
-    
+
+    public double getMoyenneMatiere() {
+        return moyenneMatiere;
+    }
+
+    public void setMoyenneMatiere(double moyenneMatiere) {
+        this.moyenneMatiere = moyenneMatiere;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

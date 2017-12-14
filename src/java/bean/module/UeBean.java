@@ -5,7 +5,6 @@
  */
 package bean.module;
 
-import static bean.module.SemestreBean.formatCode;
 import ejb.module.UeFacade;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -35,8 +34,6 @@ public class UeBean implements Serializable{
     private List<Ue> listeUes;
     private List<Ue> filteredList;
     
-    protected static final SimpleDateFormat formatCode = new SimpleDateFormat("ddMMyyyyHHmmss");
-    protected static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
     
 
     /**
@@ -49,17 +46,7 @@ public class UeBean implements Serializable{
         prepareCreate();
         listeUes = ueFacade.findAll();
     }
-    public String createCode(){
-        return formatCode.format(new Date());
-    }
-    public String recupDateSysteme() {
-        return formatDate.format(new Date());
-    }
-    public void code(){
-        this.newUe.setId(createCode());
-    }
     public void doCreate(ActionEvent event) {
-        code();
         String msg;
         try {
             ueFacade.create(newUe);

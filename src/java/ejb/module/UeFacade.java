@@ -9,7 +9,9 @@ import ejb.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import jpa.module.Matiere;
 import jpa.module.Ue;
+import util.JsfUtil;
 
 /**
  *
@@ -27,6 +29,12 @@ public class UeFacade extends AbstractFacade<Ue> {
 
     public UeFacade() {
         super(Ue.class);
+    }
+    
+    @Override
+    public void create(Ue ue) {
+        ue.setId(JsfUtil.generateId());
+        super.create(ue);
     }
     
 }
