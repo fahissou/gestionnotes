@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ejb.inscription;
 
 import ejb.AbstractFacade;
@@ -43,9 +39,13 @@ public class NotesFacade extends AbstractFacade<Notes> {
     }
     
     
-    public List<Notes> listeNoteGpAnnee(String anneeAcademique, String groupePedagogique ,String matiere){
+    public List<Notes> listeNoteGpAnnee(String anneeAcademique, String groupePedagogique ,String matiere) {
+       
         Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.anneeUniversitaire = :anneeAcademique AND N.inscription.groupePedagogique.description = :groupePedagogique AND N.matiere.libelle = :matiere");
         // set parameters
+        query.setParameter("anneeAcademique", anneeAcademique);
+        query.setParameter("groupePedagogique", groupePedagogique);
+        query.setParameter("matiere", matiere);      
         List<Notes> list = query.getResultList();
         return list; 
     }

@@ -29,6 +29,19 @@
             <to-view-id>inscription/inscription/individuelle/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>succes</from-outcome>
+            <to-view-id>inscription/notes/afficher/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+         <navigation-case>
+            <from-outcome>error</from-outcome>
+            <to-view-id>inscription/notes/error/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
 <!--        <navigation-case>
             <from-outcome>inscription</from-outcome>
             <to-view-id>inscription/inscription/index.xhtml</to-view-id>

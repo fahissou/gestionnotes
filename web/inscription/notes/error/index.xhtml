@@ -6,7 +6,7 @@
     <h:body>
         <ui:composition template="/template/base.xhtml">
             <ui:define name="title">
-                #{bundle.notes}
+                #{bundle.Matiere}
             </ui:define>
             
             
@@ -14,8 +14,8 @@
                 <div class="breadLine">
                     <ul class="breadcrumb">
                     <li><a href="#">Gestion Note</a> <span class="divider">></span></li> 
-                    <li><a href="#">#{bundle.Inscription}</a> <span class="divider">></span></li>                
-                    <li class="active">#{bundle.notes}</li>
+                    <li><a href="#">#{bundle.Module}</a> <span class="divider">></span></li>                
+                    <li class="active">#{bundle.Matiere}</li>
                 </ul> 
                 </div>
             </ui:define>
@@ -23,8 +23,9 @@
             <ui:define name="main">
                 <div class="workplace">
                     <div class="row">
-                        <ui:include src="menunav.xhtml"/>
-                        <ui:include src="parametresaffichage/parametre.xhtml"/>
+                        <ui:include src="../menunav.xhtml"/>
+                        <ui:include src="error.xhtml"/>                       
+                        <!--<ui:include src="view.xhtml"/>-->
                     </div>
                 </div>
             </ui:define>

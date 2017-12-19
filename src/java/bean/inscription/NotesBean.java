@@ -241,7 +241,7 @@ public class NotesBean implements Serializable{
 
   
     public void docreateCollective() throws IOException, FileNotFoundException, ParseException{
-        System.out.println("ok dans docreate");
+        
         if(uploadedFile != null) {      
             System.out.println("fichier chargé");
             fileName = FilenameUtils.getName(uploadedFile.getFileName());
@@ -321,9 +321,18 @@ public class NotesBean implements Serializable{
              
     }
     
-    public List<Notes> affichage() {
-        System.out.println(" annee: " +anneeAcademique+" libelleGp: "+newGroupePedagogique.getDescription()+" libelleMatiere: "+newMatiere.getLibelle());
-        return notesFacade.listeNoteGpAnnee(anneeAcademique, newGroupePedagogique.getDescription(), newMatiere.getLibelle());
+    public String affichage() {
+        listeNotess = notesFacade.listeNoteGpAnnee(anneeAcademique, newGroupePedagogique.getDescription(), newMatiere.getLibelle());    
+        if(!listeNotess.isEmpty()){
+            return "succes";
+        }else{
+            return "error";         
+        }
+        
+    }
+    
+    public void redirect(){
+        
     }
     
     
