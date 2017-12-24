@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import jpa.formation.GroupeEtudiant;
+import jpa.inscription.GroupePedagogique;
 
 /**
  *
@@ -29,11 +30,12 @@ public class Ue implements Serializable {
     private Semestre semestre;
     @ManyToOne
     private GroupeEtudiant goupeEtudiant;
+    @ManyToOne
+    private GroupePedagogique groupePedagogique;
 
     public Ue() {
     }
 
-    
     public String getId() {
         return id;
     }
@@ -80,6 +82,14 @@ public class Ue implements Serializable {
 
     public void setGoupeEtudiant(GroupeEtudiant goupeEtudiant) {
         this.goupeEtudiant = goupeEtudiant;
+    }
+
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
     }
     
     @Override

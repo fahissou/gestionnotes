@@ -6,16 +6,20 @@
 package bean.inscription;
 
 import ejb.inscription.GroupePedagogiqueFacade;
+import ejb.module.UeFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import jpa.inscription.GroupePedagogique;
+import jpa.module.Ue;
 import util.JsfUtil;
 
 /**
@@ -25,6 +29,8 @@ import util.JsfUtil;
 @ViewScoped
 @Named(value = "groupePedagogiqueBean")
 public class GroupePedagogiqueBean implements Serializable{
+    @EJB
+    private UeFacade ueFacade;
     @EJB
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
     private GroupePedagogique newGroupePedagogique;
@@ -36,7 +42,10 @@ public class GroupePedagogiqueBean implements Serializable{
     private String niveau;  
     private Map<String,String> listeCycles;
     private Map<String,String> listeNiveau;
-
+//    private String groupePedaName;
+//    private List<GroupePedagogique> groupePedagogique;
+//    private List<Ue> ue;
+//    private String libelleUE;
     /**
      * Creates a new instance of GroupePedagogiqueBean
      */
@@ -65,7 +74,7 @@ public class GroupePedagogiqueBean implements Serializable{
          
         map = new HashMap<>();
         map.put("Thèse 1", "Thèse 1");
-        map.put("Thèse 2", "Thèse 2");
+        map.put("Thèse 2", "Thèse 2454");
         map.put("Thèse 3", "Thèse 3");
         data.put("Cycle 3", map);
     }
@@ -179,11 +188,12 @@ public class GroupePedagogiqueBean implements Serializable{
     public Map<String, String> getListeNiveau() {
         return listeNiveau;
     }
-
+   
     public void setListeNiveau(Map<String, String> listeNiveau) {
         this.listeNiveau = listeNiveau;
     }
     
+   
     public void prepareCreate(){
         this.newGroupePedagogique = new GroupePedagogique();
     }
@@ -191,10 +201,14 @@ public class GroupePedagogiqueBean implements Serializable{
         this.newGroupePedagogique.reset();
     }
     public void onCycleChange() {
+        
         if(cycle !=null && !cycle.equals(""))
             listeNiveau = data.get(cycle);
         else
             listeNiveau = new HashMap<>();
     }
+ 
+   
+    
     
 }

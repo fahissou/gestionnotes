@@ -27,9 +27,9 @@
     </context-param>
     
     <mime-mapping>  
-    <extension>woff2</extension>  
-    <mime-type>application/x-font-woff2</mime-type>  
-</mime-mapping>
+        <extension>woff2</extension>  
+        <mime-type>application/x-font-woff2</mime-type>  
+    </mime-mapping>
     
     <session-config>
         <session-timeout>

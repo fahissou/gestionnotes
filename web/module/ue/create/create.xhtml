@@ -16,10 +16,10 @@
                     <div class="block-fluid">
                         <div class=" row-form clearfix">
                             <div class="col-md-3">
-                                <p:outputLabel for="nomUe" value="#{bundle.Nom}"/>
+                                <p:outputLabel for="nomUe" value="#{bundle.Description}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:inputText id="nomUe" value="#{ueBean.newUe.libelle}" required="true" placeholder="#{bundle.Nom}"/>
+                                <p:inputText id="nomUe" value="#{ueBean.newUe.libelle}" required="true" placeholder="#{bundle.Description}"/>
                             </div>
                         </div>
                         <!--                        <div class="row-form clearfix">
@@ -31,6 +31,7 @@
                                                     </div>
                         
                                                 </div>-->
+                        
                         <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
@@ -45,6 +46,7 @@
                                 </p:selectOneMenu>
                             </div>
                         </div>
+                        
                         <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="credit" value="#{bundle.Credit}"/>
@@ -57,15 +59,15 @@
                         
                         <div class="row-form clearfix">
                             <div class="col-md-3">
-                                <p:outputLabel for="promotion" value="#{bundle.GroupePedagogique}"/>
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="promotion" value="#{ueBean.newUe.goupeEtudiant}" 
-                                                 required="false">
+                                <p:selectOneMenu id="groupePedagogique" value="#{ueBean.newUe.groupePedagogique}" 
+                                                 required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{groupeEtudiantBean.listesGroupeEtudiants}" var="itemPromotion"
-                                                   itemValue="#{itemPromotion}" itemLabel="#{itemPromotion.libelle}"/>
-                                    <f:converter  converterId="groupeEtudiantConverter"/>
+                                    <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
+                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>

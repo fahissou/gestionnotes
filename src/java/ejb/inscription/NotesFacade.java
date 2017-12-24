@@ -39,15 +39,16 @@ public class NotesFacade extends AbstractFacade<Notes> {
     }
     
     
-    public List<Notes> listeNoteGpAnnee(String anneeAcademique, String groupePedagogique ,String matiere) {
-       
-        Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.anneeUniversitaire = :anneeAcademique AND N.inscription.groupePedagogique.description = :groupePedagogique AND N.matiere.libelle = :matiere");
+    public List<Notes> listeNoteGpAnnee(String anneeAcademique, String groupePedagogique, Matiere matiere) {
+       String matiereLibelle = matiere.getLibelle();
+        Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.anneeUniversitaire = :anneeAcademique AND N.inscription.groupePedagogique.description = :groupePedagogique AND N.matiere.libelle = :matiereLibelle");
         // set parameters
         query.setParameter("anneeAcademique", anneeAcademique);
         query.setParameter("groupePedagogique", groupePedagogique);
-        query.setParameter("matiere", matiere);      
+        query.setParameter("matiereLibelle", matiereLibelle);      
         List<Notes> list = query.getResultList();
         return list; 
     }
+    
     
 }

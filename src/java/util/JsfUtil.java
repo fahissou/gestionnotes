@@ -50,8 +50,10 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -63,6 +65,7 @@ import javax.faces.context.Flash;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
+import jpa.inscription.GroupePedagogique;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
@@ -782,5 +785,10 @@ public class JsfUtil {
         }
         return resultat; 
     }
+    
+    
+
+    
+    
     
 }

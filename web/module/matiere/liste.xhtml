@@ -40,8 +40,8 @@
                                         <p:column headerText="#{bundle.Nom}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
                                             <h:outputText value=" #{item.libelle}" />
                                         </p:column>
-                                        <p:column headerText="#{bundle.UE}"  sortBy="#{item.ue}" filterBy="#{item.ue}">
-                                            <h:outputText value=" #{item.ue}" />
+                                        <p:column headerText="#{bundle.UE}"  sortBy="#{item.ue.libelle}" filterBy="#{item.ue.libelle}">
+                                            <h:outputText value=" #{item.ue.libelle}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Coefficiant}"  sortBy="#{item.coefficiant}" filterBy="#{item.coefficiant}">
                                             <h:outputText value=" #{item.coefficiant}" />

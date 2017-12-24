@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import jpa.formation.Filiere;
+import jpa.module.Ue;
 
 /**
  *
@@ -19,6 +20,8 @@ import jpa.formation.Filiere;
  */
 @Entity
 public class GroupePedagogique implements Serializable {
+    @OneToMany(mappedBy = "groupePedagogique")
+    private List<Ue> ues;
     @OneToMany(mappedBy = "groupePedagogique")
     private List<Etudiant> etudiants;
     @OneToMany(mappedBy = "groupePedagogique")

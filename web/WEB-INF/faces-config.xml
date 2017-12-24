@@ -3,7 +3,7 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
-<application>
+    <application>
         <locale-config>
             <default-locale>fr_FR</default-locale>
         </locale-config>
@@ -36,16 +36,22 @@
             <redirect/>
         </navigation-case>
         
-         <navigation-case>
-            <from-outcome>error</from-outcome>
-            <to-view-id>inscription/notes/error/index.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
         
-<!--        <navigation-case>
+        
+        <!--        <navigation-case>
             <from-outcome>inscription</from-outcome>
             <to-view-id>inscription/inscription/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>-->
+        
     </navigation-rule>
+    
+    
+ 	<managed-bean>
+		<managed-bean-name>notes</managed-bean-name>
+		<managed-bean-class>bean.inscription.NotesBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+        
+    
 </faces-config>

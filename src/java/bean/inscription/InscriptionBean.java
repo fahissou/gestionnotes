@@ -7,6 +7,9 @@ package bean.inscription;
 
 import ejb.inscription.EtudiantFacade;
 import ejb.inscription.InscriptionFacade;
+import ejb.inscription.NotesFacade;
+import ejb.module.MatiereFacade;
+import ejb.module.UeFacade;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +35,9 @@ import javax.servlet.ServletContext;
 import jpa.inscription.EnumGenre;
 import jpa.inscription.Etudiant;
 import jpa.inscription.Inscription;
+import jpa.inscription.Notes;
+import jpa.module.Matiere;
+import jpa.module.Ue;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -47,14 +53,21 @@ import org.apache.poi.ss.usermodel.Row;
  *
  * @author AHISSOU Florent
  */
-
 @Named(value = "inscriptionBean")
 @ViewScoped
-public class InscriptionBean implements Serializable{
+public class InscriptionBean implements Serializable {
+
+    @EJB
+    private MatiereFacade matiereFacade;
+    @EJB
+    private UeFacade ueFacade;
+    @EJB
+    private NotesFacade notesFacade;
+
     @EJB
     private EtudiantFacade etudiantFacade;
     private Etudiant newEtudiant;
-    
+
     @EJB
     private InscriptionFacade inscriptionFacade;
     private Inscription selectedInscription;
@@ -62,17 +75,19 @@ public class InscriptionBean implements Serializable{
     private List<Inscription> listeInscriptions;
     private List<Inscription> filteredList;
     private List<String> listeAnneeUniversitaire;
-    private Map<String,Map<String,String>> data = new HashMap<String, Map<String,String>>();
-    private String cycle; 
-    private String niveau;  
-    private Map<String,String> listeCycles;
-    private Map<String,String> listeNiveau;
+    private Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
+    private String cycle;
+    private String niveau;
+    private Map<String, String> listeCycles;
+    private Map<String, String> listeNiveau;
     private String fileName;
     private List<String> contenuLigne;
     private UploadedFile uploadedFile;
     private String typeInscription;
     private String fileExtension;
     private FileInputStream fichier;
+    private Notes newNote;
+
     /**
      * Creates a new instance of InscriptionBean
      */
@@ -83,7 +98,7 @@ public class InscriptionBean implements Serializable{
     public void init() {
         listeInscriptions = inscriptionFacade.findAll();
         prepareCreate();
-        
+
         listeAnneeUniversitaire = new ArrayList<>();
         listeAnneeUniversitaire.add("2014 - 2015");
         listeAnneeUniversitaire.add("2015 - 2016");
@@ -98,48 +113,46 @@ public class InscriptionBean implements Serializable{
         listeAnneeUniversitaire.add("2024 - 2025");
         listeAnneeUniversitaire.add("2025 - 2026");
         listeAnneeUniversitaire.add("2026 - 2027");
-        
-        listeCycles  = new HashMap<String, String>();
+
+        listeCycles = new HashMap<String, String>();
         listeCycles.put("Cycle 1", "Cycle 1");
         listeCycles.put("Cycle 2", "Cycle 2");
         listeCycles.put("Cycle 3", "Cycle 3");
-         
-        Map<String,String> map = new HashMap<String, String>();
+
+        Map<String, String> map = new HashMap<String, String>();
         map.put("Licence 1", "Licence 1");
         map.put("Licence 2", "Licence 2");
         map.put("Licence 3", "Licence 3");
         data.put("Cycle 1", map);
-         
+
         map = new HashMap<String, String>();
         map.put("Master 1", "Master 1");
         map.put("Master 2", "Master 2");
         data.put("Cycle 2", map);
-         
+
         map = new HashMap<String, String>();
         map.put("Thèse 1", "Thèse 1");
         map.put("Thèse 2", "Thèse 2");
         map.put("Thèse 3", "Thèse 3");
         data.put("Cycle 3", map);
-        
-    }  
 
-    public void doCreate(ActionEvent event) throws ExceptionsGestionnotes{
+    }
+
+    public void doCreate(ActionEvent event) throws ExceptionsGestionnotes {
         String msg;
         try {
-            
 
-            if(JsfUtil.validAcademicYear(newInscription.getAnneeUniversitaire())){
+            if (JsfUtil.validAcademicYear(newInscription.getAnneeUniversitaire())) {
                 inscriptionFacade.create(newInscription);
                 msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
                 JsfUtil.addSuccessMessage(msg);
                 prepareCreate();
                 listeInscriptions = inscriptionFacade.findAll();
-            }else{
+            } else {
                 ExceptionsGestionnotes e = new ExceptionsGestionnotes(JsfUtil.getBundleMsg("AnneeIncriptionInvalde"));
                 JsfUtil.addErrorMessage(e.getMessage());
             }
-            
-            
+
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("InscriptionCreateErrorMsg");
             JsfUtil.addErrorMessage(msg);
@@ -202,7 +215,7 @@ public class InscriptionBean implements Serializable{
 
     public void setFilteredList(List<Inscription> filteredList) {
         this.filteredList = filteredList;
-    }            
+    }
 
     public List<String> getListeAnneeUniversitaire() {
         return listeAnneeUniversitaire;
@@ -299,143 +312,167 @@ public class InscriptionBean implements Serializable{
     public void setTypeInscription(String typeInscription) {
         this.typeInscription = typeInscription;
     }
-    
-    
+
     public void prepareCreate() {
         this.newInscription = new Inscription();
         this.newEtudiant = new Etudiant();
     }
-    
+
     public void reset(ActionEvent e) {
         this.newInscription.reset();
     }
-    
+
     public void onCycleChange() {
-        if(cycle !=null && !cycle.equals(""))
+        if (cycle != null && !cycle.equals("")) {
             listeNiveau = data.get(cycle);
-        else
+        } else {
             listeNiveau = new HashMap<String, String>();
+        }
     }
-    
+
     public void handleFileUpload(FileUploadEvent event) {
-            UploadedFile uploadedFile = event.getFile();
-            fileName = uploadedFile.getFileName();
+        UploadedFile uploadedFile = event.getFile();
+        fileName = uploadedFile.getFileName();
         FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
-   public void docreateCollective() throws IOException, FileNotFoundException, ParseException{
 
-        if(uploadedFile != null) {           
+    public void docreateCollective() throws IOException, FileNotFoundException, ParseException {
+
+        if (uploadedFile != null) {
             fileName = FilenameUtils.getName(uploadedFile.getFileName());
             fichier = (FileInputStream) uploadedFile.getInputstream();
             fileExtension = fileName.split("\\.")[1];
-            System.out.println("extension "+fileExtension);
+            System.out.println("extension " + fileExtension);
             insertInscription(fichier);
-            
-        }else{
+
+        } else {
             System.out.println("fichier non chargé");
         }
-        
+
     }
 
     public void insertInscription(FileInputStream fichier) throws FileNotFoundException, IOException, ParseException {
-       String msg = null;
-        if(fichier == null){
+        String msg = null;
+        if (fichier == null) {
             System.out.println("OK in fonction null");
-        }else {
-            if(fileExtension.equals("xls")){
-            HSSFWorkbook wb = new HSSFWorkbook(fichier);
-            HSSFSheet sheet = wb.getSheetAt(0);
-            FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
-            int compteurLigne = 0;
-            for (Row ligne : sheet) {//parcourir les lignes
-            contenuLigne = new ArrayList<>();
-            compteurLigne++;
-             for (Cell cell : ligne) {//parcourir les colonnes
-                //évaluer le type de la cellule
-                
-                switch (formulaEvaluator.evaluateInCell(cell).getCellType()) {
-                  
-                    case Cell.CELL_TYPE_NUMERIC:
-                     
-                        contenuLigne.add(String.valueOf(cell.getNumericCellValue()));
-                        break;
-                    case Cell.CELL_TYPE_STRING:
-                     
-                        contenuLigne.add(cell.getStringCellValue());
-                        break;
-                    
-                }
+        } else {
+            if (fileExtension.equals("xls")) {
+                HSSFWorkbook wb = new HSSFWorkbook(fichier);
+                HSSFSheet sheet = wb.getSheetAt(0);
+                FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
+                int compteurLigne = 0;
+                for (Row ligne : sheet) {//parcourir les lignes
+                    contenuLigne = new ArrayList<>();
+                    compteurLigne++;
+                    for (Cell cell : ligne) {//parcourir les colonnes
+                        //évaluer le type de la cellule
 
-            }
-            
-            if(compteurLigne > 1){
-                // Etudiant save
-                 if(contenuLigne.size() == 7){
-                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy");
-                 newEtudiant.setLogin(String.valueOf(contenuLigne.get(0)));
-                 newEtudiant.setNom(String.valueOf(contenuLigne.get(1)));
-                 newEtudiant.setPrenom(String.valueOf(contenuLigne.get(2)));
-                 EnumGenre  enumGenre = EnumGenre.valueOf(String.valueOf(contenuLigne.get(3)));
-                 newEtudiant.setGenre(enumGenre);
+                        switch (formulaEvaluator.evaluateInCell(cell).getCellType()) {
+
+                            case Cell.CELL_TYPE_NUMERIC:
+
+                                contenuLigne.add(String.valueOf(cell.getNumericCellValue()));
+                                break;
+                            case Cell.CELL_TYPE_STRING:
+
+                                contenuLigne.add(cell.getStringCellValue());
+                                break;
+
+                        }
+
+                    }
+
+                    if (compteurLigne > 1) {
+                        // Etudiant save
+                        if (contenuLigne.size() == 7) {
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy");
+                            newEtudiant.setLogin(String.valueOf(contenuLigne.get(0)));
+                            newEtudiant.setNom(String.valueOf(contenuLigne.get(1)));
+                            newEtudiant.setPrenom(String.valueOf(contenuLigne.get(2)));
+                            EnumGenre enumGenre = EnumGenre.valueOf(String.valueOf(contenuLigne.get(3)));
+                            newEtudiant.setGenre(enumGenre);
 //                 System.out.println("cell4 " +contenuLigne.get(4));
 //                 Date dateNaiss = formatter.parse(String.valueOf(contenuLigne.get(4)));
 //                 newEtudiant.setDateNaissance(dateNaiss );
-                 newEtudiant.setTelephone(String.valueOf(contenuLigne.get(5)));
-                 newEtudiant.setMail(String.valueOf(contenuLigne.get(6)));
-                 newEtudiant.setGroupePedagogique(newInscription.getGroupePedagogique());
-                 // Inscritption save
-                 newInscription.setEtudiant(newEtudiant);
-                 
-                 etudiantFacade.create(newEtudiant);
-                 inscriptionFacade.create(newInscription);
-                 
-                 }else{
-                     msg = JsfUtil.getBundleMsg("formatFichierNonPriseEncompte");
-                     JsfUtil.addErrorMessage(msg);
-                     break;
-                 }
-                 
-             }
+                            newEtudiant.setTelephone(String.valueOf(contenuLigne.get(5)));
+                            newEtudiant.setMail(String.valueOf(contenuLigne.get(6)));
+                            newEtudiant.setGroupePedagogique(newInscription.getGroupePedagogique());
+                            // Inscritption save
+                            newInscription.setEtudiant(newEtudiant);
+
+                            etudiantFacade.create(newEtudiant);
+                            inscriptionFacade.create(newInscription);
+                            createDiffaultNotes(newInscription);
+                            
+                        } else {
+                            msg = JsfUtil.getBundleMsg("formatFichierNonPriseEncompte");
+                            JsfUtil.addErrorMessage(msg);
+                            break;
+                        }
+
+                    }
+
+                }
+            } else if (fileExtension.equals("xlsx")) {
+                msg = JsfUtil.getBundleMsg("extensionNonpriseCompte");
+                JsfUtil.addErrorMessage(msg);
+
+            } else {
+                msg = JsfUtil.getBundleMsg("extensionNonpriseCompte1");
+                JsfUtil.addErrorMessage(msg);
+            }
 
         }
-       }else if(fileExtension.equals("xlsx")){
-            msg = JsfUtil.getBundleMsg("extensionNonpriseCompte");
-         JsfUtil.addErrorMessage(msg); 
-         
-       }else{
-            msg = JsfUtil.getBundleMsg("extensionNonpriseCompte1");
-         JsfUtil.addErrorMessage(msg);  
-       }
-                    
-      }
-         
-            
-            
 
-        
     }
 
-public void doCreateIndividuelle(ActionEvent event) throws ExceptionsGestionnotes{
-    String msg;
+    public void doCreateIndividuelle(ActionEvent event) throws ExceptionsGestionnotes {
+        String msg;
         try {
             newEtudiant = newInscription.getEtudiant();
             newEtudiant.setFiliere(newInscription.getGroupePedagogique().getFiliere());
             etudiantFacade.create(newEtudiant);
             inscriptionFacade.create(newInscription);
             msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
-                JsfUtil.addSuccessMessage(msg);
-                prepareCreate();
-                listeInscriptions = inscriptionFacade.findAll();
-            
-        }catch (Exception e) {
+            JsfUtil.addSuccessMessage(msg);
+            prepareCreate();
+            listeInscriptions = inscriptionFacade.findAll();
+
+        } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("InscriptionCreateErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
-    
-}
-    public String inscriptionRedirect(){
+
+    }
+
+    public void createDiffaultNotes(Inscription inscription) {
+        List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(inscription.getGroupePedagogique().getDescription());
+        try {
+            
+            for (int i = 0; i < listeUe.size(); i++) {
+              
+                List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i).getLibelle());
+                try {
+                    for (int j = 0; j < matieres.size(); j++) {
+                    newNote.setMatiere(matieres.get(j));
+                    newNote.setInscription(inscription);
+                    newNote.setEtatValidation("Non validé");
+                    newNote.setNote(0.0);
+                    notesFacade.create(newNote);
+                 }
+                }catch (Exception e) {
+                
+                }
+                
+            }
+        } catch (Exception ex) {
+            
+      }
+
+    }
+
+    public String inscriptionRedirect() {
         String page = "";
         switch (typeInscription) {
             case "collective":

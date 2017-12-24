@@ -18,19 +18,10 @@
                             <h3 class="modal-title">Détails</h3>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
+                            
                             <div class="row-form clearfix">
                                 <div class="col-md-3">
-                                    <p:outputLabel value="#{bundle.Code}"/>
-                                </div>
-                                <div class="col-md-9">
-                                    <label class="form-control input-sm">
-                                        #{ueBean.selectedUe.id}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row-form clearfix">
-                                <div class="col-md-3">
-                                    <p:outputLabel value="#{bundle.Nom}"/>
+                                    <p:outputLabel value="#{bundle.Description}"/>
                                 </div>
                                 <div class="col-md-9">
                                     <label class="form-control input-sm">
@@ -38,6 +29,7 @@
                                     </label>
                                 </div>
                             </div>
+                            
                             <div class="row-form clearfix">
                                 <div class="col-md-3">
                                     <p:outputLabel value="#{bundle.Semestre}"/>
@@ -48,6 +40,7 @@
                                     </label>
                                 </div>
                             </div>
+                            
                             <div class="row-form clearfix">
                                 <div class="col-md-3">
                                     <p:outputLabel value="#{bundle.Credit}"/>
@@ -58,13 +51,14 @@
                                     </label>
                                 </div>
                             </div>
+                            
                             <div class="row-form clearfix">
                                 <div class="col-md-3">
-                                    <p:outputLabel value="#{bundle.GroupeEtudiant}"/>
+                                    <p:outputLabel value="#{bundle.GroupePedagogique}"/>
                                 </div>
                                 <div class="col-md-9">
                                     <label class="form-control input-sm">
-                                        #{ueBean.selectedUe.goupeEtudiant.libelle}
+                                        #{ueBean.selectedUe.groupePedagogique.description}
                                     </label>
                                 </div>
                             </div>
