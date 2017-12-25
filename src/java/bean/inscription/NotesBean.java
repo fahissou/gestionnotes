@@ -5,7 +5,6 @@
  */
 package bean.inscription;
 
-import ejb.inscription.EtudiantFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
@@ -14,6 +13,7 @@ import ejb.module.UeFacade;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ import util.JsfUtil;
 //@ViewScoped
 //@ApplicationScoped
 //public class NotesBean implements Serializable{
-public class NotesBean {
+public class NotesBean implements Serializable{
 
     @EJB
     private MatiereFacade matiereFacade;
@@ -94,11 +94,13 @@ public class NotesBean {
 
     @PostConstruct
     public void init() {
-        listeNotess = notesFacade.findAll();
+        System.out.println("ici dans init");
         listGroupePedagogiques = groupePedagogiqueFacade.findAll();
+        
+        listeNotess = notesFacade.findAll();
+        
         listeUE = ueFacade.findAll();
         listeMatieres = matiereFacade.findAll();
-
         loadData();
         prepareCreate();
     }
@@ -476,12 +478,35 @@ public class NotesBean {
         } catch (Exception ex) {
             System.out.println("okk");
         }
-//        if(!anneeAcademique.equals("") && !newGroupePedagogique.getDescription().equals("") && !newMatiere.getLibelle().equals("")){
-//        }else{
-//            listeNotesGroupPeda = new ArrayList<>();
-//        }  
         return "succes";
     }
+    
+    public String affichage1() {
+        liste = new ArrayList<>();
+        try {
+            System.out.println(anneeAcademique + " " + newGroupePedagogique.getDescription() + " " + newMatiere.getLibelle());
+            liste = notesFacade.listeNoteGpAnnee(anneeAcademique, newGroupePedagogique.getDescription(), newMatiere);
+            System.out.println("apres " + liste.size());
+            if (!liste.isEmpty()) {
+                setListeNotesGroupPeda(liste);
+            } else {
+                listeNotesGroupPeda = new ArrayList<>();
+            }
+        } catch (Exception ex) {
+            System.out.println("okk");
+        }
+ 
+        return "succes1";
+    }
+    
+    public String updateNotes(){
+        for (int i = 0; i < listeNotesGroupPeda.size() ;i++) {    
+            notesFacade.edit(listeNotesGroupPeda.get(i));
+        }
+        return "succes";  
+    }
+    
+    
     
 
 }

@@ -7,13 +7,11 @@ package bean.module;
 
 import ejb.module.UeFacade;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import jpa.module.Ue;
@@ -24,7 +22,6 @@ import util.JsfUtil;
  * @author Sedjro
  */
 @Named(value = "ueBean")
-@ManagedBean
 @ViewScoped
 public class UeBean implements Serializable{
     @EJB
@@ -33,6 +30,7 @@ public class UeBean implements Serializable{
     private Ue selectedUe;
     private List<Ue> listeUes;
     private List<Ue> filteredList;
+    private List<String> listesemestres;
     
     
 
@@ -45,6 +43,17 @@ public class UeBean implements Serializable{
     public void init(){
         prepareCreate();
         listeUes = ueFacade.findAll();
+        listesemestres = new ArrayList<>();
+        listesemestres.add("1");
+        listesemestres.add("2");
+        listesemestres.add("3");
+        listesemestres.add("4");
+        listesemestres.add("5");
+        listesemestres.add("6");
+        listesemestres.add("7");
+        listesemestres.add("8");
+        listesemestres.add("9");
+        listesemestres.add("10");
     }
     public void doCreate(ActionEvent event) {
         String msg;
@@ -116,6 +125,14 @@ public class UeBean implements Serializable{
 
     public void setFilteredList(List<Ue> filteredList) {
         this.filteredList = filteredList;
+    }
+
+    public List<String> getListesemestres() {
+        return listesemestres;
+    }
+
+    public void setListesemestres(List<String> listesemestres) {
+        this.listesemestres = listesemestres;
     }
     
     public void prepareCreate(){

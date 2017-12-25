@@ -12,7 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import jpa.administration.ProgrammerCours;
-import jpa.inscription.Enseignant;
+import jpa.administration.TemporalUser;
+//import jpa.inscription.Enseignant;
 import jpa.inscription.Notes;
 
 /**
@@ -21,6 +22,7 @@ import jpa.inscription.Notes;
  */
 @Entity
 public class Matiere implements Serializable {
+    
     @OneToMany(mappedBy = "matiere")
     private List<ProgrammerCours> programmerCours;
     @OneToMany(mappedBy = "matiere")
@@ -31,8 +33,8 @@ public class Matiere implements Serializable {
     private Double coefficiant;
     @ManyToOne
     private Ue ue;
-    @ManyToOne
-    private Enseignant enseignant;
+//    @ManyToOne
+//    private Enseignant enseignant;
     
     
     public String getId() {
@@ -83,13 +85,13 @@ public class Matiere implements Serializable {
         this.notes = notes;
     }
 
-    public Enseignant getEnseignant() {
-        return enseignant;
-    }
-
-    public void setEnseignant(Enseignant enseignant) {
-        this.enseignant = enseignant;
-    }
+//    public Enseignant getEnseignant() {
+//        return enseignant;
+//    }
+//
+//    public void setEnseignant(Enseignant enseignant) {
+//        this.enseignant = enseignant;
+//    }
     
     @Override
     public int hashCode() {
@@ -114,7 +116,7 @@ public class Matiere implements Serializable {
 public void reset(){
     this.id = null;
     this.coefficiant = null;
-    this.enseignant = null;
+//    this.enseignant = null;
     this.libelle = null;
     this.notes = null;
     this.programmerCours = null;

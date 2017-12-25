@@ -449,21 +449,19 @@ public class InscriptionBean implements Serializable {
     public void createDiffaultNotes(Inscription inscription) {
         List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(inscription.getGroupePedagogique().getDescription());
         try {
-            
+            System.out.println("Groupe pedagogique");
             for (int i = 0; i < listeUe.size(); i++) {
-              
+              System.out.println("for1 "+listeUe.get(i).getLibelle());
                 List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i).getLibelle());
-                try {
+                System.out.println("taille matiere " +matieres.size());
+                    newNote = new Notes();
                     for (int j = 0; j < matieres.size(); j++) {
                     newNote.setMatiere(matieres.get(j));
                     newNote.setInscription(inscription);
-                    newNote.setEtatValidation("Non validé");
+                    newNote.setEtatValidation("NON VALIDÉ");
                     newNote.setNote(0.0);
                     notesFacade.create(newNote);
                  }
-                }catch (Exception e) {
-                
-                }
                 
             }
         } catch (Exception ex) {

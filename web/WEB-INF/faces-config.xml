@@ -36,6 +36,11 @@
             <redirect/>
         </navigation-case>
         
+        <navigation-case>
+            <from-outcome>succes1</from-outcome>
+            <to-view-id>inscription/notes/inserernotes/index_1.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
         
         
         <!--        <navigation-case>
@@ -46,12 +51,12 @@
         
     </navigation-rule>
     
-    
- 	<managed-bean>
-		<managed-bean-name>notes</managed-bean-name>
+    <managed-bean>
+		<managed-bean-name>notesBean</managed-bean-name>
 		<managed-bean-class>bean.inscription.NotesBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
+    </managed-bean>
+ 	
         
     
 </faces-config>

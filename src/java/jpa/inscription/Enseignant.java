@@ -2,13 +2,13 @@ package jpa.inscription;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+//import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+//import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import jpa.formation.Filiere;
@@ -38,8 +38,8 @@ public class Enseignant implements Serializable {
     private String adresse;
 //    @OneToMany(mappedBy = "enseignant")
 //    private List<AnneeAcademique> anneeAcademiques;
-    @OneToMany(mappedBy = "enseignant")
-    private List<Matiere> matieres;
+//    @OneToMany(mappedBy = "enseignant")
+//    private List<Matiere> matieres;
     @ManyToOne
     private Filiere filiere;
     
@@ -143,13 +143,13 @@ public class Enseignant implements Serializable {
 //        this.anneeAcademiques = anneeAcademiques;
 //    }
 
-    public List<Matiere> getMatieres() {
-        return matieres;
-    }
-
-    public void setMatieres(List<Matiere> matieres) {
-        this.matieres = matieres;
-    }
+//    public List<Matiere> getMatieres() {
+//        return matieres;
+//    }
+//
+//    public void setMatieres(List<Matiere> matieres) {
+//        this.matieres = matieres;
+//    }
 
     public Filiere getFiliere() {
         return filiere;

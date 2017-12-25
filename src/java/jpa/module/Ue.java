@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import jpa.formation.GroupeEtudiant;
 import jpa.inscription.GroupePedagogique;
 
 /**
@@ -26,10 +25,10 @@ public class Ue implements Serializable {
     private String id;
     private String libelle;
     private String credit;
-    @ManyToOne
-    private Semestre semestre;
-    @ManyToOne
-    private GroupeEtudiant goupeEtudiant;
+//    @ManyToOne
+//    private Semestre semestre;
+    private String semestre;
+    
     @ManyToOne
     private GroupePedagogique groupePedagogique;
 
@@ -68,21 +67,22 @@ public class Ue implements Serializable {
         this.matieres = matieres;
     }
 
-    public Semestre getSemestre() {
+//    public Semestre getSemestre() {
+//        return semestre;
+//    }
+//
+//    public void setSemestre(Semestre semestre) {
+//        this.semestre = semestre;
+//    }
+
+    public String getSemestre() {
         return semestre;
     }
 
-    public void setSemestre(Semestre semestre) {
+    public void setSemestre(String semestre) {
         this.semestre = semestre;
     }
-
-    public GroupeEtudiant getGoupeEtudiant() {
-        return goupeEtudiant;
-    }
-
-    public void setGoupeEtudiant(GroupeEtudiant goupeEtudiant) {
-        this.goupeEtudiant = goupeEtudiant;
-    }
+    
 
     public GroupePedagogique getGroupePedagogique() {
         return groupePedagogique;
@@ -91,6 +91,7 @@ public class Ue implements Serializable {
     public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
         this.groupePedagogique = groupePedagogique;
     }
+       
     
     @Override
     public int hashCode() {
@@ -115,7 +116,7 @@ public class Ue implements Serializable {
 public void reset(){
     this.id = null;
     this.credit = null;
-    this.goupeEtudiant = null;
+    this.groupePedagogique = null;
     this.libelle = null;
     this.matieres = null;
     this.semestre = null;

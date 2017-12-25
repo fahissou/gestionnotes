@@ -2,16 +2,13 @@
 package ejb.inscription;
 
 import ejb.AbstractFacade;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import jpa.inscription.Inscription;
 import jpa.inscription.Notes;
 import jpa.module.Matiere;
-import static jpa.module.Matiere_.notes;
 import util.JsfUtil;
 
 /**
@@ -36,6 +33,14 @@ public class NotesFacade extends AbstractFacade<Notes> {
     public void create(Notes notes) {
         notes.setId(JsfUtil.generateId());
         super.create(notes);
+    }
+    
+    @Override
+    public void edit(Notes notes) {
+        if(notes.getNote() >= 12.0){
+            notes.setEtatValidation("VALIDÉ");
+        }
+        super.edit(notes);
     }
     
     

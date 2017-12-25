@@ -11,20 +11,20 @@
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1> #{notes.newGroupePedagogique.description} #{bundle.Matiere}: #{notes.newMatiere.libelle} #{bundle.AnneeAcademique}: #{notes.anneeAcademique}</h1>
+                        <h1> #{notesBean.newGroupePedagogique.description} #{bundle.Matiere}: #{notesBean.newMatiere.libelle} #{bundle.AnneeAcademique}: #{notesBean.anneeAcademique}</h1>
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
                                     <p:dataTable id="incarcerationTable" var="item"
-                                                 selection="#{notes.selectedNotes}"
-                                                 value="#{notes.listeNotesGroupPeda}"
+                                                 selection="#{notesBean.selectedNotes}"
+                                                 value="#{notesBean.listeNotesGroupPeda}"
                                                  emptyMessage="#{bundle.EmptyListMsg}"
                                                  rowKey="#{item.id}"
                                                  paginator="true"
                                                  rows="10"
                                                  rowsPerPageTemplate="10,20,30"
                                                  sortMode="multiple"
-                                                 filteredValue="#{notes.filteredList}"
+                                                 filteredValue="#{notesBean.filteredList}"
                                                  currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
                                                  pageLinks="5"
                                                  rowIndexVar="rowIndex"
@@ -56,19 +56,19 @@
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
-                                                <f:setPropertyActionListener value="#{item}" target="#{notes.selectedNotes}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
                                             </p:commandLink>
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-pencil glyphicon glyphicon-pencil"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{notes.selectedNotes}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
                                             </p:commandLink>
                                             <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-trashcan glyphicon glyphicon-trash"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{notes.selectedNotes}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
                                             </p:commandLink>
 <!--                                            <p:commandLink value="#{null}" title="Default" styleClass="btn btn-success btn-xs"
                                                            style="border-radius: 0px; margin-right: 1px;">

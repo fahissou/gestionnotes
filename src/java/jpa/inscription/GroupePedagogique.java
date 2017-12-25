@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import jpa.administration.ProgrammerCours;
+import jpa.administration.TemporalUser;
 import jpa.formation.Filiere;
 import jpa.module.Ue;
 
@@ -20,6 +22,9 @@ import jpa.module.Ue;
  */
 @Entity
 public class GroupePedagogique implements Serializable {
+   
+    @OneToMany(mappedBy = "groupePedagogique")
+    private List<ProgrammerCours> programmerCourss;
     @OneToMany(mappedBy = "groupePedagogique")
     private List<Ue> ues;
     @OneToMany(mappedBy = "groupePedagogique")
@@ -80,6 +85,30 @@ public class GroupePedagogique implements Serializable {
 
     public void setInscriptions(List<Inscription> inscriptions) {
         this.inscriptions = inscriptions;
+    }
+
+    public List<Ue> getUes() {
+        return ues;
+    }
+
+    public void setUes(List<Ue> ues) {
+        this.ues = ues;
+    }
+
+    public List<Etudiant> getEtudiants() {
+        return etudiants;
+    }
+
+    public void setEtudiants(List<Etudiant> etudiants) {
+        this.etudiants = etudiants;
+    }
+
+    public List<ProgrammerCours> getProgrammerCourss() {
+        return programmerCourss;
+    }
+
+    public void setProgrammerCourss(List<ProgrammerCours> programmerCourss) {
+        this.programmerCourss = programmerCourss;
     }
     
     @Override

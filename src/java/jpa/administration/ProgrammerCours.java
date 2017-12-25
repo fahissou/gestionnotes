@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
-import jpa.formation.GroupeEtudiant;
+import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
 
 /**
@@ -26,7 +26,7 @@ public class ProgrammerCours implements Serializable {
     @ManyToOne
     private Matiere matiere;
     @ManyToOne
-    private GroupeEtudiant groupeEtudiant;
+    private GroupePedagogique groupePedagogique;
     
 
     public ProgrammerCours() {
@@ -40,13 +40,6 @@ public class ProgrammerCours implements Serializable {
         this.matiere = matiere;
     }
 
-    public GroupeEtudiant getGroupeEtudiant() {
-        return groupeEtudiant;
-    }
-
-    public void setGroupeEtudiant(GroupeEtudiant groupeEtudiant) {
-        this.groupeEtudiant = groupeEtudiant;
-    }
 
     
     public String getId() {
@@ -80,6 +73,14 @@ public class ProgrammerCours implements Serializable {
         return hash;
     }
 
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
+    }
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -94,6 +95,7 @@ public class ProgrammerCours implements Serializable {
         id = null;
         dateDebut = null;
         dateFin = null;
+        this.groupePedagogique = null;
     }
     
 }

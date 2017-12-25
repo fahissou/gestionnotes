@@ -6,10 +6,10 @@
 package jpa.module;
 
 import java.io.Serializable;
-import java.util.List;
+//import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+//import javax.persistence.OneToMany;
 
 /**
  *
@@ -17,8 +17,8 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Semestre implements Serializable {
-    @OneToMany(mappedBy = "semestre")
-    private List<Ue> ues;
+//    @OneToMany(mappedBy = "semestre")
+//    private List<Ue> ues;
     @Id
     private String id;
     private String libelle;
@@ -43,13 +43,13 @@ public class Semestre implements Serializable {
         this.libelle = libelle;
     }
 
-    public List<Ue> getUes() {
-        return ues;
-    }
-
-    public void setUes(List<Ue> ues) {
-        this.ues = ues;
-    }
+//    public List<Ue> getUes() {
+//        return ues;
+//    }
+//
+//    public void setUes(List<Ue> ues) {
+//        this.ues = ues;
+//    }
     
     @Override
     public int hashCode() {
@@ -74,6 +74,6 @@ public class Semestre implements Serializable {
 public void reset(){
     this.id = null;
     this.libelle = null;
-    this.ues = null;
+//    this.ues = null;
 }    
 }

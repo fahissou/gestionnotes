@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ejb.formation;
+package ejb.administration;
 
 import ejb.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import jpa.formation.GroupeEtudiant;
+import jpa.administration.TemporalUser;
 
 /**
  *
  * @author AHISSOU Florent
  */
 @Stateless
-public class GroupeEtudiantFacade extends AbstractFacade<GroupeEtudiant> {
+public class TemporalUserFacade extends AbstractFacade<TemporalUser> {
     @PersistenceContext(unitName = "gestionnotesPU")
     private EntityManager em;
 
@@ -25,8 +25,8 @@ public class GroupeEtudiantFacade extends AbstractFacade<GroupeEtudiant> {
         return em;
     }
 
-    public GroupeEtudiantFacade() {
-        super(GroupeEtudiant.class);
+    public TemporalUserFacade() {
+        super(TemporalUser.class);
     }
     
 }

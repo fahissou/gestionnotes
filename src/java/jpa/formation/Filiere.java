@@ -22,8 +22,6 @@ import jpa.inscription.GroupePedagogique;
 public class Filiere implements Serializable {
     @OneToMany(mappedBy = "filiere")
     private List<Etudiant> etudiants;
-    @OneToMany(mappedBy = "filiere")
-    private List<GroupeEtudiant> groupeEtudiants;
     @Id
     private String id;
     private String libelle;
@@ -69,13 +67,6 @@ public class Filiere implements Serializable {
         this.libelle = libelle;
     }
 
-    public List<GroupeEtudiant> getGroupeEtudiants() {
-        return groupeEtudiants;
-    }
-
-    public void setGroupeEtudiants(List<GroupeEtudiant> groupeEtudiants) {
-        this.groupeEtudiants = groupeEtudiants;
-    }
 
     public List<GroupePedagogique> getGroupePedagogiques() {
         return groupePedagogiques;
@@ -108,7 +99,6 @@ public class Filiere implements Serializable {
     public void reset(){
         this.id = null;
         this.etudiants = null;
-        this.groupeEtudiants = null;
         this.libelle = null;
     }
 }

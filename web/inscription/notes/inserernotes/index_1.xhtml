@@ -6,14 +6,16 @@
     <h:body>
         <ui:composition template="/template/base.xhtml">
             <ui:define name="title">
-                #{bundle.Filiere}
+                #{bundle.notes}
             </ui:define>
+            
+            
             <ui:define name="breadLine">
                 <div class="breadLine">
                     <ul class="breadcrumb">
                     <li><a href="#">Gestion Note</a> <span class="divider">></span></li> 
-                    <li><a href="#">#{bundle.Module}</a> <span class="divider">></span></li>                
-                    <li class="active">#{bundle.Semestre}</li>
+                    <li><a href="#">#{bundle.Inscription}</a> <span class="divider">></span></li>                
+                    <li class="active">#{bundle.notes}</li>
                 </ul> 
                 </div>
             </ui:define>
@@ -21,15 +23,11 @@
             <ui:define name="main">
                 <div class="workplace">
                     <div class="row">
-                        <ui:include src="create/create.xhtml"/>
-                        <ui:include src="menunav.xhtml"/>
+                        <!--<ui:include src="../menunav.xhtml"/>-->
                         <ui:include src="liste.xhtml"/>
+                        <ui:include src="edit.xhtml"/>
                     </div>
-                    <ui:include src="view.xhtml"/>
-                    <ui:include src="edit.xhtml"/>
-                    <ui:include src="delete.xhtml"/>
                 </div>
-                
             </ui:define>
         </ui:composition>
     </h:body>
