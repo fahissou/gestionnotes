@@ -40,13 +40,15 @@ public class MatiereFacade extends AbstractFacade<Matiere> {
         super.create(matiere);
     }
     
-     public List<Matiere> getMatiereByUe(String ue) {
-       
-        Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.ue.libelle = :ue");
+     public List<Matiere> getMatiereByUe(Ue ue) {
+         String idUE = ue.getId();
+        Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.ue.id = :idUE");
         // set parameters
-        query.setParameter("ue",ue);
+        query.setParameter("idUE",idUE);
         List<Matiere> list = query.getResultList();
         return list; 
     }
+     
+    
     
 }

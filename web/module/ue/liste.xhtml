@@ -40,14 +40,14 @@
                                         <p:column headerText="#{bundle.Nom}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
                                             <h:outputText value=" #{item.libelle}" />
                                         </p:column>
-                                        <p:column headerText="#{bundle.Semestre}"  sortBy="#{item.semestre.libelle}" filterBy="#{item.semestre.libelle}">
-                                            <h:outputText value=" #{item.semestre.libelle}" />
+                                        <p:column headerText="#{bundle.Semestre}"  sortBy="#{item.semestre}" filterBy="#{item.semestre}">
+                                            <h:outputText value=" #{item.semestre}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Credit}"  sortBy="#{item.credit}" filterBy="#{item.credit}">
                                             <h:outputText value=" #{item.credit}" />
                                         </p:column>
-                                        <p:column headerText="#{bundle.GroupeEtudiant}"  sortBy="#{item.goupeEtudiant.libelle}" filterBy="#{item.goupeEtudiant.libelle}">
-                                            <h:outputText value=" #{item.goupeEtudiant.libelle}"/>
+                                        <p:column headerText="#{bundle.GroupePedagogique}"  sortBy="#{item.groupePedagogique.description}" filterBy="#{item.groupePedagogique.description}">
+                                            <h:outputText value=" #{item.groupePedagogique.description}"/>
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                             <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"

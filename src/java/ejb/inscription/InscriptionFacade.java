@@ -55,4 +55,27 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         }
  
     }
+    
+    public List<Inscription> getListInscriptionByGP(String groupePedagogique, String anneeAcademique) {
+        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique.description = :groupePedagogique AND I.anneeUniversitaire = :anneeAcademique");
+        query.setParameter("groupePedagogique", groupePedagogique);
+        query.setParameter("anneeAcademique", anneeAcademique);
+        try {
+             return query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
+    }
+    
+    public List<Inscription> getListInscriptionByEtudiant(Etudiant etudiant) {
+        String matricule = etudiant.getLogin();
+        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.etudiant.login = :matricule");
+        query.setParameter("matricule", matricule);
+        try {
+             return query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
+    }
+    
 }

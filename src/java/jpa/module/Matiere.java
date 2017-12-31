@@ -30,7 +30,7 @@ public class Matiere implements Serializable {
     @Id
     private String id;
     private String libelle;
-    private Double coefficiant;
+    private int coefficiant;
     @ManyToOne
     private Ue ue;
 //    @ManyToOne
@@ -53,13 +53,16 @@ public class Matiere implements Serializable {
         this.libelle = libelle;
     }
 
-    public Double getCoefficiant() {
+    public int getCoefficiant() {
         return coefficiant;
     }
 
-    public void setCoefficiant(Double coefficiant) {
+    public void setCoefficiant(int coefficiant) {
         this.coefficiant = coefficiant;
     }
+    
+    
+    
 
     public Ue getUe() {
         return ue;
@@ -113,13 +116,12 @@ public class Matiere implements Serializable {
         return true;
     }
 
-public void reset(){
-    this.id = null;
-    this.coefficiant = null;
-//    this.enseignant = null;
-    this.libelle = null;
-    this.notes = null;
-    this.programmerCours = null;
-    this.ue = null;
-}    
+    public void reset() {
+        this.id = null;
+        this.coefficiant = 0;
+        this.libelle = null;
+        this.notes = null;
+        this.programmerCours = null;
+        this.ue = null;
+    } 
 }

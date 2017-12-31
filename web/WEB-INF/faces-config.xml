@@ -42,6 +42,11 @@
             <redirect/>
         </navigation-case>
         
+        <navigation-case>
+            <from-outcome>succes2</from-outcome>
+            <to-view-id>etats/etat/index_1.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
         
         <!--        <navigation-case>
             <from-outcome>inscription</from-outcome>

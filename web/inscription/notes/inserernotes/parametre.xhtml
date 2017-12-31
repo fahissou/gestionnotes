@@ -59,10 +59,10 @@
                                                  required="false">
                                     <p:ajax listener="#{notesBean.onUeChange()}" update="matiere" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{notesBean.listeUE}"
+                                    <f:selectItems value="#{notesBean.ues}"
                                                    var="ueItem"
                                                    itemValue="#{ueItem}"
-                                                   itemLabel="#{ueItem.libelle}"
+                                                   itemLabel="#{ueItem.libelle.toUpperCase()}"
                                                    />
                                     <f:converter  converterId="ueConverter"/>
                                 </p:selectOneMenu>
@@ -81,8 +81,8 @@
                                 <p:selectOneMenu id="matiere" value="#{notesBean.newMatiere}" 
                                                  required="false">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{notesBean.listeMatieres}" var="itemMatiere"
-                                                   itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle}"/>
+                                    <f:selectItems value="#{notesBean.matieres}" var="itemMatiere"
+                                                   itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="matiereConverter"/>
                                 </p:selectOneMenu>
                             </div>

@@ -7,41 +7,38 @@ package bean.formation;
 
 import ejb.formation.FiliereFacade;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
-import javax.inject.Named;
 import jpa.formation.Filiere;
 import util.JsfUtil;
 
 /**
  *
- * @author Sedjro
+ * @author AHISSOU Florent
  */
 @Named(value = "filiereBean")
 @ViewScoped
 public class FiliereBean implements Serializable{
+
     @EJB
     private FiliereFacade filiereFacade;
-    private Filiere newFiliere;
     private Filiere selectedFiliere;
+    private Filiere newFiliere;
     private List<Filiere> listeFilieres;
     private List<Filiere> filteredList;
     
-    /**
-     * Creates a new instance of FiliereBean
-     */
     public FiliereBean() {
     }
     @PostConstruct
-    public void init(){
+    public void init() {
         listeFilieres = filiereFacade.findAll();
         prepareCreate();
-    }
+    }  
+
     public void doCreate(ActionEvent event) {
         String msg;
         try {
@@ -55,40 +52,31 @@ public class FiliereBean implements Serializable{
             JsfUtil.addErrorMessage(msg);
         }
     }
-    
+
     public void doEdit(ActionEvent event) {
         String msg;
         try {
             filiereFacade.edit(selectedFiliere);
-            msg = JsfUtil.getBundleMsg("FiliereEditSuccesMsg");
+            msg = JsfUtil.getBundleMsg("FiliereEditSuccessMsg");
             JsfUtil.addSuccessMessage(msg);
-            prepareCreate();
             listeFilieres = filiereFacade.findAll();
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("FiliereEditErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
     }
+
     public void doDel(ActionEvent event) {
         String msg;
         try {
             filiereFacade.remove(selectedFiliere);
-            msg = JsfUtil.getBundleMsg("FiliereDelSuccesMsg");
+            msg = JsfUtil.getBundleMsg("FiliereDelSuccessMsg");
             JsfUtil.addSuccessMessage(msg);
-            prepareCreate();
             listeFilieres = filiereFacade.findAll();
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("FiliereDelErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
-    }
-
-    public Filiere getNewFiliere() {
-        return newFiliere;
-    }
-
-    public void setNewFiliere(Filiere newFiliere) {
-        this.newFiliere = newFiliere;
     }
 
     public Filiere getSelectedFiliere() {
@@ -97,6 +85,14 @@ public class FiliereBean implements Serializable{
 
     public void setSelectedFiliere(Filiere selectedFiliere) {
         this.selectedFiliere = selectedFiliere;
+    }
+
+    public Filiere getNewFiliere() {
+        return newFiliere;
+    }
+
+    public void setNewFiliere(Filiere newFiliere) {
+        this.newFiliere = newFiliere;
     }
 
     public List<Filiere> getListeFilieres() {
@@ -115,11 +111,12 @@ public class FiliereBean implements Serializable{
         this.filteredList = filteredList;
     }
     
-    public void prepareCreate(){
+    public void prepareCreate() {
         this.newFiliere = new Filiere();
     }
     
-    public void reset(){
+    public void reset(ActionEvent e) {
         this.newFiliere.reset();
     }
+    
 }

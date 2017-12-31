@@ -43,7 +43,9 @@ public class MatiereBean implements Serializable{
     private List<GroupePedagogique> listGroupePedagogiques;
     private List<Ue> listeUE;
     private GroupePedagogique newGroupePedagogique;
+    private Ue ue;
     private Map<GroupePedagogique, List<Ue>> data1; // = new HashMap<>();
+    
     /**
      * Creates a new instance of MatiereBean
      */
@@ -177,6 +179,14 @@ public class MatiereBean implements Serializable{
 
     public void setNewGroupePedagogique(GroupePedagogique newGroupePedagogique) {
         this.newGroupePedagogique = newGroupePedagogique;
+    }
+
+    public Ue getUe() {
+        return ue;
+    }
+
+    public void setUe(Ue ue) {
+        this.ue = ue;
     }
     
     

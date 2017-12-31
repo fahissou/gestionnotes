@@ -6,6 +6,7 @@
 package bean.inscription;
 
 import ejb.inscription.GroupePedagogiqueFacade;
+import ejb.module.SemestreFacade;
 import ejb.module.UeFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import jpa.inscription.GroupePedagogique;
+import jpa.module.Matiere;
+import jpa.module.Semestre;
 import jpa.module.Ue;
 import util.JsfUtil;
 
@@ -30,7 +33,7 @@ import util.JsfUtil;
 @Named(value = "groupePedagogiqueBean")
 public class GroupePedagogiqueBean implements Serializable{
     @EJB
-    private UeFacade ueFacade;
+    private SemestreFacade semestreFacade;
     @EJB
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
     private GroupePedagogique newGroupePedagogique;
@@ -42,8 +45,10 @@ public class GroupePedagogiqueBean implements Serializable{
     private String niveau;  
     private Map<String,String> listeCycles;
     private Map<String,String> listeNiveau;
+    private Map<GroupePedagogique, List<Semestre>> data1;
 //    private String groupePedaName;
-//    private List<GroupePedagogique> groupePedagogique;
+    private List<Semestre> listeSemestres;
+    private List<Semestre> semestres;
 //    private List<Ue> ue;
 //    private String libelleUE;
     /**
@@ -55,7 +60,9 @@ public class GroupePedagogiqueBean implements Serializable{
     @PostConstruct
     public void init(){
         listeGroupePedagogiques = groupePedagogiqueFacade.findAll();
+        listeSemestres = semestreFacade.findAll();
         prepareCreate();  
+        loadData();
         listeCycles  = new HashMap<>();
         listeCycles.put("Cycle 1", "Cycle 1");
         listeCycles.put("Cycle 2", "Cycle 2");
@@ -74,10 +81,29 @@ public class GroupePedagogiqueBean implements Serializable{
          
         map = new HashMap<>();
         map.put("Thèse 1", "Thèse 1");
-        map.put("Thèse 2", "Thèse 2454");
+        map.put("Thèse 2", "Thèse 2");
         map.put("Thèse 3", "Thèse 3");
         data.put("Cycle 3", map);
     }
+    
+    public void loadData() {
+        data1 = new HashMap<>();
+        for (int i = 0; i < listeGroupePedagogiques.size(); i++) {
+            List<Semestre> liste = semestreFacade.getSemetreByGP(listeGroupePedagogiques.get(i));
+            data1.put(listeGroupePedagogiques.get(i), liste);
+
+        }
+    }
+    
+    public void onGroupePedagogiqueChange() {
+        if (newGroupePedagogique != null) {
+            semestres = data1.get(newGroupePedagogique);
+        } else {
+            semestres = new ArrayList<>();
+        }
+
+    }
+    
     
     public void doCreate(ActionEvent event) {
         String msg;

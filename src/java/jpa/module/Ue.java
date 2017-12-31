@@ -24,11 +24,9 @@ public class Ue implements Serializable {
     @Id
     private String id;
     private String libelle;
-    private String credit;
-//    @ManyToOne
-//    private Semestre semestre;
-    private String semestre;
-    
+    private int credit;
+    @ManyToOne
+    private Semestre semestre;
     @ManyToOne
     private GroupePedagogique groupePedagogique;
 
@@ -51,13 +49,15 @@ public class Ue implements Serializable {
         this.libelle = libelle;
     }
 
-    public String getCredit() {
+    public int getCredit() {
         return credit;
     }
 
-    public void setCredit(String credit) {
+    public void setCredit(int credit) {
         this.credit = credit;
     }
+
+   
 
     public List<Matiere> getMatieres() {
         return matieres;
@@ -67,29 +67,20 @@ public class Ue implements Serializable {
         this.matieres = matieres;
     }
 
-//    public Semestre getSemestre() {
-//        return semestre;
-//    }
-//
-//    public void setSemestre(Semestre semestre) {
-//        this.semestre = semestre;
-//    }
-
-    public String getSemestre() {
-        return semestre;
-    }
-
-    public void setSemestre(String semestre) {
-        this.semestre = semestre;
-    }
-    
-
     public GroupePedagogique getGroupePedagogique() {
         return groupePedagogique;
     }
 
     public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
         this.groupePedagogique = groupePedagogique;
+    }
+
+    public Semestre getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
     }
        
     
@@ -115,7 +106,7 @@ public class Ue implements Serializable {
 
 public void reset(){
     this.id = null;
-    this.credit = null;
+    this.credit = 0;
     this.groupePedagogique = null;
     this.libelle = null;
     this.matieres = null;

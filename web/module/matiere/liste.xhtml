@@ -37,7 +37,7 @@
                                                   >
                                             <h:outputText value=" #{item.id}" />
                                         </p:column>-->
-                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
+                                        <p:column headerText="#{bundle.Description}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
                                             <h:outputText value=" #{item.libelle}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.UE}"  sortBy="#{item.ue.libelle}" filterBy="#{item.ue.libelle}">
@@ -45,9 +45,6 @@
                                         </p:column>
                                         <p:column headerText="#{bundle.Coefficiant}"  sortBy="#{item.coefficiant}" filterBy="#{item.coefficiant}">
                                             <h:outputText value=" #{item.coefficiant}" />
-                                        </p:column>
-                                        <p:column headerText="#{bundle.Enseignant}"  sortBy="#{item.enseignant.nom}" filterBy="#{item.enseignant.nom}">
-                                            <h:outputText value=" #{item.enseignant.nom} #{item.enseignant.prenom}"/>
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                             <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"

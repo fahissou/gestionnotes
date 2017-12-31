@@ -6,11 +6,15 @@
 package ejb.module;
 
 import ejb.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
 import jpa.module.Semestre;
+import jpa.module.Ue;
 import util.JsfUtil;
 
 /**
@@ -37,4 +41,12 @@ public class SemestreFacade extends AbstractFacade<Semestre> {
         super.create(semestre);
     }
     
+    public List<Semestre> getSemetreByGP(GroupePedagogique groupePedagogique) {
+       String description = groupePedagogique.getDescription();
+        Query query = em.createQuery("SELECT S FROM Semestre S WHERE S.groupePedagogique.description = :description");
+        // set parameters
+        query.setParameter("description", description);
+        List<Semestre> list = query.getResultList();
+        return list; 
+    }
 }

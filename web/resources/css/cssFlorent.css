@@ -190,3 +190,16 @@ h2 {
     right: 3px;
 }
 
+.btn-recherch{
+    width: 72px!important;
+    height: 30px!important;
+    position: absolute!important;
+    top: 0px;
+    right: 273px!important;
+    background-color: #e6e0e0!important;
+
+}
+
+.ui-button-text-only .ui-button-text {
+    padding: 0.1em 0.1em!important;
+}

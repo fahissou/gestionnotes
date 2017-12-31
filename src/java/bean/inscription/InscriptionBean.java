@@ -451,8 +451,7 @@ public class InscriptionBean implements Serializable {
         try {
             System.out.println("Groupe pedagogique");
             for (int i = 0; i < listeUe.size(); i++) {
-              System.out.println("for1 "+listeUe.get(i).getLibelle());
-                List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i).getLibelle());
+                List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i));
                 System.out.println("taille matiere " +matieres.size());
                     newNote = new Notes();
                     for (int j = 0; j < matieres.size(); j++) {

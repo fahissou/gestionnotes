@@ -6,9 +6,12 @@
 package jpa.module;
 
 import java.io.Serializable;
-//import java.util.List;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import jpa.inscription.GroupePedagogique;
 //import javax.persistence.OneToMany;
 
 /**
@@ -17,12 +20,15 @@ import javax.persistence.Id;
  */
 @Entity
 public class Semestre implements Serializable {
-//    @OneToMany(mappedBy = "semestre")
-//    private List<Ue> ues;
     @Id
     private String id;
     private String libelle;
-
+    @ManyToOne
+    private GroupePedagogique groupePedagogique;
+    @OneToMany(mappedBy = "semestre")
+    private List<Ue> ues;
+    
+    
     public Semestre() {
     }
 
@@ -43,13 +49,14 @@ public class Semestre implements Serializable {
         this.libelle = libelle;
     }
 
-//    public List<Ue> getUes() {
-//        return ues;
-//    }
-//
-//    public void setUes(List<Ue> ues) {
-//        this.ues = ues;
-//    }
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
+    }
+    
     
     @Override
     public int hashCode() {
@@ -74,6 +81,6 @@ public class Semestre implements Serializable {
 public void reset(){
     this.id = null;
     this.libelle = null;
-//    this.ues = null;
+
 }    
 }

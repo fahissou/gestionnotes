@@ -34,19 +34,38 @@
                         
                         <div class="row-form clearfix">
                             <div class="col-md-3">
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="groupePedagogique" value="#{matiereBean.newGroupePedagogique}" required="false">
+                                    <p:ajax listener="#{matiereBean.onGroupePedagogiqueChange()}" update="ue" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{matiereBean.listGroupePedagogiques}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                       <div class="row-form clearfix">
+                            <div class="col-md-3">
                                 <p:outputLabel for="ue" value="#{bundle.UE}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="ue" value="#{matiereBean.newMatiere.ue}" 
-                                                 required="true">
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{ueBean.listeUes}" var="item"
-                                                   itemLabel="#{item.libelle}"
-                                                   itemValue="#{item}"/>
+                                <p:selectOneMenu id="ue" value="#{matiereBean.newMatiere.ue}" required="false">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{matiereBean.listeUE}"
+                                                   var="ueItem"
+                                                   itemValue="#{ueItem}"
+                                                   itemLabel="#{ueItem.libelle.toUpperCase()}"
+                                                   />
                                     <f:converter  converterId="ueConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
+                        
                         
                         <div class="footer tar">
                             <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{matiereBean.doCreate}" 

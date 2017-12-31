@@ -22,31 +22,7 @@
                                 <p:inputText id="nomUe" value="#{ueBean.newUe.libelle}" required="true" placeholder="#{bundle.Description}"/>
                             </div>
                         </div>
-                        <!--                        <div class="row-form clearfix">
-                                                    <div class="col-md-3">
-                                                        <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <p:inputText id="semestre" value="#{ueBean.newUe.semestre}" required="true" placeholder="#{bundle.Coefficiant}"/>
-                                                    </div>
-                        
-                                                </div>-->
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="semestre" value="#{ueBean.newUe.semestre}" 
-                                                 required="true">
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{semestreBean.listeSemestres}" var="itemSemestre"
-                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.libelle}"/>
-                                    <f:converter  converterId="semestreConverter"/>
-                                </p:selectOneMenu>
-                            </div>
-                        </div>
-                        
+                       
                         <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="credit" value="#{bundle.Credit}"/>
@@ -62,8 +38,9 @@
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{ueBean.newUe.groupePedagogique}" 
+                                <p:selectOneMenu id="groupePedagogique" value="#{ueBean.groupePedagogique}" 
                                                  required="true">
+                                    <p:ajax listener="#{ueBean.onGroupePedagogiqueChange()}" update="semestre" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
                                                    itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
@@ -72,6 +49,21 @@
                             </div>
                         </div>
 
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="semestre" value="#{ueBean.newUe.semestre}" 
+                                                 required="true">
+                                    
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{ueBean.semestres}" var="itemSemestre"
+                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.libelle}"/>
+                                    <f:converter  converterId="semestreConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
 
 
 
