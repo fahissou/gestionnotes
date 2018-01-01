@@ -40,4 +40,92 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     
+     <error-page>
+        <error-code>403</error-code>
+        <location>/authenticate/403.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/authenticate/404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/authenticate/500.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>503</error-code>
+        <location>/authenticate/503.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>504</error-code>
+        <location>/authenticate/504.xhtml</location>
+    </error-page>
+    <security-constraint>
+        <display-name>CommonConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>commonZone</web-resource-name>
+            <description>Accès commun</description>
+            <url-pattern>/index.xhtml</url-pattern>
+            <url-pattern>/authenticate/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>ADMIN</role-name>
+            <role-name>RESPONSABLE</role-name>
+            <role-name>COLLABORATEURS</role-name>
+            <role-name>ENSEIGNANT</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <display-name>adminConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>adminZone</web-resource-name>
+            <description>Zone d'administration</description>
+            <url-pattern>/administration/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>securityGestionNotes</realm-name>
+        <form-login-config>
+            <form-login-page>/authenticate/login.xhtml</form-login-page>
+            <form-error-page>/authenticate/loginError.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    
+    <security-role>
+        <description>Administrateur d'application</description>
+        <role-name>ADMIN</role-name>
+    </security-role>
+    
+    <security-role>
+        <description>Les directeurs et consorts</description>
+        <role-name>RESPONSABLE</role-name>
+    </security-role>
+    
+    <security-role>
+        <description>CSA et secretaire da</description>
+        <role-name>COLLABORATEURS</role-name>
+    </security-role>
+    
+    
+    <security-role>
+        <description>Enseignant</description>
+        <role-name>ENSEIGNANT</role-name>
+    </security-role>
+    
 </web-app>

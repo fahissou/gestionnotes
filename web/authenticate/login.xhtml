@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <title> <ui:insert name="title">Authtentification </ui:insert></title>
+        <link rel="icon" type="image/ico" href="#{resource['images:favicon.ico']}"> </link>
+
+        <h:outputStylesheet library="css" name="stylesheets.css"/>
+        <h:outputStylesheet library="css" name="fullcalendar.print.css"/>
+        <h:outputStylesheet library="css" name="icons.css"/>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputStylesheet library="css" name="fullcalendar.css"/>
+        <h:outputStylesheet library="css" name="ui.css"/>
+        <h:outputStylesheet library="css" name="select2.css"/>
+        <h:outputStylesheet library="css" name="uniform.default.css"/>
+        <h:outputStylesheet library="css" name="validation.css"/>
+        <h:outputStylesheet library="css" name="mCustomScrollbar.css"/>
+        <h:outputStylesheet library="css" name="cleditor.css"/>
+        <h:outputStylesheet library="css/fancybox" name="jquery.fancybox.css"/>
+        <h:outputStylesheet library="js/plugins/plupload/jquery.plupload.queue/css" name="jquery.plupload.queue.css"/>
+        <h:outputStylesheet library="css" name="elfinder.min.css"/>
+        <h:outputStylesheet library="css" name="elfinder.css"/>
+        <h:outputStylesheet library="css" name="multi-select.css"/>
+        <h:outputStylesheet library="css" name="pnotify.css"/>
+        <h:outputStylesheet library="css" name="ibutton.css"/>
+        <h:outputStylesheet library="css" name="login.css"/>
+        <h:outputStylesheet library="css" name="stepy.css"/>
+        <h:outputStylesheet library="css" name="tagsinput.css"/>
+        <h:outputStylesheet library="css" name="stylesheet.css"/>
+        <h:outputStylesheet library="css" name="styling.css"/>
+        <h:outputStylesheet library="css" name="cssFlorent.css"/>
+        <h:outputStylesheet library="css" name="cssRealino.css"/>
+
+        <h:outputStylesheet library="css" name="fullcalendar.print.css"/>
+
+        <h:outputScript library="js/plugins/jquery" name="jquery-1.10.2.min.js"/>
+
+        <h:outputScript library="js/plugins/jquery" name="jquery-ui-1.10.1.custom.min.js"/>
+
+        <h:outputScript library="js/plugins/jquery" name="jquery-migrate-1.2.1.min.js"/>
+
+        <h:outputScript library="js/plugins/jquery" name="jquery.mousewheel.min.js"/>
+
+        <h:outputScript library="js/plugins/cookie" name="jquery.cookies.2.2.0.min.js"/>
+
+        <h:outputScript library="js/plugins" name="bootstrap.min.js"/>
+
+
+        <h:outputScript library="js/plugins/charts" name="excanvas.min.js"/>
+        <h:outputScript library="js/plugins/charts" name="jquery.flot.js"/>
+        <h:outputScript library="js/plugins/charts" name="jquery.flot.stack.js"/>
+        <h:outputScript library="js/plugins/charts" name="jquery.flot.pie.js"/>
+        <h:outputScript library="js/plugins/charts" name="jquery.flot.resize.js"/>
+
+        <h:outputScript library="js/plugins/sparklines" name="jquery.sparkline.min.js"/>
+        <h:outputScript library="js/plugins/fullcalendar" name="fullcalendar.min.js"/>
+        <h:outputScript library="js/plugins/select2" name="select2.min.js"/>
+        <h:outputScript library="js/plugins/uniform" name="uniform.js"/>
+        <h:outputScript library="js/plugins/maskedinput" name="jquery.maskedinput-1.3.min.js"/>
+        <h:outputScript library="js/plugins/validation/languages" name="jquery.validationEngine-en.js"/>
+        <h:outputScript library="js/plugins/validation" name="jquery.validationEngine.js"/>
+        <h:outputScript library="js/plugins/mcustomscrollbar" name="jquery.mCustomScrollbar.min.js"/>
+        <h:outputScript library="js/plugins/animatedprogressbar" name="animated_progressbar.js"/>
+        <h:outputScript library="js/plugins/qtip" name="jquery.qtip-1.0.0-rc3.min.js"/>
+        <h:outputScript library="js/plugins/cleditor" name="jquery.cleditor.js"/>
+        <h:outputScript library="js/plugins/dataTables" name="jquery.dataTables.min.js"/>
+        <h:outputScript library="js/plugins/fancybox" name="jquery.fancybox.pack.js"/>
+        <h:outputScript library="js/plugins/pnotify" name="jquery.pnotify.min.js"/>
+        <h:outputScript library="js/plugins/ibutton" name="jquery.ibutton.min.js"/>
+        <h:outputScript library="js/plugins/scrollup" name="jquery.scrollUp.min.js"/>
+        <h:outputScript library="js" name="cookies.js"/>
+        <h:outputScript library="js" name="actions.js"/>
+        <h:outputScript library="js" name="charts.js"/>
+        <h:outputScript library="js" name="plugins.js"/>
+        <h:outputScript library="js" name="settings.js"/>
+
+    </h:head>
+    <h:body>
+        <div class="loginBlock" id="login" style="display: block;">
+            <h1>#{bundle.LoginPanelTitle}</h1>
+            <div class="dr"><span></span></div>
+            <div class="loginForm">
+<!--                <h:form id="msgForm">
+                                        <p:messages id="msg" showDetail="true" autoUpdate="true"/>
+                    <p:growl id="growl" showDetail="true" sticky="true" />
+                </h:form>-->
+                <div class="alert alert-warning alert-dismissible" role="alert"
+                     jsf:rendered="#{(!empty(param['viewExpired'])) or  param['viewExpired'] ne null}">
+                    <strong>Attention!</strong> #{bundle.msgViewExpired}
+                    #{pfExceptionHandler.message}
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+                <h:form class="form-horizontal" id="validation">
+                    <p:growl id="growl" showDetail="true"/>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                            <p:inputText id="login" value="#{authentificateBean.login}" placeholder="#{bundle.Identifiant}" class="form-control" required="true" requiredMessage="#{bundle.RequiredMessage}">
+                                <f:ajax event="blur" render="loginMessage" />
+                            </p:inputText>
+                            <p:message id="loginMessage" for="login"/>
+                        </div>                
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                            <p:password id="inputPassword" value="#{authentificateBean.mdp}" placeholder="#{bundle.Password}" class="form-control validate[required]"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group" style="margin-top: 5px;">
+                                <p:commandButton value="#{bundle.LoginButtonLabel}" action="#{authentificateBean.connexion}" class="btn btn-default btn-block"
+                                                 update="@form :validation growl" >
+                                </p:commandButton>       
+                            </div>
+                        </div>
+                    </div>
+                </h:form>  
+                <div class="dr"><span></span></div>
+            </div>
+        </div>    
+
+
+    </h:body>
+</html>
+

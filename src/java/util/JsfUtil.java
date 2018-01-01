@@ -37,7 +37,9 @@ import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -787,6 +789,20 @@ public class JsfUtil {
     }
     
     
+    public static String encryptPasswordReal(String data,String format) {
+        String mpCrypter = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance(format);
+            md.update(data.getBytes("UTF-8"));
+            byte[] digest = md.digest();
+            BigInteger bigInt = new BigInteger(1, digest);
+            mpCrypter = bigInt.toString(16);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            JsfUtil.addErrorMessage(JsfUtil.getBundleMsg("ErrorCryptage"));
+        }
+        return mpCrypter;
+    }
+
 
     
     

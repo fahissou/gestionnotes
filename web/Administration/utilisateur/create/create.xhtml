@@ -23,7 +23,12 @@
                                     <p:outputLabel for="login" value="#{bundle.UserLogin}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:inputText id="login" value="#{utilisateurBean.newUtilisateur.login}" required="true" placeholder="#{bundle.UserLogin}"/>
+                                    <p:inputText id="login" value="#{utilisateurBean.newUtilisateur.login}" required="true" placeholder="#{bundle.UserLogin}" requiredMessage="obligatoire"
+                                                 validator="#{utilisateurBean.loginExiste}">
+                                        <f:ajax event="blur" render="loginMessage" />
+                                        
+                                    </p:inputText>
+                                    <p:message  id="loginMessage" for="login"/>
                                 </div>
                             </div>
 
@@ -107,7 +112,7 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div>
-          
+
                             <div class="footer tar">
                                 <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{utilisateurBean.doCreate}" 
                                                  oncomplete="updateGritter(xhr);" 

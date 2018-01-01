@@ -313,3 +313,17 @@ button.close{
 /*ul.nav.nav-pills li a:first-child{
     background: yellowgreen!important;
 }*/
+.col-md-4{
+    width: 45%!important;
+    left: 165px!important;
+}
+.ui-growl-info{
+    color: #3C763D;
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+}
+.ui-growl-error{
+    color: #A94442;
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+}
