@@ -106,5 +106,6 @@ public class AuthentificateBean implements Serializable{
         currentUser = new Utilisateur();
 
     }
+    
 
 }

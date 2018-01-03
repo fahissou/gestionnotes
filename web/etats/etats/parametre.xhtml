@@ -38,19 +38,18 @@
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.newGroupePedagogique}" required="false">
-                                    <p:ajax listener="#{ueBean.onGroupePedagogiqueChange()}" update="semestre" />
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{notesBean.listGroupePedagogiques}"
-                                                   var="groupePItem"
-                                                   itemValue="#{groupePItem}"
-                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
+                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" 
+                                                 required="true">
+                                    <p:ajax listener="#{notesBean.onGroupePedagogiqueChangeS()}" update="semestre" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
+                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
 
-                       <div class="row-form clearfix">
+                        <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
                             </div>
@@ -59,7 +58,7 @@
                                                  required="true">
                                     
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{ueBean.semestres}" var="itemSemestre"
+                                    <f:selectItems value="#{notesBean.semestres}" var="itemSemestre"
                                                    itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.libelle}"/>
                                     <f:converter  converterId="semestreConverter"/>
                                 </p:selectOneMenu>

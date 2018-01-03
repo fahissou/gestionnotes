@@ -11,7 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
+import jpa.module.Semestre;
 import jpa.module.Ue;
 import util.JsfUtil;
 
@@ -48,5 +50,15 @@ public class UeFacade extends AbstractFacade<Ue> {
         return list; 
     }
     
+     public List<Ue> getUeByGroupePedagogique(GroupePedagogique groupePedagogique, Semestre semestre) {
+        String idGroupePedagogique = groupePedagogique.getId();
+        String idSemestre = semestre.getId();
+        Query query = em.createQuery("SELECT U FROM Ue U WHERE U.groupePedagogique.id = :idGroupePedagogique AND U.semestre.id = :idSemestre ORDER BY U.libelle");
+        // set parameters
+        query.setParameter("idGroupePedagogique", idGroupePedagogique);
+        query.setParameter("idSemestre", idSemestre);
+        List<Ue> list = query.getResultList();
+        return list; 
+    }
     
 }

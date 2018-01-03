@@ -37,11 +37,11 @@
                                                   >
                                             <h:outputText value=" #{item.id}" />
                                         </p:column>-->
-                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
-                                            <h:outputText value=" #{item.libelle}" />
+                                        <p:column headerText="#{bundle.Description}"  sortBy="#{item.libelle.toUpperCase()}" filterBy="#{item.libelle.toUpperCase()}">
+                                            <h:outputText value=" #{item.libelle.toUpperCase()}" />
                                         </p:column>
-                                        <p:column headerText="#{bundle.Semestre}"  sortBy="#{item.semestre}" filterBy="#{item.semestre}">
-                                            <h:outputText value=" #{item.semestre}" />
+                                        <p:column headerText="#{bundle.Semestre}"  sortBy="#{item.semestre.libelle}" filterBy="#{item.semestre.libelle}">
+                                            <h:outputText value=" #{item.semestre.libelle}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Credit}"  sortBy="#{item.credit}" filterBy="#{item.credit}">
                                             <h:outputText value=" #{item.credit}" />

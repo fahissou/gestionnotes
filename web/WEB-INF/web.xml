@@ -40,7 +40,7 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     
-     <error-page>
+<!--     <error-page>
         <error-code>403</error-code>
         <location>/authenticate/403.xhtml</location>
     </error-page>
@@ -126,6 +126,6 @@
     <security-role>
         <description>Enseignant</description>
         <role-name>ENSEIGNANT</role-name>
-    </security-role>
+    </security-role>-->
     
 </web-app>

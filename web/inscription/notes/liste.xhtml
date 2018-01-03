@@ -6,17 +6,18 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
+             
         <div class="col-md-12">
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1>Liste des matières</h1>
+                        <h1> #{notesBean.newGroupePedagogique.description} #{bundle.Matiere}: #{notesBean.newMatiere.libelle} #{bundle.AnneeAcademique}: #{notesBean.anneeAcademique} </h1>
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
                                     <p:dataTable id="incarcerationTable" var="item"
                                                  selection="#{notesBean.selectedNotes}"
-                                                 value="#{notesBean.listeNotess}"
+                                                 value="#{notesBean.listeNotesGroupPeda}"
                                                  emptyMessage="#{bundle.EmptyListMsg}"
                                                  rowKey="#{item.id}"
                                                  paginator="true"
@@ -101,6 +102,7 @@
                 </h:form>
             </div>
         </div>
+        
     </ui:composition>
 </html>
 

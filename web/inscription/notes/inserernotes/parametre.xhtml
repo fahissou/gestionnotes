@@ -10,7 +10,7 @@
             <div class="block">
                 <div class="head clearfix">
                     <div class="isw-documents"></div>
-                    <h1>#{bundle.AjoutMatiere}</h1>
+                    <h1>#{bundle.InsererNotes}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <div class="block-fluid">
@@ -33,18 +33,18 @@
                             </div>
                         </div>
 
-                        <div class="row-form clearfix">
+                    <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.newGroupePedagogique}" required="false">
+                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="false">
                                     <p:ajax listener="#{notesBean.onGroupePedagogiqueChange()}" update="ue" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{notesBean.listGroupePedagogiques}"
                                                    var="groupePItem"
                                                    itemValue="#{groupePItem}"
-                                                   itemLabel="#{groupePItem.description}"/>
+                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
@@ -69,10 +69,6 @@
                             </div>
                         </div>
 
-                        
-
-
-
                         <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="matiere" value="#{bundle.Matiere}"/>
@@ -81,15 +77,12 @@
                                 <p:selectOneMenu id="matiere" value="#{notesBean.newMatiere}" 
                                                  required="false">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{notesBean.matieres}" var="itemMatiere"
+                                    <f:selectItems value="#{notesBean.tmpMatieres}" var="itemMatiere"
                                                    itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="matiereConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
-
-
-
 
                         <div class="footer tar">
                             <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{notesBean.affichage1()}"

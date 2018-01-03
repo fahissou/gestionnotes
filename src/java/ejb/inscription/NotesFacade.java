@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
 import jpa.inscription.Inscription_;
 import jpa.inscription.Notes;
@@ -94,5 +95,20 @@ public class NotesFacade extends AbstractFacade<Notes> {
 
     }
 
+    public List<Notes> listeNotesNonValide(GroupePedagogique  groupePedagogique, Matiere matiere) {
+        try {
+            String matiereID = matiere.getId();
+            String idGroupePedagogique = groupePedagogique.getId();
+            Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.groupePedagogique.id = :idGroupePedagogique AND N.matiere.id = :matiereID AND N.note < 12.0");
+            // set parameters
+            query.setParameter("idGroupePedagogique", idGroupePedagogique);
+            query.setParameter("matiereID", matiereID);
+            List<Notes> list = query.getResultList();
+            return list;
+        } catch (Exception ex) {
+            return null;
+        }
+
+    }
    
 }
