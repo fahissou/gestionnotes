@@ -248,11 +248,11 @@ ul{
 }
 .footer .btn{
     padding: 4px 12px!important;
-    margin-top: 2px!important;
+    margin-top: 1px!important;
     margin-bottom: 4px!important;
     margin-right: 4px!important;
     font-size: 12px!important;
-    line-height: 13px!important;
+    line-height: 15px!important;
     border-radius: 2px!important;
 }
 .footer .btn:hover{
@@ -318,9 +318,9 @@ button.close{
     left: 165px!important;
 }
 .ui-growl-info{
-    color: #3C763D;
-    background-color: #DFF0D8;
-    border-color: #D6E9C6;
+    color: #3A87AD;
+    background-color: #D9EDF7;
+    border-color: #BCE8F1;
 }
 .ui-growl-error{
     color: #A94442;

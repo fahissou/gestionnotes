@@ -9,6 +9,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="createDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
                         <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h1> #{bundle.AjoutFiliere}</h1>
@@ -25,9 +26,9 @@
                                 </div>
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="#{bundle.Enable}" update=":msgForm:msg @form :ajoutListForm" 
+                            <p:commandButton value="#{bundle.Enable}" update="@form :ajoutListForm growl" 
                                              oncomplete="$('#createDialog').modal('hide');" 
-                                             actionListener="#{filiereBean.doCreate}">
+                                             actionListener="#{filiereBean.doCreate}" class="btn btn-default" >
                             </p:commandButton>
                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                 <!--<i class="i-cancel-2"></i>-->

@@ -12,6 +12,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="editDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
                         <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h1>#{bundle.View}</h1>
@@ -21,56 +22,29 @@
                                 <label class="col-md-3">#{bundle.Code}</label>
                                 <div class="col-md-9">
                                     <label class="form-control input-sm">
-                                        #{groupePedagogiqueBean.selectedGroupePedagogique.id}
+                                        #{semestreBean.selectedSemestre.id}
                                     </label>
-                                </div>
-                            </div>
-                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <!--<label class="control-label col-sm-4">#{bundle.Nom}</label>-->
-                                <p:outputLabel for="description" value="#{bundle.Descripetion}" class="col-md-3"/>
-                                <div class="col-md-9">
-                                    <p:inputText id="description" value="#{groupePedagogiqueBean.selectedGroupePedagogique.description}" required="true"/>
-
-                                </div>
-                            </div>
-                            
-                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <p:outputLabel for="cycleEtude" value="#{bundle.Cycle}" class="col-md-3"/>
-                                <div class="col-md-9">
-                                    <p:inputText id="cycleEtude" value="#{groupePedagogiqueBean.selectedGroupePedagogique.cycleEtude}" required="true"/>
-
-                                </div>
-                            </div>
-                            
-                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <p:outputLabel for="niveauEtude" value="#{bundle.Cycle}" class="col-md-3"/>
-                                <div class="col-md-9">
-                                    <p:inputText id="niveauEtude" value="#{groupePedagogiqueBean.selectedGroupePedagogique.niveauEtude}" required="true"/>
-
                                 </div>
                             </div>
                             
                             <div class="clearfix control">
                                 <div class="col-md-3">
-                                    <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                                    <p:outputLabel for="filiere" value="#{bundle.Semestre}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <h:selectOneMenu id="filiere" value="#{groupePedagogiqueBean.selectedGroupePedagogique.filiere}" required="true" styleClass="form-control">
+                                    <h:selectOneMenu id="filiere" value="#{semestreBean.selectedSemestre.libelle}" required="true" styleClass="form-control">
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{filiereBean.listeFilieres}"
-                                                       var="item" itemValue="#{item}" itemLabel="#{item.libelle}"/>
-                                        <f:converter  converterId="filiereConverter"/>
+                                        <f:selectItems value="#{semestreBean.defaultSemestres}"/>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{groupePedagogiqueBean.doEdit}" 
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{semestreBean.doEdit}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
-                                             class="btn btn-default" icon="i-checkmark-2">
+                                             class="btn btn-default">
                             </p:commandButton>
-                            <button type="button" class="btn btn-default  btn-xs" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-cancel-2"></i>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>
                         </div> <!-- /.modal-footer -->

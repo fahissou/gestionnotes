@@ -8,121 +8,87 @@
 
     <ui:composition>
           
-      <div class="container">
-         <div class="col-md-12">
-          <div class="block">
-           <div id="editDialog" class="modal fade" data-backdrop="true" tabindex="-1" role="dialog" aria-hidden="true">
+   <div id="editDialog" class="modal fade" data-backdrop="true" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="editDialogForm" styleClass="form-horizontal">
-                        <div class="modal-header">
+                        <p:growl id="growl" showDetail="true"/>
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 class="modal-title">#{bundle.Edit}</h3>
+                            <h1>#{bundle.Edit}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.utilisateur}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm">                                       
-                                            #{utilisateurBean.selectedUtilisateur.login}
-                                        </label>
-                                    </div>
-                            </div>
-                                
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.Nom}</label>
-                                    <div class="col-sm-8">
-                                        
-                                        <p:inputText id="nom" value="#{utilisateurBean.selectedUtilisateur.nom}" required="true" placeholder="#{bundle.Nom}"
-                                                     styleClass="form-control input-sm"/>
-                                    </div>
+                            
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <p:outputLabel for="libelle" value="#{bundle.UserLogin}" class="col-md-3"/>
+                                <div class="col-md-9">
+                                    <p:inputText id="libelle" value="#{enseignantBean.selectedEnseignant.login}" required="true"/>
                                 </div>
-                            
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Prenoms}</label>
-                                    <div class="col-sm-8">
-                                        
-                                        <p:inputText id="prenom" value="#{utilisateurBean.selectedUtilisateur.prenom}" required="true" placeholder="#{bundle.Prenoms}"
-                                                     styleClass="form-control input-sm"/>
-                                    </div>
                             </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                 <label class="control-label col-sm-4">#{bundle.Telephone}</label>
-                                    <div class="col-sm-8">                                        
-                                        <p:inputText id="telephone" value="#{utilisateurBean.selectedUtilisateur.telephone}" required="true" placeholder="#{bundle.Telephone}"
-                                                     styleClass="form-control input-sm"/>
-                                    </div>
-                             </div>
-                            
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Email}</label>
-                                    <div class="col-sm-8">
-                                        
-                                        <p:inputText id="adresse" value="#{utilisateurBean.selectedUtilisateur.mail}" required="true" placeholder="#{bundle.Email}"
-                                                     styleClass="form-control input-sm"/>
-                                    </div>
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <p:outputLabel for="credit" value="#{bundle.Prenoms}" class="col-md-3"/>
+                                <div class="col-md-9">
+                                    <p:inputText id="credit" value="#{enseignantBean.selectedEnseignant.prenom}" required="true"/>
+                                </div>
                             </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Adresse}</label>
-                                    <div class="col-sm-8">
-                                        
-                                        <p:inputText id="boitePostale" value="#{utilisateurBean.selectedUtilisateur.adresse}" required="true" placeholder="#{bundle.Adresse}"
-                                                     styleClass="form-control input-sm"/>
-                                    </div>
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="telephone" value="#{bundle.Telephone}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="telephone" value="#{enseignantBean.selectedEnseignant.telephone}" required="true" placeholder="#{bundle.Telephone}"/>
+                                </div>
                             </div>
-                            
-                            <div class="controls-row checkbox">
-                                <p:outputLabel 
-                                    value="#{bundle.Genre}" class="input-desc" for="genre"/>
-                                
-                                <div class="radio custom-radio-wrapper">
 
-                                    <p:selectOneRadio id="genre" value="#{utilisateurBean.newUtilisateur.genre}" layout="grid" columns="2" required="false">
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="adresse" value="#{bundle.Adresse}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="adresse" value="#{enseignantBean.selectedEnseignant.adresse}" required="true" placeholder="#{bundle.Adresse}"/>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Genre}" for="genre"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneRadio id="genre" value="#{enseignantBean.selectedEnseignant.genre}" layout="grid" columns="2" required="true">
                                         <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
                                         <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
                                     </p:selectOneRadio>
                                 </div>
-                                
                             </div>
                             
-                            
-                            <div class="controls-row">
-                                
-                                <p:outputLabel for="groupe" class="input-desc" value="#{bundle.Groupe}" />
-                                <h:selectOneMenu id="groupe" value="#{utilisateurBean.newUtilisateur.groupe}" 
-                                                 required="false" styleClass="form-control input-sm">
-                                                <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                                <f:selectItems value="#{groupeBean.listeGroupes}"
-                                                               var="groupeItem"
-                                                               itemValue="#{groupeItem}"
-                                                               itemLabel="#{groupeItem.libelle.toUpperCase()}"/>
-                                                <f:converter  converterId="groupeConverter"/>
-                                </h:selectOneMenu>
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Statut}" for="statut"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneRadio id="statut" value="#{enseignantBean.selectedEnseignant.statut}" layout="grid" columns="2" required="true">
+                                        <f:selectItem itemLabel="#{bundle.Missionnaire}" itemValue="Missionnaire" />
+                                        <f:selectItem itemLabel="#{bundle.Locale}" itemValue="Locale"/>
+                                    </p:selectOneRadio>
+                                </div>
                             </div>
-                            
-                             
                             
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{utilisateurBean.doEdit}" 
-                                             oncomplete="updateGritter(xhr);$('#editDialog').modal('hide');" 
-                                             styleClass="btn-xs btn-primary " icon="i-checkmark-2"/>
-
-                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal" style="padding: 2px 6px;">
-                                <i class="i-cancel-2" style="font-size: 11px;vertical-align: middle;"/>
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{ueBean.doEdit}" 
+                                             oncomplete="$('#editDialog').modal('hide');" 
+                                             class="btn btn-default">
+                            </p:commandButton>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>
-                                  
-                        </div> <!-- /.modal-footer --> 
+                        </div> <!-- /.modal-footer -->
                     </h:form>
                 </div>
             </div>
         </div>
-      </div>
-    </div>
-  </div>
 </ui:composition>
 
 </html>

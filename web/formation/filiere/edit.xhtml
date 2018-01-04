@@ -11,9 +11,10 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="editDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
                         <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h1>#{bundle.View}</h1>
+                            <h1>#{bundle.Edit}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
                             <div class="row-form clearfix" style="margin-bottom: 3px!important;">
@@ -37,13 +38,12 @@
                                 </div>
                             </div>
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{filiereBean.doEdit}" 
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{filiereBean.doEdit}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
-                                             class="btn btn-default" icon="i-checkmark-2">
+                                             class="btn btn-default">
                             </p:commandButton>
-                            <button type="button" class="btn btn-default  btn-xs" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-cancel-2"></i>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
                                 #{bundle.Close}
                             </button>
                         </div> <!-- /.modal-footer -->

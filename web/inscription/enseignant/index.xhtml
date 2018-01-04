@@ -26,22 +26,20 @@
                     </ul> 
                 </div>
             </ui:define>
-            
+
             <ui:define name="main">
                 <div class="workplace">
-                <div class="row">
-                <div class ="nav-position">
-                    <ui:include src="menunav.xhtml"/>
-                    <ui:include src="liste.xhtml"/>
+                    <div class="row">
+                        <ui:include src="menunav.xhtml"/>
+                        <ui:include src="liste.xhtml"/>
+                    </div>
+
+                    <ui:include src="view.xhtml"/>
+                    <ui:include src="edit.xhtml"/>
+                    <ui:include src="delete.xhtml"/>
                 </div>
-                </div>
-                
-                <ui:include src="view.xhtml"/>
-                   <ui:include src="edit.xhtml"/>
-                   <ui:include src="delete.xhtml"/>
-               </div>
-                
-           </ui:define>
+
+            </ui:define>
 
 
 
@@ -50,20 +48,20 @@
 
 
 
-<!--            <ui:define name="modals">
-                            <ui:include src="view.xhtml"/>
-                            <ui:include src="edit.xhtml"/>
-                            <ui:include src="delete.xhtml"/>
-            </ui:define>-->
-            
-<!--                        <ui:define name="bottomJS">
-                          
+            <!--            <ui:define name="modals">
+                                        <ui:include src="view.xhtml"/>
+                                        <ui:include src="edit.xhtml"/>
+                                        <ui:include src="delete.xhtml"/>
                         </ui:define>-->
-                        
-                        
-                        
-                        
-                        
+
+            <!--                        <ui:define name="bottomJS">
+                                      
+                                    </ui:define>-->
+
+
+
+
+
 
 
         </ui:composition>

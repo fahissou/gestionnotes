@@ -13,10 +13,11 @@
                     <h1>#{bundle.AjoutMatiere}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
+                    <p:growl id="growl" showDetail="true"/>
                     <div class="block-fluid">
                         <div class=" row-form clearfix">
                             <div class="col-md-3">
-                                <p:outputLabel for="nomMatiere" value="#{bundle.Nom}"/>
+                                <p:outputLabel for="nomMatiere" value="#{bundle.Descripetion}"/>
                             </div>
                             <div class="col-md-9">
                                 <p:inputText id="nomMatiere" value="#{matiereBean.newMatiere.libelle}" required="true" placeholder="#{bundle.Nom}"/>
@@ -68,7 +69,7 @@
                         
                         
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{matiereBean.doCreate}" 
+                            <p:commandButton value="Valider" update="@form growl" actionListener="#{matiereBean.doCreate}" 
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>
 

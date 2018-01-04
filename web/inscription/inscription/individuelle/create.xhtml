@@ -13,7 +13,7 @@
                     <h1>#{bundle.InscriptionIndividuelle}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
-
+                    <p:growl id="growl" showDetail="true"/>
                     <div class="block-fluid">
                         <div class="row-form clearfix">
                             <div class="col-md-3">
@@ -116,7 +116,7 @@
                         </div>
 
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{inscriptionBean.doCreateIndividuelle}" 
+                            <p:commandButton value="Valider" update="@form growl" actionListener="#{inscriptionBean.doCreateIndividuelle}" 
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>
 

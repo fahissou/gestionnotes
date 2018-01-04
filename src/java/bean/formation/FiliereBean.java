@@ -57,7 +57,7 @@ public class FiliereBean implements Serializable{
         String msg;
         try {
             filiereFacade.edit(selectedFiliere);
-            msg = JsfUtil.getBundleMsg("FiliereEditSuccessMsg");
+            msg = JsfUtil.getBundleMsg("FiliereEditSuccesMsg");
             JsfUtil.addSuccessMessage(msg);
             listeFilieres = filiereFacade.findAll();
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class FiliereBean implements Serializable{
         String msg;
         try {
             filiereFacade.remove(selectedFiliere);
-            msg = JsfUtil.getBundleMsg("FiliereDelSuccessMsg");
+            msg = JsfUtil.getBundleMsg("FiliereDelSuccesMsg");
             JsfUtil.addSuccessMessage(msg);
             listeFilieres = filiereFacade.findAll();
         } catch (Exception e) {

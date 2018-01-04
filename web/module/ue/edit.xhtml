@@ -12,6 +12,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="editDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
                         <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h1>#{bundle.Edit}</h1>
@@ -46,29 +47,27 @@
                                 </div>
                             </div>
                             
-                    <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                               <div class="clearfix control">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="groupePedagogique" value="#{ueBean.selectedUe.groupePedagogique}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}"
+                                                       var="itemGroupe" itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description}"/>
+                                        <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    </h:selectOneMenu>
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{ueBean.newUe.groupePedagogique}" 
-                                                 required="true">
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
-                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
-                                    <f:converter  converterId="groupePedagogiqueConverter"/>
-                                </p:selectOneMenu>
-                            </div>
-                    </div>
                             
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{ueBean.doEdit}" 
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{ueBean.doEdit}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
-                                             class="btn btn-default" icon="i-checkmark-2">
+                                             class="btn btn-default">
                             </p:commandButton>
-                            <button type="button" class="btn btn-default  btn-xs" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-cancel-2"></i>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>
                         </div> <!-- /.modal-footer -->
