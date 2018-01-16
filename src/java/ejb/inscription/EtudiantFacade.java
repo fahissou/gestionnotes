@@ -6,6 +6,10 @@
 package ejb.inscription;
 import jpa.inscription.Inscription;
 import ejb.AbstractFacade;
+import ejb.administration.AnneeAcademiqueFacade;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -23,7 +27,8 @@ import util.JsfUtil;
 public class EtudiantFacade extends AbstractFacade<Etudiant> {
     @PersistenceContext(unitName = "gestionnotesPU")
     private EntityManager em;
-
+    @EJB
+    private AnneeAcademiqueFacade anneeAcademiqueFacade;
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -34,6 +39,18 @@ public class EtudiantFacade extends AbstractFacade<Etudiant> {
     }
     
     
+    public List<Inscription> findAllEtudiantInscris(){
+        List<Inscription> liste = null;
+        try {
+        String currentInscription = anneeAcademiqueFacade.getCurrentAcademicYear().getDescription();
+        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.anneeAcademique.description = :currentInscription");
+        query.setParameter("currentInscription", currentInscription);
+        liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+             liste = new ArrayList<>();
+        }
+        return liste;
+    }
     
     
 }

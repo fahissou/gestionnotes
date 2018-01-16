@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package bean.inscription;
 
 import ejb.inscription.EtudiantFacade;
@@ -14,6 +10,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import jpa.inscription.Etudiant;
+import jpa.inscription.Inscription;
 import util.JsfUtil;
 
 /**
@@ -28,6 +25,7 @@ public class EtudiantBean implements Serializable{
     private Etudiant selectedEtudiant;
     private Etudiant newEtudiant;
     private List<Etudiant> listeEtudiants;
+    private List<Inscription> listeEtudiantsInscris;
     private List<Etudiant> filteredList;
     public EtudiantBean() {
     }
@@ -35,6 +33,7 @@ public class EtudiantBean implements Serializable{
     @PostConstruct
     public void init() {
         listeEtudiants = etudiantFacade.findAll();
+        listeEtudiantsInscris = etudiantFacade.findAllEtudiantInscris();
         prepareCreate();
     }  
 
@@ -109,6 +108,14 @@ public class EtudiantBean implements Serializable{
     public void setFilteredList(List<Etudiant> filteredList) {
         this.filteredList = filteredList;
     }            
+
+    public List<Inscription> getListeEtudiantsInscris() {
+        return listeEtudiantsInscris;
+    }
+
+    public void setListeEtudiantsInscris(List<Inscription> listeEtudiantsInscris) {
+        this.listeEtudiantsInscris = listeEtudiantsInscris;
+    }
 
     public void prepareCreate() {
         this.newEtudiant = new Etudiant();

@@ -32,13 +32,13 @@
         
         <navigation-case>
             <from-outcome>succes</from-outcome>
-            <to-view-id>inscription/notes/afficher/index.xhtml</to-view-id>
+            <to-view-id>insertionconsultation/notes/afficher/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>succes1</from-outcome>
-            <to-view-id>inscription/notes/inserernotes/index_1.xhtml</to-view-id>
+            <to-view-id>insertionconsultation/notes/inserernotes/index_1.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         

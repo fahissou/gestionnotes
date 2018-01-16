@@ -64,7 +64,7 @@ public class MatiereBean implements Serializable{
     public void loadData() {
         data1 = new HashMap<>();
         for (int i = 0; i < listGroupePedagogiques.size(); i++) {
-            List<Ue> list1 = ueFacade.getUeByGroupePedagogique(listGroupePedagogiques.get(i).getDescription());
+            List<Ue> list1 = ueFacade.getUeByGroupePedagogique(listGroupePedagogiques.get(i));
             data1.put(listGroupePedagogiques.get(i), list1);
 
         }

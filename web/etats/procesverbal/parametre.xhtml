@@ -15,23 +15,7 @@
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <div class="block-fluid">
 
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="anneeAcademique" value="#{bundle.AnneeAcademique}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="anneeAcademique" value="#{notesBean.anneeAcademique}" 
-                                                 required="false">
-                                    <f:selectItem itemValue="#{null}" itemLabel="selection"/>
-                                    <f:selectItems value="#{inscriptionBean.listeAnneeUniversitaire}"
-                                                   var="inscriptionItem"
-                                                   itemValue="#{inscriptionItem}"
-                                                   itemLabel="#{inscriptionItem.toUpperCase()}"/>
-
-                                </p:selectOneMenu>
-
-                            </div>
-                        </div>
+                        
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">

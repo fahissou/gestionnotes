@@ -31,8 +31,6 @@ public class GroupePedagogique implements Serializable {
     @OneToMany(mappedBy = "groupePedagogique")
     private List<Ue> ues;
     @OneToMany(mappedBy = "groupePedagogique")
-    private List<Etudiant> etudiants;
-    @OneToMany(mappedBy = "groupePedagogique")
     private List<Inscription> inscriptions;
     @Id
     private String id;
@@ -97,15 +95,7 @@ public class GroupePedagogique implements Serializable {
     public void setUes(List<Ue> ues) {
         this.ues = ues;
     }
-
-    public List<Etudiant> getEtudiants() {
-        return etudiants;
-    }
-
-    public void setEtudiants(List<Etudiant> etudiants) {
-        this.etudiants = etudiants;
-    }
-
+    
     public List<ProgrammerCours> getProgrammerCourss() {
         return programmerCourss;
     }

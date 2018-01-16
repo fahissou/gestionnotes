@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bean.inscription;
 
+import ejb.administration.AnneeAcademiqueFacade;
 import ejb.inscription.EtudiantFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
@@ -32,6 +28,7 @@ import javax.inject.Named;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.servlet.ServletContext;
+import jpa.administration.AnneeAcademique;
 import jpa.inscription.EnumGenre;
 import jpa.inscription.Etudiant;
 import jpa.inscription.Inscription;
@@ -58,6 +55,9 @@ import org.apache.poi.ss.usermodel.Row;
 public class InscriptionBean implements Serializable {
 
     @EJB
+    private AnneeAcademiqueFacade anneeAcademiqueFacade;
+
+    @EJB
     private MatiereFacade matiereFacade;
     @EJB
     private UeFacade ueFacade;
@@ -66,6 +66,7 @@ public class InscriptionBean implements Serializable {
 
     @EJB
     private EtudiantFacade etudiantFacade;
+
     private Etudiant newEtudiant;
 
     @EJB
@@ -87,6 +88,8 @@ public class InscriptionBean implements Serializable {
     private String fileExtension;
     private FileInputStream fichier;
     private Notes newNote;
+    private String anneeAcademique;
+    private AnneeAcademique newAnneeAcademique;
 
     /**
      * Creates a new instance of InscriptionBean
@@ -100,6 +103,8 @@ public class InscriptionBean implements Serializable {
         prepareCreate();
 
         listeAnneeUniversitaire = new ArrayList<>();
+        newAnneeAcademique = new AnneeAcademique();
+
         listeAnneeUniversitaire.add("2014 - 2015");
         listeAnneeUniversitaire.add("2015 - 2016");
         listeAnneeUniversitaire.add("2016 - 2017");
@@ -141,18 +146,11 @@ public class InscriptionBean implements Serializable {
     public void doCreate(ActionEvent event) throws ExceptionsGestionnotes {
         String msg;
         try {
-
-            if (JsfUtil.validAcademicYear(newInscription.getAnneeUniversitaire())) {
-                inscriptionFacade.create(newInscription);
-                msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
-                JsfUtil.addSuccessMessage(msg);
-                prepareCreate();
-                listeInscriptions = inscriptionFacade.findAll();
-            } else {
-                ExceptionsGestionnotes e = new ExceptionsGestionnotes(JsfUtil.getBundleMsg("AnneeIncriptionInvalde"));
-                JsfUtil.addErrorMessage(e.getMessage());
-            }
-
+            inscriptionFacade.create(newInscription);
+            msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
+            JsfUtil.addSuccessMessage(msg);
+            prepareCreate();
+            listeInscriptions = inscriptionFacade.findAll();
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("InscriptionCreateErrorMsg");
             JsfUtil.addErrorMessage(msg);
@@ -318,6 +316,14 @@ public class InscriptionBean implements Serializable {
         this.newEtudiant = new Etudiant();
     }
 
+    public String getAnneeAcademique() {
+        return anneeAcademique;
+    }
+
+    public void setAnneeAcademique(String anneeAcademique) {
+        this.anneeAcademique = anneeAcademique;
+    }
+
     public void reset(ActionEvent e) {
         this.newInscription.reset();
     }
@@ -338,16 +344,34 @@ public class InscriptionBean implements Serializable {
     }
 
     public void docreateCollective() throws IOException, FileNotFoundException, ParseException {
+        String msg;
+        try {
+            if (uploadedFile != null) {
+                fileName = FilenameUtils.getName(uploadedFile.getFileName());
+                fichier = (FileInputStream) uploadedFile.getInputstream();
+                fileExtension = fileName.split("\\.")[1];
+                System.out.println("extension " + fileExtension);
+                AnneeAcademique academicYear = anneeAcademiqueFacade.getCurrentAcademicYear();
+                int result = JsfUtil.valideAcademicYear(academicYear.getDescription(), anneeAcademique);
+                if(result == 1) {
+                    newAnneeAcademique = academicYear;
+                    insertInscription(fichier);
+                }else if(result == 0){
+                    academicYear.setEtat(result);
+                    anneeAcademiqueFacade.edit(academicYear);
+                    newAnneeAcademique.setDescription(anneeAcademique);
+                    anneeAcademiqueFacade.create(newAnneeAcademique);
+                    insertInscription(fichier);
+                }else{
+                    msg = JsfUtil.getBundleMsg("AnneeAcademiqueError");
+                            JsfUtil.addErrorMessage(msg);
+                }
+                
 
-        if (uploadedFile != null) {
-            fileName = FilenameUtils.getName(uploadedFile.getFileName());
-            fichier = (FileInputStream) uploadedFile.getInputstream();
-            fileExtension = fileName.split("\\.")[1];
-            System.out.println("extension " + fileExtension);
-            insertInscription(fichier);
-
-        } else {
-            System.out.println("fichier non chargé");
+            } else {
+                System.out.println("fichier non chargé");
+            }
+        } catch (Exception e) {
         }
 
     }
@@ -378,6 +402,8 @@ public class InscriptionBean implements Serializable {
 
                                 contenuLigne.add(cell.getStringCellValue());
                                 break;
+                            
+                            
 
                         }
 
@@ -392,19 +418,16 @@ public class InscriptionBean implements Serializable {
                             newEtudiant.setPrenom(String.valueOf(contenuLigne.get(2)));
                             EnumGenre enumGenre = EnumGenre.valueOf(String.valueOf(contenuLigne.get(3)));
                             newEtudiant.setGenre(enumGenre);
-//                 System.out.println("cell4 " +contenuLigne.get(4));
-//                 Date dateNaiss = formatter.parse(String.valueOf(contenuLigne.get(4)));
-//                 newEtudiant.setDateNaissance(dateNaiss );
+                            Date dateNaiss = JsfUtil.stringToDate(String.valueOf(contenuLigne.get(4)));
+                            newEtudiant.setDateNaissance(dateNaiss );
                             newEtudiant.setTelephone(String.valueOf(contenuLigne.get(5)));
                             newEtudiant.setMail(String.valueOf(contenuLigne.get(6)));
-                            newEtudiant.setGroupePedagogique(newInscription.getGroupePedagogique());
                             // Inscritption save
                             newInscription.setEtudiant(newEtudiant);
-
+                            newInscription.setAnneeAcademique(newAnneeAcademique);
                             etudiantFacade.create(newEtudiant);
                             inscriptionFacade.create(newInscription);
                             createDiffaultNotes(newInscription);
-                            
                         } else {
                             msg = JsfUtil.getBundleMsg("formatFichierNonPriseEncompte");
                             JsfUtil.addErrorMessage(msg);
@@ -447,25 +470,23 @@ public class InscriptionBean implements Serializable {
     }
 
     public void createDiffaultNotes(Inscription inscription) {
-        List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(inscription.getGroupePedagogique().getDescription());
+        List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(inscription.getGroupePedagogique());
         try {
-            System.out.println("Groupe pedagogique");
             for (int i = 0; i < listeUe.size(); i++) {
                 List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i));
-                System.out.println("taille matiere " +matieres.size());
-                    newNote = new Notes();
-                    for (int j = 0; j < matieres.size(); j++) {
+                newNote = new Notes();
+                for (int j = 0; j < matieres.size(); j++) {
                     newNote.setMatiere(matieres.get(j));
                     newNote.setInscription(inscription);
                     newNote.setEtatValidation("NON VALIDÉ");
                     newNote.setNote(0.0);
                     notesFacade.create(newNote);
-                 }
-                
+                }
+
             }
         } catch (Exception ex) {
-            
-      }
+
+        }
 
     }
 

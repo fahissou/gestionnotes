@@ -6,16 +6,17 @@
 package ejb.inscription;
 
 import ejb.AbstractFacade;
+import ejb.administration.AnneeAcademiqueFacade;
+import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import jpa.administration.Utilisateur;
 import jpa.inscription.Etudiant;
-import static jpa.inscription.Etudiant_.login;
 import jpa.inscription.Inscription;
 import util.JsfUtil;
 
@@ -25,6 +26,8 @@ import util.JsfUtil;
  */
 @Stateless
 public class InscriptionFacade extends AbstractFacade<Inscription> {
+    @EJB
+    private AnneeAcademiqueFacade anneeAcademiqueFacade;
     @PersistenceContext(unitName = "gestionnotesPU")
     private EntityManager em;
 
@@ -43,6 +46,20 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         super.create(inscription);
     }
     
+    @Override
+    public List<Inscription> findAll(){
+        List<Inscription> liste = null;
+        try {
+        String currentInscription = anneeAcademiqueFacade.getCurrentAcademicYear().getDescription();
+        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.anneeAcademique.description = :currentInscription");
+        query.setParameter("currentInscription", currentInscription);
+        liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+             liste = new ArrayList<>();
+        }
+        return liste;
+    }
+    
     public  Inscription getInscriptionsByEtudiant(String matricule, String anneeAcademique){
          
         Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.etudiant.login = :matricule AND I.anneeUniversitaire = :anneeAcademique");
@@ -57,14 +74,16 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
     }
     
     public List<Inscription> getListInscriptionByGP(String groupePedagogique, String anneeAcademique) {
-        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique.description = :groupePedagogique AND I.anneeUniversitaire = :anneeAcademique");
+        List<Inscription> inscriptions = null;
+        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique.description = :groupePedagogique AND I.anneeAcademique.description = :anneeAcademique");
         query.setParameter("groupePedagogique", groupePedagogique);
         query.setParameter("anneeAcademique", anneeAcademique);
         try {
-             return query.getResultList();
+             inscriptions = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            return null;
+            inscriptions = new ArrayList<>();
         }
+        return inscriptions;
     }
     
     public List<Inscription> getListInscriptionByEtudiant(Etudiant etudiant) {

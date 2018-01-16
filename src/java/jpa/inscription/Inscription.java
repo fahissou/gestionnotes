@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import jpa.administration.AnneeAcademique;
 
 /**
  *
@@ -16,18 +17,21 @@ import javax.persistence.OneToMany;
 public class Inscription implements Serializable {
     @Id
     private String id;
-    private String anneeUniversitaire;
+    private String resultat;
+    private int compteurCredit;
     @ManyToOne
     private GroupePedagogique groupePedagogique;
     @ManyToOne
     private Etudiant etudiant;
     @OneToMany(mappedBy = "inscription")
     private List<Notes> notess;
-    
-    
+    @ManyToOne
+    private AnneeAcademique anneeAcademique;
     
     public Inscription() {
         this.etudiant = new Etudiant();
+        this.resultat = "R";
+        this.compteurCredit = 0;
     }
     
     public String getId() {
@@ -36,14 +40,6 @@ public class Inscription implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getAnneeUniversitaire() {
-        return anneeUniversitaire;
-    }
-
-    public void setAnneeUniversitaire(String anneeUniversitaire) {
-        this.anneeUniversitaire = anneeUniversitaire;
     }
     
     public GroupePedagogique getGroupePedagogique() {
@@ -70,6 +66,30 @@ public class Inscription implements Serializable {
         this.notess = notess;
     }
 
+    public AnneeAcademique getAnneeAcademique() {
+        return anneeAcademique;
+    }
+
+    public void setAnneeAcademique(AnneeAcademique anneeAcademique) {
+        this.anneeAcademique = anneeAcademique;
+    }
+
+    public String getResultat() {
+        return resultat;
+    }
+
+    public void setResultat(String resultat) {
+        this.resultat = resultat;
+    }
+
+    public int getCompteurCredit() {
+        return compteurCredit;
+    }
+
+    public void setCompteurCredit(int compteurCredit) {
+        this.compteurCredit = compteurCredit;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -88,6 +108,10 @@ public class Inscription implements Serializable {
     }
     
     public void reset() {
-        id = null;  
+        id = null; 
+        groupePedagogique = null;
+        anneeAcademique = null;
+        compteurCredit = 0;
+        this.resultat = "R";
     }
 }

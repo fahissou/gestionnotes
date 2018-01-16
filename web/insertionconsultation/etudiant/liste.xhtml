@@ -26,9 +26,9 @@
                     <div class="content np block-fluid table-sorting clearfix">
                         <p:dataTable id="incarcerationTable" var="item"
                                      selection="#{etudiantBean.selectedEtudiant}"
-                                     value="#{etudiantBean.listeEtudiants}"
+                                     value="#{etudiantBean.listeEtudiantsInscris}"
                                      emptyMessage="#{bundle.EmptyListMsg}"
-                                     rowKey="#{item.login}"
+                                     rowKey="#{item.etudiant.login}"
                                      paginator="true"
                                      rows="10"
                                      rowsPerPageTemplate="10,20,30"
@@ -42,18 +42,18 @@
                                      > 
 
                             <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
-                            <p:column headerText="#{bundle.matricule}"  sortBy="#{item.login}" 
-                                      filterBy="#{item.login}" filterMatchMode="contains"
+                            <p:column headerText="#{bundle.matricule}"  sortBy="#{item.etudiant.login}" 
+                                      filterBy="#{item.etudiant.login}" filterMatchMode="contains"
                                       >
-                                <h:outputText value=" #{item.login}"/>
+                                <h:outputText value=" #{item.etudiant.login}"/>
                             </p:column>
 
-                            <p:column headerText="#{bundle.Nom}"  sortBy="#{item.nom}" filterBy="#{item.nom}">
-                                <h:outputText value=" #{item.nom}" />
+                            <p:column headerText="#{bundle.Nom}"  sortBy="#{item.etudiant.nom.toUpperCase()}" filterBy="#{item.etudiant.nom.toUpperCase()}">
+                                <h:outputText value=" #{item.etudiant.nom.toUpperCase()}" />
                             </p:column>
 
-                            <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.prenom}" filterBy="#{item.prenom}">
-                                <h:outputText value=" #{item.prenom}" />
+                            <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.etudiant.prenom}" filterBy="#{item.etudiant.prenom}">
+                                <h:outputText value=" #{item.etudiant.prenom}" />
                             </p:column>
 
 <!--                                        <p:column headerText="#{bundle.GroupePedagogique}"  sortBy="#{item.groupePedagogique}" filterBy="#{item.groupePedagogique}">

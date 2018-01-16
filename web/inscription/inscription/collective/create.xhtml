@@ -23,14 +23,14 @@
                                     <p:outputLabel for="anneeAcademique" value="#{bundle.AnneeAcademique}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:selectOneMenu id="anneeAcademique" value="#{inscriptionBean.newInscription.anneeUniversitaire}" 
+                                    <p:selectOneMenu id="anneeAcademique" value="#{inscriptionBean.anneeAcademique}" 
                                                      required="false">
                                         <f:selectItem itemValue="#{null}" itemLabel="selection"/>
                                         <f:selectItems value="#{inscriptionBean.listeAnneeUniversitaire}"
                                                        var="inscriptionItem"
                                                        itemValue="#{inscriptionItem}"
                                                        itemLabel="#{inscriptionItem.toUpperCase()}"/>
-
+                                                  
                                     </p:selectOneMenu>
                                     
                                 </div>

@@ -804,7 +804,31 @@ public class JsfUtil {
     }
 
 
+    public static int valideAcademicYear(String arg1,String arg2 ) {
+        int resultat ;
+        String [] tab1 = arg1.split("-");
+        String [] tab2 = arg2.split("-");
+        int a11 = Integer.parseInt(tab1[0].trim()) + 1;
+        int a12 = Integer.parseInt(tab1[1].trim()) + 1;
+        int a21 = Integer.parseInt(tab2[0].trim());
+        int a22 = Integer.parseInt(tab2[1].trim());
+        if(arg1.equals(arg2)) {
+            resultat = 1;
+        }else{
+             if(a11 == a21 && a12 == a22){
+                 resultat = 0;
+             }else{
+                 resultat = -1;
+             }
+        }
+        return resultat;
+    }
     
+    public static Date  stringToDate(String arg) {
+        String [] arg1 = arg.split(",");
+        Date date = new Date(Integer.parseInt(arg1[2].trim())-1900,Integer.parseInt(arg1[1].trim()), Integer.parseInt(arg1[0].trim()));
+        return date;
+    }
     
     
 }

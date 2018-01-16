@@ -41,9 +41,9 @@ public class UeFacade extends AbstractFacade<Ue> {
         super.create(ue);
     }
     
-    public List<Ue> getUeByGroupePedagogique(String groupePedagogique) {
-       
-        Query query = em.createQuery("SELECT U FROM Ue U WHERE U.groupePedagogique.description = :groupePedagogique");
+    public List<Ue> getUeByGroupePedagogique(GroupePedagogique groupePeda) {
+       String groupePedagogique = groupePeda.getId();
+        Query query = em.createQuery("SELECT U FROM Ue U WHERE U.groupePedagogique.id = :groupePedagogique");
         // set parameters
         query.setParameter("groupePedagogique", groupePedagogique);
         List<Ue> list = query.getResultList();

@@ -1,6 +1,7 @@
 package ejb.inscription;
 
 import ejb.AbstractFacade;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -47,20 +48,19 @@ public class NotesFacade extends AbstractFacade<Notes> {
     }
 
     public List<Notes> listeNoteGpAnnee(String inscriptionID, String groupePedagogique, Matiere matiere) {
+        List<Notes> notes = null;
         try {
             String matiereID = matiere.getId();
-            
-            Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.anneeUniversitaire = :inscriptionID AND N.inscription.groupePedagogique.description = :groupePedagogique AND N.matiere.id = :matiereID");
+            Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.anneeAcademique.description = :inscriptionID AND N.inscription.groupePedagogique.description = :groupePedagogique AND N.matiere.id = :matiereID");
             // set parameters
             query.setParameter("inscriptionID", inscriptionID);
             query.setParameter("groupePedagogique", groupePedagogique);
             query.setParameter("matiereID", matiereID);
-            List<Notes> list = query.getResultList();
-            return list;
+            notes = query.getResultList();
         } catch (Exception ex) {
-            return null;
+            notes = new ArrayList<>();
         }
-
+        return notes;
     }
 
     public Notes getNotesByInscriptionMatiere(Inscription inscription, Matiere matiere) {

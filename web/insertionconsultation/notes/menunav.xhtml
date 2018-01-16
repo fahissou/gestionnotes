@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <ui:composition>
+        <div class="col-md-12 col-xs-12">
+            <ul class="nav nav-pills">
+                <li class="#{liste}">
+                    <a href="/gestionnotes/insertionconsultation/notes/parametresaffichage">
+                        <i class="i-list-2"/> 
+                        #{bundle.Liste}
+                    </a>
+                </li>
+                <li class="#{nouveau}">
+                    <a href="/gestionnotes/insertionconsultation/notes/inserernotes/">
+                        <i class="i-plus-2"/> 
+                        #{bundle.Inserer}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </ui:composition>
+</html>
+
