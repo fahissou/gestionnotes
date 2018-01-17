@@ -23,13 +23,12 @@
                            
 
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
+                        <div class="footer tar">
                             <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" action="#{notesBean.updateNotes()}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
-                                             class="btn btn-default" icon="i-checkmark-2">
+                                             class="btn btn-default">
                             </p:commandButton>
-                            <button type="button" class="btn btn-default  btn-xs" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-cancel-2"></i>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
                                 #{bundle.Cancel}
                             </button>
                         </div> <!-- /.modal-footer -->

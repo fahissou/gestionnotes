@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <!--le Tableau-->
+        <div class="col-md-12">
+            <div class="block">
+                <h:form id="ajoutListForm">
+                    <div class="head clearfix enteteTable">
+                        <h1>#{bundle.ExemplaireFichierInscription}</h1>
+
+                        <ul class="buttons">
+
+                            <li><a href="#" class="block_toggle slideMe"><span class="i-arrow-down-3"></span></a></li>
+                            <li><a href="#" class="block_remove"><span class="i-cancel-2"></span></a></li>
+                        </ul>
+
+                    </div>
+                    <div class="content np block-fluid table-sorting clearfix">
+                        <p:dataTable id="tbl" var="item"
+                                     selection="#{inscriptionBean.selectedInscription}"
+                                     value="#{etudiantBean.listeEtudiantsInscris}"
+                                     emptyMessage="#{bundle.EmptyListMsg}"
+                                     rowKey="#{item.etudiant.login}"
+                                     paginator="true"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30"
+                                     sortMode="multiple"
+                                     filteredValue="#{etudiantBean.filteredList}"
+                                     currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
+                                     pageLinks="5"
+                                     rowIndexVar="rowIndex"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
+                                     {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport} {Exporters}"
+                                     > 
+                            <!--                            <ul class="buttonLien">
+                                                            <li>-->
+                                                        <f:facet name="{Exporters}">
+                                                            <h:commandLink title="xls" styleClass="btn btn-exporter btn-xs waves-effect waves-light" style="border-radius: 0px; margin-right: 1px;">
+                                                                <p:dataExporter type="xls" target="tbl" fileName="FichierInscription" pageOnly="true"/>
+                                                                <i class="isw-text_document"/>
+                                                            </h:commandLink>
+                                                        </f:facet>
+                            <!--                                    </li>
+                                                            </ul>-->
+
+                            <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
+                            <p:column headerText="#{bundle.matricule}"  sortBy="#{item.etudiant.login}" 
+                                      filterBy="#{item.etudiant.login}" filterMatchMode="contains"
+                                      >
+                                <h:outputText value=" #{item.etudiant.login}"/>
+                            </p:column>
+
+                            <p:column headerText="#{bundle.Nom}"  sortBy="#{item.etudiant.nom.toUpperCase()}" filterBy="#{item.etudiant.nom.toUpperCase()}">
+                                <h:outputText value=" #{item.etudiant.nom.toUpperCase()}" />
+                            </p:column>
+
+                            <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.etudiant.prenom}" filterBy="#{item.etudiant.prenom}">
+                                <h:outputText value=" #{item.etudiant.prenom}" />
+                            </p:column>
+                            
+                            <p:column headerText="#{bundle.Genre}"  sortBy="#{item.etudiant.prenom}" filterBy="#{item.etudiant.prenom}">
+                                <h:outputText value=" #{item.etudiant.prenom}" />
+                            </p:column>
+
+                            <p:column headerText="#{bundle.DateNaissance}"  sortBy="#{item.etudiant.prenom}" filterBy="#{item.etudiant.prenom}">
+                                <h:outputText value=" #{item.etudiant.prenom}" />
+                            </p:column>
+
+                            <p:column headerText="#{bundle.Telephone}"  sortBy="#{item.etudiant.prenom}" filterBy="#{item.etudiant.prenom}">
+                                <h:outputText value=" #{item.etudiant.prenom}" />
+                            </p:column>
+
+                            <p:column headerText="#{bundle.Email}"  sortBy="#{item.etudiant.prenom}" filterBy="#{item.etudiant.prenom}">
+                                <h:outputText value=" #{null}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:composition>
+</html>

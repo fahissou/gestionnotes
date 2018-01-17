@@ -8,18 +8,22 @@
             <ui:define name="title">
                 Acceuil
             </ui:define>
-            
+
             <ui:define name="breadLine">
                 <div class="breadLine">
                     <ul class="breadcrumb">
-                    <li><a href="#">Gestion Note</a> <span class="divider"></span></li>                
-                    <li class="active">Dashboard</li>
-                </ul> 
+                        <li><a href="#">Gestion Note</a> <span class="divider">></span></li>                
+                        <li class="active">Dashboard</li>
+                    </ul> 
                 </div>
             </ui:define>
-            
+
             <ui:define name="main">
-                
+                <div class="workplace">
+                    <div class="row">
+                        <ui:include src="parametre.xhtml"/>
+                    </div>
+                </div>
             </ui:define>
         </ui:composition>
     </h:body>

@@ -40,7 +40,12 @@ import java.util.Map;
 import javafx.scene.chart.PieChart.Data;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.validator.ValidatorException;
 import jpa.inscription.Etudiant;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
@@ -1058,5 +1063,21 @@ public class NotesBean implements Serializable {
         }
         return liste;
     }
+    
+    public void validationNote(FacesContext context, UIComponent component, Object value) throws ValidatorException{
+        Double note = (Double) value;
+        String msg;
+        try{
+            if(note < 0 || note > 20){
+                ((UIInput) component).setValid(false);
+                msg = JsfUtil.getBundleMsg("InvalideNote");
+                JsfUtil.addErrorMessage(msg);
+                FacesMessage message = new FacesMessage(msg);
+                context.addMessage(component.getClientId(context), message);
+            }
+        }catch(Exception e){
+        }
+    }
+
 
 }

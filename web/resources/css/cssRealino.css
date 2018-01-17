@@ -12,7 +12,8 @@ and open the template in the editor.
     margin: 40px 20px 20px!important;
 }
 .head [class*="isw-"]{
-    margin-left: 10px!important;
+    margin-left: 5px!important;
+    width: 30px!important;
 }
 
 .head h1{
@@ -326,4 +327,28 @@ button.close{
     color: #A94442;
     background-color: #F2DEDE;
     border-color: #EBCCD1;
+}
+
+.content .workplace .head .buttonLien{
+    margin: 0px;
+    padding: 0px;
+    border-left: 1px solid #335A85;
+    width:auto;
+    float: right;
+    
+}
+/*.menu .navigation li:hover, .menu .navigation li.active {
+    border-color: #143D6B;
+    border-top-color: #5a87b5;
+    background: url("../img/styles/default/backgrounds/menu-item-active.jpg") left top repeat-x;
+}
+.navigation li > ul > li:hover, .navigation li > ul > li.active {
+    background: #EDEDED !important;
+}*/
+
+.ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal{
+    border: 1px solid;
+    margin: 0px 16px!important;
+    margin-left: 0px!important;
+    padding: 0px 1px!important;
 }

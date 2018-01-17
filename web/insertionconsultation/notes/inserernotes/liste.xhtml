@@ -17,13 +17,23 @@
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>-->
 
-                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+<!--                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                            update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                            style="border-radius: 4px; margin-right: 1px; width: 45px; background-color: #ccb9bd;    padding-top: 7px!important; 
                                            position: absolute!important;">
                                 <i class="i-pencil glyphicon glyphicon-pencil editTable"/>
                                 <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
-                            </p:commandLink>
+                            </p:commandLink>-->
+                        <ul class="buttonLien">
+                            <li>
+                                
+                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                               update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
+                                    <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                    <i class="ibw-edit"/>
+                                </p:commandLink>
+                            </li>
+                        </ul>
 
                     </div>
 
@@ -66,7 +76,11 @@
                                         <h:outputText value="#{item.note}"/>  
                                     </f:facet>  
                                     <f:facet name="input">
-                                        <p:inputText value="#{item.note}" style="width:96%"/>  
+                                        <p:inputText id="note" value="#{item.note}" style="width:96%" onkeypress="if ((event.which &gt; 57)) return false;"
+                                                     validator="#{notesBean.validationNote}">
+                                            <f:ajax event="blur" render="noteMessage" />                                                                                    
+                                        </p:inputText>
+                                        <p:message id="noteMessage" for="note"/>
                                     </f:facet>  
                                 </p:cellEditor>
                             </p:column>

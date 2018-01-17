@@ -15,71 +15,71 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="editDialogForm" styleClass="form-horizontal">
-                        <div class="modal-header">
+                        <p:growl id="growl" showDetail="true"/>
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 class="modal-title">#{bundle.Edit}</h3>
+                            <h1>#{bundle.Edit}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.etudiant}</label>
-                                    <div class="col-sm-8">
+<!--                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <label class="col-md-3">#{bundle.matricule}</label>
+                                    <div class="col-md-9">
                                         <label class="form-control input-sm">                                       
-                                            #{etudiantBean.selectedEtudiant.login}
+                                            #{inscriptionBean.selectedInscription.etudiant.login}
                                         </label>
                                     </div>
-                            </div>
+                            </div>-->
                                 
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.Nom}</label>
-                                    <div class="col-sm-8">
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                    <label class="col-md-3">#{bundle.Nom}</label>
+                                    <div class="col-md-9">
                                         
-                                        <p:inputText id="nom" value="#{etudiantBean.selectedEtudiant.nom}" required="true" placeholder="#{bundle.Nom}"
+                                        <p:inputText id="nom" value="#{inscriptionBean.selectedInscription.etudiant.nom}" required="true" placeholder="#{bundle.Nom}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Prenoms}</label>
-                                    <div class="col-sm-8">
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <label class="col-md-3">#{bundle.Prenoms}</label>
+                                    <div class="col-md-9">
                                         
-                                        <p:inputText id="prenom" value="#{etudiantBean.selectedEtudiant.prenom}" required="true" placeholder="#{bundle.Prenoms}"
+                                        <p:inputText id="prenom" value="#{inscriptionBean.selectedInscription.etudiant.prenom}" required="true" placeholder="#{bundle.Prenoms}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                 <label class="control-label col-sm-4">#{bundle.Telephone}</label>
-                                    <div class="col-sm-8">                                        
-                                        <p:inputText id="telephone" value="#{etudiantBean.selectedEtudiant.telephone}" required="true" placeholder="#{bundle.Telephone}"
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                 <label class="col-md-3">#{bundle.Telephone}</label>
+                                    <div class="col-md-9">                                        
+                                        <p:inputText id="telephone" value="#{inscriptionBean.selectedInscription.etudiant.telephone}" required="true" placeholder="#{bundle.Telephone}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                              </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Email}</label>
-                                    <div class="col-sm-8">
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <label class="col-md-3">#{bundle.Email}</label>
+                                    <div class="col-md-9">
                                         
-                                        <p:inputText id="adresse" value="#{etudiantBean.selectedEtudiant.mail}" required="true" placeholder="#{bundle.Email}"
+                                        <p:inputText id="adresse" value="#{inscriptionBean.selectedInscription.etudiant.mail}" required="true" placeholder="#{bundle.Email}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Adresse}</label>
-                                    <div class="col-sm-8">
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <label class="col-md-3">#{bundle.Adresse}</label>
+                                    <div class="col-md-9">
                                         
-                                        <p:inputText id="boitePostale" value="#{etudiantBean.selectedEtudiant.adresse}" required="true" placeholder="#{bundle.Adresse}"
+                                        <p:inputText id="boitePostale" value="#{inscriptionBean.selectedInscription.etudiant.adresse}" required="true" placeholder="#{bundle.Adresse}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
                             
-                            <div class="controls-row checkbox">
-                                <p:outputLabel 
-                                    value="#{bundle.Genre}" class="input-desc" for="genre"/>
+                            <div class="row-form clearfix">
+                                <p:outputLabel value="#{bundle.Genre}" class="col-md-3" for="genre"/>
                                 
-                                <div class="radio custom-radio-wrapper">
+                                <div class="col-md-9">
 
-                                    <p:selectOneRadio id="genre" value="#{etudiantBean.selectedEtudiant.genre}" layout="grid" columns="2" required="false">
+                                    <p:selectOneRadio id="genre" value="#{inscriptionBean.selectedInscription.etudiant.genre}" layout="grid" columns="2" required="false">
                                         <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
                                         <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
                                     </p:selectOneRadio>
@@ -88,30 +88,29 @@
                             </div>
                             
                             
-                            <div class="controls-row">
-                                
-                                <p:outputLabel for="groupe" class="input-desc" value="#{bundle.GroupePedagogique}" />
-                                <h:selectOneMenu id="groupe" value="#{etudiantBean.selectedEtudiant.groupePedagogique}" 
-                                                 required="false" styleClass="form-control input-sm">
-                                                <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                                <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}"
-                                                               var="groupeItem"
-                                                               itemValue="#{groupeItem}"
-                                                               itemLabel="#{groupeItem.description.toUpperCase()}"/>
-                                                <f:converter  converterId="groupePedagogiqueConverter"/>
-                                </h:selectOneMenu>
-                            </div>
+<!--                            <div class="clearfix control">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="groupe" value="#{bundle.GroupePedagogique}" />
+                                </div>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="groupe" value="#{inscriptionBean.selectedInscription.groupePedagogique.description}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}"
+                                                       var="groupeItem" itemValue="#{groupeItem}" itemLabel="#{groupeItem.description.toUpperCase()}"/>
+                                        <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>-->
                             
                              
                             
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{etudiantBean.doEdit}" 
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{inscriptionBean.doEdit}" 
                                              oncomplete="updateGritter(xhr);$('#editDialog').modal('hide');" 
-                                             styleClass="btn-xs btn-primary " icon="i-checkmark-2"/>
+                                             class="btn btn-default"/>
 
-                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal" style="padding: 2px 6px;">
-                                <i class="i-cancel-2" style="font-size: 11px;vertical-align: middle;"/>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>
                                   

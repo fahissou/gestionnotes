@@ -48,6 +48,18 @@
             <redirect/>
         </navigation-case>
         
+        <navigation-case>
+            <from-outcome>listEtuGrpePeda</from-outcome>
+            <to-view-id>insertionconsultation/etudiant/index.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <name>description</name>
+                    <value>#{etudiantBean.descriptionGroupePedagogique}</value>
+                </view-param>
+            </redirect>
+            
+        </navigation-case>
+        
         <!--        <navigation-case>
             <from-outcome>inscription</from-outcome>
             <to-view-id>inscription/inscription/index.xhtml</to-view-id>

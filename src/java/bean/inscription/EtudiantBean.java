@@ -6,9 +6,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 import jpa.inscription.Etudiant;
 import jpa.inscription.Inscription;
 import util.JsfUtil;
@@ -27,13 +29,15 @@ public class EtudiantBean implements Serializable{
     private List<Etudiant> listeEtudiants;
     private List<Inscription> listeEtudiantsInscris;
     private List<Etudiant> filteredList;
+    String descriptionGroupePedagogique;
     public EtudiantBean() {
     }
     
     @PostConstruct
     public void init() {
         listeEtudiants = etudiantFacade.findAll();
-        listeEtudiantsInscris = etudiantFacade.findAllEtudiantInscris();
+        String groupePedagogique = recupDescriptionGroupe();
+        listeEtudiantsInscris = etudiantFacade.findAllEtudiantInscris(groupePedagogique);
         prepareCreate();
     }  
 
@@ -117,6 +121,14 @@ public class EtudiantBean implements Serializable{
         this.listeEtudiantsInscris = listeEtudiantsInscris;
     }
 
+    public String getDescriptionGroupePedagogique() {
+        return descriptionGroupePedagogique;
+    }
+
+    public void setDescriptionGroupePedagogique(String descriptionGroupePedagogique) {
+        this.descriptionGroupePedagogique = descriptionGroupePedagogique;
+    }
+    
     public void prepareCreate() {
         this.newEtudiant = new Etudiant();
     }
@@ -125,5 +137,17 @@ public class EtudiantBean implements Serializable{
         this.newEtudiant.reset();
     }
     
+
+    public String redirect() {
+        return "listEtuGrpePeda";
+    }
+    
+    public String recupDescriptionGroupe() {
+        HttpServletRequest params = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+        .getRequest();
+        String nomDossier = params.getParameter("description");
+        return nomDossier;
+    }
+
     
 }

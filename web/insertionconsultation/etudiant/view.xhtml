@@ -12,45 +12,17 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="viewDialogForm" styleClass="form-horizontal">
-                        <div class="modal-header">
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 class="modal-title">#{bundle.View}</h3>
+                            <h1>#{bundle.View}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
 
-                                <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                    <label class="col-md-3">#{bundle.matricule}</label>
-                                    <div class="col-md-9">
-                                        <label class="form-control input-sm">
-                                            #{etudiantBean.selectedEtudiant.login}
-                                        </label>
-                                    </div>
-                                </div>
-                            
-                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <label class="col-md-3">#{bundle.Nom}</label>
-                                    <div class="col-md-9">
-                                        <label class="form-control input-sm">
-                                            #{etudiantBean.selectedEtudiant.nom}
-                                        </label>
-                                    </div>
-                            </div>
-                            
-                            
-                                <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                    <label class="col-md-3">#{bundle.Prenoms}</label>
-                                    <div class="col-md-9">
-                                        <label class="form-control input-sm">
-                                            #{etudiantBean.selectedEtudiant.prenom}
-                                        </label>
-                                    </div>
-                                </div>
-                            
                             <div class="row-form clearfix" style="margin-bottom: 3px!important;">
                                 <label class="col-md-3">#{bundle.Telephone}</label>
                                     <div class="col-md-9">
                                         <label class="form-control input-sm">
-                                            #{etudiantBean.selectedEtudiant.telephone}
+                                            #{inscriptionBean.selectedInscription.etudiant.telephone}
                                         </label>
                                     </div>
                                 </div>
@@ -59,7 +31,7 @@
                                 <label class="col-md-3">#{bundle.Adresse}</label>
                                     <div class="col-md-9">
                                         <label class="form-control input-sm">
-                                            #{etudiantBean.selectedEtudiant.adresse}
+                                            #{inscriptionBean.selectedInscription.etudiant.adresse}
                                         </label>
                                     </div>
                             </div>
@@ -68,7 +40,7 @@
                                 <label class="col-md-3">#{bundle.Email}</label>
                                     <div class="col-md-9">
                                         <label class="form-control input-sm">
-                                            #{etudiantBean.selectedEtudiant.mail}
+                                            #{inscriptionBean.selectedInscription.etudiant.mail}
                                         </label>
                                     </div>
                             </div>
@@ -77,7 +49,7 @@
                                 <label class="col-md-3">#{bundle.DateNaissance}</label>
                                     <div class="col-md-9">
                                         <label class="form-control input-sm">
-                                            #{etudiantBean.selectedEtudiant.dateNaissance}
+                                            #{inscriptionBean.selectedInscription.etudiant.dateNaissance}
                                         </label>
                                     </div>
                             </div>
@@ -86,7 +58,7 @@
                                 <label class="col-md-3">#{bundle.Genre}</label>
                                     <div class="col-md-9">
                                         <label class="form-control input-sm">
-                                            #{etudiantBean.selectedEtudiant.genre.label}
+                                            #{inscriptionBean.selectedInscription.etudiant.mail}
                                         </label>
                                     </div>
                             </div>
@@ -97,31 +69,13 @@
                                     <div class="col-md-9">
                                         <label class="form-control input-sm"
                                                >
-                                            #{etudiantBean.selectedEtudiant.groupePedagogique.description}
+                                            #{inscriptionBean.selectedInscription.groupePedagogique.description}
                                         </label>
                                     </div>
                                 </div>
-<!--                                <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                    <label class="col-md-3">Sélection 2</label>
-                                    <div class="col-md-9">
-                                        <label class="form-control input-sm"
-                                               >
-                                            #{messageBean.selectedEssai.selection2}
-                                        </label>
-                                    </div>
-                                </div>-->
-<!--                                <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                    <label class="col-md-3">Date</label>
-                                    <div class="col-md-9">
-                                        <label class="form-control input-sm"
-                                               >
-                                            #{authenticateBean.convertDate(messageBean.selectedEssai.date1, 'EEEE dd MMMM yyyy à HH:mm:ss')}
-                                        </label>
-                                    </div>
-                                </div>-->
                         </div> <!-- /.modal-body -->
                         <!--</div>  /.modal-body -->
-                        <div class="modal-footer">
+                        <div class="footer tar">
                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>

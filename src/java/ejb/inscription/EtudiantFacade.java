@@ -39,18 +39,20 @@ public class EtudiantFacade extends AbstractFacade<Etudiant> {
     }
     
     
-    public List<Inscription> findAllEtudiantInscris(){
+    public List<Inscription> findAllEtudiantInscris(String groupePedagogique){
         List<Inscription> liste = null;
         try {
         String currentInscription = anneeAcademiqueFacade.getCurrentAcademicYear().getDescription();
-        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.anneeAcademique.description = :currentInscription");
+        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.anneeAcademique.description = :currentInscription AND I.groupePedagogique.description =:groupePedagogique");
         query.setParameter("currentInscription", currentInscription);
+        query.setParameter("groupePedagogique", groupePedagogique);
         liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
              liste = new ArrayList<>();
         }
         return liste;
     }
+
     
     
 }

@@ -115,7 +115,7 @@
                                             </li>-->
                         <li>
                             <a href="/gestionnotes/inscription/formatfichier">
-                                <span class="glyphicon glyphicon-user"></span><span class="text">#{bundle.Formatfichier}</span>
+                                <span class=" glyphicon glyphicon-file"></span><span class="text">#{bundle.Formatfichier}</span>
                             </a>
                         </li>
                         
@@ -149,9 +149,14 @@
                     <ul>
                         
                         <li>
-                            <a href="/gestionnotes/insertionconsultation/etudiant">
+                            <p:commandLink id="createButton" value="#{null}" styleClass="iplus"
+                                       oncomplete="$('#createDialog').modal('show')">
+                            <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
+                        </p:commandLink>
+<!--                            <a href="/gestionnotes/insertionconsultation/etudiant">
                                 <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
-                            </a>
+                            </a>-->
+
                         </li>
                         
                         <li>
