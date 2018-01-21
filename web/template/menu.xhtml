@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition> 
         <h:form>
@@ -114,7 +115,7 @@
                                                 </a>
                                             </li>-->
                         <li>
-                            <a href="/gestionnotes/inscription/formatfichier">
+                            <a href="/gestionnotes/inscription/formatfichier/FichierInscription.xls">
                                 <span class=" glyphicon glyphicon-file"></span><span class="text">#{bundle.Formatfichier}</span>
                             </a>
                         </li>
@@ -149,13 +150,49 @@
                     <ul>
                         
                         <li>
-                            <p:commandLink id="createButton" value="#{null}" styleClass="iplus"
+<!--                            <p:commandLink id="createButton" value="#{null}" styleClass="iplus"
                                        oncomplete="$('#createDialog').modal('show')">
                             <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
-                        </p:commandLink>
-<!--                            <a href="/gestionnotes/insertionconsultation/etudiant">
+                        </p:commandLink>-->
+                            <a href="/gestionnotes/insertionconsultation/etudiant">
                                 <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
-                            </a>-->
+                            </a>
+                            
+                           
+                            
+<!--                           <h:form>
+                            <li>
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
+                                </a>
+
+                                <div id="navPopMessages" class="popup" style="display: none;">
+                                    <div class="head clearfix">
+                                        <div class="arrow"></div>
+                                        <span class="isw-zoom"></span>
+                                        <span class="name">#{bundle.Search}</span>
+                                    </div>
+                                    <div class="body search">
+
+
+                                    </div>
+                                    <div class="footer">
+                                        <button class="btn btn-danger link_navPopMessages" type="button">#{bundle.Close}</button>
+                                        
+                                    </div>
+                                </div>                
+                            </li>
+                    </h:form> -->
+                            
+               
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
 
                         </li>
                         

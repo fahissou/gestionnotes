@@ -6,6 +6,8 @@
 package bean.inscription;
 
 import ejb.administration.AnneeAcademiqueFacade;
+import ejb.administration.NotificationFacade;
+import ejb.administration.UtilisateurFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
@@ -46,6 +48,9 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.http.HttpServletRequest;
+import jpa.administration.Notification;
+import jpa.administration.Utilisateur;
 import jpa.inscription.Etudiant;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
@@ -72,6 +77,13 @@ import util.JsfUtil;
  * @author AHISSOU Florent
  */
 public class NotesBean implements Serializable {
+    @EJB
+    private NotificationFacade notificationFacade;
+    private Notification newNotification;
+    @EJB
+    private UtilisateurFacade utilisateurFacade;
+    private Utilisateur newUtilisateur;
+    private Utilisateur utilisateurDE;
 
     @EJB
     private AnneeAcademiqueFacade anneeAcademiqueFacade;
@@ -133,6 +145,8 @@ public class NotesBean implements Serializable {
      * Creates a new instance of NotesBean
      */
     public NotesBean() {
+        newUtilisateur = new Utilisateur();
+        newNotification = new Notification();
     }
 
     @PostConstruct
@@ -318,6 +332,34 @@ public class NotesBean implements Serializable {
         this.newNotes = new Notes();
     }
 
+    public Notification getNewNotification() {
+        return newNotification;
+    }
+
+    public void setNewNotification(Notification newNotification) {
+        this.newNotification = newNotification;
+    }
+
+    public Utilisateur getNewUtilisateur() {
+        return newUtilisateur;
+    }
+
+    public void setNewUtilisateur(Utilisateur newUtilisateur) {
+        this.newUtilisateur = newUtilisateur;
+    }
+
+    public Utilisateur getUtilisateurDE() {
+        return utilisateurDE;
+    }
+
+    public void setUtilisateurDE(Utilisateur utilisateurDE) {
+        this.utilisateurDE = utilisateurDE;
+    }
+
+    
+    
+    
+    
     public void reset(ActionEvent e) {
         this.newNotes.reset();
         groupePedagogique = null;
@@ -654,6 +696,28 @@ public class NotesBean implements Serializable {
         for (int i = 0; i < listeNotesGroupPeda.size(); i++) {
             notesFacade.edit(listeNotesGroupPeda.get(i));
         }
+        
+        
+        
+        utilisateurDE = utilisateurFacade.recupDirecteurEtude("DE");
+        HttpServletRequest params = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String loginCurrentUser = params.getParameter("utilisateurSession");
+        newUtilisateur = utilisateurFacade.find(loginCurrentUser);
+        this.newNotification.setDescription("Le professeur "+ loginCurrentUser +"vient d'enregistrer ces notes");
+        this.newNotification.setUtilisateur(utilisateurDE);
+        notificationFacade.create(newNotification);
+        int cpt;
+        if(utilisateurDE.getCompteurMessage().isEmpty()){
+            cpt = 1;
+            this.utilisateurDE.setCompteurMessage(String.valueOf(cpt));
+            utilisateurFacade.edit(utilisateurDE);
+        }else{
+            cpt = Integer.parseInt(utilisateurDE.getCompteurMessage());
+            cpt++;
+            this.utilisateurDE.setCompteurMessage(String.valueOf(cpt));
+            utilisateurFacade.edit(utilisateurDE);
+        }
+        
         return "succes";
     }
 

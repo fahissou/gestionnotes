@@ -97,4 +97,22 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         }
     }
     
+    
+
+    public List<Inscription> listeReinscription(String groupePedagogique, String anneeAcademique, String resultat) {
+        String anneeAc = JsfUtil.previousAcademicYear(anneeAcademique);
+        List<Inscription> inscriptions = null;
+        try {
+            Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique.description = :groupePedagogique AND I.anneeAcademique.description = :anneeAc AND I.resultat = :resultat");
+            query.setParameter("groupePedagogique", groupePedagogique);
+            query.setParameter("anneeAc", anneeAc);
+            query.setParameter("resultat", resultat);
+            inscriptions = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            inscriptions = new ArrayList<>();
+        }
+        return inscriptions;
+    }
+
+    
 }

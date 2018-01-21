@@ -6,142 +6,148 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-       
-    <ui:insert name="selectedMenu">
-        <ui:param name="board" value="active"/>
-    </ui:insert>
-        
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <!--[if gt IE 8]>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <![endif]-->
-    
-    <title><ui:insert name="title">Aquarius - responsive admin panel</ui:insert></title>
 
-    <!--<link rel="icon" type="image/ico" href="favicon.ico"/>-->
-    <link rel="icon" type="image/ico" href="#{resource['images:favicon.ico']}"> </link>
-    <!--<link href="css/stylesheets.css" rel="stylesheet" type="text/css" />-->  
-    <!--[if lt IE 8]>
-        <link href="css/ie7.css" rel="stylesheet" type="text/css" />
-    <![endif]-->            
-    <!--<link rel='stylesheet' type='text/css' href='css/fullcalendar.print.css' media='print' />-->
-    
-    <!--code css-->
-    <h:outputStylesheet library="css" name="stylesheets.css"/>
-    <h:outputStylesheet library="css" name="fullcalendar.print.css"/>
-    <h:outputStylesheet library="css" name="icons.css"/>
-    <h:outputStylesheet library="css" name="bootstrap.css"/>
-    <h:outputStylesheet library="css" name="fullcalendar.css"/>
-    <h:outputStylesheet library="css" name="ui.css"/>
-    <h:outputStylesheet library="css" name="select2.css"/>
-    <h:outputStylesheet library="css" name="uniform.default.css"/>
-    <h:outputStylesheet library="css" name="validation.css"/>
-    <h:outputStylesheet library="css" name="mCustomScrollbar.css"/>
-    <h:outputStylesheet library="css" name="cleditor.css"/>
-    <h:outputStylesheet library="css/fancybox" name="jquery.fancybox.css"/>
-    <h:outputStylesheet library="js/plugins/plupload/jquery.plupload.queue/css" name="jquery.plupload.queue.css"/>
-    <h:outputStylesheet library="css" name="elfinder.min.css"/>
-    <h:outputStylesheet library="css" name="elfinder.css"/>
-    <h:outputStylesheet library="css" name="multi-select.css"/>
-    <h:outputStylesheet library="css" name="pnotify.css"/>
-    <h:outputStylesheet library="css" name="ibutton.css"/>
-    <h:outputStylesheet library="css" name="login.css"/>
-    <h:outputStylesheet library="css" name="stepy.css"/>
-    <h:outputStylesheet library="css" name="tagsinput.css"/>
-    <h:outputStylesheet library="css" name="stylesheet.css"/>
-    <h:outputStylesheet library="css" name="styling.css"/>
-    <h:outputStylesheet library="css" name="cssFlorent.css"/>
-    <h:outputStylesheet library="css" name="cssRealino.css"/>    
+        <ui:insert name="selectedMenu">
+            <ui:param name="board" value="active"/>
+        </ui:insert>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <!--[if gt IE 8]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <![endif]-->
+
+        <title><ui:insert name="title">Aquarius - responsive admin panel</ui:insert></title>
+
+        <!--<link rel="icon" type="image/ico" href="favicon.ico"/>-->
+        <link rel="icon" type="image/ico" href="#{resource['images:favicon.ico']}"> </link>
+        <!--<link href="css/stylesheets.css" rel="stylesheet" type="text/css" />-->  
+        <!--[if lt IE 8]>
+            <link href="css/ie7.css" rel="stylesheet" type="text/css" />
+        <![endif]-->            
+        <!--<link rel='stylesheet' type='text/css' href='css/fullcalendar.print.css' media='print' />-->
+
+        <!--code css-->
+        <h:outputStylesheet library="css" name="stylesheets.css"/>
+        <h:outputStylesheet library="css" name="fullcalendar.print.css"/>
+        <h:outputStylesheet library="css" name="icons.css"/>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputStylesheet library="css" name="fullcalendar.css"/>
+        <h:outputStylesheet library="css" name="ui.css"/>
+        <h:outputStylesheet library="css" name="select2.css"/>
+        <h:outputStylesheet library="css" name="uniform.default.css"/>
+        <h:outputStylesheet library="css" name="validation.css"/>
+        <h:outputStylesheet library="css" name="mCustomScrollbar.css"/>
+        <h:outputStylesheet library="css" name="cleditor.css"/>
+        <h:outputStylesheet library="css/fancybox" name="jquery.fancybox.css"/>
+        <h:outputStylesheet library="js/plugins/plupload/jquery.plupload.queue/css" name="jquery.plupload.queue.css"/>
+        <h:outputStylesheet library="css" name="elfinder.min.css"/>
+        <h:outputStylesheet library="css" name="elfinder.css"/>
+        <h:outputStylesheet library="css" name="multi-select.css"/>
+        <h:outputStylesheet library="css" name="pnotify.css"/>
+        <h:outputStylesheet library="css" name="ibutton.css"/>
+        <h:outputStylesheet library="css" name="login.css"/>
+        <h:outputStylesheet library="css" name="stepy.css"/>
+        <h:outputStylesheet library="css" name="tagsinput.css"/>
+        <h:outputStylesheet library="css" name="stylesheet.css"/>
+        <h:outputStylesheet library="css" name="styling.css"/>
+        <h:outputStylesheet library="css" name="cssFlorent.css"/>
+        <h:outputStylesheet library="css" name="cssRealino.css"/>    
         <ui:insert name="topCSS">
 
         </ui:insert>
-          
+
     </h:head>
-    
-   <h:body> 
-       
-    <div class="wrapper"> 
-            
-        <div class="header">
-            
-            <ui:insert name="banner" > 
+
+    <h:body> 
+
+        <div class="wrapper"> 
+
+            <div class="header">
+
+                <ui:insert name="banner" > 
                     <ui:include src="banner.xhtml"/>
-            </ui:insert>  
-       </div>
-                
-        <div class="menu">
-            <ui:insert name="menu" > 
-                <ui:include src="menu.xhtml"/>
-            </ui:insert>
+                </ui:insert>  
+            </div>
 
-            
-        </div>
-        
-     
+            <div class="menu">
+                <ui:insert name="menu" > 
+                    <ui:include src="menu.xhtml"/>
+                </ui:insert>
 
-        <div class="content">
-            
-              
-            <h:form id="msgForm">
+
+            </div>
+
+
+
+            <div class="content">
+
+
+                <h:form id="msgForm">
                     <p:messages id="msg" showDetail="true"/>
-            </h:form>
-            
-            <ui:insert name="breadLine" > 
-                <ui:include src="breadLine.xhtml"/>
-            </ui:insert>
-            
-            <ui:insert name="main">
-                <ui:include src="main.xhtml"/>
-            </ui:insert>
-                    
+                </h:form>
+
+                <ui:insert name="breadLine" > 
+                    <ui:include src="breadLine.xhtml"/>
+                    <ui:include src="recherche.xhtml"/>
+
+                </ui:insert>
+
+<!--                <ui:insert name="recherche">
+                    <ui:include src="recherche.xhtml"/>
+                </ui:insert>-->
+
+                <ui:insert name="main">
+                    <ui:include src="main.xhtml"/>
+                </ui:insert>
+
+            </div>
+
         </div>
-    
-   </div>
-       
-       
+
+
         <!--code java Script-->
-    
+
         <ui:insert name="jQueryJS">
             <h:outputScript library="js/plugins/jquery" name="jquery-1.10.2.min.js"/>
         </ui:insert>
-        
-    
-    <h:outputScript library="js/plugins/jquery" name="jquery-ui-1.10.1.custom.min.js"/>
-    <h:outputScript library="js/plugins/jquery" name="jquery-migrate-1.2.1.min.js"/>
-    <h:outputScript library="js/plugins/jquery" name="jquery.mousewheel.min.js"/>
-    <h:outputScript library="js/plugins/cookie" name="jquery.cookies.2.2.0.min.js"/>
-    <h:outputScript library="js/plugins" name="bootstrap.min.js"/>
-    <h:outputScript library="js/plugins/charts" name="excanvas.min.js"/>
-    <h:outputScript library="js/plugins/charts" name="jquery.flot.js"/>
-    <h:outputScript library="js/plugins/charts" name="jquery.flot.stack.js"/>
-    <h:outputScript library="js/plugins/charts" name="jquery.flot.pie.js"/>
-    <h:outputScript library="js/plugins/charts" name="jquery.flot.resize.js"/>
-    <h:outputScript library="js/plugins/sparklines" name="jquery.sparkline.min.js"/>
-    <h:outputScript library="js/plugins/fullcalendar" name="fullcalendar.min.js"/>
-    <h:outputScript library="js/plugins/select2" name="select2.min.js"/>
-    <h:outputScript library="js/plugins/uniform" name="uniform.js"/>
-    <h:outputScript library="js/plugins/uniform" name="uniform.js"/>
-    <h:outputScript library="js/plugins/maskedinput" name="jquery.maskedinput-1.3.min.js"/>
-    <h:outputScript library="js/plugins/validation/languages" name="jquery.validationEngine-en.js"/>
-    <h:outputScript library="js/plugins/validation" name="jquery.validationEngine.js"/>
-    <h:outputScript library="js/plugins/mcustomscrollbar" name="jquery.mCustomScrollbar.min.js"/>
-    <h:outputScript library="js/plugins/animatedprogressbar" name="animated_progressbar.js"/>
-    <h:outputScript library="js/plugins/qtip" name="jquery.qtip-1.0.0-rc3.min.js"/>
-    <h:outputScript library="js/plugins/cleditor" name="jquery.cleditor.js"/>
-    <h:outputScript library="js/plugins/dataTables" name="jquery.dataTables.min.js"/>
-    <h:outputScript library="js/plugins/fancybox" name="jquery.fancybox.pack.js"/>
-    <h:outputScript library="js/plugins/pnotify" name="jquery.pnotify.min.js"/>
-    <h:outputScript library="js/plugins/ibutton" name="jquery.ibutton.min.js"/>
-    <h:outputScript library="js/plugins/scrollup" name="jquery.scrollUp.min.js"/>
-    <h:outputScript library="js" name="cookies.js"/>
-    <h:outputScript library="js" name="actions.js"/>
-    <h:outputScript library="js" name="charts.js"/>
-    <h:outputScript library="js" name="plugins.js"/>
-    <h:outputScript library="js" name="settings.js"/>
-    <h:outputScript library="js" name="p.locale.js"/>
-    
-    <script type="text/javascript">
+
+
+        <h:outputScript library="js/plugins/jquery" name="jquery-ui-1.10.1.custom.min.js"/>
+        <h:outputScript library="js/plugins/jquery" name="jquery-migrate-1.2.1.min.js"/>
+        <h:outputScript library="js/plugins/jquery" name="jquery.mousewheel.min.js"/>
+        <h:outputScript library="js/plugins/cookie" name="jquery.cookies.2.2.0.min.js"/>
+        <h:outputScript library="js/plugins" name="bootstrap.min.js"/>
+        <h:outputScript library="js/plugins/charts" name="excanvas.min.js"/>
+        <h:outputScript library="js/plugins/charts" name="jquery.flot.js"/>
+        <h:outputScript library="js/plugins/charts" name="jquery.flot.stack.js"/>
+        <h:outputScript library="js/plugins/charts" name="jquery.flot.pie.js"/>
+        <h:outputScript library="js/plugins/charts" name="jquery.flot.resize.js"/>
+        <h:outputScript library="js/plugins/sparklines" name="jquery.sparkline.min.js"/>
+        <h:outputScript library="js/plugins/fullcalendar" name="fullcalendar.min.js"/>
+        <h:outputScript library="js/plugins/select2" name="select2.min.js"/>
+        <h:outputScript library="js/plugins/uniform" name="uniform.js"/>
+        <h:outputScript library="js/plugins/uniform" name="uniform.js"/>
+        <h:outputScript library="js/plugins/maskedinput" name="jquery.maskedinput-1.3.min.js"/>
+        <h:outputScript library="js/plugins/validation/languages" name="jquery.validationEngine-en.js"/>
+        <h:outputScript library="js/plugins/validation" name="jquery.validationEngine.js"/>
+        <h:outputScript library="js/plugins/mcustomscrollbar" name="jquery.mCustomScrollbar.min.js"/>
+        <h:outputScript library="js/plugins/animatedprogressbar" name="animated_progressbar.js"/>
+        <h:outputScript library="js/plugins/qtip" name="jquery.qtip-1.0.0-rc3.min.js"/>
+        <h:outputScript library="js/plugins/cleditor" name="jquery.cleditor.js"/>
+        <h:outputScript library="js/plugins/dataTables" name="jquery.dataTables.min.js"/>
+        <h:outputScript library="js/plugins/fancybox" name="jquery.fancybox.pack.js"/>
+        <h:outputScript library="js/plugins/pnotify" name="jquery.pnotify.min.js"/>
+        <h:outputScript library="js/plugins/ibutton" name="jquery.ibutton.min.js"/>
+        <h:outputScript library="js/plugins/scrollup" name="jquery.scrollUp.min.js"/>
+        <h:outputScript library="js" name="cookies.js"/>
+        <h:outputScript library="js" name="actions.js"/>
+        <h:outputScript library="js" name="charts.js"/>
+        <h:outputScript library="js" name="plugins.js"/>
+        <h:outputScript library="js" name="settings.js"/>
+        <h:outputScript library="js" name="p.locale.js"/>
+
+        <script type="text/javascript">
             function updateGritter(xhr)
             {
 
@@ -205,12 +211,12 @@
                 $('.ui-dialog').draggable();
             });
         </script>
-    
-    
-    
-   
+
+
+
+
     </h:body>
-    
-     
+
+
 </html>
 

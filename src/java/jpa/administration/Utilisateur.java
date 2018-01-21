@@ -7,11 +7,13 @@ package jpa.administration;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import jpa.inscription.EnumGenre;
@@ -32,6 +34,8 @@ public class Utilisateur implements Serializable {
     private String telephone;
     @Enumerated(EnumType.STRING)
     private EnumGenre genre;
+    @Enumerated(EnumType.STRING)
+    private EnumResponsabilite responsabilite;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
     private String adresse;
@@ -39,6 +43,9 @@ public class Utilisateur implements Serializable {
     private Date dateNaissance;
     @ManyToOne
     private Groupe groupe;
+    private String compteurMessage;
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Notification> messages;
 
     public Groupe getGroupe() {
         return groupe;
@@ -115,6 +122,14 @@ public class Utilisateur implements Serializable {
         this.genre = genre;
     }
 
+    public EnumResponsabilite getResponsabilite() {
+        return responsabilite;
+    }
+
+    public void setResponsabilite(EnumResponsabilite responsabilite) {
+        this.responsabilite = responsabilite;
+    }
+    
     public Date getDateCreation() {
         return dateCreation;
     }
@@ -138,9 +153,22 @@ public class Utilisateur implements Serializable {
     public void setDateNaissance(Date dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
-    
-    
-    
+
+    public String getCompteurMessage() {
+        return compteurMessage;
+    }
+
+    public void setCompteurMessage(String compteurMessage) {
+        this.compteurMessage = compteurMessage;
+    }
+
+    public List<Notification> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Notification> messages) {
+        this.messages = messages;
+    }
     
     @Override
     public int hashCode() {

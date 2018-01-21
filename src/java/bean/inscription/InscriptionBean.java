@@ -1,7 +1,9 @@
 package bean.inscription;
 
 import ejb.administration.AnneeAcademiqueFacade;
+import ejb.formation.FiliereFacade;
 import ejb.inscription.EtudiantFacade;
+import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
 import ejb.module.MatiereFacade;
@@ -29,11 +31,14 @@ import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.servlet.ServletContext;
 import jpa.administration.AnneeAcademique;
+import jpa.formation.Filiere;
 import jpa.inscription.EnumGenre;
 import jpa.inscription.Etudiant;
+import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
 import jpa.inscription.Notes;
 import jpa.module.Matiere;
+import jpa.module.Semestre;
 import jpa.module.Ue;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
@@ -50,9 +55,15 @@ import org.apache.poi.ss.usermodel.Row;
  *
  * @author AHISSOU Florent
  */
-@Named(value = "inscriptionBean")
-@ViewScoped
+//@Named(value = "inscriptionBean")
+//@ViewScoped
 public class InscriptionBean implements Serializable {
+    @EJB
+    private FiliereFacade filiereFacade;
+    @EJB
+    private GroupePedagogiqueFacade groupePedagogiqueFacade;
+    
+    
 
     @EJB
     private AnneeAcademiqueFacade anneeAcademiqueFacade;
@@ -74,6 +85,7 @@ public class InscriptionBean implements Serializable {
     private Inscription selectedInscription;
     private Inscription newInscription;
     private List<Inscription> listeInscriptions;
+    private List<Inscription> listeInscriptions1;
     private List<Inscription> filteredList;
     private List<String> listeAnneeUniversitaire;
     private Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
@@ -85,11 +97,22 @@ public class InscriptionBean implements Serializable {
     private List<String> contenuLigne;
     private UploadedFile uploadedFile;
     private String typeInscription;
+    private String typeReinscription;
     private String fileExtension;
     private FileInputStream fichier;
     private Notes newNote;
     private String anneeAcademique;
     private AnneeAcademique newAnneeAcademique;
+    private GroupePedagogique groupePedagogique;
+    private GroupePedagogique groupePedagogiqueNext;
+    private GroupePedagogique groupePedagogiquePrev;
+    private String resultats;
+    private List<String> listeResultat;
+    private Map<Filiere, List<GroupePedagogique>> data1;
+    private Map<GroupePedagogique, List<Inscription>> data2; // = new HashMap<>();
+    private List<GroupePedagogique> listGroupePedagogiques;
+    private List<Filiere> listFiliere;
+    private Filiere filiere;
 
     /**
      * Creates a new instance of InscriptionBean
@@ -99,7 +122,12 @@ public class InscriptionBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        System.out.println("ok1");
         listeInscriptions = inscriptionFacade.findAll();
+        System.out.println("ok2");
+        listFiliere = filiereFacade.findAll();
+        System.out.println("ok3");
+        listGroupePedagogiques = groupePedagogiqueFacade.findAll();
         prepareCreate();
 
         listeAnneeUniversitaire = new ArrayList<>();
@@ -136,10 +164,46 @@ public class InscriptionBean implements Serializable {
         data.put("Cycle 2", map);
 
         map = new HashMap<String, String>();
-        map.put("Thèse 1", "Thèse 1");
-        map.put("Thèse 2", "Thèse 2");
-        map.put("Thèse 3", "Thèse 3");
+        map.put("ThÃ¨se 1", "ThÃ¨se 1");
+        map.put("ThÃ¨se 2", "ThÃ¨se 2");
+        map.put("ThÃ¨se 3", "ThÃ¨se 3");
         data.put("Cycle 3", map);
+        System.out.println("ok4");
+        loadData();
+        System.out.println("ok5");
+        // Resultats
+        listeResultat = new ArrayList<>();
+        listeResultat.add("Admissible");
+        listeResultat.add("RÃ©fusÃ©");
+
+    }
+
+    public void loadData() {
+        data1 = new HashMap<>();
+        data2 = new HashMap<>();
+        System.out.println("ok41");
+        for (int i = 0; i < listFiliere.size(); i++) {
+            List<GroupePedagogique> list1 = groupePedagogiqueFacade.getListGpByFilire(listFiliere.get(i));
+            data1.put(listFiliere.get(i), list1);
+
+        }
+        System.out.println("ok42");
+        for (int j = 0; j < listGroupePedagogiques.size(); j++) {
+            List<Inscription> list2 = inscriptionFacade.getListInscriptionByGP(listGroupePedagogiques.get(j).getDescription(), anneeAcademiqueFacade.getCurrentAcademicYear().getDescription());
+            data2.put(listGroupePedagogiques.get(j), list2);
+
+        }
+        
+
+    }
+
+    public void onFiliereChange() {
+        if (filiere != null) {
+            listGroupePedagogiques = data1.get(filiere);
+        } else {
+            listGroupePedagogiques = new ArrayList<>();
+            
+        }
 
     }
 
@@ -183,6 +247,30 @@ public class InscriptionBean implements Serializable {
         }
     }
 
+    public String getTypeReinscription() {
+        return typeReinscription;
+    }
+
+    public void setTypeReinscription(String typeReinscription) {
+        this.typeReinscription = typeReinscription;
+    }
+
+    public GroupePedagogique getGroupePedagogiqueNext() {
+        return groupePedagogiqueNext;
+    }
+
+    public void setGroupePedagogiqueNext(GroupePedagogique groupePedagogiqueNext) {
+        this.groupePedagogiqueNext = groupePedagogiqueNext;
+    }
+
+    public GroupePedagogique getGroupePedagogiquePrev() {
+        return groupePedagogiquePrev;
+    }
+
+    public void setGroupePedagogiquePrev(GroupePedagogique groupePedagogiquePrev) {
+        this.groupePedagogiquePrev = groupePedagogiquePrev;
+    }
+
     public Inscription getSelectedInscription() {
         return selectedInscription;
     }
@@ -221,6 +309,14 @@ public class InscriptionBean implements Serializable {
 
     public void setListeAnneeUniversitaire(List<String> listeAnneeUniversitaire) {
         this.listeAnneeUniversitaire = listeAnneeUniversitaire;
+    }
+
+    public List<String> getListeResultat() {
+        return listeResultat;
+    }
+
+    public void setListeResultat(List<String> listeResultat) {
+        this.listeResultat = listeResultat;
     }
 
     public InscriptionFacade getInscriptionFacade() {
@@ -328,6 +424,14 @@ public class InscriptionBean implements Serializable {
         this.newInscription.reset();
     }
 
+    public String getResultats() {
+        return resultats;
+    }
+
+    public void setResultats(String resultats) {
+        this.resultats = resultats;
+    }
+
     public void onCycleChange() {
         if (cycle != null && !cycle.equals("")) {
             listeNiveau = data.get(cycle);
@@ -335,6 +439,56 @@ public class InscriptionBean implements Serializable {
             listeNiveau = new HashMap<String, String>();
         }
     }
+
+    public List<GroupePedagogique> getListGroupePedagogiques() {
+        return listGroupePedagogiques;
+    }
+
+    public void setListGroupePedagogiques(List<GroupePedagogique> listGroupePedagogiques) {
+        this.listGroupePedagogiques = listGroupePedagogiques;
+    }
+
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
+    }
+
+    public List<Inscription> getListeInscriptions1() {
+        return listeInscriptions1;
+    }
+
+    public void setListeInscriptions1(List<Inscription> listeInscriptions1) {
+        this.listeInscriptions1 = listeInscriptions1;
+    }
+
+    public List<Filiere> getListFiliere() {
+        return listFiliere;
+    }
+
+    public void setListFiliere(List<Filiere> listFiliere) {
+        this.listFiliere = listFiliere;
+    }
+
+    public Filiere getFiliere() {
+        return filiere;
+    }
+
+    public void setFiliere(Filiere filiere) {
+        this.filiere = filiere;
+    }
+
+    public List<GroupePedagogique> getListesGroupePedagogiques() {
+        return listGroupePedagogiques;
+    }
+
+    public void setListesGroupePedagogiques(List<GroupePedagogique> listGroupePedagogiques) {
+        this.listGroupePedagogiques = listGroupePedagogiques;
+    }
+    
+    
 
     public void handleFileUpload(FileUploadEvent event) {
         UploadedFile uploadedFile = event.getFile();
@@ -353,23 +507,23 @@ public class InscriptionBean implements Serializable {
                 System.out.println("extension " + fileExtension);
                 AnneeAcademique academicYear = anneeAcademiqueFacade.getCurrentAcademicYear();
                 int result = JsfUtil.valideAcademicYear(academicYear.getDescription(), anneeAcademique);
-                if(result == 1) {
+                if (result == 1) {
                     newAnneeAcademique = academicYear;
                     insertInscription(fichier);
-                }else if(result == 0){
+                } else if (result == 0) {
                     academicYear.setEtat(result);
                     anneeAcademiqueFacade.edit(academicYear);
                     newAnneeAcademique.setDescription(anneeAcademique);
                     anneeAcademiqueFacade.create(newAnneeAcademique);
                     insertInscription(fichier);
-                }else{
+                } else {
                     msg = JsfUtil.getBundleMsg("AnneeAcademiqueError");
-                            JsfUtil.addErrorMessage(msg);
+                    JsfUtil.addErrorMessage(msg);
                 }
-                
+                listeInscriptions = inscriptionFacade.findAll();
 
             } else {
-                System.out.println("fichier non chargé");
+                System.out.println("fichier non chargÃ©");
             }
         } catch (Exception e) {
         }
@@ -390,7 +544,7 @@ public class InscriptionBean implements Serializable {
                     contenuLigne = new ArrayList<>();
                     compteurLigne++;
                     for (Cell cell : ligne) {//parcourir les colonnes
-                        //évaluer le type de la cellule
+                        //Ã©valuer le type de la cellule
 
                         switch (formulaEvaluator.evaluateInCell(cell).getCellType()) {
 
@@ -402,8 +556,6 @@ public class InscriptionBean implements Serializable {
 
                                 contenuLigne.add(cell.getStringCellValue());
                                 break;
-                            
-                            
 
                         }
 
@@ -419,13 +571,13 @@ public class InscriptionBean implements Serializable {
                             EnumGenre enumGenre = EnumGenre.valueOf(String.valueOf(contenuLigne.get(3)));
                             newEtudiant.setGenre(enumGenre);
                             Date dateNaiss = JsfUtil.stringToDate(String.valueOf(contenuLigne.get(4)));
-                            newEtudiant.setDateNaissance(dateNaiss );
+                            newEtudiant.setDateNaissance(dateNaiss);
                             newEtudiant.setTelephone(String.valueOf(contenuLigne.get(5)));
                             newEtudiant.setMail(String.valueOf(contenuLigne.get(6)));
+                            etudiantFacade.create(newEtudiant);
                             // Inscritption save
                             newInscription.setEtudiant(newEtudiant);
                             newInscription.setAnneeAcademique(newAnneeAcademique);
-                            etudiantFacade.create(newEtudiant);
                             inscriptionFacade.create(newInscription);
                             createDiffaultNotes(newInscription);
                         } else {
@@ -478,7 +630,7 @@ public class InscriptionBean implements Serializable {
                 for (int j = 0; j < matieres.size(); j++) {
                     newNote.setMatiere(matieres.get(j));
                     newNote.setInscription(inscription);
-                    newNote.setEtatValidation("NON VALIDÉ");
+                    newNote.setEtatValidation("UENV");
                     newNote.setNote(0.0);
                     notesFacade.create(newNote);
                 }
@@ -502,4 +654,50 @@ public class InscriptionBean implements Serializable {
         }
         return page;
     }
+
+    public String reinscriptionRedirect() {
+        String page = "";
+        switch (typeReinscription) {
+            case "reinscription":
+                page = this.typeReinscription;
+                break;
+            case "particulier":
+                page = this.typeReinscription;
+                break;
+        }
+        return page;
+    }
+    
+    public String affichage3() {
+        String res = "R";
+        String msg;
+        try {
+            List<Inscription> inscriptions = null;
+            if (resultats.equals("Admissible")) {
+                res = "A";
+            }
+            if (res == "R") {
+                inscriptions = inscriptionFacade.listeReinscription(groupePedagogiquePrev.getDescription(), anneeAcademique, res);
+            } else {
+                String preGP = JsfUtil.previousGP(groupePedagogiquePrev.getDescription().trim());
+                inscriptions = inscriptionFacade.listeReinscription(preGP, anneeAcademique, res);
+            }
+            setListeInscriptions1(inscriptions);
+        } catch (Exception ex) {
+            listeInscriptions1 = new ArrayList<>();
+            msg = JsfUtil.getBundleMsg("InscriptionCreateErrorMsg");
+            JsfUtil.addErrorMessage(msg);
+        }
+        return "succes3";
+    }
+    
+    
+     public void onGroupePedagogiqueChange() {
+        if (groupePedagogique != null) {
+            listeInscriptions = data2.get(groupePedagogique);
+        } else {
+            listeInscriptions = new ArrayList<>();
+        }
+    }
+
 }

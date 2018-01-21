@@ -27,6 +27,7 @@
                             <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" action="#{notesBean.updateNotes()}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
                                              class="btn btn-default">
+                                <f:param name="utilisateurSession" value="#{authentificateBean.currentUser.login}"/>
                             </p:commandButton>
                             <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
                                 #{bundle.Cancel}

@@ -9,6 +9,7 @@ import ejb.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import jpa.administration.Utilisateur;
 
 /**
@@ -29,4 +30,16 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
         super(Utilisateur.class);
     }
     
+    public Utilisateur recupDirecteurEtude(String responsabilite){
+        Utilisateur  utilisateur = null;
+        try {
+            Query query = em.createQuery("SELECT U FROM Utilisateur U WHERE U.responsabilite = :responsabilite");
+            // set parameters
+            query.setParameter("responsabilite", responsabilite);
+            utilisateur = (Utilisateur) query.getSingleResult();
+        } catch (Exception ex) {
+            utilisateur = new Utilisateur();
+        }
+        return utilisateur;
+    }
 }

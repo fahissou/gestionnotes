@@ -830,5 +830,25 @@ public class JsfUtil {
         return date;
     }
     
+    public static String previousAcademicYear(String arg) {
+        String [] tab1 = arg.split("-");
+        int a1 = Integer.parseInt(tab1[0].trim()) - 1;
+        int a2 = Integer.parseInt(tab1[1].trim()) - 1;
+        return String.valueOf(a1) + " - " +String.valueOf(a2);
+    }
+    
+    public static String previousGP(String arg) {
+        String res ;
+        String [] tab1 = arg.split("-");
+        String a1 = tab1[0].trim();
+        int    a2 = Integer.parseInt(tab1[1].trim());
+        if(a2 > 1 && a2 <= 3) {
+            a2 = a2 -1;
+            res = String.valueOf(a1) + "-" +String.valueOf(a2);
+        }else{
+            res = arg;
+        }
+        return res;
+    }
     
 }

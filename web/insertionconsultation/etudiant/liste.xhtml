@@ -15,6 +15,35 @@
                     <div class="head clearfix enteteTable">
                         <!--<div class="i-cycle glyphicon glyphicon-refresh"></div>-->
                         <h1>#{bundle.listeEtudiant}</h1>
+                        
+                        
+                        <ul class="buttonLien">
+                            <li>
+                                
+<!--                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                               update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
+                                    <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                    <i class="ibw-edit"/>
+                                </p:commandLink>-->
+                                
+                                
+                                <div class="row-form clearfix">
+                                <div class="col-md-9">
+                                    <p:selectOneMenu id="anneeAcademique" value="#{inscriptionBean.groupePedagogique}" 
+                                                     required="false">
+                                        <p:ajax listener="#{inscriptionBean.onGroupePedagogiqueChange()}" update="incarcerationTable" />
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.GroupePedagogique}"/>
+                                        <f:selectItems value="#{inscriptionBean.listesGroupePedagogiques}"
+                                                       var="groupePedagogiquesItem"
+                                                       itemValue="#{groupePedagogiquesItem}"
+                                                       itemLabel="#{groupePedagogiquesItem.description}"/>
+                                                  <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    </p:selectOneMenu>
+                                    
+                                </div>
+                            </div>
+                            </li>
+                        </ul>
 
                         <ul class="buttons">
 

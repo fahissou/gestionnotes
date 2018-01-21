@@ -5,19 +5,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:body>
-        <ui:composition template="/template/base.xhtml">
-            <ui:define name="title">
-                Acceuil
-            </ui:define>
-
-            <ui:define name="breadLine">
-                <div class="breadLine">
-                    <ul class="breadcrumb">
-                        <li><a href="#">Gestion Note</a> <span class="divider">></span></li>                
-                        <li class="active">Dashboard</li>
-                    </ul>
-                    <h:form>
+    <ui:composition > 
+        
+         <h:form>
                         <ul class="buttons">
                             <li>
                                 <a href="#" class="link_bcPopupSearch"><span class="glyphicon glyphicon-search"></span><span class="text">#{bundle.Search}</span></a>
@@ -51,19 +41,10 @@
                                 </div>                
                             </li>
                         </ul>
-                    </h:form>
-
-                </div>
-            </ui:define>
-
-            <ui:define name="main">
-                <div class="workplace">
-                    <div class="row">
-                        <ui:include src="parametre.xhtml"/>
-                    </div>
-                </div>
-            </ui:define>
-        </ui:composition>
-    </h:body>
+                    </h:form>  
+       
+    
+    
+    </ui:composition>
 </html>
 

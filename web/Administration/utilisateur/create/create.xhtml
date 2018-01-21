@@ -32,7 +32,7 @@
                                 </div>
                             </div>
 
-                            <div class="row-form clearfix">
+<!--                            <div class="row-form clearfix">
                                 <div class="col-md-3">
                                     <p:outputLabel for="nom" value="#{bundle.Nom}"/>
                                 </div>
@@ -86,9 +86,22 @@
                                     <p:outputLabel value="#{bundle.Genre}" for="genre"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:selectOneRadio id="genre" value="#{utilisateurBean.newUtilisateur.genre}" layout="grid" columns="2" required="false">
+                                    <p:selectOneRadio id="genre" value="#{utilisateurBean.newUtilisateur.genre}" layout="grid" columns="2" required="true">
                                         <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
                                         <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
+                                    </p:selectOneRadio>
+                                </div>
+                            </div>-->
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Responsabilite}" for="responsabilite"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneRadio id="responsabilite" value="#{utilisateurBean.newUtilisateur.responsabilite}" layout="grid" columns="3" required="true">
+                                        <f:selectItem itemLabel="#{bundle.Aucun}" itemValue="A" />
+                                        <f:selectItem itemLabel="#{bundle.DE}" itemValue="DE"/>
+                                        <f:selectItem itemLabel="#{bundle.Dr}" itemValue="Dr"/>
                                     </p:selectOneRadio>
                                 </div>
                             </div>
