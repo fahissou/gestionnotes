@@ -39,14 +39,6 @@ public class NotesFacade extends AbstractFacade<Notes> {
         super.create(notes);
     }
 
-    @Override
-    public void edit(Notes notes) {
-        if (notes.getNote() >= 12.0) {
-            notes.setEtatValidation("VALIDÉ");
-        }
-        super.edit(notes);
-    }
-
     public List<Notes> listeNoteGpAnnee(String inscriptionID, String groupePedagogique, Matiere matiere) {
         List<Notes> notes = null;
         try {
@@ -64,7 +56,7 @@ public class NotesFacade extends AbstractFacade<Notes> {
     }
 
     public Notes getNotesByInscriptionMatiere(Inscription inscription, Matiere matiere) {
-
+            Notes notes = null;
         try {
 
             String matiereID = matiere.getId();
@@ -73,11 +65,11 @@ public class NotesFacade extends AbstractFacade<Notes> {
             // set parameters
             query.setParameter("inscriptionID", inscriptionID);
             query.setParameter("matiereID", matiereID);
-            return (Notes) query.getSingleResult();
+            notes = (Notes) query.getSingleResult();
         } catch (Exception ex) {
-            return null;
+            notes = new Notes();
         }
-
+        return notes;
     }
     
     public List<Notes> listeNoteByInscription(Inscription inscription) {
@@ -99,10 +91,19 @@ public class NotesFacade extends AbstractFacade<Notes> {
         try {
             String matiereID = matiere.getId();
             String idGroupePedagogique = groupePedagogique.getId();
-            Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.groupePedagogique.id = :idGroupePedagogique AND N.matiere.id = :matiereID AND N.note < 12.0");
+            String uenv = "UENV";
+            String uev = "UEV";
+            double valNull = 0.0;
+            double moy = 12.0;
+            Query query = em.createQuery("SELECT N FROM Notes N WHERE  ((N.etatValidation = :uenv AND N.note < :moy) OR (N.etatValidation = :uev AND N.note = :valNull)) AND (N.inscription.groupePedagogique.id = :idGroupePedagogique) AND (N.matiere.id = :matiereID)");
             // set parameters
             query.setParameter("idGroupePedagogique", idGroupePedagogique);
             query.setParameter("matiereID", matiereID);
+            query.setParameter("uenv", uenv);
+            query.setParameter("uev", uev);
+            query.setParameter("valNull", valNull);
+            query.setParameter("moy", moy);
+            
             List<Notes> list = query.getResultList();
             return list;
         } catch (Exception ex) {

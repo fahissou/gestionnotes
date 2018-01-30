@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="col-md-12">
+            <div class="block">
+                <div class="head clearfix">
+                    <div class="isw-documents"></div>
+                    <h1>#{bundle.RechercheAvancee}</h1>
+                </div>
+                <h:form id="formeEx" styleClass="form-horizontal">
+                    <div class="block-fluid">
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="anneeAcademic" value="#{bundle.AnneeAcademique}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="anneeAcademic" value="#{notesBean.anneeAcademiqueObjet}" 
+                                                 required="false">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{anneeAcademiqueBean.listeAnneeAcademiques}" var="itemAnneeAcademique"
+                                                   itemValue="#{itemAnneeAcademique}" itemLabel="#{itemAnneeAcademique.description}"/>
+                                    <f:converter  converterId="anneeAcademiqueConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="filiere" value="#{notesBean.filiere}" 
+                                                 required="false">
+                                    <p:ajax listener="#{notesBean.onFiliereChange()}" update="groupePedagogique" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="false">
+                                    <p:ajax listener="#{notesBean.onGroupePedagogiqueChange()}" update="ue" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{notesBean.listGroupePedagogiques1}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="ue" value="#{bundle.UE}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="ue" value="#{notesBean.ue}" 
+                                                 required="false">
+                                    <p:ajax listener="#{notesBean.onUeChange()}" update="matiere" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{notesBean.ues}"
+                                                   var="ueItem"
+                                                   itemValue="#{ueItem}"
+                                                   itemLabel="#{ueItem.libelle.toUpperCase()}"
+                                                   />
+                                    <f:converter  converterId="ueConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="matiere" value="#{bundle.Matiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="matiere" value="#{notesBean.newMatiere}" 
+                                                 required="false">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{notesBean.tmpMatieres}" var="itemMatiere"
+                                                   itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="matiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{notesBean.affichage3()}"
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="#{matiereBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>                                        
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

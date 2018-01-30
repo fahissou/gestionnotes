@@ -813,12 +813,12 @@ public class JsfUtil {
         int a21 = Integer.parseInt(tab2[0].trim());
         int a22 = Integer.parseInt(tab2[1].trim());
         if(arg1.equals(arg2)) {
-            resultat = 1;
+            resultat = 0;
         }else{
              if(a11 == a21 && a12 == a22){
-                 resultat = 0;
+                 resultat = 1;
              }else{
-                 resultat = -1;
+                 resultat = 0;
              }
         }
         return resultat;
@@ -849,6 +849,211 @@ public class JsfUtil {
             res = arg;
         }
         return res;
+    }
+    
+     public static String nextGP(String arg) {
+        String res ;
+        String [] tab1 = arg.split("-");
+        String a1 = tab1[0].trim();
+        int    a2 = Integer.parseInt(tab1[1].trim());
+        if(a2 >= 1 && a2 < 3) {
+            a2 = a2 + 1;
+            res = String.valueOf(a1) + "-" +String.valueOf(a2);
+        }else{
+            res = arg;
+        }
+        return res;
+    }
+     
+     public static String [] getEnteteProcesVerbal(int taille) {
+        String [] arg = new String[taille];
+        for (int i = 0; i < taille; i++) {
+            arg[i] = "UE"+(i+1);
+        }
+        return arg;
+    }
+     
+     public static int[] choixParametre(int a) {
+        int[] choix = new int[2];
+        switch (a) {
+            case 12:
+                choix[0] = 1;
+                choix[1] = 0;
+                break;
+            case 11:
+                choix[0] = 1;
+                choix[1] = 1;
+                break;
+            case 10:
+                choix[0] = 1;
+                choix[1] = 2;
+                break;
+            case 9:
+                choix[0] = 1;
+                choix[1] = 3;
+                break;
+            case 8:
+                choix[0] = 1;
+                choix[1] = 4;
+                break;
+            case 7:
+                choix[0] = 1;
+                choix[1] = 5;
+                break;
+            case 6:
+                choix[0] = 1;
+                choix[1] = 6;
+                break;
+            case 5:
+                choix[0] = 0;
+                choix[1] = 1;
+                break;
+        }
+        return choix;
+    }
+    
+   
+     
+    public static String getAbrevUE(String arg) {
+        String [] arg1 = arg.split(" ");
+        String result ="";
+        for (int i = 0; i < arg1.length; i++) {
+            if((arg1[i].length() > 3) || i == 0 || i == arg1.length-1 ){
+                String val = arg1[i];
+                for (int j = 0; j < val.length(); j++) {
+                    if(j < 4){
+                        result += val.charAt(j);
+                    }
+                }
+                if(i < arg1.length-1){
+                    result +="-";
+                }
+                
+            }
+        }
+        return result;
+    }
+    
+    public static int[] choiseParameter(int a) {
+        int[] choix = new int[3];
+        int constante = 18;
+        if (a <= 18 && a >= 12) {
+            choix[0] = 0;
+            choix[1] = 0;
+            choix[2] = constante - a;
+        }else if(a < 12 && a >= 6){
+            constante = 12;
+            choix[0] = 0;
+            choix[1] = constante - a;
+            choix[2] = 6;
+        }else if(a < 6 && a >= 4) {
+            constante = 6;
+            choix[0] = constante - a;
+            choix[1] = 6;
+            choix[2] = 6;
+        }else{
+            choix[0] = 6;
+            choix[1] = 6;
+            choix[2] = 6;
+        }
+        return choix;
+    }
+    
+    public static String[] getFileNameRapport(int a) {
+        String[] choix = new String[3];
+        switch (a) {
+            case 18:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces12.docx";
+                choix[2] = "proces18.docx";
+                break;
+            case 17:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces12.docx";
+                choix[2] = "proces17.docx";
+                break;
+            case 16:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces12.docx";
+                choix[2] = "proces16.docx";
+                break;
+            case 15:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces12.docx";
+                choix[2] = "proces15.docx";
+                break;
+            case 14:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces12.docx";
+                choix[2] = "proces14.docx";
+                break;
+            case 13:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces12.docx";
+                choix[2] = "proces13.docx";
+                break;
+            case 12:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces12.docx";
+                choix[2] = "";
+                break;
+            case 11:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces11.docx";
+                choix[2] = "";
+                break;
+            case 10:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces10.docx";
+                choix[2] = "";
+                break;
+            case 9:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces9.docx";
+                choix[2] = "";
+                break;
+            case 8:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces8.docx";
+                choix[2] = "";
+                break;
+            case 7:
+                choix[0] = "proces0.docx";
+                choix[1] = "proces7.docx";
+                choix[2] = "";
+                break;
+            case 6:
+                choix[0] = "proces0.docx";
+                choix[1] = "";
+                choix[2] = "";
+                break;
+            case 5:
+                choix[0] = "proces5.docx";
+                choix[1] = "";
+                choix[2] = "";
+                break;
+            case 4:
+                choix[0] = "proces4.docx";
+                choix[1] = "";
+                choix[2] = "";
+                break;
+            default:
+                choix[0] = "";
+                choix[1] = "";
+                choix[2] = "";
+        }
+        return choix;
+    }
+    
+    public static String getDateEdition() {
+        
+        Date date1 = new Date();
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+        String date2 = formatDate.format(date1);
+//        int annee = date1.getYear() + 1900;
+//        int mois  = date1.getMonth();
+//        int jour = date1.getDate();
+        return date2;
     }
     
 }

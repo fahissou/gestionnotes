@@ -11,7 +11,7 @@
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1> #{notesBean.newGroupePedagogique.description} #{bundle.Matiere}: #{notesBean.newMatiere.libelle} #{bundle.AnneeAcademique}: #{notesBean.anneeAcademique}</h1>
+                        <h1> #{bundle.Matiere}: #{notesBean.newMatiere.libelle} #{bundle.AnneeAcademique}: #{notesBean.anneeAcademique}</h1>
                         <!--<div class="isw-grid valideTable"> </div>-->
 <!--                        <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{notesBean.affichage()}"
                                              oncomplete="updateGritter(xhr);" 
@@ -40,7 +40,7 @@
                     <div class="content np block-fluid table-sorting clearfix">
                         <p:dataTable id="incarcerationTable" var="item"
                                      selection="#{notesBean.selectedNotes}"
-                                     value="#{notesBean.listeNotesGroupPeda}"
+                                     value="#{notesBean.listeNotesEnregistrement}"
                                      emptyMessage="#{bundle.EmptyListMsg}"
                                      rowKey="#{item.id}"
                                      paginator="true"

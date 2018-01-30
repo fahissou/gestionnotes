@@ -15,22 +15,7 @@
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <p:growl id="growl" showDetail="true"/>
                     <div class="block-fluid">
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="anneeAcademique" value="#{bundle.AnneeAcademique}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="anneeAcademique" value="#{inscriptionBean.anneeAcademique}" 
-                                                 required="true">
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{inscriptionBean.listeAnneeUniversitaire}"
-                                                   var="inscriptionItem"
-                                                   itemValue="#{inscriptionItem}"
-                                                   itemLabel="#{inscriptionItem.toUpperCase()}"/>
-                                </p:selectOneMenu>
-                            </div>
-                        </div>
-
+                        
                         <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="groupe" value="#{bundle.GroupePedagogique}"/>

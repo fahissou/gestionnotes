@@ -15,24 +15,6 @@
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <p:growl id="growl" showDetail="true"/>
                     <div class="block-fluid">
-                        <div class=" row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="nomUe" value="#{bundle.Description}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:inputText id="nomUe" value="#{ueBean.newUe.libelle}" required="true" placeholder="#{bundle.Description}"/>
-                            </div>
-                        </div>
-                       
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="credit" value="#{bundle.Credit}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:inputText id="credit" value="#{ueBean.newUe.credit}" required="true" placeholder="#{bundle.Credit}"/>
-                            </div>
-
-                        </div>
                         
                         <div class="row-form clearfix">
                             <div class="col-md-3">
@@ -65,7 +47,25 @@
                                 </p:selectOneMenu>
                             </div>
                         </div>
+                        
+                        <div class=" row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="nomUe" value="#{bundle.Description}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="nomUe" value="#{ueBean.newUe.libelle}" required="true" placeholder="#{bundle.Description}"/>
+                            </div>
+                        </div>
+                       
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="credit" value="#{bundle.Credit}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="credit" value="#{ueBean.newUe.credit}" required="true" placeholder="#{bundle.Credit}"/>
+                            </div>
 
+                        </div>
 
 
                         <div class="footer tar">

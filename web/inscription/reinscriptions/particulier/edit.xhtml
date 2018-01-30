@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+
+
+        <div id="editDialog" class="modal fade" data-backdrop="true" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h:form id="editDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
+                        <div class="head clearfix">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h1>#{bundle.Modification}</h1>
+                        </div> <!-- /.modal-header -->
+                        <div class="modal-body">
+                            
+                                        #{bundle.confirmEnregistrement}
+                           
+
+                        </div> <!-- /.modal-body -->
+                        <div class="footer tar">
+                            <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" action="#{notesBean.updateNotes()}" 
+                                             oncomplete="$('#editDialog').modal('hide');" 
+                                             class="btn btn-default">
+                                <f:param name="utilisateurSession" value="#{authentificateBean.currentUser.login}"/>
+                            </p:commandButton>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
+                                #{bundle.Cancel}
+                            </button>
+                        </div> <!-- /.modal-footer -->
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

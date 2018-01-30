@@ -14,16 +14,34 @@
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <div class="block-fluid">
-                   
-                    <div class="row-form clearfix">
+
+                        <div class="row-form clearfix">
                             <div class="col-md-3">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="filiere" value="#{notesBean.filiere}" 
+                                                 required="true">
+                                    <p:ajax listener="#{notesBean.onFiliereChange()}" update="groupePedagogique" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="false">
+                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="true">
                                     <p:ajax listener="#{notesBean.onGroupePedagogiqueChange()}" update="ue" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{notesBean.listGroupePedagogiques}"
+                                    <f:selectItems value="#{notesBean.listGroupePedagogiques1}"
                                                    var="groupePItem"
                                                    itemValue="#{groupePItem}"
                                                    itemLabel="#{groupePItem.description.toUpperCase()}"/>
@@ -32,13 +50,13 @@
                             </div>
                         </div>
 
-                       <div class="row-form clearfix">
+                        <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="ue" value="#{bundle.UE}"/>
                             </div>
                             <div class="col-md-9">
                                 <p:selectOneMenu id="ue" value="#{notesBean.ue}" 
-                                                 required="false">
+                                                 required="true">
                                     <p:ajax listener="#{notesBean.onUeChange()}" update="matiere" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{notesBean.ues}"
@@ -57,7 +75,7 @@
                             </div>
                             <div class="col-md-9">
                                 <p:selectOneMenu id="matiere" value="#{notesBean.newMatiere}" 
-                                                 required="false">
+                                                 required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{notesBean.tmpMatieres}" var="itemMatiere"
                                                    itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle.toUpperCase()}"/>

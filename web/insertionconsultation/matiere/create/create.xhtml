@@ -15,23 +15,7 @@
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <p:growl id="growl" showDetail="true"/>
                     <div class="block-fluid">
-                        <div class=" row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="nomMatiere" value="#{bundle.Descripetion}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:inputText id="nomMatiere" value="#{matiereBean.newMatiere.libelle}" required="true" placeholder="#{bundle.Nom}"/>
-                            </div>
-                        </div>
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="coefficient" value="#{bundle.Coefficiant}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:inputText id="coefficient" value="#{matiereBean.newMatiere.coefficiant}" required="true" placeholder="#{bundle.Coefficiant}"/>
-                            </div>
-
-                        </div>
+                        
                         
                         <div class="row-form clearfix">
                             <div class="col-md-3">
@@ -49,15 +33,15 @@
                                 </p:selectOneMenu>
                             </div>
                         </div>
-
-                       <div class="row-form clearfix">
+                        
+                        <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="ue" value="#{bundle.UE}"/>
                             </div>
                             <div class="col-md-9">
                                 <p:selectOneMenu id="ue" value="#{matiereBean.newMatiere.ue}" required="false">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{matiereBean.listeUE}"
+                                    <f:selectItems value="#{matiereBean.listeUEDynamic}"
                                                    var="ueItem"
                                                    itemValue="#{ueItem}"
                                                    itemLabel="#{ueItem.libelle.toUpperCase()}"
@@ -68,6 +52,27 @@
                         </div>
                         
                         
+                        <div class=" row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="nomMatiere" value="#{bundle.Descripetion}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="nomMatiere" value="#{matiereBean.newMatiere.libelle}" required="true" placeholder="#{bundle.Nom}"/>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="coefficient" value="#{bundle.Coefficiant}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="coefficient" value="#{matiereBean.newMatiere.coefficiant}" required="true" placeholder="#{bundle.Coefficiant}"/>
+                            </div>
+
+                        </div>
+                        
+
                         <div class="footer tar">
                             <p:commandButton value="Valider" update="@form growl" actionListener="#{matiereBean.doCreate}" 
                                              oncomplete="updateGritter(xhr);" 

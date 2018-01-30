@@ -5,6 +5,7 @@
  */
 package bean.module;
 
+import bean.inscription.NotesBean;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.module.SemestreFacade;
 import ejb.module.UeFacade;
@@ -46,7 +47,7 @@ public class UeBean implements Serializable{
     private Map<GroupePedagogique, List<Semestre>> data1;
     private GroupePedagogique groupePedagogique;
     private List<Semestre> semestres;
-
+    private NotesBean notesbean;
     /**
      * Creates a new instance of UeBean
      */
@@ -102,6 +103,7 @@ public class UeBean implements Serializable{
             JsfUtil.addSuccessMessage(msg);
             prepareCreate();
             listeUes = ueFacade.findAll();
+            
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("UeCreateErrorMsg");
             JsfUtil.addErrorMessage(msg);

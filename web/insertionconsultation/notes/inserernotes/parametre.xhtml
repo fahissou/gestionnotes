@@ -15,15 +15,33 @@
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <div class="block-fluid">
 
-                    <div class="row-form clearfix">
+                        <div class="row-form clearfix">
                             <div class="col-md-3">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="filiere" value="#{notesBean.filiere}" 
+                                                 required="false">
+                                    <p:ajax listener="#{notesBean.onFiliereChange()}" update="groupePedagogique" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
                                 <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="false">
                                     <p:ajax listener="#{notesBean.onGroupePedagogiqueChange()}" update="ue" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{notesBean.listGroupePedagogiques}"
+                                    <f:selectItems value="#{notesBean.listGroupePedagogiques1}"
                                                    var="groupePItem"
                                                    itemValue="#{groupePItem}"
                                                    itemLabel="#{groupePItem.description.toUpperCase()}"/>
@@ -32,7 +50,7 @@
                             </div>
                         </div>
 
-                       <div class="row-form clearfix">
+                        <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="ue" value="#{bundle.UE}"/>
                             </div>
@@ -65,9 +83,24 @@
                                 </p:selectOneMenu>
                             </div>
                         </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="enseignant" value="#{bundle.Enseignant}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="enseignant" value="#{notesBean.enseignant}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{enseignantBean.listeEnseignants}" var="itemEnseignant"
+                                                   itemValue="#{itemEnseignant}" itemLabel="#{itemEnseignant.nom.toUpperCase()} #{itemEnseignant.prenom}"/>
+                                    <f:converter  converterId="enseignantConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
 
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{notesBean.affichage1()}"
+                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{notesBean.affichageNotes()}"
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>
 

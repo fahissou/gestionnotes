@@ -56,5 +56,17 @@ public class GroupePedagogiqueFacade extends AbstractFacade<GroupePedagogique> {
         }
         return liste;
     }
+    
+    public  GroupePedagogique getGroupePedagogique(String groupeP){
+         
+        Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.description = :groupeP");
+        query.setParameter("groupeP", groupeP);
+        try {
+             return (GroupePedagogique) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
+ 
+    }
 
 }

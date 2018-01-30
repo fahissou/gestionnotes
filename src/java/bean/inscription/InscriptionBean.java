@@ -58,15 +58,14 @@ import org.apache.poi.ss.usermodel.Row;
 //@Named(value = "inscriptionBean")
 //@ViewScoped
 public class InscriptionBean implements Serializable {
+
+    @EJB
+    private AnneeAcademiqueFacade anneeAcademiqueFacade;
+
     @EJB
     private FiliereFacade filiereFacade;
     @EJB
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
-    
-    
-
-    @EJB
-    private AnneeAcademiqueFacade anneeAcademiqueFacade;
 
     @EJB
     private MatiereFacade matiereFacade;
@@ -79,6 +78,7 @@ public class InscriptionBean implements Serializable {
     private EtudiantFacade etudiantFacade;
 
     private Etudiant newEtudiant;
+    private Etudiant etudiant;
 
     @EJB
     private InscriptionFacade inscriptionFacade;
@@ -101,8 +101,8 @@ public class InscriptionBean implements Serializable {
     private String fileExtension;
     private FileInputStream fichier;
     private Notes newNote;
-    private String anneeAcademique;
-    private AnneeAcademique newAnneeAcademique;
+//    private String currentAcademicYear;
+    private AnneeAcademique currentAcademicYear;
     private GroupePedagogique groupePedagogique;
     private GroupePedagogique groupePedagogiqueNext;
     private GroupePedagogique groupePedagogiquePrev;
@@ -113,6 +113,7 @@ public class InscriptionBean implements Serializable {
     private List<GroupePedagogique> listGroupePedagogiques;
     private List<Filiere> listFiliere;
     private Filiere filiere;
+//    private AnneeAcademique currentAcademicYear;
 
     /**
      * Creates a new instance of InscriptionBean
@@ -122,16 +123,14 @@ public class InscriptionBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("ok1");
         listeInscriptions = inscriptionFacade.findAll();
-        System.out.println("ok2");
         listFiliere = filiereFacade.findAll();
-        System.out.println("ok3");
         listGroupePedagogiques = groupePedagogiqueFacade.findAll();
         prepareCreate();
+        currentAcademicYear = anneeAcademiqueFacade.getCurrentAcademicYear();
 
         listeAnneeUniversitaire = new ArrayList<>();
-        newAnneeAcademique = new AnneeAcademique();
+//        currentAcademicYear = new AnneeAcademique();
 
         listeAnneeUniversitaire.add("2014 - 2015");
         listeAnneeUniversitaire.add("2015 - 2016");
@@ -181,19 +180,16 @@ public class InscriptionBean implements Serializable {
     public void loadData() {
         data1 = new HashMap<>();
         data2 = new HashMap<>();
-        System.out.println("ok41");
         for (int i = 0; i < listFiliere.size(); i++) {
             List<GroupePedagogique> list1 = groupePedagogiqueFacade.getListGpByFilire(listFiliere.get(i));
             data1.put(listFiliere.get(i), list1);
 
         }
-        System.out.println("ok42");
         for (int j = 0; j < listGroupePedagogiques.size(); j++) {
-            List<Inscription> list2 = inscriptionFacade.getListInscriptionByGP(listGroupePedagogiques.get(j).getDescription(), anneeAcademiqueFacade.getCurrentAcademicYear().getDescription());
+            List<Inscription> list2 = inscriptionFacade.getListInscriptionByGP(listGroupePedagogiques.get(j).getDescription(), currentAcademicYear.getDescription());
             data2.put(listGroupePedagogiques.get(j), list2);
 
         }
-        
 
     }
 
@@ -202,7 +198,7 @@ public class InscriptionBean implements Serializable {
             listGroupePedagogiques = data1.get(filiere);
         } else {
             listGroupePedagogiques = new ArrayList<>();
-            
+
         }
 
     }
@@ -245,6 +241,14 @@ public class InscriptionBean implements Serializable {
             msg = JsfUtil.getBundleMsg("InscriptionDelErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
+    }
+
+    public Etudiant getEtudiant() {
+        return etudiant;
+    }
+
+    public void setEtudiant(Etudiant etudiant) {
+        this.etudiant = etudiant;
     }
 
     public String getTypeReinscription() {
@@ -412,14 +416,6 @@ public class InscriptionBean implements Serializable {
         this.newEtudiant = new Etudiant();
     }
 
-    public String getAnneeAcademique() {
-        return anneeAcademique;
-    }
-
-    public void setAnneeAcademique(String anneeAcademique) {
-        this.anneeAcademique = anneeAcademique;
-    }
-
     public void reset(ActionEvent e) {
         this.newInscription.reset();
     }
@@ -487,8 +483,6 @@ public class InscriptionBean implements Serializable {
     public void setListesGroupePedagogiques(List<GroupePedagogique> listGroupePedagogiques) {
         this.listGroupePedagogiques = listGroupePedagogiques;
     }
-    
-    
 
     public void handleFileUpload(FileUploadEvent event) {
         UploadedFile uploadedFile = event.getFile();
@@ -505,27 +499,17 @@ public class InscriptionBean implements Serializable {
                 fichier = (FileInputStream) uploadedFile.getInputstream();
                 fileExtension = fileName.split("\\.")[1];
                 System.out.println("extension " + fileExtension);
-                AnneeAcademique academicYear = anneeAcademiqueFacade.getCurrentAcademicYear();
-                int result = JsfUtil.valideAcademicYear(academicYear.getDescription(), anneeAcademique);
-                if (result == 1) {
-                    newAnneeAcademique = academicYear;
-                    insertInscription(fichier);
-                } else if (result == 0) {
-                    academicYear.setEtat(result);
-                    anneeAcademiqueFacade.edit(academicYear);
-                    newAnneeAcademique.setDescription(anneeAcademique);
-                    anneeAcademiqueFacade.create(newAnneeAcademique);
-                    insertInscription(fichier);
-                } else {
-                    msg = JsfUtil.getBundleMsg("AnneeAcademiqueError");
-                    JsfUtil.addErrorMessage(msg);
-                }
+                insertInscription(fichier);
+                msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
+                JsfUtil.addSuccessMessage(msg);
+                prepareCreate();
                 listeInscriptions = inscriptionFacade.findAll();
-
             } else {
-                System.out.println("fichier non chargÃ©");
+                System.out.println("fichier non chargé");
             }
         } catch (Exception e) {
+            msg = JsfUtil.getBundleMsg("AnneeAcademiqueError");
+            JsfUtil.addErrorMessage(msg);
         }
 
     }
@@ -564,7 +548,6 @@ public class InscriptionBean implements Serializable {
                     if (compteurLigne > 1) {
                         // Etudiant save
                         if (contenuLigne.size() == 7) {
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy");
                             newEtudiant.setLogin(String.valueOf(contenuLigne.get(0)));
                             newEtudiant.setNom(String.valueOf(contenuLigne.get(1)));
                             newEtudiant.setPrenom(String.valueOf(contenuLigne.get(2)));
@@ -577,7 +560,8 @@ public class InscriptionBean implements Serializable {
                             etudiantFacade.create(newEtudiant);
                             // Inscritption save
                             newInscription.setEtudiant(newEtudiant);
-                            newInscription.setAnneeAcademique(newAnneeAcademique);
+                            newInscription.setGroupePedagogique(groupePedagogique);
+                            newInscription.setAnneeAcademique(currentAcademicYear);
                             inscriptionFacade.create(newInscription);
                             createDiffaultNotes(newInscription);
                         } else {
@@ -667,37 +651,74 @@ public class InscriptionBean implements Serializable {
         }
         return page;
     }
-    
+
     public String affichage3() {
-        String res = "R";
         String msg;
-        try {
+        String resul = "";
+        listeInscriptions1 = new ArrayList<>();
+        System.out.println("icic");
+        
             List<Inscription> inscriptions = null;
-            if (resultats.equals("Admissible")) {
-                res = "A";
-            }
-            if (res == "R") {
-                inscriptions = inscriptionFacade.listeReinscription(groupePedagogiquePrev.getDescription(), anneeAcademique, res);
-            } else {
-                String preGP = JsfUtil.previousGP(groupePedagogiquePrev.getDescription().trim());
-                inscriptions = inscriptionFacade.listeReinscription(preGP, anneeAcademique, res);
-            }
-            setListeInscriptions1(inscriptions);
-        } catch (Exception ex) {
-            listeInscriptions1 = new ArrayList<>();
-            msg = JsfUtil.getBundleMsg("InscriptionCreateErrorMsg");
+            inscriptions = inscriptionFacade.listeReinscription(groupePedagogique.getDescription(), currentAcademicYear.getDescription());
+            if(!inscriptions.isEmpty()){
+                setListeInscriptions1(inscriptions);
+                resul = "succes3";
+            }else{
+            msg = JsfUtil.getBundleMsg("CreateNewAcademicYear");
             JsfUtil.addErrorMessage(msg);
-        }
-        return "succes3";
+            }
+        return resul;
     }
-    
-    
-     public void onGroupePedagogiqueChange() {
+
+    public void onGroupePedagogiqueChange() {
         if (groupePedagogique != null) {
             listeInscriptions = data2.get(groupePedagogique);
         } else {
             listeInscriptions = new ArrayList<>();
         }
+    }
+
+    public String updateReinscription() {
+        String msg;
+        try {
+
+            for (int i = 0; i < listeInscriptions1.size(); i++) {
+                listeInscriptions1.get(i).setAnneeAcademique(currentAcademicYear);
+                inscriptionFacade.edit(listeInscriptions1.get(i));
+                createDiffaultNotes(listeInscriptions1.get(i));
+            }
+            listeInscriptions = inscriptionFacade.findAll();
+
+        } catch (Exception e) {
+            msg = JsfUtil.getBundleMsg("AnneeAcademiqueError");
+            JsfUtil.addErrorMessage(msg);
+        }
+        return "succes3";
+    }
+
+    public String reinscriptionParticuliere() {
+        String msg;
+        Inscription inscription = null;
+        try {
+            if (!inscriptionFacade.isInscriptionExist(etudiant.getLogin(), currentAcademicYear.getDescription())) {
+                inscription = new Inscription();
+                inscription.setAnneeAcademique(currentAcademicYear);
+                inscription.setGroupePedagogique(groupePedagogique);
+                inscription.setEtudiant(etudiant);
+                inscriptionFacade.create(inscription);
+                createDiffaultNotes(inscription);
+                listeInscriptions = inscriptionFacade.findAll();
+                msg = JsfUtil.getBundleMsg("InscriptionDelSuccessMsg");
+                JsfUtil.addSuccessMessage(msg);
+            } else {
+                msg = JsfUtil.getBundleMsg("InscriptionEditErrorMsg");
+                JsfUtil.addErrorMessage(msg);
+            }
+
+        } catch (Exception e) {
+
+        }
+        return null;
     }
 
 }

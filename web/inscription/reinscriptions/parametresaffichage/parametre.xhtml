@@ -15,25 +15,6 @@
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <div class="block-fluid">
 
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="anneeAcademique" value="#{bundle.AnneeAcademique}"/>
-                            </div>
-                            
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="anneeAcademique" value="#{inscriptionBean.anneeAcademique}" 
-                                                 required="false">
-                                    <f:selectItem itemValue="#{null}" itemLabel="selection"/>
-                                    <f:selectItems value="#{inscriptionBean.listeAnneeUniversitaire}"
-                                                   var="inscriptionItem"
-                                                   itemValue="#{inscriptionItem}"
-                                                   itemLabel="#{inscriptionItem.toUpperCase()}"/>
-
-                                </p:selectOneMenu>
-
-                            </div>
-                            
-                        </div>
            
                         
                         <div class="row-form clearfix">
@@ -57,7 +38,7 @@
                                     <p:outputLabel for="groupeGPPrev" value="#{bundle.GroupePedagogique}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:selectOneMenu id="groupeGPPrev" value="#{inscriptionBean.groupePedagogiquePrev}" 
+                                    <p:selectOneMenu id="groupeGPPrev" value="#{inscriptionBean.groupePedagogique}" 
                                                      required="false">
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{inscriptionBean.listGroupePedagogiques}" var="itemGroupe"
@@ -69,27 +50,6 @@
                         
                         
                         
-                        
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="resultat" value="#{bundle.ResultatAnnuel}"/>
-                            </div>
-                            
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="resultat" value="#{inscriptionBean.resultats}" 
-                                                 required="false">
-                                    <f:selectItem itemValue="#{null}" itemLabel="selection"/>
-                                    <f:selectItems value="#{inscriptionBean.listeResultat}"
-                                                   var="resultatItem"
-                                                   itemValue="#{resultatItem}"
-                                                   itemLabel="#{resultatItem.toUpperCase()}"/>
-
-                                </p:selectOneMenu>
-
-                            </div>
-                            
-                        </div>
 
                         <div class="footer tar">
                             <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{inscriptionBean.affichage3()}"

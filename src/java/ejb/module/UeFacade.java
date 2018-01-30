@@ -6,7 +6,9 @@
 package ejb.module;
 
 import ejb.AbstractFacade;
+import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +25,9 @@ import util.JsfUtil;
  */
 @Stateless
 public class UeFacade extends AbstractFacade<Ue> {
+    @EJB
+    private MatiereFacade matiereFacade;
+
     @PersistenceContext(unitName = "gestionnotesPU")
     private EntityManager em;
 
@@ -34,31 +39,46 @@ public class UeFacade extends AbstractFacade<Ue> {
     public UeFacade() {
         super(Ue.class);
     }
-    
+
     @Override
     public void create(Ue ue) {
         ue.setId(JsfUtil.generateId());
         super.create(ue);
     }
-    
+
     public List<Ue> getUeByGroupePedagogique(GroupePedagogique groupePeda) {
-       String groupePedagogique = groupePeda.getId();
+        String groupePedagogique = groupePeda.getId();
         Query query = em.createQuery("SELECT U FROM Ue U WHERE U.groupePedagogique.id = :groupePedagogique");
         // set parameters
         query.setParameter("groupePedagogique", groupePedagogique);
         List<Ue> list = query.getResultList();
-        return list; 
+        return list;
     }
-    
-     public List<Ue> getUeByGroupePedagogique(GroupePedagogique groupePedagogique, Semestre semestre) {
+
+    public List<Ue> getUeByGroupePedagogique(GroupePedagogique groupePedagogique, Semestre semestre) {
+        List<Ue> list = null;
         String idGroupePedagogique = groupePedagogique.getId();
         String idSemestre = semestre.getId();
-        Query query = em.createQuery("SELECT U FROM Ue U WHERE U.groupePedagogique.id = :idGroupePedagogique AND U.semestre.id = :idSemestre ORDER BY U.libelle");
-        // set parameters
-        query.setParameter("idGroupePedagogique", idGroupePedagogique);
-        query.setParameter("idSemestre", idSemestre);
-        List<Ue> list = query.getResultList();
-        return list; 
+        try {
+            Query query = em.createQuery("SELECT U FROM Ue U WHERE U.groupePedagogique.id = :idGroupePedagogique AND U.semestre.id = :idSemestre ORDER BY U.libelle");
+            // set parameters
+            query.setParameter("idGroupePedagogique", idGroupePedagogique);
+            query.setParameter("idSemestre", idSemestre);
+            list = query.getResultList();
+        } catch (Exception e) {
+        }
+
+        return list;
     }
-    
+
+    public List<Ue> getRealUE(List<Ue> ues) {
+        List<Ue> uesReal = new ArrayList<>();
+        for (int i = 0; i < ues.size(); i++) {
+            int val = matiereFacade.getMatiereByUe(ues.get(i)).size();
+            if(val != 0){
+                uesReal.add(ues.get(i));
+            }
+        }
+        return uesReal;
+    }
 }

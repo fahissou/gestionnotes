@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="col-md-12">
+            <div class="block">
+<!--                <div class="head clearfix">
+                    <div class="isw-documents"></div>
+                    <h1>#{bundle.Etat}</h1>
+                </div>-->
+                <h:form id="formeEx" styleClass="form-horizontal">
+                    <div class="block-fluid">
+
+                        <f:event listener="#{documentViewBean.onPrerender}" type="preRenderView" />  
+                        <p:tabView>  
+                            <p:tab title="Procès">  
+                                <pe:documentViewer height="500" url="/gestionnotes/web/etats/file0.pdf"/>  
+                            </p:tab>  
+                            <p:tab title="Releves de notes">  
+                                <pe:documentViewer height="500" library="books" name="hood.pdf"/>  
+                            </p:tab>  
+<!--                            <p:tab title="StreamedContent">  
+                                <pe:documentViewer height="500" value="#{documentViewBean.content}" download="extensions-rocks.pdf"/>  
+                            </p:tab>  -->
+                        </p:tabView> 
+
+                    </div>                                        
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

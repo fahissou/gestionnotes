@@ -5,7 +5,11 @@
  */
 package bean.module;
 
+import bean.inscription.NotesBean;
+import ejb.administration.AnneeAcademiqueFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
+import ejb.inscription.InscriptionFacade;
+import ejb.inscription.NotesFacade;
 import ejb.module.MatiereFacade;
 import ejb.module.UeFacade;
 import java.io.Serializable;
@@ -18,7 +22,10 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import jpa.administration.AnneeAcademique;
 import jpa.inscription.GroupePedagogique;
+import jpa.inscription.Inscription;
+import jpa.inscription.Notes;
 import jpa.module.Matiere;
 import jpa.module.Ue;
 import util.JsfUtil;
@@ -29,38 +36,52 @@ import util.JsfUtil;
  */
 @Named(value = "matiereBean")
 @ViewScoped
-public class MatiereBean implements Serializable{
+public class MatiereBean implements Serializable {
+
+    @EJB
+    private NotesFacade notesFacade;
+    @EJB
+    private AnneeAcademiqueFacade anneeAcademiqueFacade;
+    @EJB
+    private InscriptionFacade inscriptionFacade;
     @EJB
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
     @EJB
     private UeFacade ueFacade;
     @EJB
+
     private MatiereFacade matiereFacade;
     private Matiere newMatiere;
     private Matiere selectedMatiere;
-    private List<Matiere>listeMatieres;
-    private List<Matiere>filteredList;
+    private List<Matiere> listeMatieres;
+    private List<Matiere> filteredList;
     private List<GroupePedagogique> listGroupePedagogiques;
     private List<Ue> listeUE;
+    private List<Ue> listeUEDynamic;
     private GroupePedagogique newGroupePedagogique;
     private Ue ue;
     private Map<GroupePedagogique, List<Ue>> data1; // = new HashMap<>();
-    
+    private AnneeAcademique anneeAcademique;
+    private Notes newNote;
+    private NotesBean notesbean;
+
     /**
      * Creates a new instance of MatiereBean
      */
     public MatiereBean() {
     }
+
     @PostConstruct
-    public void init(){
+    public void init() {
         listeMatieres = matiereFacade.findAll();
         listGroupePedagogiques = groupePedagogiqueFacade.findAll();
         listeUE = ueFacade.findAll();
+        anneeAcademique = anneeAcademiqueFacade.getCurrentAcademicYear();
         loadData();
         prepareCreate();
-        
+
     }
-    
+
     public void loadData() {
         data1 = new HashMap<>();
         for (int i = 0; i < listGroupePedagogiques.size(); i++) {
@@ -69,26 +90,29 @@ public class MatiereBean implements Serializable{
 
         }
 
-        
-
     }
-    
+
     public void onGroupePedagogiqueChange() {
-        System.out.println("ok dans la fonc");
         if (newGroupePedagogique != null) {
-            listeUE = data1.get(newGroupePedagogique);
-            System.out.println("bon" + listeUE.size());
+            listeUEDynamic = data1.get(newGroupePedagogique);
         } else {
-            listeUE = new ArrayList<>();
-            System.out.println("c'est pas bon");
+            listeUEDynamic = new ArrayList<>();
         }
 
     }
-    
+
     public void doCreate(ActionEvent event) {
         String msg;
+        List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(newGroupePedagogique.getDescription(), anneeAcademique.getDescription());
+
         try {
-            matiereFacade.create(newMatiere);
+            if (inscriptions.isEmpty()) {
+                matiereFacade.create(newMatiere);
+            }else{
+                matiereFacade.create(newMatiere);
+                createDiffaultNotes(inscriptions);
+            }
+
             msg = JsfUtil.getBundleMsg("MatiereCreateSuccessMsg");
             JsfUtil.addSuccessMessage(msg);
             prepareCreate();
@@ -98,6 +122,7 @@ public class MatiereBean implements Serializable{
             JsfUtil.addErrorMessage(msg);
         }
     }
+
     public void doEdit(ActionEvent event) {
         String msg;
         try {
@@ -106,11 +131,13 @@ public class MatiereBean implements Serializable{
             JsfUtil.addSuccessMessage(msg);
             prepareCreate();
             listeMatieres = matiereFacade.findAll();
+             
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("MatiereEditErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
     }
+
     public void doDel(ActionEvent event) {
         String msg;
         try {
@@ -188,13 +215,47 @@ public class MatiereBean implements Serializable{
     public void setUe(Ue ue) {
         this.ue = ue;
     }
-    
-    
-    public void prepareCreate(){
+
+    public List<Ue> getListeUEDynamic() {
+        return listeUEDynamic;
+    }
+
+    public void setListeUEDynamic(List<Ue> listeUEDynamic) {
+        this.listeUEDynamic = listeUEDynamic;
+    }
+
+    public void prepareCreate() {
         newMatiere = new Matiere();
     }
-    public void reset(){
+
+    public void reset() {
         newMatiere.reset();
     }
-    
+
+    public Notes getNewNote() {
+        return newNote;
+    }
+
+    public void setNewNote(Notes newNote) {
+        this.newNote = newNote;
+    }
+
+    public void createDiffaultNotes(List<Inscription> listeInscription) {
+
+        try {
+            for (int i = 0; i < listeInscription.size(); i++) {
+                newNote = new Notes();
+                newNote.setMatiere(newMatiere);
+                newNote.setInscription(listeInscription.get(i));
+                newNote.setEtatValidation("UENV");
+                newNote.setNote(0.0);
+                notesFacade.create(newNote);
+                notesFacade.findAll();
+            }
+        } catch (Exception ex) {
+
+        }
+
+    }
+
 }
