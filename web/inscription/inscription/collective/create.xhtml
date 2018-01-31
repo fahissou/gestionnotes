@@ -43,7 +43,7 @@
                                     <p:selectOneMenu id="groupeGP" value="#{inscriptionBean.groupePedagogique}"
                                                      required="false">
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{inscriptionBean.listGroupePedagogiques}" var="itemGroupe"
+                                        <f:selectItems value="#{inscriptionBean.listGroupePedagogiqueFilter}" var="itemGroupe"
                                                        itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description}"/>
                                         <f:converter  converterId="groupePedagogiqueConverter"/>
                                     </p:selectOneMenu>

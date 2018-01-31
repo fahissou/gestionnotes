@@ -51,15 +51,25 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         List<Inscription> liste = null;
         try {
         String currentInscription = anneeAcademiqueFacade.getCurrentAcademicYear().getDescription();
-            System.out.println(" "+ currentInscription);
         Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.anneeAcademique.description = :currentInscription");
+//        Query query = em.createNativeQuery("SELECT * FROM Inscription AS I WHERE I. .anneeAcademique. = currentInscription");
         query.setParameter("currentInscription", currentInscription);
         liste = query.getResultList();
+            
         } catch (NoResultException | NonUniqueResultException e) {
              liste = new ArrayList<>();
         }
         return liste;
     }
+    
+    
+    
+    public void afficher (List<Inscription> inscriptions) {
+        for (Inscription inscription : inscriptions) {
+            System.out.println(inscription.getEtudiant().getNom());
+        }
+    }
+    
     
     public  Inscription getInscriptionsByEtudiant(String matricule, String anneeAcademique){
         

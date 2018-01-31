@@ -111,6 +111,7 @@ public class InscriptionBean implements Serializable {
     private Map<Filiere, List<GroupePedagogique>> data1;
     private Map<GroupePedagogique, List<Inscription>> data2; // = new HashMap<>();
     private List<GroupePedagogique> listGroupePedagogiques;
+    private List<GroupePedagogique> listGroupePedagogiqueFilter;
     private List<Filiere> listFiliere;
     private Filiere filiere;
 //    private AnneeAcademique currentAcademicYear;
@@ -195,9 +196,9 @@ public class InscriptionBean implements Serializable {
 
     public void onFiliereChange() {
         if (filiere != null) {
-            listGroupePedagogiques = data1.get(filiere);
+            listGroupePedagogiqueFilter = data1.get(filiere);
         } else {
-            listGroupePedagogiques = new ArrayList<>();
+            listGroupePedagogiqueFilter = new ArrayList<>();
 
         }
 
@@ -241,6 +242,14 @@ public class InscriptionBean implements Serializable {
             msg = JsfUtil.getBundleMsg("InscriptionDelErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
+    }
+
+    public List<GroupePedagogique> getListGroupePedagogiqueFilter() {
+        return listGroupePedagogiqueFilter;
+    }
+
+    public void setListGroupePedagogiqueFilter(List<GroupePedagogique> listGroupePedagogiqueFilter) {
+        this.listGroupePedagogiqueFilter = listGroupePedagogiqueFilter;
     }
 
     public Etudiant getEtudiant() {
@@ -498,12 +507,13 @@ public class InscriptionBean implements Serializable {
                 fileName = FilenameUtils.getName(uploadedFile.getFileName());
                 fichier = (FileInputStream) uploadedFile.getInputstream();
                 fileExtension = fileName.split("\\.")[1];
+
                 System.out.println("extension " + fileExtension);
                 insertInscription(fichier);
                 msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
                 JsfUtil.addSuccessMessage(msg);
-                prepareCreate();
-                listeInscriptions = inscriptionFacade.findAll();
+//                prepareCreate();
+//                listeInscriptions = inscriptionFacade.findAll();
             } else {
                 System.out.println("fichier non chargé");
             }
@@ -520,10 +530,12 @@ public class InscriptionBean implements Serializable {
             System.out.println("OK in fonction null");
         } else {
             if (fileExtension.equals("xls")) {
+                System.out.println("ok2");
                 HSSFWorkbook wb = new HSSFWorkbook(fichier);
                 HSSFSheet sheet = wb.getSheetAt(0);
                 FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
                 int compteurLigne = 0;
+                List<Inscription> listeInscriptionsCurrent = new ArrayList<>();
                 for (Row ligne : sheet) {//parcourir les lignes
                     contenuLigne = new ArrayList<>();
                     compteurLigne++;
@@ -558,12 +570,16 @@ public class InscriptionBean implements Serializable {
                             newEtudiant.setTelephone(String.valueOf(contenuLigne.get(5)));
                             newEtudiant.setMail(String.valueOf(contenuLigne.get(6)));
                             etudiantFacade.create(newEtudiant);
+                            etudiantFacade.findAll();
                             // Inscritption save
                             newInscription.setEtudiant(newEtudiant);
                             newInscription.setGroupePedagogique(groupePedagogique);
                             newInscription.setAnneeAcademique(currentAcademicYear);
                             inscriptionFacade.create(newInscription);
                             createDiffaultNotes(newInscription);
+                            prepareCreate();
+                            listeInscriptions = inscriptionFacade.findAll();
+                            
                         } else {
                             msg = JsfUtil.getBundleMsg("formatFichierNonPriseEncompte");
                             JsfUtil.addErrorMessage(msg);
@@ -608,18 +624,21 @@ public class InscriptionBean implements Serializable {
     public void createDiffaultNotes(Inscription inscription) {
         List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(inscription.getGroupePedagogique());
         try {
-            for (int i = 0; i < listeUe.size(); i++) {
-                List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i));
-                newNote = new Notes();
-                for (int j = 0; j < matieres.size(); j++) {
-                    newNote.setMatiere(matieres.get(j));
-                    newNote.setInscription(inscription);
-                    newNote.setEtatValidation("UENV");
-                    newNote.setNote(0.0);
-                    notesFacade.create(newNote);
-                }
+            if (!listeUe.isEmpty()) {
+                for (int i = 0; i < listeUe.size(); i++) {
+                    List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i));
+                    newNote = new Notes();
+                    for (int j = 0; j < matieres.size(); j++) {
+                        newNote.setMatiere(matieres.get(j));
+                        newNote.setInscription(inscription);
+                        newNote.setEtatValidation("UENV");
+                        newNote.setNote(0.0);
+                        notesFacade.create(newNote);
+                    }
 
+                }
             }
+
         } catch (Exception ex) {
 
         }
@@ -657,16 +676,16 @@ public class InscriptionBean implements Serializable {
         String resul = "";
         listeInscriptions1 = new ArrayList<>();
         System.out.println("icic");
-        
-            List<Inscription> inscriptions = null;
-            inscriptions = inscriptionFacade.listeReinscription(groupePedagogique.getDescription(), currentAcademicYear.getDescription());
-            if(!inscriptions.isEmpty()){
-                setListeInscriptions1(inscriptions);
-                resul = "succes3";
-            }else{
+
+        List<Inscription> inscriptions = null;
+        inscriptions = inscriptionFacade.listeReinscription(groupePedagogique.getDescription(), currentAcademicYear.getDescription());
+        if (!inscriptions.isEmpty()) {
+            setListeInscriptions1(inscriptions);
+            resul = "succes3";
+        } else {
             msg = JsfUtil.getBundleMsg("CreateNewAcademicYear");
             JsfUtil.addErrorMessage(msg);
-            }
+        }
         return resul;
     }
 

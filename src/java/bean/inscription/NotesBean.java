@@ -150,7 +150,7 @@ public class NotesBean implements Serializable {
     private Ue ue;
     private String pathIn;
     private String pathIn1;
-    private String pathIn2;
+    private String pathOut1;
     private String pathIn3;
     private String pathOut;
     private Semestre semestre;
@@ -185,6 +185,8 @@ public class NotesBean implements Serializable {
         pathIn = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/";
         pathIn1 = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/releveNouveau/";
         pathOut = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/";
+        pathOut1 = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
+                
     }
 
     public void loadData() {
@@ -668,12 +670,12 @@ public class NotesBean implements Serializable {
         this.pathIn1 = pathIn1;
     }
 
-    public String getPathIn2() {
-        return pathIn2;
+    public String getPathOut1() {
+        return pathOut1;
     }
 
-    public void setPathIn2(String pathIn2) {
-        this.pathIn2 = pathIn2;
+    public void setPathOut1(String pathOut1) {
+        this.pathOut1 = pathOut1;
     }
 
     public String getPathIn3() {
@@ -1001,7 +1003,7 @@ public class NotesBean implements Serializable {
 
             }
             docxToPDF(repertoire.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
-            mergePDF(repertoire2.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
+//            mergePDF(repertoire2.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
 //            genererProcesVerval(pathIn + "/proces.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale" + "_" + groupePedagogique.getDescription(), parametreEntetes);
             genererProcesVerval(pathIn + "/proces4.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes);
             docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
@@ -1019,7 +1021,7 @@ public class NotesBean implements Serializable {
         File repertoire = new File(pathOut + "/procesverbal/" + groupePedagogique.getDescription() + "_" + anneeAcademique + "_" + semestre.getLibelle() + "/");
         File repertoire1 = new File(pathOut + "/" + groupePedagogique.getDescription() + "_" + anneeAcademique + "/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
-        File repertoire3 = new File(pathOut + "/procesverval/");
+        File repertoire3 = new File(pathOut + "/touslesrapports/");
         repertoire.mkdir();    //création d'un repertoir de stockage des relevets pour la promotion
         repertoire1.mkdir();
         repertoire2.mkdir();
@@ -1186,7 +1188,7 @@ public class NotesBean implements Serializable {
                     genererProcesVerval(pathIn1 + "/" + nameFile[2], champs3, conteneur3, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale3" + "_" + groupePedagogique.getDescription() + "3", parametreEntetes3);
                 }
                docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
-               mergePDF(repertoire2.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
+               mergePDF(repertoire2.getAbsolutePath() + "/", pathOut1 , "proces" + groupePedagogique.getDescription() + "_" + anneeAcademique + "_" + semestre.getLibelle());
 //            docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
                 msg = JsfUtil.getBundleMsg("ProcesGenererSucces");
                 JsfUtil.addSuccessMessage(msg);
@@ -1397,7 +1399,7 @@ public class NotesBean implements Serializable {
     }
 
     //*********************
-    public void mergePDF(String folderName, String pathOut) throws IOException {
+    public void mergePDF(String folderName, String pathOut, String fileName) throws IOException {
         File repertoire = new File(folderName);
         File[] files = repertoire.listFiles();
         PDFMergerUtility PDFmerger = new PDFMergerUtility();
@@ -1405,7 +1407,7 @@ public class NotesBean implements Serializable {
             for (int i = 0; i < files.length; i++) {
                 PDFmerger.addSource(files[i]);
             }
-            PDFmerger.setDestinationFileName(pathOut + "IGISA2" + ".pdf");
+            PDFmerger.setDestinationFileName(pathOut + fileName + ".pdf");
             PDFmerger.mergeDocuments();
         } catch (Exception e) {
         }
@@ -1570,7 +1572,7 @@ public class NotesBean implements Serializable {
         File repertoire = new File(pathOut + "/" + groupePedagogique.getDescription() + "_" + anneeAcademique + "_" + semestre.getLibelle() + "/");
         File repertoire1 = new File(pathOut + "/" + groupePedagogique.getDescription() + "_" + anneeAcademique + "/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
-        File repertoire3 = new File(pathOut + "/" + "ResultatPDF" + "/");
+        File repertoire3 = new File(pathOut + "/touslesrapports/");
         repertoire.mkdir();    //création d'un repertoir de stockage des relevets pour la promotion
         repertoire1.mkdir();
         repertoire2.mkdir();
@@ -1612,7 +1614,7 @@ public class NotesBean implements Serializable {
             }
 
             genererProcesVerval(pathIn + "/resultatFinal.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "Resultat_Final" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes);
-            docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
+            docxToPDF(repertoire1.getAbsolutePath() + "/", pathOut1);
 
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
@@ -1635,7 +1637,7 @@ public class NotesBean implements Serializable {
         File repertoire = new File(pathOut + "/" + gP.getDescription() + "_" + anneeAcademique + "_" + "semestre" + "/");
         File repertoire1 = new File(pathOut + "/" + gP.getDescription() + "_" + anneeAcademique + "/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
-        File repertoire3 = new File(pathOut + "/" + "FeuilleNotesPDF" + "/");
+        File repertoire3 = new File(pathOut + "/touslesrapports");
         repertoire.mkdir();    //création d'un repertoir de stockage des relevets pour la promotion
         repertoire1.mkdir();
         repertoire2.mkdir();
@@ -1694,7 +1696,7 @@ public class NotesBean implements Serializable {
         File repertoire = new File(pathOut + "/" + groupePedagogique.getDescription() + "_" + anneeAcademique + "_" + semestre.getLibelle() + "/");
         File repertoire1 = new File(pathOut + "/" + groupePedagogique.getDescription() + "_" + anneeAcademique + "/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
-        File repertoire3 = new File(pathOut + "/" + "ReleveNotesPDF" + "/");
+        File repertoire3 = new File(pathOut + "/touslesrapports/");
         repertoire.mkdir();    //création d'un repertoir de stockage des relevets pour la promotion
         repertoire1.mkdir();
         repertoire2.mkdir();
@@ -1776,7 +1778,7 @@ public class NotesBean implements Serializable {
 //            docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
             }
             docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
-            mergePDF(repertoire2.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
+            mergePDF(repertoire2.getAbsolutePath() + "/", pathOut1, groupePedagogique.getDescription() + "releves"+"_" + anneeAcademique + "_" + semestre.getLibelle());
 
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
