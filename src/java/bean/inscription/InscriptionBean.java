@@ -111,6 +111,7 @@ public class InscriptionBean implements Serializable {
     private Map<Filiere, List<GroupePedagogique>> data1;
     private Map<GroupePedagogique, List<Inscription>> data2; // = new HashMap<>();
     private List<GroupePedagogique> listGroupePedagogiques;
+    private List<Inscription> listeInscriptionsGP;
     private List<GroupePedagogique> listGroupePedagogiqueFilter;
     private List<Filiere> listFiliere;
     private Filiere filiere;
@@ -191,7 +192,7 @@ public class InscriptionBean implements Serializable {
             data2.put(listGroupePedagogiques.get(j), list2);
 
         }
-
+        
     }
 
     public void onFiliereChange() {
@@ -696,7 +697,24 @@ public class InscriptionBean implements Serializable {
             listeInscriptions = new ArrayList<>();
         }
     }
+    
+    public void onGroupePedagogiqueChange1() {
+        if (groupePedagogique != null) {
+            listeInscriptionsGP = data2.get(groupePedagogique);
+        } else {
+            listeInscriptionsGP = new ArrayList<>();
+        }
+    }
 
+    public List<Inscription> getListeInscriptionsGP() {
+        return listeInscriptionsGP;
+    }
+
+    public void setListeInscriptionsGP(List<Inscription> listeInscriptionsGP) {
+        this.listeInscriptionsGP = listeInscriptionsGP;
+    }
+
+    
     public String updateReinscription() {
         String msg;
         try {

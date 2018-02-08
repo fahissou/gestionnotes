@@ -2,8 +2,12 @@
 package bean.inscription;
 
 import ejb.inscription.EtudiantFacade;
+import ejb.inscription.GroupePedagogiqueFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -12,7 +16,9 @@ import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import jpa.inscription.Etudiant;
+import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
+import jpa.module.Ue;
 import util.JsfUtil;
 
 /**
@@ -23,24 +29,51 @@ import util.JsfUtil;
 @Named(value = "etudiantBean")
 public class EtudiantBean implements Serializable{
     @EJB
+    private GroupePedagogiqueFacade groupePedagogiqueFacade;
+    @EJB
     private EtudiantFacade etudiantFacade;
+    
     private Etudiant selectedEtudiant;
     private Etudiant newEtudiant;
     private List<Etudiant> listeEtudiants;
     private List<Inscription> listeEtudiantsInscris;
     private List<Etudiant> filteredList;
-    String descriptionGroupePedagogique;
+//    String descriptionGroupePedagogique;
+    private Map<GroupePedagogique, List<Inscription>> data1; // = new HashMap<>();
+    private List<GroupePedagogique> groupePedagogiques;
+    private GroupePedagogique groupePedagogique;
     public EtudiantBean() {
     }
     
     @PostConstruct
     public void init() {
         listeEtudiants = etudiantFacade.findAll();
-        String groupePedagogique = recupDescriptionGroupe();
-        listeEtudiantsInscris = etudiantFacade.findAllEtudiantInscris(groupePedagogique);
+//        String groupePedagogique = recupDescriptionGroupe();
+//        listeEtudiantsInscris = etudiantFacade.findAllEtudiantInscris(groupePedagogique);
+        groupePedagogiques = groupePedagogiqueFacade.findAll();
+        loadData();
         prepareCreate();
     }  
 
+    public void loadData() {
+        data1 = new HashMap<>();
+        for (int i = 0; i < groupePedagogiques.size(); i++) {
+            List<Inscription> list1 = etudiantFacade.findAllEtudiantInscris(groupePedagogiques.get(i).getDescription());
+            data1.put(groupePedagogiques.get(i), list1);
+        }
+    }
+    
+      public void onGroupePedagogiqueChange() {
+        if (groupePedagogique != null) {
+            
+            listeEtudiantsInscris = data1.get(groupePedagogique);
+
+            loadData();
+        } else {
+            listeEtudiantsInscris = new ArrayList<>();
+        }
+    }
+    
     public void doCreate(ActionEvent event) {
         String msg;
         try {
@@ -121,14 +154,14 @@ public class EtudiantBean implements Serializable{
         this.listeEtudiantsInscris = listeEtudiantsInscris;
     }
 
-    public String getDescriptionGroupePedagogique() {
-        return descriptionGroupePedagogique;
-    }
-
-    public void setDescriptionGroupePedagogique(String descriptionGroupePedagogique) {
-        this.descriptionGroupePedagogique = descriptionGroupePedagogique;
-    }
-    
+//    public String getDescriptionGroupePedagogique() {
+//        return descriptionGroupePedagogique;
+//    }
+//
+//    public void setDescriptionGroupePedagogique(String descriptionGroupePedagogique) {
+//        this.descriptionGroupePedagogique = descriptionGroupePedagogique;
+//    }
+//    
     public void prepareCreate() {
         this.newEtudiant = new Etudiant();
     }
@@ -147,6 +180,22 @@ public class EtudiantBean implements Serializable{
         .getRequest();
         String nomDossier = params.getParameter("description");
         return nomDossier;
+    }
+
+    public List<GroupePedagogique> getGroupePedagogiques() {
+        return groupePedagogiques;
+    }
+
+    public void setGroupePedagogiques(List<GroupePedagogique> groupePedagogiques) {
+        this.groupePedagogiques = groupePedagogiques;
+    }
+
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
     }
 
     

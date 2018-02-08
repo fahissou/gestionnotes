@@ -106,7 +106,7 @@
                             <h:commandButton value="Valider"  action="#{notesBean.docreateCollective}" class="btn btn-default"></h:commandButton> 
 
                             <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
-                                             actionListener="#{matiereBean.reset}" update="@form :msgForm:msg">
+                                             actionListener="#{notesBean.reset}" update="@form :msgForm:msg">
                                 <p:resetInput target="formeEx"/>
                             </p:commandButton>
                         </div> 

@@ -1056,4 +1056,19 @@ public class JsfUtil {
         return date2;
     }
     
+    public static String getRealPath(String lien) {
+        String [] liens = lien.split("/");
+        String var = "";
+        for (int i = 0; i < liens.length; i++) {
+            if(i > 1 && !liens[i].equals("web")) {
+                var +="/" +liens[i];
+            }  
+        }
+        return var;
+    }
+    
+    public static String getFileName2(String arg) {
+        String [] liens = arg.split("/");
+        return liens[liens.length-1];
+    }
 }

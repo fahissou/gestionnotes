@@ -27,11 +27,11 @@
                                 </p:commandLink>-->
                                 
                                 
-                                <div class="row-form clearfix">
+                                <div class="row-form clearfix selectgp">
                                 <div class="col-md-9">
                                     <p:selectOneMenu id="anneeAcademique" value="#{inscriptionBean.groupePedagogique}" 
                                                      required="false">
-                                        <p:ajax listener="#{inscriptionBean.onGroupePedagogiqueChange()}" update="incarcerationTable" />
+                                        <p:ajax listener="#{inscriptionBean.onGroupePedagogiqueChange1()}" update="incarcerationTable" />
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.GroupePedagogique}"/>
                                         <f:selectItems value="#{inscriptionBean.listesGroupePedagogiques}"
                                                        var="groupePedagogiquesItem"
@@ -54,15 +54,15 @@
                     </div>
                     <div class="content np block-fluid table-sorting clearfix">
                         <p:dataTable id="incarcerationTable" var="item"
-                                     selection="#{etudiantBean.selectedEtudiant}"
-                                     value="#{etudiantBean.listeEtudiantsInscris}"
+                                     selection="#{inscriptionBean.selectedInscription}"
+                                     value="#{inscriptionBean.listeInscriptionsGP}"
                                      emptyMessage="#{bundle.EmptyListMsg}"
-                                     rowKey="#{item.etudiant.login}"
+                                     rowKey="#{item.id}"
                                      paginator="true"
                                      rows="10"
                                      rowsPerPageTemplate="10,20,30"
                                      sortMode="multiple"
-                                     filteredValue="#{etudiantBean.filteredList}"
+                                     filteredValue="#{inscriptionBean.filteredList}"
                                      currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
                                      pageLinks="5"
                                      rowIndexVar="rowIndex"
@@ -97,21 +97,21 @@
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
-                                    <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
+                                    <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedEtudiant}" />
                                 </p:commandLink>
 
                                 <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-pencil glyphicon glyphicon-pencil"/>
-                                    <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
+                                    <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedEtudiant}" />
                                 </p:commandLink>
 
                                 <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-trashcan glyphicon glyphicon-trash"/>
-                                    <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
+                                    <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedEtudiant}" />
                                 </p:commandLink>
 
 <!--                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"

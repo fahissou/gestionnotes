@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jpa.formation.Historiques;
+import util.JsfUtil;
 
 /**
  *
@@ -23,6 +24,12 @@ public class HistoriquesFacade extends AbstractFacade<Historiques> {
 
     public HistoriquesFacade() {
         super(Historiques.class);
+    }
+    
+    @Override
+    public void create(Historiques historiques) {
+        historiques.setId(JsfUtil.generateId());
+        super.create(historiques);
     }
     
 }

@@ -1,27 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package bean.message;
 
 import ejb.formation.HistoriquesFacade;
+import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.inject.Named;
 import jpa.formation.Historiques;
+import org.primefaces.context.RequestContext;
 import util.JsfUtil;
 
 /**
  *
  * @author AHISSOU Florent
  */
-@ManagedBean
+@Named(value = "historiqueBean")
 @ViewScoped
-public class HistoriqueBean {
+public class HistoriqueBean implements Serializable{
     @EJB
     private HistoriquesFacade historiquesFacade;
 
@@ -29,6 +28,8 @@ public class HistoriqueBean {
     private Historiques newHistoriques;
     private List<Historiques> listeHistoriquess;
     private List<Historiques> filteredList;
+    private  String lien = "/gestionnotes/fichiergenerer/rapportgestionnotes/touslesrapports/";
+    private String pathOut;
     
     
     public HistoriqueBean() {
@@ -38,6 +39,7 @@ public class HistoriqueBean {
     public void init() {
         listeHistoriquess = historiquesFacade.findAll();
         prepareCreate();
+        pathOut = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
     }  
 
     public void doCreate(ActionEvent event) {
@@ -71,6 +73,7 @@ public class HistoriqueBean {
         String msg;
         try {
             historiquesFacade.remove(selectedHistoriques);
+            removeFile();
             msg = JsfUtil.getBundleMsg("HistoriquesDelSuccesMsg");
             JsfUtil.addSuccessMessage(msg);
             listeHistoriquess = historiquesFacade.findAll();
@@ -115,7 +118,55 @@ public class HistoriqueBean {
     public void prepareCreate() {
         this.newHistoriques = new Historiques();
     }
+
+    public String getLien() {
+        return lien;
+    }
+
+    public void setLien(String lien) {
+        this.lien = lien;
+    }
     
+    public void openFile() {
+        RequestContext.getCurrentInstance().execute("window.location='"+selectedHistoriques.getLienFile()+".pdf"+ "'");
+    }
     
+    public void removeFile() {
+        File repertoire = new File(pathOut);
+        File[] files = repertoire.listFiles();
+//        boolean trouve = false;
+        try {
+            if(files.length != 0) {
+                System.out.println("OK4 "+files[0].getName());
+                for (int i = 0; i < files.length; i++) {
+                    String oldFile = JsfUtil.getFileName2(selectedHistoriques.getLienFile())+".pdf";
+                    System.out.println("OK5 "+oldFile);
+                    if(files[i].getName().equals(oldFile)) {
+                        System.out.println("ok remove");
+                        boolean bool = files[i].delete();
+                        System.out.println("boolean "+bool);
+                        break;
+                    }
+            }
+            }
+        } catch (Exception e) {
+        }
+    }
     
+    public  void reflesh(){
+        listeHistoriquess = historiquesFacade.findAll();
+    }
+    
+    public void deleteFile(String folderName) {
+        File repertoire = new File(folderName);
+        File[] files = repertoire.listFiles();
+        try {
+            if(files.length != 0) {
+                for (int i = 0; i < files.length; i++) {
+                boolean bool = files[i].delete();
+            }
+            }
+        } catch (Exception e) {
+        }
+    }
 }

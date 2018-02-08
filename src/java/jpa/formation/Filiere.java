@@ -100,5 +100,6 @@ public class Filiere implements Serializable {
         this.id = null;
         this.etudiants = null;
         this.libelle = null;
+        this.groupePedagogiques = null;
     }
 }

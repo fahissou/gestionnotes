@@ -12,6 +12,18 @@
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
                         <h1> #{notesBean.etudiant.nom.toString()}  #{notesBean.etudiant.prenom} </h1>
+                        
+                        <ul class="buttonLien">
+                            <li>
+                                
+                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                               update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
+                                    <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                    <i class="ibw-edit"/>
+                                </p:commandLink>
+                            </li>
+                        </ul>
+                        
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">

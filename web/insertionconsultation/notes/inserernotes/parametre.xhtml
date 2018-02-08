@@ -105,9 +105,15 @@
                                              class="btn btn-default"/>
 
                             <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
-                                             actionListener="#{matiereBean.reset}" update="@form :msgForm:msg">
+                                             actionListener="#{notesBean.reset}" update="@form :msgForm:msg">
                                 <p:resetInput target="formeEx"/>
                             </p:commandButton>
+                            
+                            <p:commandButton value="#{bundle.Actualiser}" class="btn btn-default" process="@this"
+                                             actionListener="#{notesBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                            
                         </div> 
                     </div>                                        
                 </h:form>
