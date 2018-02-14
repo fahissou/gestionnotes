@@ -15,41 +15,46 @@
                     <div class="head clearfix enteteTable">
                         <!--<div class="i-cycle glyphicon glyphicon-refresh"></div>-->
                         <h1>#{bundle.listeEtudiant}</h1>
-                        
-                        
-                        <ul class="buttonLien">
-                            <li>
-                                
-<!--                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
-                                               update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
-                                    <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
-                                    <i class="ibw-edit"/>
-                                </p:commandLink>-->
-                                
-                                
-                                <div class="row-form clearfix selectgp">
-                                <div class="col-md-9">
-                                    <p:selectOneMenu id="anneeAcademique" value="#{inscriptionBean.groupePedagogique}" 
-                                                     required="false">
-                                        <p:ajax listener="#{inscriptionBean.onGroupePedagogiqueChange1()}" update="incarcerationTable" />
-                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.GroupePedagogique}"/>
-                                        <f:selectItems value="#{inscriptionBean.listesGroupePedagogiques}"
-                                                       var="groupePedagogiquesItem"
-                                                       itemValue="#{groupePedagogiquesItem}"
-                                                       itemLabel="#{groupePedagogiquesItem.description}"/>
-                                                  <f:converter  converterId="groupePedagogiqueConverter"/>
-                                    </p:selectOneMenu>
-                                    
-                                </div>
+
+                        <div class="row-form clearfix selectgp">
+
+                        <div class="col-md-3 buttonLien">
+                                <ul class="buttonLien">
+                                <li>
+
+                                    <p:commandLink id="editButton" value="#{null}" title="#{bundle.Releve}" styleClass="btn btn-primary btn-xs"
+                                                   action="#{inscriptionBean.genererListeEtudiant()}" >
+                                        <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                        <i class="ibw-edit"/>
+                                    </p:commandLink>
+                                </li>
+                            </ul>
+                         </div>
+                            
+                            <div class="col-md-3">
+                                <p:selectOneMenu id="description" value="#{inscriptionBean.groupePedagogique}" 
+                                                 required="false">
+                                    <p:ajax listener="#{inscriptionBean.onGroupePedagogiqueChange1()}" update="incarcerationTable" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.GroupePedagogique}"/>
+                                    <f:selectItems value="#{inscriptionBean.listesGroupePedagogiques}"
+                                                   var="groupePedagogiquesItem"
+                                                   itemValue="#{groupePedagogiquesItem}"
+                                                   itemLabel="#{groupePedagogiquesItem.description}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
+                                </p:selectOneMenu>
+
                             </div>
-                            </li>
-                        </ul>
+                        </div>
 
-                        <ul class="buttons">
+                        
 
-                            <li><a href="#" class="block_toggle slideMe"><span class="i-arrow-down-3"></span></a></li>
-                            <li><a href="#" class="block_remove"><span class="i-cancel-2"></span></a></li>
-                        </ul>
+
+
+
+                        <!--                        </li>
+                                                </ul>-->
+
+
 
                     </div>
                     <div class="content np block-fluid table-sorting clearfix">

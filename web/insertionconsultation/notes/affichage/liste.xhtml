@@ -6,16 +6,16 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
-             
+
         <div class="col-md-12">
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1> #{notesBean.newGroupePedagogique.description} #{bundle.Matiere}: #{notesBean.newMatiere.libelle} #{bundle.AnneeAcademique}: #{notesBean.anneeAcademique} </h1>
-                        
+                        <h1> #{bundle.ConsulterNotes}</h1>
+
                         <ul class="buttonLien">
                             <li>
-                                
+
                                 <p:commandLink id="editButton" value="#{null}" title="#{bundle.FeuilleNotes}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
                                     <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
@@ -23,98 +23,155 @@
                                 </p:commandLink>
                             </li>
                         </ul>
-                        
+
                     </div>
-                    
+
                     <div class="content np block-fluid table-sorting clearfix">
-                                    <p:dataTable id="incarcerationTable" var="item"
-                                                 selection="#{notesBean.selectedNotes}"
-                                                 value="#{notesBean.listeNotesGroupPeda}"
-                                                 emptyMessage="#{bundle.EmptyListMsg}"
-                                                 rowKey="#{item.id}"
-                                                 paginator="true"
-                                                 rows="10"
-                                                 rowsPerPageTemplate="10,20,30"
-                                                 sortMode="multiple"
-                                                 filteredValue="#{notesBean.filteredList}"
-                                                 currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
-                                                 pageLinks="5"
-                                                 rowIndexVar="rowIndex"
-                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
-                                                 {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
-                                                 > 
 
-                                        <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
+                        <div class="row-form clearfix">
+                            <!--                            <div class="col-md-2">
+                                                            <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                                                        </div>-->
+                            <div class="col-md-2">
+                                <p:selectOneMenu id="filiere" value="#{notesBean.filiere}" 
+                                                 required="true">
+                                    <p:ajax listener="#{notesBean.initGroupePedagogique()}" update="groupePedagogique" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+
+                            <div class="col-md-2">
+                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="true">
+                                    <p:ajax listener="#{notesBean.initUE()}" update="ue" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{notesBean.listGroupePedagogiques1}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+
+                            <div class="col-md-2">
+                                <p:selectOneMenu id="ue" value="#{notesBean.ue}" 
+                                                 required="true">
+                                    <p:ajax listener="#{notesBean.initMatiere()}" update="matiere" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{notesBean.ues}"
+                                                   var="ueItem"
+                                                   itemValue="#{ueItem}"
+                                                   itemLabel="#{ueItem.libelle.toUpperCase()}"
+                                                   />
+                                    <f:converter  converterId="ueConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+
+                            <div class="col-md-2">
+                                <p:selectOneMenu id="matiere" value="#{notesBean.newMatiere}" 
+                                                 required="true">
+                                    <p:ajax listener="#{notesBean.updateTable()}" update="incarcerationTable" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{notesBean.tmpMatieres}" var="itemMatiere"
+                                                   itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="matiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+
+
+
+                        </div>
+
+                        <p:dataTable id="incarcerationTable" var="item"
+                                     selection="#{notesBean.selectedNotes}"
+                                     value="#{notesBean.listeNotesGroupPeda}"
+                                     emptyMessage="#{bundle.EmptyListMsg}"
+                                     rowKey="#{item.id}"
+                                     paginator="true"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30"
+                                     sortMode="multiple"
+                                     filteredValue="#{notesBean.filteredList}"
+                                     currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
+                                     pageLinks="5"
+                                     rowIndexVar="rowIndex"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
+                                     {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                                     > 
+
+                            <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
 <!--                                        <p:column headerText="Un label"  sortBy="#{item.input1}" 
-                                                  filterBy="#{item.id}" filterMatchMode="contains"
-                                                  >
-                                            <h:outputText value=" #{item.id}" />
-                                        </p:column>-->
-                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.inscription.etudiant.nom}" filterBy="#{item.inscription.etudiant.nom}">
-                                            <h:outputText value=" #{item.inscription.etudiant.nom}" />
-                                        </p:column>
-                                        <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.inscription.etudiant.prenom}" filterBy="#{item.inscription.etudiant.prenom}">
-                                            <h:outputText value=" #{item.inscription.etudiant.prenom}" />
-                                        </p:column>
-                                        <p:column headerText="#{bundle.notes}"  sortBy="#{item.note}" filterBy="#{item.note}">
-                                            <h:outputText value=" #{item.note}" />
-                                        </p:column>
-                                        <p:column headerText="#{bundle.Decision}"  sortBy="#{item.etatValidation}" filterBy="#{item.etatValidation}">
-                                            <h:outputText value="#{item.etatValidation}"/>
-                                        </p:column>
-                                        <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
-                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
-                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
+                                      filterBy="#{item.id}" filterMatchMode="contains"
+                                      >
+                                <h:outputText value=" #{item.id}" />
+                            </p:column>-->
+                            <p:column headerText="#{bundle.Nom}"  sortBy="#{item.inscription.etudiant.nom}" filterBy="#{item.inscription.etudiant.nom}">
+                                <h:outputText value=" #{item.inscription.etudiant.nom}" />
+                            </p:column>
+                            <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.inscription.etudiant.prenom}" filterBy="#{item.inscription.etudiant.prenom}">
+                                <h:outputText value=" #{item.inscription.etudiant.prenom}" />
+                            </p:column>
+                            <p:column headerText="#{bundle.notes}"  sortBy="#{item.note}" filterBy="#{item.note}">
+                                <h:outputText value=" #{item.note}" />
+                            </p:column>
+                            <p:column headerText="#{bundle.Decision}"  sortBy="#{item.etatValidation}" filterBy="#{item.etatValidation}">
+                                <h:outputText value="#{item.etatValidation}"/>
+                            </p:column>
+                            <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
+                                <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
+                                               update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
-                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
-                                            </p:commandLink>
-                                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
-                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-pencil glyphicon glyphicon-pencil"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
-                                            </p:commandLink>
-                                            <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
-                                                           update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-trashcan glyphicon glyphicon-trash"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
-                                            </p:commandLink>
+                                    <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
+                                </p:commandLink>
+                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                               update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-pencil glyphicon glyphicon-pencil"/>
+                                    <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
+                                </p:commandLink>
+                                <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
+                                               update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-trashcan glyphicon glyphicon-trash"/>
+                                    <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
+                                </p:commandLink>
 <!--                                            <p:commandLink value="#{null}" title="Default" styleClass="btn btn-success btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-list-2 glyphicon glyphicon-list"/>
-                                            </p:commandLink>
-                                            <p:commandLink value="#{null}" title="Tertiary" styleClass="btn btn-warning btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-file-3 glyphicon glyphicon-file"/>
-                                            </p:commandLink>-->
-    <!--                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-dollar"/>
-                                            </p:commandLink>-->
-    <!--                                            <p:commandLink value="#{null}" title="Warning" styleClass="btn btn-link btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-cabinet-2"/>
-                                            </p:commandLink>-->
-    <!--                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-info btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-download-3"/>
-                                            </p:commandLink>-->
-    <!--                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-primary btn-xs"
-                                                           style="border-radius: 0px; margin-right: 1px;">
-                                                <i class="i-download-3"/>
-                                            </p:commandLink>-->
-                                        </p:column>
-                                    </p:dataTable>
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-list-2 glyphicon glyphicon-list"/>
+                                </p:commandLink>
+                                <p:commandLink value="#{null}" title="Tertiary" styleClass="btn btn-warning btn-xs"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-file-3 glyphicon glyphicon-file"/>
+                                </p:commandLink>-->
+<!--                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-dollar"/>
+                                </p:commandLink>-->
+<!--                                            <p:commandLink value="#{null}" title="Warning" styleClass="btn btn-link btn-xs"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-cabinet-2"/>
+                                </p:commandLink>-->
+<!--                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-info btn-xs"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-download-3"/>
+                                </p:commandLink>-->
+<!--                                            <p:commandLink value="#{null}" title="Danger" styleClass="btn btn-primary btn-xs"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="i-download-3"/>
+                                </p:commandLink>-->
+                            </p:column>
+                        </p:dataTable>
 
-                                </div>
-                    
+                    </div>
+
                 </h:form>
             </div>
         </div>
-        
+
     </ui:composition>
 </html>
 

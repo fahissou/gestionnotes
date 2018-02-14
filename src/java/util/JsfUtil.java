@@ -36,7 +36,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.math.BigInteger;
@@ -68,6 +72,10 @@ import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import jpa.inscription.GroupePedagogique;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import org.apache.poi.xwpf.converter.pdf.PdfConverter;
+import org.apache.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
@@ -1071,4 +1079,84 @@ public class JsfUtil {
         String [] liens = arg.split("/");
         return liens[liens.length-1];
     }
+    
+    public static String nextAcademicYear(String arg) {
+        String[] tab1 = arg.split("-");
+        int a1 = Integer.parseInt(tab1[0].trim()) + 1;
+        int a2 = Integer.parseInt(tab1[1].trim()) + 1;
+        return String.valueOf(a1) + " - " + String.valueOf(a2);
+    }
+    
+    public static String getPathIntModelReleve() {
+        return System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/";
+    }
+    
+    public static String getPathIntModelProces() {
+        return System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/releveNouveau/";
+    }
+    
+    public static String getPathOutTmp() {
+        return System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/";
+    }
+    
+    public static String getPathOutPDF(){
+        return System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
+    }
+    
+    public static void deleteFile(String folderName) {
+        File repertoire = new File(folderName);
+        File[] files = repertoire.listFiles();
+        try {
+            if (files.length != 0) {
+                for (int i = 0; i < files.length; i++) {
+                    boolean bool = files[i].delete();
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public static void docxToPDF(String folderName, String destination) {
+        File repertoire = new File(folderName);
+        File[] files = repertoire.listFiles();
+        try {
+            int i;
+            for (i = 0; i < files.length; i++) {
+                String fileNam = files[i].getName();
+                createPDF(folderName + fileNam, destination + "file" + i + ".pdf");
+            }
+        } catch (Exception e) {
+            System.out.println(" pdf error " + e.getMessage());
+        }
+    }
+    
+    public static void createPDF(String pathIn, String pathOut) {
+        try {
+            long start = System.currentTimeMillis();
+            // 1) Load DOCX into XWPFDocument
+            InputStream is = new FileInputStream(new File(pathIn));
+            XWPFDocument document = new XWPFDocument(is);
+            // 2) Prepare Pdf options
+            PdfOptions options = PdfOptions.create();
+            OutputStream out = new FileOutputStream(new File(pathOut));
+            PdfConverter.getInstance().convert(document, out, options);
+        } catch (Throwable e) {
+            System.out.println(" pdf error " + e.getMessage());
+        }
+    }
+    
+    public static void mergePDF(String folderName, String pathOut, String fileName) throws IOException {
+        File repertoire = new File(folderName);
+        File[] files = repertoire.listFiles();
+        PDFMergerUtility PDFmerger = new PDFMergerUtility();
+        try {
+            for (int i = 0; i < files.length; i++) {
+                PDFmerger.addSource(files[i]);
+            }
+            PDFmerger.setDestinationFileName(pathOut + fileName + ".pdf");
+            PDFmerger.mergeDocuments();
+        } catch (Exception e) {
+        }
+    }
+    
 }

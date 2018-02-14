@@ -32,14 +32,23 @@
                             
                             <div class="row-form clearfix">
                                     <div class="col-md-3">
-                                        <p:outputLabel for="proportionAdmission" value="#{bundle.moyenneUE}"/>
+                                        <p:outputLabel for="moyenneMatiere" value="#{bundle.moyenneMatiere}"/>
                                     </div>
-                                    <!--<label class="control-label col-sm-4" for="libelle">#{bundle.moyenneUE}</label>-->
+                                    <div class="col-md-9">
+                                        <p:inputText id="moyenneMatiere" value="#{parametresBean.newParametres.moyenneMatiere}" required="true" placeholder="#{bundle.moyenneMatiere}"
+                                                     styleClass="form-control"/>
+                                    </div>
+                                </div>
+                            <div class="row-form clearfix">
+                                    <div class="col-md-3">
+                                        <p:outputLabel for="proportionAdmission" value="#{bundle.proportionAdmission}"/>
+                                    </div>
+                                    <!--<label class="control-label col-sm-4" for="libelle">#{bundle.proportionAdmission}</label>-->
                                     <div class="col-md-9">
                                         <p:inputText id="proportionAdmission" value="#{parametresBean.newParametres.proportionAdmission}" required="true" placeholder="#{bundle.proportionAdmission}"
                                                      styleClass="form-control"/>
                                     </div>
-                                </div>
+                            </div>
 
                         </div> <!-- /.modal-body -->
                         <div class="modal-footer">

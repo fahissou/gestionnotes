@@ -1,13 +1,14 @@
 
-package ejb.administration;
+package ejb.inscription;
 
 import ejb.AbstractFacade;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import jpa.administration.AnneeAcademique;
-import jpa.inscription.Notes;
+import jpa.inscription.AnneeAcademique;
 import util.JsfUtil;
 
 /**
@@ -46,4 +47,24 @@ public class AnneeAcademiqueFacade extends AbstractFacade<AnneeAcademique> {
         }
         return anneeAcademique;
     }
+    
+    public List<String> newAnneeAcademique(){
+        int etat = 1;
+        AnneeAcademique  anneeAcademique = null;
+        List<String> anneeAcademic = new ArrayList<>();
+        try {
+            Query query = em.createQuery("SELECT A FROM AnneeAcademique A WHERE A.etat = :etat");
+            // set parameters
+            query.setParameter("etat", etat);
+            anneeAcademique = (AnneeAcademique) query.getSingleResult();
+            System.out.println("ici 1"+anneeAcademique.getDescription());
+            System.out.println("ici 2"+JsfUtil.nextAcademicYear(anneeAcademique.getDescription()));
+            anneeAcademic.add(JsfUtil.nextAcademicYear(anneeAcademique.getDescription()));
+        } catch (Exception ex) {
+            
+        }
+        return anneeAcademic;
+    }
 }
+
+

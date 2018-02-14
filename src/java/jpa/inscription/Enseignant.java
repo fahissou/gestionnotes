@@ -36,6 +36,8 @@ public class Enseignant implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
     private String adresse;
+    private String responsabilite;
+    private String grade;
 //    @OneToMany(mappedBy = "enseignant")
 //    private List<AnneeAcademique> anneeAcademiques;
 //    @OneToMany(mappedBy = "enseignant")
@@ -133,6 +135,22 @@ public class Enseignant implements Serializable {
 
     public void setStatut(EnumMissionnaire statut) {
         this.statut = statut;
+    }
+
+    public String getResponsabilite() {
+        return responsabilite;
+    }
+
+    public void setResponsabilite(String responsabilite) {
+        this.responsabilite = responsabilite;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
 //    public List<AnneeAcademique> getAnneeAcademiques() {

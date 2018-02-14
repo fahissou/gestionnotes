@@ -32,7 +32,8 @@ public class EnseignantBean implements Serializable{
     private Enseignant newEnseignant;
     private List<Enseignant> listeEnseignants;
     private List<Enseignant> filteredList;
-
+    private List<String> listeResponsabilite;
+    private List<String> listeGrade;
     /**
      * Creates a new instance of EnseignantBean
      */
@@ -43,6 +44,17 @@ public class EnseignantBean implements Serializable{
     public void init() {
         listeEnseignants = enseignantFacade.findAll();
         prepareCreate();
+        // liste des responsabilites
+        listeResponsabilite = new ArrayList<>();
+        listeResponsabilite.add("Directeur");
+        listeResponsabilite.add("Directeur Adjoint");
+        listeResponsabilite.add("Responsable de Formation");
+        listeResponsabilite.add("Aucune");
+        // liste des grades 
+        listeGrade = new ArrayList<>();
+        listeGrade.add("Professeur");
+        listeGrade.add("Docteur");
+        listeGrade.add("Ingénieur");
     }  
 
     public void doCreate(ActionEvent event) {
@@ -116,6 +128,22 @@ public class EnseignantBean implements Serializable{
     public void setFilteredList(List<Enseignant> filteredList) {
         this.filteredList = filteredList;
     }            
+
+    public List<String> getListeResponsabilite() {
+        return listeResponsabilite;
+    }
+
+    public void setListeResponsabilite(List<String> listeResponsabilite) {
+        this.listeResponsabilite = listeResponsabilite;
+    }
+
+    public List<String> getListeGrade() {
+        return listeGrade;
+    }
+
+    public void setListeGrade(List<String> listeGrade) {
+        this.listeGrade = listeGrade;
+    }
 
     public void prepareCreate() {
         this.newEnseignant = new Enseignant();

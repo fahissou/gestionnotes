@@ -1,38 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package bean.inscription;
 
-import ejb.administration.AnneeAcademiqueFacade;
+package bean.inscription;
+import ejb.inscription.AnneeAcademiqueFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
-import jpa.administration.AnneeAcademique;
+import jpa.inscription.AnneeAcademique;
 import util.JsfUtil;
 
 /**
  *
  * @author AHISSOU Florent
  */
-@ViewScoped
-@Named(value = "anneeAcademiqueBean")
-public class AnneeAcademiqueBean implements Serializable{
 
+//@Named(value = "anneeAcademiqueBean")
+//@SessionScoped
+public class AnneeAcademiqueBean implements Serializable{
     @EJB
     private AnneeAcademiqueFacade anneeAcademiqueFacade;
     private AnneeAcademique selectedAnneeAcademique;
     private AnneeAcademique newAnneeAcademique;
     private List<AnneeAcademique> listeAnneeAcademiques;
     private List<AnneeAcademique> filteredList;
-    private List<String> listeAnneeUniversitaire;
     private String anneeAcademique;
+    private List<String> listeAnneeUniversitaire  = new ArrayList<>();
+    private AnneeAcademique currentAnneeAcademic;
 
     public AnneeAcademiqueBean() {
     }
@@ -40,61 +36,23 @@ public class AnneeAcademiqueBean implements Serializable{
     @PostConstruct
     public void init() {
         listeAnneeAcademiques = anneeAcademiqueFacade.findAll();
+        currentAnneeAcademic = anneeAcademiqueFacade.getCurrentAcademicYear();
+        listeAnneeUniversitaire.add(JsfUtil.nextAcademicYear(currentAnneeAcademic.getDescription()));
         prepareCreate();
-
-        listeAnneeUniversitaire = new ArrayList<>();
-
-        listeAnneeUniversitaire.add("2014 - 2015");
-        listeAnneeUniversitaire.add("2015 - 2016");
-        listeAnneeUniversitaire.add("2016 - 2017");
-        listeAnneeUniversitaire.add("2017 - 2018");
-        listeAnneeUniversitaire.add("2018 - 2019");
-        listeAnneeUniversitaire.add("2019 - 2020");
-        listeAnneeUniversitaire.add("2020 - 2021");
-        listeAnneeUniversitaire.add("2021 - 2022");
-        listeAnneeUniversitaire.add("2022 - 2023");
-        listeAnneeUniversitaire.add("2023 - 2024");
-        listeAnneeUniversitaire.add("2024 - 2025");
-        listeAnneeUniversitaire.add("2025 - 2026");
-        listeAnneeUniversitaire.add("2026 - 2027");
-        listeAnneeUniversitaire.add("2027 - 2028");
-        listeAnneeUniversitaire.add("2028 - 2029");
-        listeAnneeUniversitaire.add("2029 - 2030");
-        listeAnneeUniversitaire.add("2030 - 2031");
-        listeAnneeUniversitaire.add("2031 - 2032");
-        listeAnneeUniversitaire.add("2032 - 2033");
-        listeAnneeUniversitaire.add("2033 - 2034");
-        listeAnneeUniversitaire.add("2034 - 2035");
-        listeAnneeUniversitaire.add("2035 - 2036");
-        listeAnneeUniversitaire.add("2036 - 2037");
-        listeAnneeUniversitaire.add("2037 - 2038");
-        listeAnneeUniversitaire.add("2038 - 2039");
-        listeAnneeUniversitaire.add("2040 - 2040");
-
-
     }
-
+    
     public void doCreate(ActionEvent event) {
         String msg;
         try {
-
-            AnneeAcademique currentAcademicYear = anneeAcademiqueFacade.getCurrentAcademicYear();
-            if (JsfUtil.valideAcademicYear(currentAcademicYear.getDescription(), anneeAcademique) == 1) {
-                currentAcademicYear.setEtat(0);
-                anneeAcademiqueFacade.edit(currentAcademicYear);
-                newAnneeAcademique.setDescription(anneeAcademique);
-                newAnneeAcademique.setEtat(1);
-                anneeAcademiqueFacade.create(newAnneeAcademique);
-                prepareCreate();
-                listeAnneeAcademiques = anneeAcademiqueFacade.findAll();
-                msg = JsfUtil.getBundleMsg("AnneeAcademiqueCreateSuccessMsg");
-                JsfUtil.addSuccessMessage(msg);
-                
-            } else {
-                msg = JsfUtil.getBundleMsg("AnneeAcademiqueCreateErrorMsg");
-                JsfUtil.addErrorMessage(msg);
-            }
-
+            currentAnneeAcademic.setEtat(0);
+            anneeAcademiqueFacade.edit(currentAnneeAcademic);
+            newAnneeAcademique.setDescription(anneeAcademique);
+            newAnneeAcademique.setEtat(1);
+            anneeAcademiqueFacade.create(newAnneeAcademique);
+            msg = JsfUtil.getBundleMsg("AnneeAcademiqueCreateSuccessMsg");
+            JsfUtil.addSuccessMessage(msg);
+            prepareCreate();
+            listeAnneeAcademiques = anneeAcademiqueFacade.findAll();
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("AnneeAcademiqueCreateErrorMsg");
             JsfUtil.addErrorMessage(msg);
@@ -127,6 +85,23 @@ public class AnneeAcademiqueBean implements Serializable{
         }
     }
 
+    public String getAnneeAcademique() {
+        return anneeAcademique;
+    }
+
+    public void setAnneeAcademique(String anneeAcademique) {
+        this.anneeAcademique = anneeAcademique;
+    }
+
+    public List<String> getListeAnneeUniversitaire() {
+        return listeAnneeUniversitaire;
+    }
+
+    public void setListeAnneeUniversitaire(List<String> listeAnneeUniversitaire) {
+        this.listeAnneeUniversitaire = listeAnneeUniversitaire;
+    }
+
+    
     public AnneeAcademique getSelectedAnneeAcademique() {
         return selectedAnneeAcademique;
     }
@@ -166,21 +141,4 @@ public class AnneeAcademiqueBean implements Serializable{
     public void reset(ActionEvent e) {
         this.newAnneeAcademique.reset();
     }
-
-    public List<String> getListeAnneeUniversitaire() {
-        return listeAnneeUniversitaire;
-    }
-
-    public void setListeAnneeUniversitaire(List<String> listeAnneeUniversitaire) {
-        this.listeAnneeUniversitaire = listeAnneeUniversitaire;
-    }
-
-    public String getAnneeAcademique() {
-        return anneeAcademique;
-    }
-
-    public void setAnneeAcademique(String anneeAcademique) {
-        this.anneeAcademique = anneeAcademique;
-    }
-
 }

@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import jpa.administration.AnneeAcademique;
 
 /**
  *
@@ -19,6 +18,7 @@ public class Inscription implements Serializable {
     private String id;
     private String resultat;
     private int compteurCredit;
+    private String validation;
     @ManyToOne
     private GroupePedagogique groupePedagogique;
     @ManyToOne
@@ -29,7 +29,7 @@ public class Inscription implements Serializable {
     private AnneeAcademique anneeAcademique;
     
     public Inscription() {
-        this.etudiant = new Etudiant();
+//        this.etudiant = new Etudiant();
         this.resultat = "R";
         this.compteurCredit = 0;
     }
@@ -90,6 +90,14 @@ public class Inscription implements Serializable {
         this.compteurCredit = compteurCredit;
     }
 
+    public String getValidation() {
+        return validation;
+    }
+
+    public void setValidation(String validation) {
+        this.validation = validation;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -112,6 +120,6 @@ public class Inscription implements Serializable {
         groupePedagogique = null;
         anneeAcademique = null;
         compteurCredit = 0;
-        this.resultat = "R";
+        this.resultat = null;
     }
 }

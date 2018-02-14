@@ -66,8 +66,9 @@ public class UeFacade extends AbstractFacade<Ue> {
             query.setParameter("idSemestre", idSemestre);
             list = query.getResultList();
         } catch (Exception e) {
+            list = new ArrayList<>();
         }
-
+        System.out.println("UE "+list.size());
         return list;
     }
 

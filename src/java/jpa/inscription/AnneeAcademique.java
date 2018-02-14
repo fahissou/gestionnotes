@@ -1,12 +1,11 @@
 
-package jpa.administration;
+package jpa.inscription;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import jpa.inscription.Inscription;
 
 /**
  *
@@ -20,11 +19,7 @@ public class AnneeAcademique implements Serializable {
     private int etat;
     @OneToMany(mappedBy = "anneeAcademique")
     private List<Inscription> inscriptions;
-
-    public AnneeAcademique() {
-        this.etat = 1;
-    }
-
+    
     public String getId() {
         return id;
     }
@@ -41,15 +36,6 @@ public class AnneeAcademique implements Serializable {
         this.description = description;
     }
 
-    
-
-    public int getEtat() {
-        return etat;
-    }
-
-    public void setEtat(int etat) {
-        this.etat = etat;
-    }
 
     public List<Inscription> getInscriptions() {
         return inscriptions;
@@ -59,6 +45,13 @@ public class AnneeAcademique implements Serializable {
         this.inscriptions = inscriptions;
     }
 
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
     
     @Override
     public int hashCode() {
@@ -80,7 +73,7 @@ public class AnneeAcademique implements Serializable {
     public void reset() {
         id = null;
         description = null;
-        etat =0;
+        etat = 0;
     }
     
 }

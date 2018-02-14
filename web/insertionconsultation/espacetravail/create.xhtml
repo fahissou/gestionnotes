@@ -21,20 +21,21 @@
                                     <p:outputLabel for="anneeAcademique" value="#{bundle.AnneeAcademique}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:selectOneMenu id="anneeAcademique" value="#{anneeAcademiqueBean.anneeAcademique}"
+                                    <p:selectOneMenu id="anneeAcademique" value="#{anneeAcademiqueBean.anneeAcademique1}" 
                                                      required="false">
                                         <f:selectItem itemValue="#{null}" itemLabel="selection"/>
-                                        <f:selectItems value="#{anneeAcademiqueBean.listeAnneeUniversitaire}"
+                                        <f:selectItems value="#{anneeAcademiqueBean.listeAnneeAcademiques}"
                                                        var="inscriptionItem"
                                                        itemValue="#{inscriptionItem}"
-                                                       itemLabel="#{inscriptionItem.toUpperCase()}"/>
+                                                       itemLabel="#{inscriptionItem.description}"/>
+                                        <f:converter  converterId="anneeAcademiqueConverter"/>
                                     </p:selectOneMenu>
 
                                 </div>
-                        </div>
+                            </div>
                         
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update="@form growl" actionListener="#{anneeAcademiqueBean.doCreate}" 
+                            <p:commandButton value="Valider" update="@form growl" actionListener="#{anneeAcademiqueBean.doEdit1}" 
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>
 

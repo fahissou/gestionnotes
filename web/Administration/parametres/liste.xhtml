@@ -36,13 +36,15 @@
                                             <h:outputText value=" #{item.moyenneUE}" />
                                         </p:column>
                                         
+                                        <p:column headerText="#{bundle.moyenneMatiere}"  sortBy="#{item.proportionAdmission}" filterBy="#{item.moyenneMatiere}">
+                                            <h:outputText value=" #{item.moyenneMatiere}" />
+                                        </p:column>
+                                        
                                         <p:column headerText="#{bundle.proportionAdmission}"  sortBy="#{item.proportionAdmission}" filterBy="#{item.proportionAdmission}">
                                             <h:outputText value=" #{item.proportionAdmission}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{bundle.moyenneMatiere}"  sortBy="#{item.proportionAdmission}" filterBy="#{item.moyenneMatiere}">
-                                            <h:outputText value=" #{item.moyenneMatiere}" />
-                                        </p:column>
+                                        
                                         
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                             <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"

@@ -29,6 +29,7 @@ public class Etudiant implements Serializable {
     private String password;
     private String oldPassword;
     private String telephone;
+    private String lieuNaissance;
     @Enumerated(EnumType.STRING)
     private EnumGenre genre;
     @Temporal(TemporalType.TIMESTAMP)
@@ -147,6 +148,14 @@ public class Etudiant implements Serializable {
 
     public void setInscriptions(List<Inscription> inscriptions) {
         this.inscriptions = inscriptions;
+    }
+
+    public String getLieuNaissance() {
+        return lieuNaissance;
+    }
+
+    public void setLieuNaissance(String lieuNaissance) {
+        this.lieuNaissance = lieuNaissance;
     }
 
 

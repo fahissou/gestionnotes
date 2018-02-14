@@ -87,6 +87,36 @@
                                 </p:selectOneRadio>
                             </div>
                         </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="responsabilite" value="#{bundle.Responsabilite}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="responsabilite" value="#{enseignantBean.newEnseignant.responsabilite}" 
+                                                 required="true">
+                                    
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{enseignantBean.listeResponsabilite}" var="item"
+                                                   itemValue="#{item}" itemLabel="#{item.toUpperCase()}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="grade" value="#{bundle.grade}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="grade" value="#{enseignantBean.newEnseignant.grade}" 
+                                                 required="true">
+                                    
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{enseignantBean.listeGrade}" var="item"
+                                                   itemValue="#{item}" itemLabel="#{item.toUpperCase()}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
 
                         <!--                            <div class="row-form clearfix">
                                                         <div class="col-md-3">

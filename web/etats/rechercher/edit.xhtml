@@ -27,6 +27,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <h:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="true" styleClass="form-control">
+                                        <p:ajax listener="#{notesBean.onGroupePedagogiqueChangeS()}" update="semestre" />
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{notesBean.listGroupePedagogiqueEtudiant}"
                                                        var="item" itemValue="#{item}" itemLabel="#{item.description}"/>
@@ -34,11 +35,27 @@
                                     </h:selectOneMenu>
                                 </div>
                             </div>
+                            
+                            <div class="clearfix control">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="semestre" value="#{notesBean.semestre}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{notesBean.semestres}"
+                                                       var="item" itemValue="#{item}" itemLabel="#{item.libelle}"/>
+                                        <f:converter  converterId="semestreConverter"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            
                            
 
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" action="#{notesBean.updateNotes()}" 
+                            <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" action="#{notesBean.genererReleveDynamic()}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
                                              class="btn btn-default">
                                 <f:param name="utilisateurSession" value="#{authentificateBean.currentUser.login}"/>

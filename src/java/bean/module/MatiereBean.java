@@ -6,7 +6,7 @@
 package bean.module;
 
 import bean.inscription.NotesBean;
-import ejb.administration.AnneeAcademiqueFacade;
+import ejb.inscription.AnneeAcademiqueFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
@@ -22,7 +22,7 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
-import jpa.administration.AnneeAcademique;
+import jpa.inscription.AnneeAcademique;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
 import jpa.inscription.Notes;
@@ -73,11 +73,12 @@ public class MatiereBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        listeMatieres = matiereFacade.findAll();
+        
         listGroupePedagogiques = groupePedagogiqueFacade.findAll();
         listeUE = ueFacade.findAll();
         anneeAcademique = anneeAcademiqueFacade.getCurrentAcademicYear();
         loadData();
+        listeMatieres = matiereFacade.findAll();
         prepareCreate();
 
     }

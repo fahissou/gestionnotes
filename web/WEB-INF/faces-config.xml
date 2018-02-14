@@ -84,27 +84,16 @@
             <to-view-id>etats/rechercheravancee/index_1.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
-        
-        <!--        <navigation-case>
-            <from-outcome>inscription</from-outcome>
-            <to-view-id>inscription/inscription/index.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>-->
+
         
     </navigation-rule>
     
     <managed-bean>
-		<managed-bean-name>notesBean</managed-bean-name>
-		<managed-bean-class>bean.inscription.NotesBean</managed-bean-class>
+		<managed-bean-name>anneeAcademiqueBean</managed-bean-name>
+		<managed-bean-class>bean.inscription.AnneeAcademiqueBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
-    <managed-bean>
-		<managed-bean-name>inscriptionBean</managed-bean-name>
-		<managed-bean-class>bean.inscription.InscriptionBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
- 	
-        
     
+    	
 </faces-config>

@@ -6,7 +6,6 @@
 package ejb.inscription;
 import jpa.inscription.Inscription;
 import ejb.AbstractFacade;
-import ejb.administration.AnneeAcademiqueFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;

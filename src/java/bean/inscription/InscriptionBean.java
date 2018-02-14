@@ -1,19 +1,28 @@
 package bean.inscription;
 
-import ejb.administration.AnneeAcademiqueFacade;
+import ejb.inscription.AnneeAcademiqueFacade;
 import ejb.formation.FiliereFacade;
+import ejb.formation.HistoriquesFacade;
 import ejb.inscription.EtudiantFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
 import ejb.module.MatiereFacade;
 import ejb.module.UeFacade;
+import fr.opensagres.xdocreport.core.XDocReportException;
+import fr.opensagres.xdocreport.document.IXDocReport;
+import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
+import fr.opensagres.xdocreport.template.IContext;
+import fr.opensagres.xdocreport.template.TemplateEngineKind;
+import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,8 +39,9 @@ import javax.inject.Named;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.servlet.ServletContext;
-import jpa.administration.AnneeAcademique;
+import jpa.inscription.AnneeAcademique;
 import jpa.formation.Filiere;
+import jpa.formation.Historiques;
 import jpa.inscription.EnumGenre;
 import jpa.inscription.Etudiant;
 import jpa.inscription.GroupePedagogique;
@@ -41,6 +51,7 @@ import jpa.module.Matiere;
 import jpa.module.Semestre;
 import jpa.module.Ue;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import util.ExceptionsGestionnotes;
@@ -50,14 +61,22 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xwpf.converter.pdf.PdfConverter;
+import org.apache.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.primefaces.context.RequestContext;
+
+
 
 /**
  *
  * @author AHISSOU Florent
  */
-//@Named(value = "inscriptionBean")
-//@ViewScoped
+@Named(value = "inscriptionBean")
+@ViewScoped
 public class InscriptionBean implements Serializable {
+    @EJB
+    private HistoriquesFacade historiquesFacade;
 
     @EJB
     private AnneeAcademiqueFacade anneeAcademiqueFacade;
@@ -101,8 +120,7 @@ public class InscriptionBean implements Serializable {
     private String fileExtension;
     private FileInputStream fichier;
     private Notes newNote;
-//    private String currentAcademicYear;
-    private AnneeAcademique currentAcademicYear;
+
     private GroupePedagogique groupePedagogique;
     private GroupePedagogique groupePedagogiqueNext;
     private GroupePedagogique groupePedagogiquePrev;
@@ -115,6 +133,11 @@ public class InscriptionBean implements Serializable {
     private List<GroupePedagogique> listGroupePedagogiqueFilter;
     private List<Filiere> listFiliere;
     private Filiere filiere;
+    private String pathIn;
+    private String pathIn1;
+    private String pathOut1;
+    private String pathIn3;
+    private String pathOut;
 //    private AnneeAcademique currentAcademicYear;
 
     /**
@@ -127,82 +150,24 @@ public class InscriptionBean implements Serializable {
     public void init() {
         listeInscriptions = inscriptionFacade.findAll();
         listFiliere = filiereFacade.findAll();
-        listGroupePedagogiques = groupePedagogiqueFacade.findAll();
-        prepareCreate();
-        currentAcademicYear = anneeAcademiqueFacade.getCurrentAcademicYear();
-
-        listeAnneeUniversitaire = new ArrayList<>();
-//        currentAcademicYear = new AnneeAcademique();
-
-        listeAnneeUniversitaire.add("2014 - 2015");
-        listeAnneeUniversitaire.add("2015 - 2016");
-        listeAnneeUniversitaire.add("2016 - 2017");
-        listeAnneeUniversitaire.add("2017 - 2018");
-        listeAnneeUniversitaire.add("2018 - 2019");
-        listeAnneeUniversitaire.add("2019 - 2020");
-        listeAnneeUniversitaire.add("2020 - 2021");
-        listeAnneeUniversitaire.add("2021 - 2022");
-        listeAnneeUniversitaire.add("2022 - 2023");
-        listeAnneeUniversitaire.add("2023 - 2024");
-        listeAnneeUniversitaire.add("2024 - 2025");
-        listeAnneeUniversitaire.add("2025 - 2026");
-        listeAnneeUniversitaire.add("2026 - 2027");
-
-        listeCycles = new HashMap<String, String>();
-        listeCycles.put("Cycle 1", "Cycle 1");
-        listeCycles.put("Cycle 2", "Cycle 2");
-        listeCycles.put("Cycle 3", "Cycle 3");
-
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("Licence 1", "Licence 1");
-        map.put("Licence 2", "Licence 2");
-        map.put("Licence 3", "Licence 3");
-        data.put("Cycle 1", map);
-
-        map = new HashMap<String, String>();
-        map.put("Master 1", "Master 1");
-        map.put("Master 2", "Master 2");
-        data.put("Cycle 2", map);
-
-        map = new HashMap<String, String>();
-        map.put("ThÃ¨se 1", "ThÃ¨se 1");
-        map.put("ThÃ¨se 2", "ThÃ¨se 2");
-        map.put("ThÃ¨se 3", "ThÃ¨se 3");
-        data.put("Cycle 3", map);
-        System.out.println("ok4");
-        loadData();
-        System.out.println("ok5");
-        // Resultats
-        listeResultat = new ArrayList<>();
-        listeResultat.add("Admissible");
-        listeResultat.add("RÃ©fusÃ©");
-
-    }
-
-    public void loadData() {
-        data1 = new HashMap<>();
-        data2 = new HashMap<>();
-        for (int i = 0; i < listFiliere.size(); i++) {
-            List<GroupePedagogique> list1 = groupePedagogiqueFacade.getListGpByFilire(listFiliere.get(i));
-            data1.put(listFiliere.get(i), list1);
-
-        }
-        for (int j = 0; j < listGroupePedagogiques.size(); j++) {
-            List<Inscription> list2 = inscriptionFacade.getListInscriptionByGP(listGroupePedagogiques.get(j).getDescription(), currentAcademicYear.getDescription());
-            data2.put(listGroupePedagogiques.get(j), list2);
-
-        }
         
+        prepareCreate();
+
+        
+        pathIn = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/";
+        pathIn1 = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/releveNouveau/";
+        pathOut = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/";
+        pathOut1 = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
+
     }
 
-    public void onFiliereChange() {
+    public void initGroupePedagogique() {
         if (filiere != null) {
-            listGroupePedagogiqueFilter = data1.get(filiere);
+            listGroupePedagogiqueFilter = groupePedagogiqueFacade.getListGpByFilire(filiere);
         } else {
             listGroupePedagogiqueFilter = new ArrayList<>();
 
         }
-
     }
 
     public void doCreate(ActionEvent event) throws ExceptionsGestionnotes {
@@ -428,6 +393,10 @@ public class InscriptionBean implements Serializable {
 
     public void reset(ActionEvent e) {
         this.newInscription.reset();
+       
+        this.groupePedagogique.reset();
+        this.listFiliere = null;
+        this.filiere.reset();
     }
 
     public String getResultats() {
@@ -531,7 +500,6 @@ public class InscriptionBean implements Serializable {
             System.out.println("OK in fonction null");
         } else {
             if (fileExtension.equals("xls")) {
-                System.out.println("ok2");
                 HSSFWorkbook wb = new HSSFWorkbook(fichier);
                 HSSFSheet sheet = wb.getSheetAt(0);
                 FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
@@ -541,7 +509,7 @@ public class InscriptionBean implements Serializable {
                     contenuLigne = new ArrayList<>();
                     compteurLigne++;
                     for (Cell cell : ligne) {//parcourir les colonnes
-                        //Ã©valuer le type de la cellule
+                        //Evaluer le type de la cellule
 
                         switch (formulaEvaluator.evaluateInCell(cell).getCellType()) {
 
@@ -560,7 +528,7 @@ public class InscriptionBean implements Serializable {
 
                     if (compteurLigne > 1) {
                         // Etudiant save
-                        if (contenuLigne.size() == 7) {
+                        if (contenuLigne.size() == 8) {
                             newEtudiant.setLogin(String.valueOf(contenuLigne.get(0)));
                             newEtudiant.setNom(String.valueOf(contenuLigne.get(1)));
                             newEtudiant.setPrenom(String.valueOf(contenuLigne.get(2)));
@@ -568,14 +536,18 @@ public class InscriptionBean implements Serializable {
                             newEtudiant.setGenre(enumGenre);
                             Date dateNaiss = JsfUtil.stringToDate(String.valueOf(contenuLigne.get(4)));
                             newEtudiant.setDateNaissance(dateNaiss);
-                            newEtudiant.setTelephone(String.valueOf(contenuLigne.get(5)));
-                            newEtudiant.setMail(String.valueOf(contenuLigne.get(6)));
+                            newEtudiant.setLieuNaissance(String.valueOf(contenuLigne.get(5)));
+                            newEtudiant.setTelephone(String.valueOf(contenuLigne.get(6)));
+                            newEtudiant.setMail(String.valueOf(contenuLigne.get(7)));
+                            
+//                            newInscription.setAnneeAcademique(currentAcademicYear);
+                            newInscription.setValidation("V");
                             etudiantFacade.create(newEtudiant);
                             etudiantFacade.findAll();
-                            // Inscritption save
                             newInscription.setEtudiant(newEtudiant);
                             newInscription.setGroupePedagogique(groupePedagogique);
-                            newInscription.setAnneeAcademique(currentAcademicYear);
+                            
+                            // Inscritption save
                             inscriptionFacade.create(newInscription);
                             createDiffaultNotes(newInscription);
                             prepareCreate();
@@ -646,17 +618,15 @@ public class InscriptionBean implements Serializable {
 
     }
 
-    public String inscriptionRedirect() {
-        String page = "";
+    public void inscriptionRedirect() {
         switch (typeInscription) {
             case "collective":
-                page = this.typeInscription;
+                RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/inscription/inscription/collective/'");
                 break;
             case "individuelle":
-                page = this.typeInscription;
+                RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/inscription/inscription/individuelle/'");
                 break;
         }
-        return page;
     }
 
     public String reinscriptionRedirect() {
@@ -679,7 +649,8 @@ public class InscriptionBean implements Serializable {
         System.out.println("icic");
 
         List<Inscription> inscriptions = null;
-        inscriptions = inscriptionFacade.listeReinscription(groupePedagogique.getDescription(), currentAcademicYear.getDescription());
+//        inscriptions = inscriptionFacade.listeReinscription(groupePedagogique.getDescription(), currentAcademicYear.getDescription());
+        System.out.println("taille "+inscriptions.size());
         if (!inscriptions.isEmpty()) {
             setListeInscriptions1(inscriptions);
             resul = "succes3";
@@ -720,7 +691,7 @@ public class InscriptionBean implements Serializable {
         try {
 
             for (int i = 0; i < listeInscriptions1.size(); i++) {
-                listeInscriptions1.get(i).setAnneeAcademique(currentAcademicYear);
+//                listeInscriptions1.get(i).setAnneeAcademique(currentAcademicYear);
                 inscriptionFacade.edit(listeInscriptions1.get(i));
                 createDiffaultNotes(listeInscriptions1.get(i));
             }
@@ -732,30 +703,191 @@ public class InscriptionBean implements Serializable {
         }
         return "succes3";
     }
+//
+//    public String reinscriptionParticuliere() {
+//        String msg;
+//        Inscription inscription = null;
+//        try {
+//            if (!inscriptionFacade.isInscriptionExist(etudiant.getLogin(), currentAcademicYear.getDescription())) {
+//                inscription = new Inscription();
+//                inscription.setAnneeAcademique(currentAcademicYear);
+//                inscription.setGroupePedagogique(groupePedagogique);
+//                inscription.setEtudiant(etudiant);
+//                inscriptionFacade.create(inscription);
+//                createDiffaultNotes(inscription);
+//                listeInscriptions = inscriptionFacade.findAll();
+//                msg = JsfUtil.getBundleMsg("InscriptionDelSuccessMsg");
+//                JsfUtil.addSuccessMessage(msg);
+//            } else {
+//                msg = JsfUtil.getBundleMsg("InscriptionEditErrorMsg");
+//                JsfUtil.addErrorMessage(msg);
+//            }
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return null;
+//    }
+//    
+    
+    // Liste des etudiants autorisés
+//    public String genererListeEtudiant() {
+//        GroupePedagogique gP = groupePedagogique;
+//        String nomFichier = JsfUtil.generateId();
+//        File repertoire1 = new File(pathOut + "/tmp2/");
+//        File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
+//        repertoire1.mkdir();
+//        repertoire2.mkdir();
+//        deleteFile(repertoire1.getAbsolutePath() + "/");
+//        deleteFile(repertoire2.getAbsolutePath() + "/");
+//
+//        try {
+//            // Paramètres d'entete du resultat final
+//            Map<String, Object> parametreEntetes = new HashMap<>();
+//            parametreEntetes.put("aa", currentAcademicYear.getDescription());
+//            parametreEntetes.put("filiere", gP.getFiliere().getLibelle() + " :  " + gP.getDescription());
+//            parametreEntetes.put("d", JsfUtil.getDateEdition());
+//            // Definition des champs du proces fichier 1
+//            List<String> champs = new ArrayList<>();
+//            champs.add("N");
+//            champs.add("NP");
+//
+//            // Table contenant les enregistrements du fichier resultat
+//            List< Map<String, Object>> conteneur = new ArrayList<>();
+//
+//            for (int j = 0; j < listeInscriptionsGP.size(); j++) {
+//                Map<String, Object> row = new HashMap<>();
+//                Inscription currentInscription = listeInscriptionsGP.get(j);
+//
+//                row.put("N", (j + 1));
+//                row.put("NP", currentInscription.getEtudiant().getNom() + " " + currentInscription.getEtudiant().getPrenom());
+//                
+//                conteneur.add(row);
+//            }
+//
+//            genererProcesVerval(pathIn + "/listeEtudiant.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "listeEtudiant" + "_" + gP.getDescription() + "1", parametreEntetes);
+//            docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
+////            docxToPDF(repertoire1.getAbsolutePath() + "/", pathOut1);
+//            System.out.println("Ok1");
+//            mergePDF(repertoire2.getAbsolutePath() + "/", pathOut1, nomFichier + "listeEtudiant" + gP.getDescription());
+//            System.out.println("OK2");
+//            Historiques historique = new Historiques();
+//            historique.setLibelle("listeEtudiant" + gP.getDescription());
+//            historique.setLienFile(JsfUtil.getRealPath(pathOut1 + nomFichier + "listeEtudiant" + gP.getDescription()));
+//            historique.setGroupePedagogique(gP.getDescription());
+//            historique.setDateCreation(new Date());
+//            historiquesFacade.create(historique);
+//        } catch (Exception ex) {
+//            System.out.println("Exception " + ex.getMessage());
+//
+//        }
+//        return "success4";
+//    }
 
-    public String reinscriptionParticuliere() {
-        String msg;
-        Inscription inscription = null;
+    public void deleteFile(String folderName) {
+        File repertoire = new File(folderName);
+        File[] files = repertoire.listFiles();
         try {
-            if (!inscriptionFacade.isInscriptionExist(etudiant.getLogin(), currentAcademicYear.getDescription())) {
-                inscription = new Inscription();
-                inscription.setAnneeAcademique(currentAcademicYear);
-                inscription.setGroupePedagogique(groupePedagogique);
-                inscription.setEtudiant(etudiant);
-                inscriptionFacade.create(inscription);
-                createDiffaultNotes(inscription);
-                listeInscriptions = inscriptionFacade.findAll();
-                msg = JsfUtil.getBundleMsg("InscriptionDelSuccessMsg");
-                JsfUtil.addSuccessMessage(msg);
-            } else {
-                msg = JsfUtil.getBundleMsg("InscriptionEditErrorMsg");
-                JsfUtil.addErrorMessage(msg);
+            if (files.length != 0) {
+                for (int i = 0; i < files.length; i++) {
+                    boolean bool = files[i].delete();
+                }
             }
+        } catch (Exception e) {
+        }
+    }
+    
+    public boolean genererProcesVerval(String fichier, List<String> champs, List< Map<String, Object>> conteneur, String tableName, String chemin, String fileName, Map<String, Object> parametreEntetes) {
+        boolean resultat = false;
+        try {
+            System.out.println("Proces debut");
+            InputStream in = new FileInputStream(new File(fichier));
+            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
+            //Put the table
+            FieldsMetadata metadata = new FieldsMetadata();
+            for (String ch : champs) {
+                metadata.addFieldAsList(tableName + "." + ch);
+            }
+            report.setFieldsMetadata(metadata);
+            // 3) Create context Java model
+            IContext context = report.createContext();
+            context.put(tableName, conteneur);
+            context.putMap(parametreEntetes);
+            // context.putMap(mapsP);
+            // fichier de sortie
+            String outputFile = fileName + ".docx";
+
+            // 4) Generate report by merging Java model with the Docx
+            OutputStream out = new FileOutputStream(new File(chemin + outputFile));
+            report.process(context, out);
+            resultat = true;
+            System.out.println("Proces fin");
+        } catch (IOException | XDocReportException ex) {
+        }
+
+        return resultat;
+    }
+    
+    public void docxToPDF(String folderName, String destination) {
+        File repertoire = new File(folderName);
+        File[] files = repertoire.listFiles();
+        try {
+            int i;
+            for (i = 0; i < files.length; i++) {
+                String fileNam = files[i].getName();
+                createPDF(folderName + fileNam, destination + "file" + i + ".pdf");
+            }
+//            if(i == 1){
+//            Desktop d = Desktop.getDesktop();
+//            d.open(new File("destination + file0.pdf"));
+//            }
 
         } catch (Exception e) {
-
+            System.out.println(" pdf error " + e.getMessage());
         }
-        return null;
-    }
 
+    }
+    
+    //*********************
+    public void mergePDF(String folderName, String pathOut, String fileName) throws IOException {
+        System.out.println("toto1");
+        File repertoire = new File(folderName);
+        System.out.println("toto2");
+        File[] files = repertoire.listFiles();
+        System.out.println("toto3");
+        PDFMergerUtility PDFmerger = new PDFMergerUtility();
+        System.out.println("icicc " + files.length);
+        try {
+            for (int i = 0; i < files.length; i++) {
+                PDFmerger.addSource(files[i]);
+            }
+            PDFmerger.setDestinationFileName(pathOut + fileName + ".pdf");
+            PDFmerger.mergeDocuments();
+        } catch (Exception e) {
+        }
+    }
+    
+    public void createPDF(String pathIn, String pathOut) {
+        try {
+            long start = System.currentTimeMillis();
+
+            // 1) Load DOCX into XWPFDocument
+            InputStream is = new FileInputStream(new File(pathIn));
+            XWPFDocument document = new XWPFDocument(is);
+
+            // 2) Prepare Pdf options
+            PdfOptions options = PdfOptions.create();
+//            PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
+//            PdfOptions options = PdfOptions.create().fontEncoding("iso-8859-15");
+            // 3) Convert XWPFDocument to Pdf
+            OutputStream out = new FileOutputStream(new File(pathOut));
+            PdfConverter.getInstance().convert(document, out, options);
+//            System.out.println("Generate pdf/HelloWorld.pdf with "
+//                    + (System.currentTimeMillis() - start) + "ms");
+
+        } catch (Throwable e) {
+            System.out.println(" pdf error " + e.getMessage());
+        }
+    }
+    
 }

@@ -80,7 +80,6 @@ public class UeBean implements Serializable{
         for (int i = 0; i < listeGroupePedagogiques.size(); i++) {
             List<Semestre> liste = semestreFacade.getSemetreByGP(listeGroupePedagogiques.get(i));
             data1.put(listeGroupePedagogiques.get(i), liste);
-
         }
     }
     
@@ -89,6 +88,7 @@ public class UeBean implements Serializable{
             semestres = data1.get(groupePedagogique);
         } else {
             semestres = new ArrayList<>();
+            
         }
 
     }

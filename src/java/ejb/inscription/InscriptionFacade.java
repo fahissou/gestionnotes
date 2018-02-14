@@ -6,7 +6,6 @@
 package ejb.inscription;
 
 import ejb.AbstractFacade;
-import ejb.administration.AnneeAcademiqueFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -17,6 +16,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import jpa.inscription.Etudiant;
+import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
 import util.JsfUtil;
 
@@ -136,6 +136,21 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         } catch (NoResultException | NonUniqueResultException e) {
             return null;
         }
+    }
+    
+    public List<Inscription> getInscriptionByEtudiant(Etudiant etudiant, GroupePedagogique groupePedagogique) {
+        List<Inscription> inscriptions = null;
+        try {
+        String matricule = etudiant.getLogin();
+        String idGp = groupePedagogique.getId();
+        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.etudiant.login = :matricule AND I.groupePedagogique.id = :idGp");
+        query.setParameter("matricule", matricule);
+        query.setParameter("idGp", idGp);
+             inscriptions = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            inscriptions = new ArrayList<>();
+        }
+        return inscriptions;
     }
     
     
