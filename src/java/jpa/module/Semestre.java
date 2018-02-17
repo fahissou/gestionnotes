@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import jpa.inscription.GroupePedagogique;
-//import javax.persistence.OneToMany;
 
 /**
  *
@@ -22,7 +21,7 @@ import jpa.inscription.GroupePedagogique;
 public class Semestre implements Serializable {
     @Id
     private String id;
-    private String libelle;
+    private int libelle;
     @ManyToOne
     private GroupePedagogique groupePedagogique;
     @OneToMany(mappedBy = "semestre")
@@ -41,13 +40,23 @@ public class Semestre implements Serializable {
         this.id = id;
     }
 
-    public String getLibelle() {
+    public int getLibelle() {
         return libelle;
     }
 
-    public void setLibelle(String libelle) {
+    public void setLibelle(int libelle) {
         this.libelle = libelle;
     }
+
+    public List<Ue> getUes() {
+        return ues;
+    }
+
+    public void setUes(List<Ue> ues) {
+        this.ues = ues;
+    }
+
+  
 
     public GroupePedagogique getGroupePedagogique() {
         return groupePedagogique;
@@ -80,7 +89,7 @@ public class Semestre implements Serializable {
 
 public void reset(){
     this.id = null;
-    this.libelle = null;
+    this.libelle = 0;
 
 }    
 }

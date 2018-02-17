@@ -7,11 +7,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import jpa.inscription.AnneeAcademique;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
 import jpa.inscription.Inscription_;
 import jpa.inscription.Notes;
 import jpa.module.Matiere;
+import jpa.module.Semestre;
 import util.JsfUtil;
 
 /**
@@ -39,14 +41,17 @@ public class NotesFacade extends AbstractFacade<Notes> {
         super.create(notes);
     }
 
-    public List<Notes> listeNoteGpAnnee(String inscriptionID, String groupePedagogique, Matiere matiere) {
+    public List<Notes> listeNoteGpAnnee(AnneeAcademique anneeAcademique, GroupePedagogique groupePedagogique, Matiere matiere) {
         List<Notes> notes = null;
+        String matiereID = matiere.getId();
+        String idAnneAca = anneeAcademique.getId();
+        String idGP = groupePedagogique.getId();
         try {
-            String matiereID = matiere.getId();
-            Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.anneeAcademique.description = :inscriptionID AND N.inscription.groupePedagogique.description = :groupePedagogique AND N.matiere.id = :matiereID");
+            
+            Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.anneeAcademique.id = :idAnneAca AND N.inscription.groupePedagogique.id = :idGP AND N.matiere.id = :matiereID");
             // set parameters
-            query.setParameter("inscriptionID", inscriptionID);
-            query.setParameter("groupePedagogique", groupePedagogique);
+            query.setParameter("idAnneAca", idAnneAca);
+            query.setParameter("idGP", idGP);
             query.setParameter("matiereID", matiereID);
             notes = query.getResultList();
         } catch (Exception ex) {
@@ -104,6 +109,22 @@ public class NotesFacade extends AbstractFacade<Notes> {
             query.setParameter("valNull", valNull);
             query.setParameter("moy", moy);
             
+            List<Notes> list = query.getResultList();
+            return list;
+        } catch (Exception ex) {
+            return null;
+        }
+
+    }
+    
+    public List<Notes> listeNoteByInscriptionBySem(Inscription inscription, Semestre semestre) {
+        try {
+            String inscriptionId = inscription.getId();
+            String semest = semestre.getId();
+            Query query = em.createQuery("SELECT N FROM Notes N WHERE N.inscription.id = :inscriptionId AND N.matiere.ue.semestre.id = :semest");
+            // set parameters
+            query.setParameter("inscriptionId", inscriptionId);
+            query.setParameter("semest", semest);
             List<Notes> list = query.getResultList();
             return list;
         } catch (Exception ex) {

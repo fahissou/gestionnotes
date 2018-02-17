@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -36,6 +39,86 @@
                 </div>
 
             </ui:define>
+            
+            <h:form>
+                        <ul class="buttons">
+                            
+                            <li>
+                                <a href="#" class="link_bcPopupList"><span class="glyphicon glyphicon-edit"></span><span class="text">#{anneeAcademiqueBean.anneeAcademicChoisi.description}</span></a>
+
+                                <div id="bcPopupList" class="popup">
+                                    <div class="head clearfix">
+                                        <div class="arrow"></div>
+                                        <span class="isw-edit"></span>
+                                        <span class="name">#{bundle.EspaceTravail}</span>
+                                    </div>
+                                    <div class="body-fluid users">
+                                          <div class="row-form clearfix">
+<!--                            <div class="col-md-3">
+                                <p:outputLabel for="anneeAcademic" value="#{bundle.AnneeAcademique}"/>
+                            </div>-->
+                            <div class="col-md-12">
+                                <p:selectOneMenu id="anneeAcademic" value="#{anneeAcademiqueBean.anneeAcademicChoisi}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{anneeAcademiqueBean.listeAnneeAcademiques}" var="itemAnneeAcademique"
+                                                   itemValue="#{itemAnneeAcademique}" itemLabel="#{itemAnneeAcademique.description}"/>
+                                    <f:converter  converterId="anneeAcademiqueConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+<!--                                        <div class="item clearfix">
+                                            <div class="info">
+                                                <a href="#" class="name">Aqvatarius</a>                                    
+                                                <span>online</span>
+                                            </div>
+                                        </div>-->
+
+
+                                    </div>
+                                    <div class="footer">
+                                        <!--<button class="btn btn-default" type="button">Add new</button>-->
+                                        <p:commandButton value="#{bundle.Actualiser}" update=":msgForm:msg @form" action="#{anneeAcademiqueBean.initAnneeAcademique}"
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+                                        <button class="btn btn-danger link_bcPopupList" type="button">#{bundle.Close}</button>
+                                    </div>
+                                </div>                    
+
+                            </li>
+                            <li>
+                                <a href="#" class="link_bcPopupSearch"><span class="glyphicon glyphicon-search"></span><span class="text">#{bundle.Search}</span></a>
+
+                                <div id="bcPopupSearch" class="popup">
+                                    <div class="head clearfix">
+                                        <div class="arrow"></div>
+                                        <span class="isw-zoom"></span>
+                                        <span class="name">#{bundle.Search}</span>
+                                    </div>
+                                    <div class="body search">
+
+                                        <p:selectOneMenu id="idEtudient" value="#{parametragesBean.etudiant}" 
+                                                         required="false" filter="true" filterMatchMode="contains">
+                                            <f:selectItem itemValue="#{null}" itemLabel="#{bundle.RechercherNotesEtudiant}"/>
+                                            <f:selectItems value="#{etudiantBean.listeEtudiants}" var="selection" itemValue="#{selection}"
+                                                           itemLabel=" #{selection.nom.toUpperCase()} #{selection.prenom.toUpperCase()} (#{selection.login.toUpperCase()})"
+                                                           />
+                                            <f:converter  converterId="etudiantConverter"/>
+                                        </p:selectOneMenu>
+
+                                    </div>
+                                    <div class="footer">
+                                        <p:commandButton value="Rechercher" update=":msgForm:msg @form" action="#{parametragesBean.update()}"
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+                                        <!--<button class="btn btn-default" type="button">#{bundle.Search}</button>-->
+                                        <button class="btn btn-danger link_bcPopupSearch" type="button">#{bundle.Close}</button>
+                                        
+                                    </div>
+                                </div>                
+                            </li>
+                        </ul>
+                    </h:form>
 
 
 

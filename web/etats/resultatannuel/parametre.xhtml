@@ -10,7 +10,7 @@
             <div class="block">
                 <div class="head clearfix">
                     <div class="isw-documents"></div>
-                    <h1>#{bundle.Etat}</h1>
+                    <h1>#{bundle.ResultatAnnuel}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <div class="block-fluid">
@@ -19,38 +19,37 @@
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="filiere" value="#{resultatAnnuelBean.filiere}" 
+                                                 required="true">
+                                    <p:ajax listener="#{resultatAnnuelBean.initGroupePedagogique()}" update="groupePedagogique" />
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix" >
+                            <div class="col-md-3">
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" 
+                                <p:selectOneMenu id="groupePedagogique" value="#{resultatAnnuelBean.groupePedagogique}" 
                                                  required="true">
-                                    <p:ajax listener="#{notesBean.onGroupePedagogiqueChangeS()}" update="semestre" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
+                                    <f:selectItems value="#{resultatAnnuelBean.listGroupePedagogiques}" var="itemGroupePedagogique"
                                                    itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
 
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="semestre" value="#{notesBean.semestre}" 
-                                                 required="false">
-                                    
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{notesBean.semestres}" var="itemSemestre"
-                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.libelle}"/>
-                                    <f:converter  converterId="semestreConverter"/>
-                                </p:selectOneMenu>
-                            </div>
-                        </div>
-
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{notesBean.genererResultatFinale()}"
+                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{resultatAnnuelBean.genererResultatFinale()}"
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>
 

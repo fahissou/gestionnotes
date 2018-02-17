@@ -10,6 +10,7 @@ import javax.inject.Named;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import jpa.inscription.AnneeAcademique;
+import org.primefaces.context.RequestContext;
 import util.JsfUtil;
 
 /**
@@ -29,6 +30,7 @@ public class AnneeAcademiqueBean implements Serializable{
     private String anneeAcademique;
     private List<String> listeAnneeUniversitaire  = new ArrayList<>();
     private AnneeAcademique currentAnneeAcademic;
+    private static AnneeAcademique anneeAcademicChoisi = new AnneeAcademique();
 
     public AnneeAcademiqueBean() {
     }
@@ -38,11 +40,13 @@ public class AnneeAcademiqueBean implements Serializable{
         listeAnneeAcademiques = anneeAcademiqueFacade.findAll();
         currentAnneeAcademic = anneeAcademiqueFacade.getCurrentAcademicYear();
         listeAnneeUniversitaire.add(JsfUtil.nextAcademicYear(currentAnneeAcademic.getDescription()));
+        anneeAcademicChoisi = currentAnneeAcademic;
         prepareCreate();
     }
     
     public void doCreate(ActionEvent event) {
         String msg;
+        
         try {
             currentAnneeAcademic.setEtat(0);
             anneeAcademiqueFacade.edit(currentAnneeAcademic);
@@ -59,6 +63,10 @@ public class AnneeAcademiqueBean implements Serializable{
         }
     }
 
+    
+
+    
+    
     public void doEdit(ActionEvent event) {
         String msg;
         try {
@@ -141,4 +149,24 @@ public class AnneeAcademiqueBean implements Serializable{
     public void reset(ActionEvent e) {
         this.newAnneeAcademique.reset();
     }
+
+    public  AnneeAcademique getAnneeAcademicChoisi() {
+        return anneeAcademicChoisi;
+    }
+
+    public  void setAnneeAcademicChoisi(AnneeAcademique anneeAcademicChoisi) {
+        AnneeAcademiqueBean.anneeAcademicChoisi = anneeAcademicChoisi;
+    }
+    
+    public static AnneeAcademique getAnneeAcademicChoisi1() {
+        return anneeAcademicChoisi;
+    }
+    
+    public void initAnneeAcademique(){
+        if(anneeAcademicChoisi != null){
+           RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/'"); 
+        }
+        
+    }
+    
 }

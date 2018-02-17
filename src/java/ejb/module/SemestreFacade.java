@@ -43,7 +43,7 @@ public class SemestreFacade extends AbstractFacade<Semestre> {
     
     public List<Semestre> getSemetreByGP(GroupePedagogique groupePedagogique) {
        String description = groupePedagogique.getDescription();
-        Query query = em.createQuery("SELECT S FROM Semestre S WHERE S.groupePedagogique.description = :description");
+        Query query = em.createQuery("SELECT S FROM Semestre S WHERE S.groupePedagogique.description = :description ORDER BY S.libelle ASC");
         // set parameters
         query.setParameter("description", description);
         List<Semestre> list = query.getResultList();

@@ -148,7 +148,9 @@ public class InscriptionBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        listeInscriptions = inscriptionFacade.findAll();
+        System.out.println("ok>> " +AnneeAcademiqueBean.getAnneeAcademicChoisi1().getDescription()+" id "+AnneeAcademiqueBean.getAnneeAcademicChoisi1().getId());
+        listeInscriptions = inscriptionFacade.findAllByInscription(AnneeAcademiqueBean.getAnneeAcademicChoisi1());
+        System.out.println("taille " +listeInscriptions.size());
         listFiliere = filiereFacade.findAll();
         
         prepareCreate();
@@ -540,7 +542,7 @@ public class InscriptionBean implements Serializable {
                             newEtudiant.setTelephone(String.valueOf(contenuLigne.get(6)));
                             newEtudiant.setMail(String.valueOf(contenuLigne.get(7)));
                             
-//                            newInscription.setAnneeAcademique(currentAcademicYear);
+                            newInscription.setAnneeAcademique(anneeAcademiqueFacade.getCurrentAcademicYear());
                             newInscription.setValidation("V");
                             etudiantFacade.create(newEtudiant);
                             etudiantFacade.findAll();

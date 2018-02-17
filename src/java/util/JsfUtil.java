@@ -31,6 +31,12 @@ package util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.opensagres.xdocreport.core.XDocReportException;
+import fr.opensagres.xdocreport.document.IXDocReport;
+import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
+import fr.opensagres.xdocreport.template.IContext;
+import fr.opensagres.xdocreport.template.TemplateEngineKind;
+import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 //import util.barcode.BarCode;
 //import util.barcode.SimpleBarCodeGenerator;
 import java.awt.Image;
@@ -72,6 +78,7 @@ import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import jpa.inscription.GroupePedagogique;
+import jpa.module.Semestre;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfOptions;
@@ -1157,6 +1164,82 @@ public class JsfUtil {
             PDFmerger.mergeDocuments();
         } catch (Exception e) {
         }
+    }
+    
+    public static boolean generateurXDOCReport(String fichier, List<String> champs, List< Map<String, Object>> conteneur, String tableName, String chemin, String fileName, Map<String, Object> parametreEntetes) {
+        boolean resultat = false;
+        try {
+            System.out.println("Proces debut");
+            InputStream in = new FileInputStream(new File(fichier));
+            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
+            //Put the table
+            FieldsMetadata metadata = new FieldsMetadata();
+            for (String ch : champs) {
+                metadata.addFieldAsList(tableName + "." + ch);
+            }
+            report.setFieldsMetadata(metadata);
+            // 3) Create context Java model
+            IContext context = report.createContext();
+            context.put(tableName, conteneur);
+            context.putMap(parametreEntetes);
+            // context.putMap(mapsP);
+            // fichier de sortie
+            String outputFile = fileName + ".docx";
+
+            // 4) Generate report by merging Java model with the Docx
+            OutputStream out = new FileOutputStream(new File(chemin + outputFile));
+            report.process(context, out);
+            resultat = true;
+            System.out.println("Proces fin");
+        } catch (IOException | XDocReportException ex) {
+        }
+
+        return resultat;
+    }
+    
+    public static String formatNote(double note) {
+        note = (double) Math.round((note) * 100) / 100;
+        String noteString = String.valueOf(note);
+        String[] args = noteString.split("\\.");
+        String t = args[0] + "," + args[1];
+        return t;
+    }
+    
+    public static void generateurXDOCReportStatic(String fichier, Map<String, Object> maps, String chemin, String nomfichier) throws Exception {
+        String outputFile = "";
+        OutputStream out = null;
+        InputStream in = null;
+        try {
+
+            in = new FileInputStream(new File(fichier));
+            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
+            System.out.println("ok ici");
+            // 3) Create context Java model
+            IContext context = report.createContext();
+            context.putMap(maps);
+
+            FieldsMetadata metadata = new FieldsMetadata();
+            report.setFieldsMetadata(metadata);
+            outputFile = nomfichier + ".docx";
+            // 4) Generate report by merging Java model with the Docx
+            out = new FileOutputStream(new File(chemin + outputFile));
+            report.process(context, out);
+
+            out.close();
+        } catch (IOException | XDocReportException ex) {
+            System.out.println(" Exce " + ex.getMessage());
+        }
+    }
+    
+    public static String[] semestreGP(List<Semestre> semest) {
+        String[] s = new String[2];
+        s[0] = "";
+        s[1] = "";
+        if (!semest.isEmpty()) {
+            s[0] = String.valueOf(semest.get(0).getLibelle());
+            s[1] = String.valueOf(semest.get(1).getLibelle());
+        }
+        return s;
     }
     
 }

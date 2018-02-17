@@ -94,6 +94,12 @@
 		<managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
+    <managed-bean>
+		<managed-bean-name>parametragesBean</managed-bean-name>
+		<managed-bean-class>bean.util.ParametragesBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
     
     	
 </faces-config>

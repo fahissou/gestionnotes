@@ -104,7 +104,7 @@ public class MatiereBean implements Serializable {
 
     public void doCreate(ActionEvent event) {
         String msg;
-        List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(newGroupePedagogique.getDescription(), anneeAcademique.getDescription());
+        List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(newGroupePedagogique, anneeAcademique);
 
         try {
             if (inscriptions.isEmpty()) {

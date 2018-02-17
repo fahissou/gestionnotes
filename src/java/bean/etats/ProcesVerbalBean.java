@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,7 +7,7 @@
  */
 package bean.etats;
 
-import static bean.inscription.NotesBean.formatNote;
+import bean.inscription.AnneeAcademiqueBean;
 import ejb.administration.ParametresFacade;
 import ejb.formation.FiliereFacade;
 import ejb.formation.HistoriquesFacade;
@@ -42,6 +44,7 @@ import javax.faces.view.ViewScoped;
 import jpa.administration.Parametres;
 import jpa.formation.Filiere;
 import jpa.formation.Historiques;
+import jpa.inscription.AnneeAcademique;
 import jpa.inscription.Etudiant;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
@@ -87,7 +90,7 @@ public class ProcesVerbalBean implements Serializable {
     private List<Filiere> listFilieres;
     private List<GroupePedagogique> listGroupePedagogiques;
     private List<Semestre> listSemestres;
-    private String anneeAcademique;
+    private AnneeAcademique anneeAcademique;
     private List<Parametres> parametres;
 
     public ProcesVerbalBean() {
@@ -96,7 +99,7 @@ public class ProcesVerbalBean implements Serializable {
     @PostConstruct
     public void init() {
         listFilieres = filiereFacade.findAll();
-        anneeAcademique = anneeAcademiqueFacade.getCurrentAcademicYear().getDescription();
+        anneeAcademique = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
         parametres = parametresFacade.findAll();
     }
 
@@ -169,7 +172,7 @@ public class ProcesVerbalBean implements Serializable {
     }
 
     // essai de proces dynamique
-    public void procesVearbal(ActionEvent event) {
+    public void procesVerbal(ActionEvent event) {
         String pathOut = JsfUtil.getPathOutTmp();
         String pathIn = JsfUtil.getPathIntModelProces();
         String pathOutPDF = JsfUtil.getPathOutPDF();
@@ -188,7 +191,7 @@ public class ProcesVerbalBean implements Serializable {
                 nombreUE = ues.size();
 
                 if (nombreUE <= 18 && nombreUE >= 4) {
-                    List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(groupePedagogique.getDescription(), anneeAcademique);
+                    List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(groupePedagogique, anneeAcademique);
                     // Paramètres d'entete du proces fichier 1
                     Map<String, Object> parametreEntetes1 = new HashMap<>();
                     // Paramètres d'entete du proces fichier 2
@@ -196,17 +199,17 @@ public class ProcesVerbalBean implements Serializable {
                     // Paramètres d'entete du proces fichier 3
                     Map<String, Object> parametreEntetes3 = new HashMap<>();
 
-                    parametreEntetes1.put("annee", anneeAcademique);
+                    parametreEntetes1.put("annee", anneeAcademique.getDescription());
                     parametreEntetes1.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
                     parametreEntetes1.put("semestre", semestre.getLibelle());
                     parametreEntetes1.put("d", JsfUtil.getDateEdition());
 
-                    parametreEntetes2.put("annee", anneeAcademique);
+                    parametreEntetes2.put("annee", anneeAcademique.getDescription());
                     parametreEntetes2.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
                     parametreEntetes2.put("semestre", semestre.getLibelle());
                     parametreEntetes2.put("d", JsfUtil.getDateEdition());
 
-                    parametreEntetes3.put("annee", anneeAcademique);
+                    parametreEntetes3.put("annee", anneeAcademique.getDescription());
                     parametreEntetes3.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
                     parametreEntetes3.put("semestre", semestre.getLibelle());
                     parametreEntetes3.put("d", JsfUtil.getDateEdition());
@@ -299,7 +302,7 @@ public class ProcesVerbalBean implements Serializable {
                             somMoySemestre = +moyUE;
 
                             if (i < max) {
-                                row1.put("m" + (i + 1), formatNote(moyUE));
+                                row1.put("m" + (i + 1), JsfUtil.formatNote(moyUE));
                                 row1.put("o" + (i + 1), decision2(moyUE));
                                 row1.put("c" + (i + 1), currentUE.getCredit());
                                 System.out.println(" ok1 "+currentUE.getLibelle());
@@ -307,14 +310,14 @@ public class ProcesVerbalBean implements Serializable {
                                 parametreEntetes1.put("ue" + (i + 1), currentUE.getLibelle());
                                 l = i + 1;
                             } else if (i >= max && i < (2 * max)) {
-                                row2.put("m" + (i + 1 - l), formatNote(moyUE));
+                                row2.put("m" + (i + 1 - l), JsfUtil.formatNote(moyUE));
                                 row2.put("o" + (i + 1 - l), decision2(moyUE));
                                 row2.put("c" + (i + 1 - l), currentUE.getCredit());
                                 parametreEntetes2.put("UE" + (i + 1), JsfUtil.getAbrevUE(currentUE.getLibelle()));
                                 parametreEntetes2.put("ue" + (i + 1), currentUE.getLibelle());
                                 p = i + 1;
                             } else {
-                                row3.put("m" + (i + 1 - p), formatNote(moyUE));
+                                row3.put("m" + (i + 1 - p), JsfUtil.formatNote(moyUE));
                                 row3.put("o" + (i + 1 - p), decision2(moyUE));
                                 row3.put("c" + (i + 1 - p), currentUE.getCredit());
                                 parametreEntetes3.put("UE" + (i + 1), JsfUtil.getAbrevUE(currentUE.getLibelle()));
@@ -330,20 +333,20 @@ public class ProcesVerbalBean implements Serializable {
                     String[] nameFile = JsfUtil.getFileNameRapport(nombreUE);
 
                     if (nombreUE == 4) {
-                        genererProcesVerval(pathIn + "/" + nameFile[0], champs1, conteneur1, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale1" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes1);
+                        JsfUtil.generateurXDOCReport(pathIn + "/" + nameFile[0], champs1, conteneur1, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale1" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes1);
                     } else if (nombreUE == 5) {
-                        genererProcesVerval(pathIn + "/" + nameFile[0], champs1, conteneur1, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale1" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes1);
+                        JsfUtil.generateurXDOCReport(pathIn + "/" + nameFile[0], champs1, conteneur1, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale1" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes1);
                     } else if (nombreUE == 6) {
-                        genererProcesVerval(pathIn + "/" + nameFile[0], champs1, conteneur1, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale1" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes1);
+                        JsfUtil.generateurXDOCReport(pathIn + "/" + nameFile[0], champs1, conteneur1, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale1" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes1);
                     } else {
-                        genererProcesVerval(pathIn + "/" + nameFile[0], champs1, conteneur1, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale1" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes1);
-                        genererProcesVerval(pathIn + "/" + nameFile[1], champs2, conteneur2, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale2" + "_" + groupePedagogique.getDescription() + "2", parametreEntetes2);
-                        genererProcesVerval(pathIn + "/" + nameFile[2], champs3, conteneur3, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale3" + "_" + groupePedagogique.getDescription() + "3", parametreEntetes3);
+                        JsfUtil.generateurXDOCReport(pathIn + "/" + nameFile[0], champs1, conteneur1, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale1" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes1);
+                        JsfUtil.generateurXDOCReport(pathIn + "/" + nameFile[1], champs2, conteneur2, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale2" + "_" + groupePedagogique.getDescription() + "2", parametreEntetes2);
+                        JsfUtil.generateurXDOCReport(pathIn + "/" + nameFile[2], champs3, conteneur3, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale3" + "_" + groupePedagogique.getDescription() + "3", parametreEntetes3);
                     }
                     JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
                     JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getLibelle());
                     Historiques historique = new Historiques();
-                    historique.setLibelle("proces" + groupePedagogique.getDescription() + "_" + anneeAcademique + "_" + semestre.getLibelle());
+                    historique.setLibelle("proces" + groupePedagogique.getDescription() + "_" + anneeAcademique.getDescription() + "_" + semestre.getLibelle());
                     historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getLibelle()));
                     historique.setGroupePedagogique(groupePedagogique.getDescription());
                     historique.setDateCreation(new Date());
@@ -352,12 +355,6 @@ public class ProcesVerbalBean implements Serializable {
                     msg = JsfUtil.getBundleMsg("ProcesGenererSucces");
                     JsfUtil.addSuccessMessage(msg);
 
-//                boolean fi2 =
-//                    new File(repertoire1.getAbsolutePath()).delete();
-//                    new File(repertoire2.getAbsolutePath()).delete();
-
-//                RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/fichiergenerer/rapportgestionnotes/procesverval/IGISA2.pdf'");
-//                repertoire1.delete();
                 } else {
                     msg = JsfUtil.getBundleMsg("NombreUEInvalid");
                     JsfUtil.addErrorMessage(msg);
@@ -390,35 +387,35 @@ public class ProcesVerbalBean implements Serializable {
         return arg;
     }
 
-    public boolean genererProcesVerval(String fichier, List<String> champs, List< Map<String, Object>> conteneur, String tableName, String chemin, String fileName, Map<String, Object> parametreEntetes) {
-        boolean resultat = false;
-        try {
-            System.out.println("Proces debut");
-            InputStream in = new FileInputStream(new File(fichier));
-            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
-            //Put the table
-            FieldsMetadata metadata = new FieldsMetadata();
-            for (String ch : champs) {
-                metadata.addFieldAsList(tableName + "." + ch);
-            }
-            report.setFieldsMetadata(metadata);
-            // 3) Create context Java model
-            IContext context = report.createContext();
-            context.put(tableName, conteneur);
-            context.putMap(parametreEntetes);
-            // context.putMap(mapsP);
-            // fichier de sortie
-            String outputFile = fileName + ".docx";
-
-            // 4) Generate report by merging Java model with the Docx
-            OutputStream out = new FileOutputStream(new File(chemin + outputFile));
-            report.process(context, out);
-            resultat = true;
-            System.out.println("Proces fin");
-        } catch (IOException | XDocReportException ex) {
-        }
-
-        return resultat;
-    }
+//    public boolean genererProcesVerval(String fichier, List<String> champs, List< Map<String, Object>> conteneur, String tableName, String chemin, String fileName, Map<String, Object> parametreEntetes) {
+//        boolean resultat = false;
+//        try {
+//            System.out.println("Proces debut");
+//            InputStream in = new FileInputStream(new File(fichier));
+//            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
+//            //Put the table
+//            FieldsMetadata metadata = new FieldsMetadata();
+//            for (String ch : champs) {
+//                metadata.addFieldAsList(tableName + "." + ch);
+//            }
+//            report.setFieldsMetadata(metadata);
+//            // 3) Create context Java model
+//            IContext context = report.createContext();
+//            context.put(tableName, conteneur);
+//            context.putMap(parametreEntetes);
+//            // context.putMap(mapsP);
+//            // fichier de sortie
+//            String outputFile = fileName + ".docx";
+//
+//            // 4) Generate report by merging Java model with the Docx
+//            OutputStream out = new FileOutputStream(new File(chemin + outputFile));
+//            report.process(context, out);
+//            resultat = true;
+//            System.out.println("Proces fin");
+//        } catch (IOException | XDocReportException ex) {
+//        }
+//
+//        return resultat;
+//    }
 
 }
