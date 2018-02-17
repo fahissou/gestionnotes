@@ -64,7 +64,16 @@
         <div class="wrapper"> 
 
             <div class="header">
-
+                <p:ajaxStatus id="ajaxStatusPanel">
+                    <f:facet name="start">
+                        <div class="block_loading">
+                            <div class="spinner spinner--steps icon-spinner" aria-hidden="true"/>
+                        </div>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
                 <ui:insert name="banner" > 
                     <ui:include src="banner.xhtml"/>
                 </ui:insert>  

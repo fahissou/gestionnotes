@@ -44,12 +44,11 @@ public class GroupePedagogiqueFacade extends AbstractFacade<GroupePedagogique> {
         super.create(groupePedagogique);
     }
 
-    public List<GroupePedagogique> getListGpByFilire(Filiere filieres) {
-        String idFilire = filieres.getId();
-        List<GroupePedagogique> liste = null;
+   public List<GroupePedagogique> getListGpByFilire(Filiere filiere) {
+        List<GroupePedagogique> liste;
         try {
-            Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.filiere.id = :idFilire");
-            query.setParameter("idFilire", idFilire);
+            Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.filiere = :filiere");
+            query.setParameter("filiere", filiere);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
             liste = new ArrayList<>();

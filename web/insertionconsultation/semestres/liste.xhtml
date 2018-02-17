@@ -31,7 +31,7 @@
                                                  {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
                                                  > 
                                         <p:column headerText="#{bundle.Semestre}"  sortBy="#{item.libelle.toUpperCase()}" filterBy="#{item.libelle.toUpperCase()}}">
-                                            <h:outputText value=" #{item.libelle.toUpperCase()}" />
+                                            <h:outputText value=" #{item.libelle}" />
                                         </p:column>
                                         
                                         <p:column headerText="#{bundle.GroupePedagogique}"  sortBy="#{item.groupePedagogique.description.toUpperCase()}" filterBy="#{item.groupePedagogique.description.toUpperCase()}">

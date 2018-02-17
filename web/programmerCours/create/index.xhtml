@@ -7,22 +7,22 @@
 
         <ui:composition template="/template/base.xhtml">
 
-                        <ui:define name="selectMenu">
+            <!--            <ui:define name="selectMenu">
                             <ui:param name="administration" value="active"/>
                             <ui:param name="groupe" value="active"/>
                             <ui:param name="liste" value="active"/>
-                        </ui:define>
+                        </ui:define>-->
 
             <ui:define name="title">
-                #{bundle.listeGroupe}
+                #{bundle.ProgrammerCours}
             </ui:define>
 
             <ui:define name="breadLine">
                 <div class="breadLine">
                     <ul class="breadcrumb">
-                        <li><a href="#">#{bundle.administration1}</a> <span class="divider">></span></li>  
-                        <li><a href="#">#{bundle.Groupe}</a> <span class="divider">></span></li> 
-                        <li class="active">#{bundle.listeGroupe}</li>
+                        <li><a href="#">#{bundle.ProgrammerCours}</a> <span class="divider">></span></li>  
+                        <!--<li><a href="#">#{bundle.Enseignant}</a> <span class="divider">></span></li>--> 
+                        <li class="active">#{bundle.ProgrammationCours}</li>
                     </ul> 
                 </div>
             </ui:define>
@@ -31,15 +31,14 @@
                 <div class="workplace">
                 <div class="row">
                 <div class ="nav-position">
-                <ui:include src="create.xhtml"/>
-                <ui:include src="menunav.xhtml"/>
-                <ui:include src="liste.xhtml"/>
+                    <ui:include src="../menunav.xhtml"/>
+                    <ui:include src="create.xhtml"/>
                 </div>
                 </div>
                 
-                <!--<ui:include src="view.xhtml"/>-->
-                <ui:include src="edit.xhtml"/>
-                <ui:include src="delete.xhtml"/>
+<!--                <ui:include src="view.xhtml"/>-->
+<!--                   <ui:include src="edit.xhtml"/>
+                   <ui:include src="delete.xhtml"/>-->
                </div>
                 
            </ui:define>

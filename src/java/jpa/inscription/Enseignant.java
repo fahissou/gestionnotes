@@ -2,15 +2,18 @@ package jpa.inscription;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 //import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 //import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import jpa.administration.ProgrammerCours;
 import jpa.formation.Filiere;
 import jpa.module.Matiere;
 
@@ -44,6 +47,8 @@ public class Enseignant implements Serializable {
 //    private List<Matiere> matieres;
     @ManyToOne
     private Filiere filiere;
+    @OneToMany(mappedBy = "enseignant")
+    private List<ProgrammerCours> programmerCourss;
     
 
     public Enseignant() {
@@ -152,6 +157,15 @@ public class Enseignant implements Serializable {
     public void setGrade(String grade) {
         this.grade = grade;
     }
+
+    public List<ProgrammerCours> getProgrammerCourss() {
+        return programmerCourss;
+    }
+
+    public void setProgrammerCourss(List<ProgrammerCours> programmerCourss) {
+        this.programmerCourss = programmerCourss;
+    }
+    
 
 //    public List<AnneeAcademique> getAnneeAcademiques() {
 //        return anneeAcademiques;

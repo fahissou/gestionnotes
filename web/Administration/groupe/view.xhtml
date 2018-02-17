@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
 
@@ -11,10 +12,11 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="viewDialogForm" styleClass="form-horizontal">
-                        <div class="modal-header">
+                        <p:growl id="growl" showDetail="true"/>
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <!--<h3 class="modal-title">#{bundle.View}</h3>-->
-                            <h3 class="modal-title">Détails</h3>
+                            <h3>#{bundle.View}</h3>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
                             
@@ -39,13 +41,11 @@
                                 </div>
                                       
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success btn-xs" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-checkmark-2 glyphicon glyphicon-ok"></i>
+                        <div class="footer tar">
+                            <button type="button" class="btn btn-default" style="font-size: 11px;vertical-align: middle;">
                                 #{bundle.Action}
                             </button>
-                            <button type="button" class="btn btn-default  btn-xs" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-cancel-2 glyphicon glyphicon-remove"></i>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
                                 #{bundle.Close}
                             </button>
                         </div> <!-- /.modal-footer -->

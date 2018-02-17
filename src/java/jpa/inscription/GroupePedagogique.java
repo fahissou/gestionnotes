@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import jpa.administration.ProgrammerCours;
 import jpa.administration.TemporalUser;
 import jpa.formation.Filiere;
+import jpa.module.Matiere;
 import jpa.module.Semestre;
 import jpa.module.Ue;
 
@@ -23,6 +24,8 @@ import jpa.module.Ue;
  */
 @Entity
 public class GroupePedagogique implements Serializable {
+    @OneToMany(mappedBy = "groupePedagogique")
+    private List<Matiere> matieres;
     @OneToMany(mappedBy = "groupePedagogique")
     private List<Semestre> semestres;
    
@@ -102,6 +105,22 @@ public class GroupePedagogique implements Serializable {
 
     public void setProgrammerCourss(List<ProgrammerCours> programmerCourss) {
         this.programmerCourss = programmerCourss;
+    }
+
+    public List<Matiere> getMatieres() {
+        return matieres;
+    }
+
+    public void setMatieres(List<Matiere> matieres) {
+        this.matieres = matieres;
+    }
+
+    public List<Semestre> getSemestres() {
+        return semestres;
+    }
+
+    public void setSemestres(List<Semestre> semestres) {
+        this.semestres = semestres;
     }
     
     @Override

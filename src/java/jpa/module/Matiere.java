@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import jpa.administration.ProgrammerCours;
 import jpa.administration.TemporalUser;
+import jpa.inscription.GroupePedagogique;
 //import jpa.inscription.Enseignant;
 import jpa.inscription.Notes;
 
@@ -22,7 +23,7 @@ import jpa.inscription.Notes;
  */
 @Entity
 public class Matiere implements Serializable {
-    
+
     @OneToMany(mappedBy = "matiere")
     private List<ProgrammerCours> programmerCours;
     @OneToMany(mappedBy = "matiere")
@@ -31,11 +32,17 @@ public class Matiere implements Serializable {
     private String id;
     private String libelle;
     private int coefficiant;
+    private int etat;
+    @ManyToOne
+    private GroupePedagogique groupePedagogique;
     @ManyToOne
     private Ue ue;
 //    @ManyToOne
 //    private Enseignant enseignant;
-    
+
+    public Matiere(){
+        this.etat = 0;
+    }
     
     public String getId() {
         return id;
@@ -60,9 +67,6 @@ public class Matiere implements Serializable {
     public void setCoefficiant(int coefficiant) {
         this.coefficiant = coefficiant;
     }
-    
-    
-    
 
     public Ue getUe() {
         return ue;
@@ -88,6 +92,22 @@ public class Matiere implements Serializable {
         this.notes = notes;
     }
 
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
+    }
+    
 //    public Enseignant getEnseignant() {
 //        return enseignant;
 //    }
@@ -95,7 +115,6 @@ public class Matiere implements Serializable {
 //    public void setEnseignant(Enseignant enseignant) {
 //        this.enseignant = enseignant;
 //    }
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -123,5 +142,5 @@ public class Matiere implements Serializable {
         this.notes = null;
         this.programmerCours = null;
         this.ue = null;
-    } 
+    }
 }

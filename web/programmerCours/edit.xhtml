@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+          
+   <div id="editDialog" class="modal fade" data-backdrop="true" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h:form id="editDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
+                        <div class="head clearfix">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h1>#{bundle.Edit}</h1>
+                        </div> <!-- /.modal-header -->
+                        <div class="modal-body">
+                            
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <p:outputLabel for="libelle" value="#{bundle.UserLogin}" class="col-md-3"/>
+                                <div class="col-md-9">
+                                    <p:inputText id="libelle" value="#{enseignantBean.selectedEnseignant.login}" required="true"/>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <p:outputLabel for="credit" value="#{bundle.Prenoms}" class="col-md-3"/>
+                                <div class="col-md-9">
+                                    <p:inputText id="credit" value="#{enseignantBean.selectedEnseignant.prenom}" required="true"/>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="telephone" value="#{bundle.Telephone}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="telephone" value="#{enseignantBean.selectedEnseignant.telephone}" required="true" placeholder="#{bundle.Telephone}"/>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="adresse" value="#{bundle.Adresse}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="adresse" value="#{enseignantBean.selectedEnseignant.adresse}" required="true" placeholder="#{bundle.Adresse}"/>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Genre}" for="genre"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneRadio id="genre" value="#{enseignantBean.selectedEnseignant.genre}" layout="grid" columns="2" required="true">
+                                        <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
+                                        <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
+                                    </p:selectOneRadio>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Statut}" for="statut"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:selectOneRadio id="statut" value="#{enseignantBean.selectedEnseignant.statut}" layout="grid" columns="2" required="true">
+                                        <f:selectItem itemLabel="#{bundle.Missionnaire}" itemValue="Missionnaire" />
+                                        <f:selectItem itemLabel="#{bundle.Locale}" itemValue="Locale"/>
+                                    </p:selectOneRadio>
+                                </div>
+                            </div>
+                            
+                        </div> <!-- /.modal-body -->
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{ueBean.doEdit}" 
+                                             oncomplete="$('#editDialog').modal('hide');" 
+                                             class="btn btn-default">
+                            </p:commandButton>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                #{bundle.Close}
+                            </button>
+                        </div> <!-- /.modal-footer -->
+                    </h:form>
+                </div>
+            </div>
+        </div>
+</ui:composition>
+
+</html>

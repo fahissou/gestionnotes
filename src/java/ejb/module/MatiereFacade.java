@@ -6,11 +6,15 @@
 package ejb.module;
 
 import ejb.AbstractFacade;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Notes;
 import jpa.module.Matiere;
 import jpa.module.Ue;
@@ -48,6 +52,22 @@ public class MatiereFacade extends AbstractFacade<Matiere> {
         List<Matiere> list = query.getResultList();
         return list; 
     }
+
+    public List<Matiere> getMatiereByGroupe(GroupePedagogique groupePedagogique) {
+        List<Matiere> liste;
+        int etat = 0;
+        try {
+            Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.groupePedagogique =:groupePedagogique AND M.etat =:etat ORDER BY M ASC");
+            // set parameters
+            query.setParameter("groupePedagogique", groupePedagogique);
+            query.setParameter("etat", etat);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            liste = new ArrayList<>();
+        }
+        return liste;
+    }
+
      
     
     

@@ -107,6 +107,8 @@ public class MatiereBean implements Serializable {
         List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(newGroupePedagogique, anneeAcademique);
 
         try {
+            newMatiere.setGroupePedagogique(newGroupePedagogique);
+
             if (inscriptions.isEmpty()) {
                 matiereFacade.create(newMatiere);
             }else{

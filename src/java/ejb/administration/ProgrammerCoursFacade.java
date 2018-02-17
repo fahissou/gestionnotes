@@ -6,10 +6,17 @@
 package ejb.administration;
 
 import ejb.AbstractFacade;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import jpa.administration.ProgrammerCours;
+import jpa.inscription.GroupePedagogique;
+import util.JsfUtil;
 
 /**
  *
@@ -17,6 +24,7 @@ import jpa.administration.ProgrammerCours;
  */
 @Stateless
 public class ProgrammerCoursFacade extends AbstractFacade<ProgrammerCours> {
+
     @PersistenceContext(unitName = "gestionnotesPU")
     private EntityManager em;
 
@@ -28,5 +36,25 @@ public class ProgrammerCoursFacade extends AbstractFacade<ProgrammerCours> {
     public ProgrammerCoursFacade() {
         super(ProgrammerCours.class);
     }
-    
+
+    @Override
+    public void create(ProgrammerCours programmerCours) {
+        programmerCours.setId(JsfUtil.generateId());
+        super.create(programmerCours);
+    }
+
+    public List<ProgrammerCours> listeProgrammeByGroupe(GroupePedagogique groupePedagogique) {
+        List<ProgrammerCours> liste;
+        try {
+            Query query = em.createQuery("SELECT P FROM ProgrammerCours P WHERE P.groupePedagogique =:groupePedagogique ORDER BY P.matiere.libelle ASC");
+            // set parameters
+            query.setParameter("groupePedagogique", groupePedagogique);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            liste = new ArrayList<>();
+        }
+
+        return liste;
+    }
+
 }

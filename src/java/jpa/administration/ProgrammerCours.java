@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import jpa.inscription.Enseignant;
 import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
 
@@ -27,7 +28,8 @@ public class ProgrammerCours implements Serializable {
     private Matiere matiere;
     @ManyToOne
     private GroupePedagogique groupePedagogique;
-    
+    @ManyToOne
+    private Enseignant enseignant;
 
     public ProgrammerCours() {
     }
@@ -64,6 +66,14 @@ public class ProgrammerCours implements Serializable {
 
     public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
+    }
+
+    public Enseignant getEnseignant() {
+        return enseignant;
+    }
+
+    public void setEnseignant(Enseignant enseignant) {
+        this.enseignant = enseignant;
     }
     
     @Override

@@ -301,6 +301,7 @@ button.close{
 .nav>li>a{
     padding: 10px 5px 10px 5px!important;
     line-height: 2px!important;
+    font-size: 12px!important;
 }
 .i-list-2:after{
     content: "\e012";
@@ -369,4 +370,57 @@ button.close{
 .nav-pills>li.active{
     color: #fff;
     background-color: #41b3f9;
+}
+
+.col-md-2 {
+    width: auto!important;
+}
+
+div.block_loading {
+    top: -36%;
+    width: 72%;
+    position: absolute;
+    text-align: center;
+    left: 21.5%;
+}
+
+.icon-spinner {
+    font-family: 'Glyphicons Halflings';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-spinner:before {
+    /*background: url('images/loaders/c_loader_bw.gif.xhtml');*/
+	content: "\e031";
+        /*\e030*/
+}
+
+@keyframes anim-rotate {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.spinner {
+	display: inline-block;
+	font-size:2em;
+	height: 1em;
+	line-height: 1;
+	margin: 20px;
+	animation: anim-rotate 2s infinite linear;
+	color: #fff;
+	text-shadow: 0 0 .25em rgba(255,255,255, .3);
+}
+.spinner--steps {
+	animation: anim-rotate 1s infinite steps(8);
 }

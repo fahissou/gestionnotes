@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:composition>    
+        <div class="col-md-12">
+
+            <div class="block">
+                <div class="head clearfix">
+                    <div class="isw-documents"></div>
+                    <h1>#{bundle.ProgrammationCours}</h1>
+                </div>
+                <h:form id="formeEx" styleClass="form-horizontal">
+                    <p:growl id="growl" showDetail="true"/>
+                    <div class="block-fluid">                                        
+
+                        <div class=" row-form clearfix" jsf:id="filiereArea">
+                            <div class="col-md-3">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="filiere" value="#{programmerCoursBean.selectedFiliere}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                    <p:ajax listener="#{programmerCoursBean.initList()}" update="groupePedagogiqueArea" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix" jsf:id="groupePedagogiqueArea">
+                            <div class="col-md-3">
+
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="groupePedagogique" value="#{programmerCoursBean.newProgrammerCours.groupePedagogique}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{programmerCoursBean.listGroupePedagogiques}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    <p:ajax listener="#{programmerCoursBean.initList()}" update="matiereArea groupePedagogique" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row-form clearfix" jsf:id="matiereArea">
+                            <div class="col-md-3">
+
+                                <p:outputLabel for="matiere" value="#{bundle.Matiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="matiere" value="#{programmerCoursBean.newProgrammerCours.matiere}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{programmerCoursBean.listMatieres}"
+                                                   var="matiereItem"
+                                                   itemValue="#{matiereItem}"
+                                                   itemLabel="#{matiereItem.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="matiereConverter"/>
+                                    <p:ajax listener="#{programmerCoursBean.initList()}" update="@form groupePedagogique" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+
+                                <p:outputLabel for="enseignant" value="#{bundle.Enseignant}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="enseignant" value="#{programmerCoursBean.newProgrammerCours.enseignant}" 
+                                                 required="true" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.CompletionMessage}"/>
+                                    <f:selectItems value="#{enseignantBean.listeEnseignants}" var="selection" itemValue="#{selection}"
+                                                   itemLabel=" #{selection.nom.toUpperCase()} #{selection.prenom}"
+                                                   />
+                                    <f:converter converterId="enseignantConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel 
+                                    value="#{bundle.Date}" for="dateDebut"/>
+                            </div>
+                            <div class="col-md-3">
+                                <p:calendar id="dateDebut" required="true" placeholder="#{bundle.Debut}"
+                                            value="#{programmerCoursBean.newProgrammerCours.dateDebut}" pattern="dd/MM/yyyy"
+                                            navigator="true" showOn="button"/>
+                            </div>
+                        <!--</div>-->
+                        
+                        <!--<div class="row-form clearfix">-->
+<!--                            <div class="col-md-2">
+                                <p:outputLabel 
+                                    value="#{bundle.DateFin}" for="dateFin"/>
+                            </div>-->
+                            <div class="col-md-3">
+                                <p:calendar id="dateFin" required="true" placeholder="#{bundle.Fin}"
+                                            value="#{programmerCoursBean.newProgrammerCours.dateFin}" pattern="dd/MM/yyyy"
+                                            navigator="true" showOn="button"/>
+                            </div>
+                        </div>
+
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form growl" actionListener="#{programmerCoursBean.doCreate}" 
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="#{enseignantBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>
+
+                </h:form>
+            </div>
+
+        </div>
+
+
+
+    </ui:composition>
+</html>
