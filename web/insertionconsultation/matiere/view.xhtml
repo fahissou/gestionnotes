@@ -18,42 +18,42 @@
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
                                 <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">Un label</label>
+                                    <label class="control-label col-sm-4">#{bundle.Description}</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm"
                                                >
-                                            #{messageBean.selectedEssai.input1}
+                                            #{matiereBean.selectedMatiere.libelle.toUpperCase()}
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">Deux label</label>
+                                    <label class="control-label col-sm-4">#{bundle.UE}</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm"
                                                >
-                                            #{messageBean.selectedEssai.input2}
+                                            #{matiereBean.selectedMatiere.ue.libelle.toUpperCase()}
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">Sélection</label>
+                                    <label class="control-label col-sm-4">#{bundle.GroupePedagogique}</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm"
                                                >
-                                            #{messageBean.selectedEssai.selection}
+                                            #{matiereBean.selectedMatiere.groupePedagogique.description}
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">Sélection 2</label>
+                                    <label class="control-label col-sm-4">#{bundle.Coefficiant}</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm"
                                                >
-                                            #{messageBean.selectedEssai.selection2}
+                                            #{matiereBean.selectedMatiere.coefficiant}
                                         </label>
                                     </div>
                                 </div>
-                                <div class="form-group row" style="margin-bottom: 3px!important;">
+<!--                                <div class="form-group row" style="margin-bottom: 3px!important;">
                                     <label class="control-label col-sm-4">Date</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm"
@@ -61,7 +61,7 @@
                                             #{authenticateBean.convertDate(messageBean.selectedEssai.date1, 'EEEE dd MMMM yyyy à HH:mm:ss')}
                                         </label>
                                     </div>
-                                </div>
+                                </div>-->
                         </div> <!-- /.modal-body -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-success btn-xs" style="font-size: 11px;vertical-align: middle;">
