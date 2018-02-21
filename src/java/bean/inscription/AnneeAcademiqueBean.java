@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import jpa.inscription.AnneeAcademique;
 import org.primefaces.context.RequestContext;
@@ -17,12 +15,10 @@ import util.JsfUtil;
  *
  * @author AHISSOU Florent
  */
-
-//@Named(value = "anneeAcademiqueBean")
-//@SessionScoped
 public class AnneeAcademiqueBean implements Serializable{
     @EJB
     private AnneeAcademiqueFacade anneeAcademiqueFacade;
+    
     private AnneeAcademique selectedAnneeAcademique;
     private AnneeAcademique newAnneeAcademique;
     private List<AnneeAcademique> listeAnneeAcademiques;
@@ -37,10 +33,10 @@ public class AnneeAcademiqueBean implements Serializable{
 
     @PostConstruct
     public void init() {
-        listeAnneeAcademiques = anneeAcademiqueFacade.findAll();
         currentAnneeAcademic = anneeAcademiqueFacade.getCurrentAcademicYear();
         listeAnneeUniversitaire.add(JsfUtil.nextAcademicYear(currentAnneeAcademic.getDescription()));
         anneeAcademicChoisi = currentAnneeAcademic;
+        listeAnneeAcademiques = anneeAcademiqueFacade.findAll();
         prepareCreate();
     }
     
@@ -168,5 +164,14 @@ public class AnneeAcademiqueBean implements Serializable{
         }
         
     }
+
+    public AnneeAcademique getCurrentAnneeAcademic() {
+        return currentAnneeAcademic;
+    }
+
+    public void setCurrentAnneeAcademic(AnneeAcademique currentAnneeAcademic) {
+        this.currentAnneeAcademic = currentAnneeAcademic;
+    }
+    
     
 }

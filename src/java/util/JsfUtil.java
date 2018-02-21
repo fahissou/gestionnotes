@@ -40,6 +40,7 @@ import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 //import util.barcode.BarCode;
 //import util.barcode.SimpleBarCodeGenerator;
 import java.awt.Image;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -77,6 +78,7 @@ import javax.faces.context.Flash;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 import jpa.inscription.GroupePedagogique;
 import jpa.module.Semestre;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
@@ -100,7 +102,6 @@ public class JsfUtil {
     public static String LDAPURL, GROUPBASEDN, PEOPLEBASEDN, CURRENTPRISONCODE, IDWEZONCODE, IDCOMPTE,
             RECIPIENTSMAIL, SMTPSERVER, SMTPUSER, SMTPPASSWORD, VERSION, CONTACT;
 
-    
     public static String getCONTACT() {
         FacesContext ctx = FacesContext.getCurrentInstance();
         CONTACT = ctx.getExternalContext().getInitParameter("CONTACT");
@@ -390,7 +391,7 @@ public class JsfUtil {
 
         return result;
     }
-    
+
     public static String computeDureeJours(Date debut) {
         String result = "";
         DateTime today = new DateTime();
@@ -400,7 +401,6 @@ public class JsfUtil {
 //        int month = Months.monthsBetween(birthday, today).dividedBy(12).getMonths();
 //        int day = Days.daysBetween(birthday, today).getDays();
 
-        
         int day = Days.daysBetween(birthday, today).getDays();
         int hour = p.getHours();
         int min = p.getMinutes();
@@ -426,7 +426,7 @@ public class JsfUtil {
 
         return result;
     }
-    
+
     public static String computeDureeJours(Date debut, Date fin) {
         String result = "";
         DateTime today = new DateTime(fin);
@@ -436,7 +436,6 @@ public class JsfUtil {
 //        int month = Months.monthsBetween(birthday, today).dividedBy(12).getMonths();
 //        int day = Days.daysBetween(birthday, today).getDays();
 
-        
         int day = Days.daysBetween(birthday, today).getDays();
         int hour = p.getHours();
         int min = p.getMinutes();
@@ -585,7 +584,6 @@ public class JsfUtil {
 //            return null;
 //        }
 //    }
-
     public static String sansAccent(String chaine) {
         return Normalizer.normalize(chaine, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
     }
@@ -610,7 +608,7 @@ public class JsfUtil {
         }
         return annees;
     }
-    
+
     public static List<String> getAnneesToCurrentYear(String annee, int moinsC) {
         List<String> annees = new ArrayList<>();
         if (annee == null) {
@@ -624,6 +622,7 @@ public class JsfUtil {
         }
         return annees;
     }
+
     public static List<String> getAnneesFromThisYearToCurrentYear(String annee) {
         List<String> annees = new ArrayList<>();
         if (annee == null) {
@@ -719,10 +718,10 @@ public class JsfUtil {
         }
         return format;
     }
-    
-    public static String convertObjectToJson(Object object){
+
+    public static String convertObjectToJson(Object object) {
         ObjectMapper mapper = new ObjectMapper();
-        String s="";
+        String s = "";
         try {
             s = mapper.writeValueAsString(object);
         } catch (JsonProcessingException ex) {
@@ -730,7 +729,7 @@ public class JsfUtil {
         }
         return s;
     }
-    
+
     public static String formatMillierDouble(Double value) {
         if (value == null) {
             return "--";
@@ -739,72 +738,71 @@ public class JsfUtil {
         return f.format(value);
         //return s;
     }
-    
+
     public static String generateId() {
         int length = 6;
         SimpleDateFormat formatCode = new SimpleDateFormat("ddMMyyyyHHmmss");
         String code = formatCode.format(new Date());
-        String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; 
+        String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuffer pass = new StringBuffer();
-        for(int x=0;x<length;x++)   {
-           int i = (int)Math.floor(Math.random() * (chars.length() -1));
-           pass.append(chars.charAt(i));
+        for (int x = 0; x < length; x++) {
+            int i = (int) Math.floor(Math.random() * (chars.length() - 1));
+            pass.append(chars.charAt(i));
         }
         return pass.toString() + code;
     }
-    
-    public static List<String> listeNiveauCycle1(){
+
+    public static List<String> listeNiveauCycle1() {
         List<String> liste = new ArrayList<>();
         liste.add("LICENCE 1");
         liste.add("LICENCE 2");
         liste.add("LICENCE 3");
         return liste;
     }
-    
-    public static List<String> listeNiveauCycle2(){
+
+    public static List<String> listeNiveauCycle2() {
         List<String> liste = new ArrayList<>();
         liste.add("MASTER 1");
         liste.add("MASTER 2");
         return liste;
     }
-    
-    public static List<String> listeNiveauCycle3(){
+
+    public static List<String> listeNiveauCycle3() {
         List<String> liste = new ArrayList<>();
         liste.add("THÈSE 1");
         liste.add("THÈSE 2");
         liste.add("THÈSE 3");
         return liste;
     }
-    
-    public static List<String> listeCycle(){
+
+    public static List<String> listeCycle() {
         List<String> liste = new ArrayList<>();
         liste.add("Cycle 1");
         liste.add("Cycle 2");
         liste.add("Cycle 3");
         return liste;
     }
-    
+
     public static boolean validAcademicYear(String arg) {
         boolean resultat = false;
-        String [] t = arg.split("-");
+        String[] t = arg.split("-");
         Date date = new Date();
         int anneeInscrip = Integer.parseInt(t[1].trim());
         int mois = date.getMonth();
         int annee = date.getYear() + 1900;
-        if( mois >= 9 && mois <=12 ){
-            if(anneeInscrip == (annee+1)){
+        if (mois >= 9 && mois <= 12) {
+            if (anneeInscrip == (annee + 1)) {
                 resultat = true;
             }
-        }else{
-            if(anneeInscrip == annee) {
+        } else {
+            if (anneeInscrip == annee) {
                 resultat = true;
             }
         }
-        return resultat; 
+        return resultat;
     }
-    
-    
-    public static String encryptPasswordReal(String data,String format) {
+
+    public static String encryptPasswordReal(String data, String format) {
         String mpCrypter = null;
         try {
             MessageDigest md = MessageDigest.getInstance(format);
@@ -818,77 +816,76 @@ public class JsfUtil {
         return mpCrypter;
     }
 
-
-    public static int valideAcademicYear(String arg1,String arg2 ) {
-        int resultat ;
-        String [] tab1 = arg1.split("-");
-        String [] tab2 = arg2.split("-");
+    public static int valideAcademicYear(String arg1, String arg2) {
+        int resultat;
+        String[] tab1 = arg1.split("-");
+        String[] tab2 = arg2.split("-");
         int a11 = Integer.parseInt(tab1[0].trim()) + 1;
         int a12 = Integer.parseInt(tab1[1].trim()) + 1;
         int a21 = Integer.parseInt(tab2[0].trim());
         int a22 = Integer.parseInt(tab2[1].trim());
-        if(arg1.equals(arg2)) {
+        if (arg1.equals(arg2)) {
             resultat = 0;
-        }else{
-             if(a11 == a21 && a12 == a22){
-                 resultat = 1;
-             }else{
-                 resultat = 0;
-             }
+        } else {
+            if (a11 == a21 && a12 == a22) {
+                resultat = 1;
+            } else {
+                resultat = 0;
+            }
         }
         return resultat;
     }
-    
-    public static Date  stringToDate(String arg) {
-        String [] arg1 = arg.split(",");
-        Date date = new Date(Integer.parseInt(arg1[2].trim())-1900,Integer.parseInt(arg1[1].trim()), Integer.parseInt(arg1[0].trim()));
+
+    public static Date stringToDate(String arg) {
+        String[] arg1 = arg.split(",");
+        Date date = new Date(Integer.parseInt(arg1[2].trim()) - 1900, Integer.parseInt(arg1[1].trim()), Integer.parseInt(arg1[0].trim()));
         return date;
     }
-    
+
     public static String previousAcademicYear(String arg) {
-        String [] tab1 = arg.split("-");
+        String[] tab1 = arg.split("-");
         int a1 = Integer.parseInt(tab1[0].trim()) - 1;
         int a2 = Integer.parseInt(tab1[1].trim()) - 1;
-        return String.valueOf(a1) + " - " +String.valueOf(a2);
+        return String.valueOf(a1) + " - " + String.valueOf(a2);
     }
-    
+
     public static String previousGP(String arg) {
-        String res ;
-        String [] tab1 = arg.split("-");
+        String res;
+        String[] tab1 = arg.split("-");
         String a1 = tab1[0].trim();
-        int    a2 = Integer.parseInt(tab1[1].trim());
-        if(a2 > 1 && a2 <= 3) {
-            a2 = a2 -1;
-            res = String.valueOf(a1) + "-" +String.valueOf(a2);
-        }else{
+        int a2 = Integer.parseInt(tab1[1].trim());
+        if (a2 > 1 && a2 <= 3) {
+            a2 = a2 - 1;
+            res = String.valueOf(a1) + "-" + String.valueOf(a2);
+        } else {
             res = arg;
         }
         return res;
     }
-    
-     public static String nextGP(String arg) {
-        String res ;
-        String [] tab1 = arg.split("-");
+
+    public static String nextGP(String arg) {
+        String res;
+        String[] tab1 = arg.split("-");
         String a1 = tab1[0].trim();
-        int    a2 = Integer.parseInt(tab1[1].trim());
-        if(a2 >= 1 && a2 < 3) {
+        int a2 = Integer.parseInt(tab1[1].trim());
+        if (a2 >= 1 && a2 < 3) {
             a2 = a2 + 1;
-            res = String.valueOf(a1) + "-" +String.valueOf(a2);
-        }else{
+            res = String.valueOf(a1) + "-" + String.valueOf(a2);
+        } else {
             res = arg;
         }
         return res;
     }
-     
-     public static String [] getEnteteProcesVerbal(int taille) {
-        String [] arg = new String[taille];
+
+    public static String[] getEnteteProcesVerbal(int taille) {
+        String[] arg = new String[taille];
         for (int i = 0; i < taille; i++) {
-            arg[i] = "UE"+(i+1);
+            arg[i] = "UE" + (i + 1);
         }
         return arg;
     }
-     
-     public static int[] choixParametre(int a) {
+
+    public static int[] choixParametre(int a) {
         int[] choix = new int[2];
         switch (a) {
             case 12:
@@ -926,29 +923,27 @@ public class JsfUtil {
         }
         return choix;
     }
-    
-   
-     
+
     public static String getAbrevUE(String arg) {
-        String [] arg1 = arg.split(" ");
-        String result ="";
+        String[] arg1 = arg.split(" ");
+        String result = "";
         for (int i = 0; i < arg1.length; i++) {
-            if((arg1[i].length() > 3) || i == 0 || i == arg1.length-1 ){
+            if ((arg1[i].length() > 3) || i == 0 || i == arg1.length - 1) {
                 String val = arg1[i];
                 for (int j = 0; j < val.length(); j++) {
-                    if(j < 4){
+                    if (j < 4) {
                         result += val.charAt(j);
                     }
                 }
-                if(i < arg1.length-1){
-                    result +="-";
+                if (i < arg1.length - 1) {
+                    result += "-";
                 }
-                
+
             }
         }
         return result;
     }
-    
+
     public static int[] choiseParameter(int a) {
         int[] choix = new int[3];
         int constante = 18;
@@ -956,24 +951,24 @@ public class JsfUtil {
             choix[0] = 0;
             choix[1] = 0;
             choix[2] = constante - a;
-        }else if(a < 12 && a >= 6){
+        } else if (a < 12 && a >= 6) {
             constante = 12;
             choix[0] = 0;
             choix[1] = constante - a;
             choix[2] = 6;
-        }else if(a < 6 && a >= 4) {
+        } else if (a < 6 && a >= 4) {
             constante = 6;
             choix[0] = constante - a;
             choix[1] = 6;
             choix[2] = 6;
-        }else{
+        } else {
             choix[0] = 6;
             choix[1] = 6;
             choix[2] = 6;
         }
         return choix;
     }
-    
+
     public static String[] getFileNameRapport(int a) {
         String[] choix = new String[3];
         switch (a) {
@@ -1059,9 +1054,9 @@ public class JsfUtil {
         }
         return choix;
     }
-    
+
     public static String getDateEdition() {
-        
+
         Date date1 = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
         String date2 = formatDate.format(date1);
@@ -1070,46 +1065,46 @@ public class JsfUtil {
 //        int jour = date1.getDate();
         return date2;
     }
-    
+
     public static String getRealPath(String lien) {
-        String [] liens = lien.split("/");
+        String[] liens = lien.split("/");
         String var = "";
         for (int i = 0; i < liens.length; i++) {
-            if(i > 1 && !liens[i].equals("web")) {
-                var +="/" +liens[i];
-            }  
+            if (i > 1 && !liens[i].equals("web")) {
+                var += "/" + liens[i];
+            }
         }
         return var;
     }
-    
+
     public static String getFileName2(String arg) {
-        String [] liens = arg.split("/");
-        return liens[liens.length-1];
+        String[] liens = arg.split("/");
+        return liens[liens.length - 1];
     }
-    
+
     public static String nextAcademicYear(String arg) {
         String[] tab1 = arg.split("-");
         int a1 = Integer.parseInt(tab1[0].trim()) + 1;
         int a2 = Integer.parseInt(tab1[1].trim()) + 1;
         return String.valueOf(a1) + " - " + String.valueOf(a2);
     }
-    
+
     public static String getPathIntModelReleve() {
         return System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/";
     }
-    
+
     public static String getPathIntModelProces() {
         return System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/releveNouveau/";
     }
-    
+
     public static String getPathOutTmp() {
         return System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/";
     }
-    
-    public static String getPathOutPDF(){
+
+    public static String getPathOutPDF() {
         return System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
     }
-    
+
     public static void deleteFile(String folderName) {
         File repertoire = new File(folderName);
         File[] files = repertoire.listFiles();
@@ -1122,7 +1117,7 @@ public class JsfUtil {
         } catch (Exception e) {
         }
     }
-    
+
     public static void docxToPDF(String folderName, String destination) {
         File repertoire = new File(folderName);
         File[] files = repertoire.listFiles();
@@ -1136,7 +1131,7 @@ public class JsfUtil {
             System.out.println(" pdf error " + e.getMessage());
         }
     }
-    
+
     public static void createPDF(String pathIn, String pathOut) {
         try {
             long start = System.currentTimeMillis();
@@ -1151,7 +1146,7 @@ public class JsfUtil {
             System.out.println(" pdf error " + e.getMessage());
         }
     }
-    
+
     public static void mergePDF(String folderName, String pathOut, String fileName) throws IOException {
         File repertoire = new File(folderName);
         File[] files = repertoire.listFiles();
@@ -1165,7 +1160,7 @@ public class JsfUtil {
         } catch (Exception e) {
         }
     }
-    
+
     public static boolean generateurXDOCReport(String fichier, List<String> champs, List< Map<String, Object>> conteneur, String tableName, String chemin, String fileName, Map<String, Object> parametreEntetes) {
         boolean resultat = false;
         try {
@@ -1196,7 +1191,7 @@ public class JsfUtil {
 
         return resultat;
     }
-    
+
     public static String formatNote(double note) {
         note = (double) Math.round((note) * 100) / 100;
         String noteString = String.valueOf(note);
@@ -1204,7 +1199,7 @@ public class JsfUtil {
         String t = args[0] + "," + args[1];
         return t;
     }
-    
+
     public static void generateurXDOCReportStatic(String fichier, Map<String, Object> maps, String chemin, String nomfichier) throws Exception {
         String outputFile = "";
         OutputStream out = null;
@@ -1230,7 +1225,7 @@ public class JsfUtil {
             System.out.println(" Exce " + ex.getMessage());
         }
     }
-    
+
     public static String[] semestreGP(List<Semestre> semest) {
         String[] s = new String[2];
         s[0] = "";
@@ -1240,6 +1235,133 @@ public class JsfUtil {
             s[1] = String.valueOf(semest.get(1).getLibelle());
         }
         return s;
+    }
+
+    public static List<String> getNiveauEtude(int a) {
+        Map<Integer, List<String>> data = new HashMap<>();
+        // Cycle 1
+        List<String> liste1 = new ArrayList<>();
+        liste1.add("LICENCE 1");
+        liste1.add("LICENCE 2");
+        liste1.add("LICENCE 3");
+        data.put(1, liste1);
+        // Cycle 2
+        List<String> liste2 = new ArrayList<>();
+        liste2.add("MASTER 1");
+        liste2.add("MASTER 2");
+        data.put(2, liste2);
+        // Cycle 3
+        List<String> liste3 = new ArrayList<>();
+        liste3.add("THÈSE 1");
+        liste3.add("THÈSE 2");
+        liste3.add("THÈSE 3");
+        data.put(3, liste3);
+        return data.get(a);
+    }
+
+    public static int getNiveauLabel(String niveau) {
+        Map<String, Integer> data = new HashMap<>();
+        data.put("LICENCE 1", 1);
+        data.put("LICENCE 2", 2);
+        data.put("LICENCE 3", 3);
+        data.put("MASTER 1", 1);
+        data.put("MASTER 2", 2);
+        data.put("THÈSE 1", 1);
+        data.put("THÈSE 2", 2);
+        data.put("THÈSE 3", 3);
+        return data.get(niveau);
+
+    }
+
+    public static List<Integer> listeCycles() {
+        List<Integer> listeCycles = new ArrayList<>();
+        listeCycles.add(1);
+        listeCycles.add(2);
+        listeCycles.add(3);
+        return listeCycles;
+    }
+    
+    public static void flushToBrowser(File file, String contentType) {
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpServletResponse response = (HttpServletResponse) facesContext
+                    .getExternalContext().getResponse();
+            response.reset();
+            response.setContentType(contentType);
+            response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
+            response.setContentLength((int) file.length());
+            FileInputStream input = new FileInputStream(file);
+            try (BufferedInputStream buf = new BufferedInputStream(input)) {
+                int readBytes;
+                while ((readBytes = buf.read()) != -1) {
+                    response.getOutputStream().write(readBytes);
+                }
+                response.getOutputStream().flush();
+                response.getOutputStream().close();
+                facesContext.responseComplete();
+                facesContext.renderResponse();
+            }
+
+        } catch (IOException ex) {
+            //System.out.println(ex.getMessage());
+        } finally {
+        }
+    }
+    
+    public static List<Object> getListConcat(List<Object> l1, List<Object> l2){
+        int index1 = l1.size();
+        for (int i = 0; i < l2.size(); i++) {
+            int index = index1 + i;
+            l1.add(index , l2.get(i));
+        }
+        return l1;
+    }
+    
+    public static int getOrder(int a, int b){
+        int ordre;
+        if(a == 1 && b == 1){
+            ordre = 0;
+        }else if(a == 1 && b == 2){
+            ordre = 1;
+        }else if(a == 1 && b == 3){
+            ordre = 2;
+        }else if(a == 2 && b == 1){
+            ordre = 3;
+        }else if(a == 2 && b == 2) {
+            ordre = 4;
+        }else{
+            ordre = -1;
+        }
+        return ordre;
+    }
+    
+    public static List<Integer> getListSemestre(int a){
+        List<Integer> listesemestres = new ArrayList<>();
+        for (int i = 1; i < a; i++) {
+            listesemestres.add(i);
+        } 
+        return listesemestres;
+    }
+    
+    public static String[] getParametres(int a) {
+        String[] tab = new String[2];
+        tab[0] = "-1"; tab[1] = ""; 
+        if( a == 1 || a == 2){
+            tab[0] = "0"; tab[1] = "LICENCE 1"; 
+        }
+        if( a == 3 || a == 4){
+            tab[0] = "1"; tab[1] = "LICENCE 2"; 
+        }
+        if( a == 5 || a == 6){
+            tab[0] = "2"; tab[1] = "LICENCE 3"; 
+        }
+        if( a == 7 || a == 8){
+            tab[0] = "3"; tab[1] = "MASTER 1"; 
+        }
+        if( a == 9 || a == 10){
+            tab[0] = "4"; tab[1] = "MASTER 2"; 
+        }
+        return tab; 
     }
     
 }

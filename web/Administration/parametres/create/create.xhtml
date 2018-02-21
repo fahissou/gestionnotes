@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="col-md-12">
+            <div class="block">
+                <div class="head clearfix">
+                    <div class="isw-documents"></div>
+                    <h1>#{bundle.AjoutParametre}</h1>
+                </div>
+                <h:form id="formeEx" styleClass="form-horizontal">
+                    <p:growl id="growl" showDetail="true"/>
+                    <div class="block-fluid">
+                        
+                        <div class=" row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="libelle" value="#{bundle.Description}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="libelle" value="#{parametresBean.newParametres.libelle}" required="true" placeholder="#{bundle.Description}"/>
+                            </div>
+                        </div>
+                        
+                        <div class=" row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="moyenneUE" value="#{bundle.moyenneUE}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="moyenneUE" value="#{parametresBean.newParametres.moyenneUE}" required="true" placeholder="#{bundle.moyenneUE}"/>
+                            </div>
+                        </div>
+                        
+                        <div class=" row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="moyenneMat" value="#{bundle.moyenneMatiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="moyenneMat" value="#{parametresBean.newParametres.moyenneMatiere}" required="true" placeholder="#{bundle.moyenneMatiere}"/>
+                            </div>
+                        </div>
+                       
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="credit" value="#{bundle.Admission}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="credit" value="#{parametresBean.newParametres.proportionAdmission}" required="true" placeholder="#{bundle.Admission}"/>
+                            </div>
+                        </div>
+
+
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form growl" actionListener="#{parametresBean.doCreate}" 
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="#{parametresBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>                                        
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

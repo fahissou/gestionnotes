@@ -7,22 +7,17 @@ package bean.inscription;
 
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.module.SemestreFacade;
-import ejb.module.UeFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
-import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import jpa.inscription.GroupePedagogique;
-import jpa.module.Matiere;
 import jpa.module.Semestre;
-import jpa.module.Ue;
 import util.JsfUtil;
 
 /**
@@ -31,109 +26,73 @@ import util.JsfUtil;
  */
 @ViewScoped
 @Named(value = "groupePedagogiqueBean")
-public class GroupePedagogiqueBean implements Serializable{
-    @EJB
-    private SemestreFacade semestreFacade;
+public class GroupePedagogiqueBean implements Serializable {
+
     @EJB
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
     private GroupePedagogique newGroupePedagogique;
     private GroupePedagogique selectedGroupePedagogique;
     private List<GroupePedagogique> listeGroupePedagogiques;
     private List<GroupePedagogique> filteredList;
-    private Map<String,Map<String,String>> data = new HashMap<>();
-    private String cycle; 
-    private String niveau;  
-    private Map<String,String> listeCycles;
-    private Map<String,String> listeNiveau;
-    private Map<GroupePedagogique, List<Semestre>> data1;
-//    private String groupePedaName;
-    private List<Semestre> listeSemestres;
-    private List<Semestre> semestres;
-//    private List<Ue> ue;
-//    private String libelleUE;
-    /**
-     * Creates a new instance of GroupePedagogiqueBean
-     */
-    
+    private int cycle;
+    private String niveau;
+    private List<Integer> listeCycles;
+    private List<String> listesNiveau;
+
     public GroupePedagogiqueBean() {
     }
+
     @PostConstruct
-    public void init(){
+    public void init() {
         listeGroupePedagogiques = groupePedagogiqueFacade.findAll();
-        listeSemestres = semestreFacade.findAll();
-        prepareCreate();  
-        loadData();
-        listeCycles  = new HashMap<>();
-        listeCycles.put("Cycle 1", "Cycle 1");
-        listeCycles.put("Cycle 2", "Cycle 2");
-        listeCycles.put("Cycle 3", "Cycle 3");
-         
-        Map<String,String> map = new HashMap<>();
-        map.put("Licence 1", "Licence 1");
-        map.put("Licence 2", "Licence 2");
-        map.put("Licence 3", "Licence 3");
-        data.put("Cycle 1", map);
-         
-        map = new HashMap<>();
-        map.put("Master 1", "Master 1");
-        map.put("Master 2", "Master 2");
-        data.put("Cycle 2", map);
-         
-        map = new HashMap<>();
-        map.put("Thèse 1", "Thèse 1");
-        map.put("Thèse 2", "Thèse 2");
-        map.put("Thèse 3", "Thèse 3");
-        data.put("Cycle 3", map);
+        prepareCreate();
+        listeCycles = JsfUtil.listeCycles();
     }
-    
-    public void loadData() {
-        data1 = new HashMap<>();
-        for (int i = 0; i < listeGroupePedagogiques.size(); i++) {
-            List<Semestre> liste = semestreFacade.getSemetreByGP(listeGroupePedagogiques.get(i));
-            data1.put(listeGroupePedagogiques.get(i), liste);
 
-        }
-    }
-    
-    public void onGroupePedagogiqueChange() {
-        if (newGroupePedagogique != null) {
-            semestres = data1.get(newGroupePedagogique);
-        } else {
-            semestres = new ArrayList<>();
-        }
-
-    }
-    
-    
     public void doCreate(ActionEvent event) {
         String msg;
         try {
-            newGroupePedagogique.setCycleEtude(cycle);
-            newGroupePedagogique.setNiveauEtude(niveau);
-            groupePedagogiqueFacade.create(newGroupePedagogique);
-            msg = JsfUtil.getBundleMsg("GroupePedagogiqueCreateSuccessMsg");
-            JsfUtil.addSuccessMessage(msg);
-            prepareCreate();
-            listeGroupePedagogiques = groupePedagogiqueFacade.findAll();
+            newGroupePedagogique.setCycles(cycle);
+            newGroupePedagogique.setNiveau(JsfUtil.getNiveauLabel(niveau));
+            int ordre = JsfUtil.getOrder(cycle, JsfUtil.getNiveauLabel(niveau));
+            if (ordre != -1) {
+                newGroupePedagogique.setOrdre(ordre);
+                groupePedagogiqueFacade.create(newGroupePedagogique);
+                msg = JsfUtil.getBundleMsg("GroupePedagogiqueCreateSuccessMsg");
+                JsfUtil.addSuccessMessage(msg);
+                prepareCreate();
+                listeGroupePedagogiques = groupePedagogiqueFacade.findAll();
+            } else {
+                msg = JsfUtil.getBundleMsg("GroupePedagogiqueCreateErrorMsg");
+                JsfUtil.addErrorMessage(msg);
+            }
+
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("GroupePedagogiqueCreateErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
     }
-    
+
     public void doEdit(ActionEvent event) {
         String msg;
         try {
-            groupePedagogiqueFacade.edit(selectedGroupePedagogique);
-            msg = JsfUtil.getBundleMsg("GroupePedagogiqueEditSuccessMsg");
-            JsfUtil.addSuccessMessage(msg);
-            listeGroupePedagogiques = groupePedagogiqueFacade.findAll();
+            int order = JsfUtil.getOrder(selectedGroupePedagogique.getCycles(), selectedGroupePedagogique.getNiveau());
+            if (order != -1) {
+                groupePedagogiqueFacade.edit(selectedGroupePedagogique);
+                msg = JsfUtil.getBundleMsg("GroupePedagogiqueEditSuccessMsg");
+                JsfUtil.addSuccessMessage(msg);
+                listeGroupePedagogiques = groupePedagogiqueFacade.findAll();
+            } else {
+                msg = JsfUtil.getBundleMsg("GroupePedagogiqueEditErrorMsg");
+                JsfUtil.addErrorMessage(msg);
+            }
+
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("GroupePedagogiqueEditErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
     }
-    
+
     public void doDel(ActionEvent event) {
         String msg;
         try {
@@ -179,22 +138,6 @@ public class GroupePedagogiqueBean implements Serializable{
         this.filteredList = filteredList;
     }
 
-    public Map<String, Map<String, String>> getData() {
-        return data;
-    }
-
-    public void setData(Map<String, Map<String, String>> data) {
-        this.data = data;
-    }
-
-    public String getCycle() {
-        return cycle;
-    }
-
-    public void setCycle(String cycle) {
-        this.cycle = cycle;
-    }
-
     public String getNiveau() {
         return niveau;
     }
@@ -203,38 +146,40 @@ public class GroupePedagogiqueBean implements Serializable{
         this.niveau = niveau;
     }
 
-    public Map<String, String> getListeCycles() {
-        return listeCycles;
-    }
-
-    public void setListeCycles(Map<String, String> listeCycles) {
-        this.listeCycles = listeCycles;
-    }
-
-    public Map<String, String> getListeNiveau() {
-        return listeNiveau;
-    }
-   
-    public void setListeNiveau(Map<String, String> listeNiveau) {
-        this.listeNiveau = listeNiveau;
-    }
-    
-   
-    public void prepareCreate(){
+    public void prepareCreate() {
         this.newGroupePedagogique = new GroupePedagogique();
     }
+
     public void reset(ActionEvent e) {
         this.newGroupePedagogique.reset();
     }
-    public void onCycleChange() {
-        
-        if(cycle !=null && !cycle.equals(""))
-            listeNiveau = data.get(cycle);
-        else
-            listeNiveau = new HashMap<>();
+
+    public void initNiveauEtude() {
+        listesNiveau = JsfUtil.getNiveauEtude(cycle);
     }
- 
-   
-    
-    
+
+    public int getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(int cycle) {
+        this.cycle = cycle;
+    }
+
+    public List<Integer> getListeCycles() {
+        return listeCycles;
+    }
+
+    public void setListeCycles(List<Integer> listeCycles) {
+        this.listeCycles = listeCycles;
+    }
+
+    public List<String> getListesNiveau() {
+        return listesNiveau;
+    }
+
+    public void setListesNiveau(List<String> listesNiveau) {
+        this.listesNiveau = listesNiveau;
+    }
+
 }

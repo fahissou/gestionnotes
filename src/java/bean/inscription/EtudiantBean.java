@@ -48,8 +48,6 @@ public class EtudiantBean implements Serializable{
     @PostConstruct
     public void init() {
         listeEtudiants = etudiantFacade.findAll();
-//        String groupePedagogique = recupDescriptionGroupe();
-//        listeEtudiantsInscris = etudiantFacade.findAllEtudiantInscris(groupePedagogique);
         groupePedagogiques = groupePedagogiqueFacade.findAll();
         loadData();
         prepareCreate();

@@ -6,11 +6,13 @@
 package bean.module;
 
 import bean.inscription.NotesBean;
+import ejb.formation.FiliereFacade;
 import ejb.inscription.AnneeAcademiqueFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
 import ejb.module.MatiereFacade;
+import ejb.module.SemestreFacade;
 import ejb.module.UeFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,11 +24,13 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import jpa.formation.Filiere;
 import jpa.inscription.AnneeAcademique;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
 import jpa.inscription.Notes;
 import jpa.module.Matiere;
+import jpa.module.Semestre;
 import jpa.module.Ue;
 import util.JsfUtil;
 
@@ -37,6 +41,10 @@ import util.JsfUtil;
 @Named(value = "matiereBean")
 @ViewScoped
 public class MatiereBean implements Serializable {
+    @EJB
+    private SemestreFacade semestreFacade;
+    @EJB
+    private FiliereFacade filiereFacade;
 
     @EJB
     private NotesFacade notesFacade;
@@ -49,22 +57,22 @@ public class MatiereBean implements Serializable {
     @EJB
     private UeFacade ueFacade;
     @EJB
-
     private MatiereFacade matiereFacade;
+    
     private Matiere newMatiere;
     private Matiere selectedMatiere;
     private List<Matiere> listeMatieres;
     private List<Matiere> filteredList;
-    private List<GroupePedagogique> listGroupePedagogiques;
-    private List<Ue> listeUE;
-    private List<Ue> listeUEDynamic;
-    private GroupePedagogique newGroupePedagogique;
-    private Ue ue;
-    private Map<GroupePedagogique, List<Ue>> data1; // = new HashMap<>();
     private AnneeAcademique anneeAcademique;
     private Notes newNote;
-    private NotesBean notesbean;
-
+    private List<Semestre> listeSemestres;
+    private Semestre semestre;
+    private GroupePedagogique groupePedagogique;
+    private List<GroupePedagogique> listeGroupePedagogiques;
+    private List<Filiere> listeFilieres;
+    private Filiere filiere;
+    private List<Ue> listeUE;
+    private Ue ue;
     /**
      * Creates a new instance of MatiereBean
      */
@@ -73,42 +81,90 @@ public class MatiereBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        
-        listGroupePedagogiques = groupePedagogiqueFacade.findAll();
-        listeUE = ueFacade.findAll();
         anneeAcademique = anneeAcademiqueFacade.getCurrentAcademicYear();
-        loadData();
         listeMatieres = matiereFacade.findAll();
         prepareCreate();
-
+        listeFilieres = filiereFacade.findAll();
+        
+    }
+    
+    public void initGroupePedagogique(){
+        listeGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(filiere);
+    }
+    
+    public void initSemestre() {
+        listeSemestres = semestreFacade.getSemetreByGP(groupePedagogique);
+    }
+    
+    public void initUe() {
+        listeUE = ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre);
     }
 
-    public void loadData() {
-        data1 = new HashMap<>();
-        for (int i = 0; i < listGroupePedagogiques.size(); i++) {
-            List<Ue> list1 = ueFacade.getUeByGroupePedagogique(listGroupePedagogiques.get(i));
-            data1.put(listGroupePedagogiques.get(i), list1);
-
-        }
-
+    
+    public UeFacade getUeFacade() {
+        return ueFacade;
     }
 
-    public void onGroupePedagogiqueChange() {
-        if (newGroupePedagogique != null) {
-            listeUEDynamic = data1.get(newGroupePedagogique);
-        } else {
-            listeUEDynamic = new ArrayList<>();
-        }
-
+    public void setUeFacade(UeFacade ueFacade) {
+        this.ueFacade = ueFacade;
     }
+
+    public List<Semestre> getListeSemestres() {
+        return listeSemestres;
+    }
+
+    public void setListeSemestres(List<Semestre> listeSemestres) {
+        this.listeSemestres = listeSemestres;
+    }
+
+    public Semestre getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
+    }
+
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
+    }
+
+    public List<GroupePedagogique> getListeGroupePedagogiques() {
+        return listeGroupePedagogiques;
+    }
+
+    public void setListeGroupePedagogiques(List<GroupePedagogique> listeGroupePedagogiques) {
+        this.listeGroupePedagogiques = listeGroupePedagogiques;
+    }
+
+    public List<Filiere> getListeFilieres() {
+        return listeFilieres;
+    }
+
+    public void setListeFilieres(List<Filiere> listeFilieres) {
+        this.listeFilieres = listeFilieres;
+    }
+
+    public Filiere getFiliere() {
+        return filiere;
+    }
+
+    public void setFiliere(Filiere filiere) {
+        this.filiere = filiere;
+    }
+    
 
     public void doCreate(ActionEvent event) {
         String msg;
-        List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(newGroupePedagogique, anneeAcademique);
-
+        List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(groupePedagogique, anneeAcademique);
+            
         try {
-            newMatiere.setGroupePedagogique(newGroupePedagogique);
-
+            newMatiere.setGroupePedagogique(groupePedagogique);
+            newMatiere.setUe(ue);
             if (inscriptions.isEmpty()) {
                 matiereFacade.create(newMatiere);
             }else{
@@ -187,13 +243,7 @@ public class MatiereBean implements Serializable {
         this.filteredList = filteredList;
     }
 
-    public List<GroupePedagogique> getListGroupePedagogiques() {
-        return listGroupePedagogiques;
-    }
-
-    public void setListGroupePedagogiques(List<GroupePedagogique> listGroupePedagogiques) {
-        this.listGroupePedagogiques = listGroupePedagogiques;
-    }
+   
 
     public List<Ue> getListeUE() {
         return listeUE;
@@ -203,13 +253,7 @@ public class MatiereBean implements Serializable {
         this.listeUE = listeUE;
     }
 
-    public GroupePedagogique getNewGroupePedagogique() {
-        return newGroupePedagogique;
-    }
-
-    public void setNewGroupePedagogique(GroupePedagogique newGroupePedagogique) {
-        this.newGroupePedagogique = newGroupePedagogique;
-    }
+    
 
     public Ue getUe() {
         return ue;
@@ -219,13 +263,7 @@ public class MatiereBean implements Serializable {
         this.ue = ue;
     }
 
-    public List<Ue> getListeUEDynamic() {
-        return listeUEDynamic;
-    }
-
-    public void setListeUEDynamic(List<Ue> listeUEDynamic) {
-        this.listeUEDynamic = listeUEDynamic;
-    }
+    
 
     public void prepareCreate() {
         newMatiere = new Matiere();

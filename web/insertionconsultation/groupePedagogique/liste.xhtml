@@ -34,14 +34,14 @@
                                             <h:outputText value=" #{item.description}" />
                                         </p:column>
                                         
-                                        <p:column headerText="#{bundle.Cycle}"  sortBy="#{item.cycleEtude}" filterBy="#{item.cycleEtude}">
-                                            <h:outputText value=" #{item.cycleEtude}" />
+                                        <p:column headerText="#{bundle.Cycle}"  sortBy="#{item.cycles}" filterBy="#{item.cycles}">
+                                            <h:outputText value=" #{item.cycles}" />
                                         </p:column>
-                                        <p:column headerText="#{bundle.niveau}"  sortBy="#{item.niveauEtude}" filterBy="#{item.niveauEtude}">
-                                            <h:outputText value=" #{item.niveauEtude}" />
+                                        <p:column headerText="#{bundle.niveau}"  sortBy="#{item.niveau}" filterBy="#{item.niveau}">
+                                            <h:outputText value=" #{item.niveau}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.filiere.libelle}" filterBy="#{item.filiere.libelle}">
-                                            <h:outputText value=" #{item.filiere.libelle}" />
+                                            <h:outputText value=" #{item.filiere.libelle.toUpperCase()}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
 <!--                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"

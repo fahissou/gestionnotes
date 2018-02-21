@@ -24,6 +24,7 @@
                                                  styleClass="form-control"/>
                                 </div>
                             </div>
+                        
                             <div class="clearfix control">
                                 <div class="col-md-3">
                                     <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
@@ -44,7 +45,7 @@
                             </div>
                             <div class="col-md-9">
                                 <p:selectOneMenu id="cycleEtude" value="#{groupePedagogiqueBean.cycle}" required="true">
-                                    <p:ajax listener="#{groupePedagogiqueBean.onCycleChange}" update="niveau" />
+                                    <p:ajax listener="#{groupePedagogiqueBean.initNiveauEtude()}" update="niveau" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{groupePedagogiqueBean.listeCycles}"/>
                                 </p:selectOneMenu>
@@ -53,13 +54,28 @@
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">
-                                <p:outputLabel for="niveau" value="#{bundle.GroupeEtudiant}"/>
+                                <p:outputLabel for="niveau" value="#{bundle.niveau}"/>
                             </div>
                             <div class="col-md-9">
                                 <p:selectOneMenu id="niveau" value="#{groupePedagogiqueBean.niveau}" 
                                                  required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{groupePedagogiqueBean.listeNiveau}"/>
+                                    <f:selectItems value="#{groupePedagogiqueBean.listesNiveau}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="parametres" value="#{bundle.ParametresAdmission}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="parametres" value="#{groupePedagogiqueBean.newGroupePedagogique.parametres}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{parametresBean.listeParametress}"
+                                                   var="item" itemValue="#{item}" itemLabel="#{item.libelle.toUpperCase()}"/>
+                                        <f:converter  converterId="parametresConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>

@@ -6,6 +6,7 @@
 package bean.module;
 
 import bean.inscription.NotesBean;
+import ejb.formation.FiliereFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.module.SemestreFacade;
 import ejb.module.UeFacade;
@@ -19,6 +20,7 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import jpa.formation.Filiere;
 import jpa.inscription.GroupePedagogique;
 import jpa.module.Semestre;
 import jpa.module.Ue;
@@ -32,22 +34,23 @@ import util.JsfUtil;
 @ViewScoped
 public class UeBean implements Serializable{
     @EJB
+    private FiliereFacade filiereFacade;
+    @EJB
     private UeFacade ueFacade;
     @EJB
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
     @EJB
     private SemestreFacade semestreFacade;
+    
     private List<GroupePedagogique> listeGroupePedagogiques;
     private Ue newUe;
     private Ue selectedUe;
     private List<Ue> listeUes;
     private List<Ue> filteredList;
-    private List<String> listesemestres;
-    private List<Semestre> listeSemestre;
-    private Map<GroupePedagogique, List<Semestre>> data1;
+    private List<Semestre> listeSemestres;
     private GroupePedagogique groupePedagogique;
-    private List<Semestre> semestres;
-    private NotesBean notesbean;
+    private List<Filiere> listeFilieres;
+    private Filiere filiere;
     /**
      * Creates a new instance of UeBean
      */
@@ -55,49 +58,23 @@ public class UeBean implements Serializable{
     }
     @PostConstruct
     public void init(){
-        prepareCreate();
         listeUes = ueFacade.findAll();
-        listeGroupePedagogiques = groupePedagogiqueFacade.findAll();
-        listeSemestre = semestreFacade.findAll();
-        loadData();
-        listesemestres = new ArrayList<>();
-        listesemestres.add("1");
-        listesemestres.add("2");
-        listesemestres.add("3");
-        listesemestres.add("4");
-        listesemestres.add("5");
-        listesemestres.add("6");
-        listesemestres.add("7");
-        listesemestres.add("8");
-        listesemestres.add("9");
-        listesemestres.add("10");
+        prepareCreate();
+        listeFilieres = filiereFacade.findAll();
     }
     
-    
-    
-    public void loadData() {
-        data1 = new HashMap<>();
-        for (int i = 0; i < listeGroupePedagogiques.size(); i++) {
-            List<Semestre> liste = semestreFacade.getSemetreByGP(listeGroupePedagogiques.get(i));
-            data1.put(listeGroupePedagogiques.get(i), liste);
-        }
+    public void initGroupePedagogique(){
+        listeGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(filiere);
     }
     
-    public void onGroupePedagogiqueChange() {
-        if (groupePedagogique != null) {
-            semestres = data1.get(groupePedagogique);
-        } else {
-            semestres = new ArrayList<>();
-            
-        }
-
+    public void initSemestre() {
+        listeSemestres = semestreFacade.getSemetreByGP(newUe.getGroupePedagogique());
     }
+    
     
     public void doCreate(ActionEvent event) {
         String msg;
-        try {
-            newUe.setGroupePedagogique(groupePedagogique);
-            
+        try {   
             ueFacade.create(newUe);
             msg = JsfUtil.getBundleMsg("UeCreateSuccessMsg");
             JsfUtil.addSuccessMessage(msg);
@@ -144,13 +121,7 @@ public class UeBean implements Serializable{
         this.listeGroupePedagogiques = listeGroupePedagogiques;
     }
 
-    public List<Semestre> getListeSemestre() {
-        return listeSemestre;
-    }
-
-    public void setListeSemestre(List<Semestre> listeSemestre) {
-        this.listeSemestre = listeSemestre;
-    }
+    
 
     public GroupePedagogique getGroupePedagogique() {
         return groupePedagogique;
@@ -158,14 +129,6 @@ public class UeBean implements Serializable{
 
     public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
         this.groupePedagogique = groupePedagogique;
-    }
-
-    public List<Semestre> getSemestres() {
-        return semestres;
-    }
-
-    public void setSemestres(List<Semestre> semestres) {
-        this.semestres = semestres;
     }
 
     public Ue getNewUe() {
@@ -200,13 +163,32 @@ public class UeBean implements Serializable{
         this.filteredList = filteredList;
     }
 
-    public List<String> getListesemestres() {
-        return listesemestres;
+    
+    public List<Filiere> getListeFilieres() {
+        return listeFilieres;
     }
 
-    public void setListesemestres(List<String> listesemestres) {
-        this.listesemestres = listesemestres;
+    public void setListeFilieres(List<Filiere> listeFilieres) {
+        this.listeFilieres = listeFilieres;
     }
+
+    public Filiere getFiliere() {
+        return filiere;
+    }
+
+    public void setFiliere(Filiere filiere) {
+        this.filiere = filiere;
+    }
+
+    public List<Semestre> getListeSemestres() {
+        return listeSemestres;
+    }
+
+    public void setListeSemestres(List<Semestre> listeSemestres) {
+        this.listeSemestres = listeSemestres;
+    }
+
+   
     
     public void prepareCreate(){
         newUe = new Ue();

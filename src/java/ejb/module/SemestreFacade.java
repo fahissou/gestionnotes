@@ -6,6 +6,7 @@
 package ejb.module;
 
 import ejb.AbstractFacade;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,16 +38,22 @@ public class SemestreFacade extends AbstractFacade<Semestre> {
     
     @Override
     public void create(Semestre semestre) {
-        semestre.setId(JsfUtil.generateId());
+        semestre.setId(semestre.getValeur()+"_"+semestre.getOrdre());
         super.create(semestre);
     }
     
     public List<Semestre> getSemetreByGP(GroupePedagogique groupePedagogique) {
-       String description = groupePedagogique.getDescription();
-        Query query = em.createQuery("SELECT S FROM Semestre S WHERE S.groupePedagogique.description = :description ORDER BY S.libelle ASC");
+       int ordre = groupePedagogique.getOrdre();
+       List<Semestre> list = null;
+        Query query = em.createQuery("SELECT S FROM Semestre S WHERE S.ordre = :ordre ORDER BY S.valeur ASC");
         // set parameters
-        query.setParameter("description", description);
-        List<Semestre> list = query.getResultList();
+        query.setParameter("ordre", ordre);
+        try {
+             list = query.getResultList();
+        } catch (Exception e) {
+            list = new ArrayList<>();
+        }
+        
         return list; 
     }
 }

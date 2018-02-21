@@ -9,6 +9,7 @@ import ejb.administration.ProgrammerCoursFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.module.MatiereFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -70,7 +71,6 @@ public class ProgrammerCoursBean implements Serializable {
         String msg;
         try {
             programmerCoursFacade.create(newProgrammerCours);
-            newProgrammerCours.getMatiere().setEtat(1);
             matiereFacade.edit(newProgrammerCours.getMatiere());
             msg = JsfUtil.getBundleMsg("ProgrammerCoursCreateSuccessMsg");
             JsfUtil.addSuccessMessage(msg);
@@ -98,7 +98,6 @@ public class ProgrammerCoursBean implements Serializable {
     public void doDel(ActionEvent event) {
         String msg;
         try {
-            selectedProgrammerCours.getMatiere().setEtat(0);
             matiereFacade.edit(selectedProgrammerCours.getMatiere());
             programmerCoursFacade.remove(selectedProgrammerCours);
             msg = JsfUtil.getBundleMsg("ProgrammerCoursDelSuccessMsg");
@@ -189,7 +188,7 @@ public class ProgrammerCoursBean implements Serializable {
 
     public void initList() {
         listGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(selectedFiliere);
-        listMatieres = matiereFacade.getMatiereByGroupe(newProgrammerCours.getGroupePedagogique());
+        listMatieres = getMatieresNP(newProgrammerCours.getGroupePedagogique());
         listeProgrammerCourss = programmerCoursFacade.listeProgrammeByGroupe(newProgrammerCours.getGroupePedagogique());
     }
 
@@ -215,4 +214,22 @@ public class ProgrammerCoursBean implements Serializable {
 //        }
 //    }
 
+    public List<Matiere> getMatieresNP(GroupePedagogique groupePedagogique) {
+        List<Matiere> matieres = new ArrayList<>();
+        List<Matiere> matieresM = matiereFacade.getMatiereByGroupe(groupePedagogique);
+        List<Matiere> matieresPC = programmerCoursFacade.listeMatieresPC(groupePedagogique);
+        for (int i = 0; i < matieresM.size(); i++) {
+            int compteur = 0;
+            for (int j = 0; j < matieresPC.size(); j++) {
+                if (matieresPC.get(j).equals(matieresM.get(i))) {
+                    compteur++;
+                    break;
+                }
+            }
+            if (compteur == 0) {
+                matieres.add(matieresM.get(i));
+            }
+        }
+        return matieres;
+    }
 }

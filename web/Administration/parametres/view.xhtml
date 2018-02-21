@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
 
@@ -11,51 +12,62 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="viewDialogForm" styleClass="form-horizontal">
-                        <div class="modal-header">
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <!--<h3 class="modal-title">#{bundle.View}</h3>-->
-                            <h3 class="modal-title">Détails</h3>
+                            <h1>#{bundle.View}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
                             
-                                <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.Code}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm"
-                                               >
-                                            #{parametresBean.selectedParametres.id}
-                                        </label>
-                                    </div>
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Description}"/>
                                 </div>
+                                <div class="col-md-9">
+                                    <label class="form-control input-sm">
+                                        #{parametresBean.selectedParametres.libelle}
+                                    </label>
+                                </div>
+                            </div>
                             
-                                <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.moyenneUE}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm"
-                                               >
-                                            #{parametresBean.selectedParametres.moyenneUE}
-                                        </label>
-                                    </div>
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.moyenneUE}"/>
                                 </div>
+                                <div class="col-md-9">
+                                    <label class="form-control input-sm">
+                                        #{parametresBean.selectedParametres.moyenneUE}
+                                    </label>
+                                </div>
+                            </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.proportionAdmission}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm"
-                                               >
-                                            #{parametresBean.selectedParametres.proportionAdmission}
-                                        </label>
-                                    </div>
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.Credit}"/>
                                 </div>
-                                      
+                                <div class="col-md-9">
+                                    <label class="form-control input-sm">
+                                        #{parametresBean.selectedParametres.credit}
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="#{bundle.GroupePedagogique}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <label class="form-control input-sm">
+                                        #{parametresBean.selectedParametres.groupePedagogique.description}
+                                    </label>
+                                </div>
+                            </div>
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success btn-xs" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-checkmark-2 glyphicon glyphicon-ok"></i>
-                                #{bundle.Action}
-                            </button>
-                            <button type="button" class="btn btn-default  btn-xs" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-cancel-2 glyphicon glyphicon-remove"></i>
+                        <div class="footer tar">
+                            <!--                            <button type="button" class="btn btn-success btn-xs" style="font-size: 11px;vertical-align: middle;">
+                                                            <i class="i-checkmark-2 glyphicon glyphicon-ok"></i>
+                            #{bundle.Action}
+                        </button>-->
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>
                         </div> <!-- /.modal-footer -->

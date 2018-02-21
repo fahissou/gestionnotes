@@ -29,7 +29,6 @@ public class Inscription implements Serializable {
     private AnneeAcademique anneeAcademique;
     
     public Inscription() {
-//        this.etudiant = new Etudiant();
         this.resultat = "R";
         this.compteurCredit = 0;
     }

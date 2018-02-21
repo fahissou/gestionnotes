@@ -49,6 +49,9 @@
                                         <p:column headerText="#{bundle.GroupePedagogique}"  sortBy="#{item.groupePedagogique.description}" filterBy="#{item.groupePedagogique.description}">
                                             <h:outputText value=" #{item.groupePedagogique.description}"/>
                                         </p:column>
+                                        <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.groupePedagogique.filiere.libelle.toUpperCase()}" filterBy="#{item.groupePedagogique.filiere.libelle.toUpperCase()}">
+                                            <h:outputText value=" #{item.groupePedagogique.filiere.libelle.toUpperCase()}"/>
+                                        </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                             <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"

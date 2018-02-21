@@ -7,6 +7,7 @@ package bean.etats;
 
 import bean.inscription.AnneeAcademiqueBean;
 import bean.util.ParametragesBean;
+import ejb.inscription.EtudiantFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
 import ejb.module.SemestreFacade;
@@ -30,6 +31,8 @@ import jpa.module.Semestre;
 @ViewScoped
 public class RechercheAvanceeBean implements Serializable{
     @EJB
+    private EtudiantFacade etudiantFacade;
+    @EJB
     private NotesFacade notesFacade;
     @EJB
     private SemestreFacade semestreFacade;
@@ -50,7 +53,8 @@ public class RechercheAvanceeBean implements Serializable{
     
     @PostConstruct
     public void init() {
-        etudiant = ParametragesBean.getEtudiantInstance();
+        String id = ParametragesBean.getIdEtudiant();
+        etudiant = etudiantFacade.find(id);
         listInscriptions = inscriptionFacade.getListInscriptionByEtudiant(etudiant);
     }
 
@@ -110,7 +114,6 @@ public class RechercheAvanceeBean implements Serializable{
      
    public void updatetable() {
        listNotes = notesFacade.listeNoteByInscriptionBySem(inscription, semestre);
-       System.out.println("kfkdsf "+listNotes.size());
    }
 
     public List<Notes> getFilteredList() {

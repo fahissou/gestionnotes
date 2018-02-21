@@ -11,11 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import jpa.administration.Parametres;
 import jpa.administration.ProgrammerCours;
-import jpa.administration.TemporalUser;
 import jpa.formation.Filiere;
 import jpa.module.Matiere;
-import jpa.module.Semestre;
 import jpa.module.Ue;
 
 /**
@@ -27,9 +26,6 @@ public class GroupePedagogique implements Serializable {
     @OneToMany(mappedBy = "groupePedagogique")
     private List<Matiere> matieres;
     @OneToMany(mappedBy = "groupePedagogique")
-    private List<Semestre> semestres;
-   
-    @OneToMany(mappedBy = "groupePedagogique")
     private List<ProgrammerCours> programmerCourss;
     @OneToMany(mappedBy = "groupePedagogique")
     private List<Ue> ues;
@@ -38,10 +34,13 @@ public class GroupePedagogique implements Serializable {
     @Id
     private String id;
     private String description;
-    private String CycleEtude;
-    private String niveauEtude;
+    private int cycles;
+    private int niveau;
+    private int ordre;
     @ManyToOne
     private Filiere filiere;
+    @ManyToOne
+    private Parametres parametres;
 
     public String getId() {
         return id;
@@ -58,23 +57,7 @@ public class GroupePedagogique implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    public String getCycleEtude() {
-        return CycleEtude;
-    }
-
-    public void setCycleEtude(String CycleEtude) {
-        this.CycleEtude = CycleEtude;
-    }
-
-    public String getNiveauEtude() {
-        return niveauEtude;
-    }
-
-    public void setNiveauEtude(String niveauEtude) {
-        this.niveauEtude = niveauEtude;
-    }
-
+   
     public Filiere getFiliere() {
         return filiere;
     }
@@ -115,13 +98,38 @@ public class GroupePedagogique implements Serializable {
         this.matieres = matieres;
     }
 
-    public List<Semestre> getSemestres() {
-        return semestres;
+    public int getCycles() {
+        return cycles;
     }
 
-    public void setSemestres(List<Semestre> semestres) {
-        this.semestres = semestres;
+    public void setCycles(int cycles) {
+        this.cycles = cycles;
     }
+
+    public int getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(int niveau) {
+        this.niveau = niveau;
+    }
+
+    public Parametres getParametres() {
+        return parametres;
+    }
+
+    public void setParametres(Parametres parametres) {
+        this.parametres = parametres;
+    }
+
+    public int getOrdre() {
+        return ordre;
+    }
+
+    public void setOrdre(int ordre) {
+        this.ordre = ordre;
+    }
+    
     
     @Override
     public int hashCode() {
@@ -143,15 +151,11 @@ public class GroupePedagogique implements Serializable {
         return true;
     }
 
-//    @Override
-//    public String toString() {
-//        return "jpa.inscription.GroupePedagogique[ id=" + id + " ]";
-//    }
     public void reset(){
         this.id = null;
-        this.CycleEtude = null;
-        this.niveauEtude = null;
         this.filiere = null;
+        this.cycles = 0;
+        this.niveau = 0;
     }
     
 }

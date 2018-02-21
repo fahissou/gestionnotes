@@ -148,9 +148,7 @@ public class InscriptionBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("ok>> " +AnneeAcademiqueBean.getAnneeAcademicChoisi1().getDescription()+" id "+AnneeAcademiqueBean.getAnneeAcademicChoisi1().getId());
         listeInscriptions = inscriptionFacade.findAllByInscription(AnneeAcademiqueBean.getAnneeAcademicChoisi1());
-        System.out.println("taille " +listeInscriptions.size());
         listFiliere = filiereFacade.findAll();
         
         prepareCreate();
@@ -551,7 +549,7 @@ public class InscriptionBean implements Serializable {
                             
                             // Inscritption save
                             inscriptionFacade.create(newInscription);
-                            createDiffaultNotes(newInscription);
+                            createDiffaultNotes(newInscription,groupePedagogique);
                             prepareCreate();
                             listeInscriptions = inscriptionFacade.findAll();
                             
@@ -596,29 +594,29 @@ public class InscriptionBean implements Serializable {
 
     }
 
-    public void createDiffaultNotes(Inscription inscription) {
-        List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(inscription.getGroupePedagogique());
-        try {
-            if (!listeUe.isEmpty()) {
-                for (int i = 0; i < listeUe.size(); i++) {
-                    List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i));
-                    newNote = new Notes();
-                    for (int j = 0; j < matieres.size(); j++) {
-                        newNote.setMatiere(matieres.get(j));
-                        newNote.setInscription(inscription);
-                        newNote.setEtatValidation("UENV");
-                        newNote.setNote(0.0);
-                        notesFacade.create(newNote);
-                    }
-
-                }
-            }
-
-        } catch (Exception ex) {
-
-        }
-
-    }
+//    public void createDiffaultNotes(Inscription inscription, groupePedagogique) {
+//        List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(groupePedagogique);
+//        try {
+//            if (!listeUe.isEmpty()) {
+//                for (int i = 0; i < listeUe.size(); i++) {
+//                    List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i));
+//                    newNote = new Notes();
+//                    for (int j = 0; j < matieres.size(); j++) {
+//                        newNote.setMatiere(matieres.get(j));
+//                        newNote.setInscription(inscription);
+//                        newNote.setEtatValidation("UENV");
+//                        newNote.setNote(0.0);
+//                        notesFacade.create(newNote);
+//                    }
+//
+//                }
+//            }
+//
+//        } catch (Exception ex) {
+//
+//        }
+//
+//    }
 
     public void inscriptionRedirect() {
         switch (typeInscription) {
@@ -695,7 +693,7 @@ public class InscriptionBean implements Serializable {
             for (int i = 0; i < listeInscriptions1.size(); i++) {
 //                listeInscriptions1.get(i).setAnneeAcademique(currentAcademicYear);
                 inscriptionFacade.edit(listeInscriptions1.get(i));
-                createDiffaultNotes(listeInscriptions1.get(i));
+                createDiffaultNotes(listeInscriptions1.get(i), groupePedagogique);
             }
             listeInscriptions = inscriptionFacade.findAll();
 
@@ -890,6 +888,30 @@ public class InscriptionBean implements Serializable {
         } catch (Throwable e) {
             System.out.println(" pdf error " + e.getMessage());
         }
+    }
+    
+    public void createDiffaultNotes(Inscription inscription, GroupePedagogique groupePedagogique1) {
+        List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(groupePedagogique1);
+        try {
+            if (!listeUe.isEmpty()) {
+                for (int i = 0; i < listeUe.size(); i++) {
+                    List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i));
+                    newNote = new Notes();
+                    for (int j = 0; j < matieres.size(); j++) {
+                        newNote.setMatiere(matieres.get(j));
+                        newNote.setInscription(inscription);
+                        newNote.setEtatValidation("UENV");
+                        newNote.setNote(0.0);
+                        notesFacade.create(newNote);
+                    }
+
+                }
+            }
+
+        } catch (Exception ex) {
+
+        }
+
     }
     
 }

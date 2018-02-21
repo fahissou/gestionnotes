@@ -9,9 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import jpa.inscription.GroupePedagogique;
 
 /**
  *
@@ -21,9 +19,10 @@ import jpa.inscription.GroupePedagogique;
 public class Semestre implements Serializable {
     @Id
     private String id;
-    private int libelle;
-    @ManyToOne
-    private GroupePedagogique groupePedagogique;
+    private int valeur;
+    private String libelle;
+    private int ordre;
+   
     @OneToMany(mappedBy = "semestre")
     private List<Ue> ues;
     
@@ -40,13 +39,7 @@ public class Semestre implements Serializable {
         this.id = id;
     }
 
-    public int getLibelle() {
-        return libelle;
-    }
-
-    public void setLibelle(int libelle) {
-        this.libelle = libelle;
-    }
+    
 
     public List<Ue> getUes() {
         return ues;
@@ -56,17 +49,30 @@ public class Semestre implements Serializable {
         this.ues = ues;
     }
 
-  
-
-    public GroupePedagogique getGroupePedagogique() {
-        return groupePedagogique;
+    public int getOrdre() {
+        return ordre;
     }
 
-    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
-        this.groupePedagogique = groupePedagogique;
+    public void setOrdre(int ordre) {
+        this.ordre = ordre;
     }
-    
-    
+
+    public int getValeur() {
+        return valeur;
+    }
+
+    public void setValeur(int valeur) {
+        this.valeur = valeur;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -89,7 +95,7 @@ public class Semestre implements Serializable {
 
 public void reset(){
     this.id = null;
-    this.libelle = 0;
-
+    this.libelle = null;
+    this.ordre = 0;
 }    
 }

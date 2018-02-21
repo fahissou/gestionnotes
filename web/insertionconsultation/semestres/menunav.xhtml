@@ -1,25 +1,29 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition>
-        <div class="col-md-12 col-xs-12">
-            <ul class="nav nav-pills">
-                <li class="#{liste}">
-                    <a href="/gestionnotes/insertionconsultation/semestres">
-                        <i class="i-list-2"/> 
-                        #{bundle.Liste}
-                    </a>
-                </li>
-                <li class="#{nouveau}">
-                    <a href="/gestionnotes/insertionconsultation/semestres/create">
-                        <i class="i-plus-2"/> 
-                        #{bundle.Nouveau}
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <h:form>
+            <div class="col-md-12 col-xs-12">
+                <ul class="nav nav-pills">
+                    <li class="#{liste}">
+                        <a href="/gestionnotes/formation/filiere">
+                            <i class="i-list-2"/> 
+                            #{bundle.Liste}
+                        </a>
+                    </li>
+                    <li class="#{nouveau}">
+                        <p:commandLink id="createButton" value="#{null}" styleClass="iplus"
+                                       update=":createDialogForm"  oncomplete="$('#createDialog').modal('show')">
+                            <i class="i-plus-2"/>
+                            #{bundle.Nouveau}
+                        </p:commandLink>
+                    </li>
+                </ul>
+            </div>
+        </h:form>
     </ui:composition>
 </html>
 

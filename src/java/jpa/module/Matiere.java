@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import jpa.administration.ProgrammerCours;
 import jpa.administration.TemporalUser;
+import jpa.inscription.Enseigner;
 import jpa.inscription.GroupePedagogique;
 //import jpa.inscription.Enseignant;
 import jpa.inscription.Notes;
@@ -32,16 +33,16 @@ public class Matiere implements Serializable {
     private String id;
     private String libelle;
     private int coefficiant;
-    private int etat;
     @ManyToOne
     private GroupePedagogique groupePedagogique;
     @ManyToOne
     private Ue ue;
 //    @ManyToOne
 //    private Enseignant enseignant;
+    @OneToMany(mappedBy = "matiere")
+    private List<Enseigner> enseigners;
 
     public Matiere(){
-        this.etat = 0;
     }
     
     public String getId() {
@@ -90,14 +91,6 @@ public class Matiere implements Serializable {
 
     public void setNotes(List<Notes> notes) {
         this.notes = notes;
-    }
-
-    public int getEtat() {
-        return etat;
-    }
-
-    public void setEtat(int etat) {
-        this.etat = etat;
     }
 
     public GroupePedagogique getGroupePedagogique() {

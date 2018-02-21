@@ -47,8 +47,6 @@ public class ResultatAnnuelBean implements Serializable{
     @EJB
     private SemestreFacade semestreFacade;
     @EJB
-    private ParametresFacade parametresFacade;
-    @EJB
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
     @EJB
     private FiliereFacade filiereFacade;
@@ -58,7 +56,7 @@ public class ResultatAnnuelBean implements Serializable{
     private List<Filiere> listFilieres;
     private List<GroupePedagogique> listGroupePedagogiques;
     private AnneeAcademique anneeAcademique;
-    private List<Parametres> parametres;
+    
     
     public ResultatAnnuelBean() {
     }
@@ -67,7 +65,7 @@ public class ResultatAnnuelBean implements Serializable{
     public void init() {
         listFilieres = filiereFacade.findAll();
         anneeAcademique = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
-        parametres = parametresFacade.findAll();
+        
     }
     
     public void initGroupePedagogique() {
@@ -118,17 +116,11 @@ public class ResultatAnnuelBean implements Serializable{
         this.anneeAcademique = anneeAcademique;
     }
 
-    public List<Parametres> getParametres() {
-        return parametres;
-    }
-
-    public void setParametres(List<Parametres> parametres) {
-        this.parametres = parametres;
-    }
+    
     
     // Résultat final
     public void genererResultatFinale() {
-        double parametreAdmis ;
+        
         String pathOut = JsfUtil.getPathOutTmp();
         String pathIn = JsfUtil.getPathIntModelReleve();
         String pathOutPDF = JsfUtil.getPathOutPDF();
@@ -141,12 +133,7 @@ public class ResultatAnnuelBean implements Serializable{
         String nomFichier = JsfUtil.generateId();
         String[] semestress = JsfUtil.semestreGP(semestreFacade.getSemetreByGP(groupePedagogique));
         List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP1(groupePedagogique, anneeAcademique);
-        if(!parametres.isEmpty()){
-            parametreAdmis = parametres.get(0).getProportionAdmission();
-        }else{
-            parametreAdmis = 48;
-        }
-        
+  
         try {
             // Paramètres d'entete du resultat final
             Map<String, Object> parametreEntetes = new HashMap<>();
@@ -174,7 +161,7 @@ public class ResultatAnnuelBean implements Serializable{
                 row.put("NP", student.getNom() + " " + student.getPrenom());
 
                 row.put("TC", inscriptions.get(j).getCompteurCredit());
-                String result = admissible(inscriptions.get(j).getCompteurCredit(), parametreAdmis);
+                String result = admissible(inscriptions.get(j).getCompteurCredit(), groupePedagogique.getParametres().getProportionAdmission());
 //                createDefaultInscription(inscriptions.get(j), result);
                 row.put("Ob", result);
                 conteneur.add(row);
@@ -203,6 +190,7 @@ public class ResultatAnnuelBean implements Serializable{
         }
         return res;
     }
+    
     
     
 }

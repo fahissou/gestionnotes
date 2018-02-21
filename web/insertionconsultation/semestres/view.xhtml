@@ -12,10 +12,9 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="viewDialogForm" styleClass="form-horizontal">
-                        <div class="modal-header">
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <!--<h3 class="modal-title">#{bundle.View}</h3>-->
-                            <h3 class="modal-title">Détails</h3>
+                            <h1>#{bundle.View}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
                             <div class="row-form clearfix">
@@ -24,7 +23,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <label class="form-control input-sm">
-                                        #{groupeEtudiantBean.selectedGroupeEtudiant.id}
+                                        #{filiereBean.selectedFiliere.id}
                                     </label>
                                 </div>
                             </div>
@@ -34,28 +33,17 @@
                                 </div>
                                 <div class="col-md-9">
                                     <label class="form-control input-sm">
-                                        #{groupeEtudiantBean.selectedGroupeEtudiant.libelle}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row-form clearfix">
-                                <div class="col-md-3">
-                                    <p:outputLabel value="#{bundle.Filiere}"/>
-                                </div>
-                                <div class="col-md-9">
-                                    <label class="form-control input-sm">
-                                        #{groupeEtudiantBean.selectedGroupeEtudiant.filiere.libelle}
+                                        #{filiereBean.selectedFiliere.libelle}
                                     </label>
                                 </div>
                             </div>
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
+                        <div class="footer tar">
                             <!--                            <button type="button" class="btn btn-success btn-xs" style="font-size: 11px;vertical-align: middle;">
                                                             <i class="i-checkmark-2 glyphicon glyphicon-ok"></i>
                             #{bundle.Action}
                         </button>-->
-                            <button type="button" class="btn btn-default  btn-xs" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-cancel-2 glyphicon glyphicon-remove"></i>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>
                         </div> <!-- /.modal-footer -->

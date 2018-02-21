@@ -6,8 +6,10 @@
 package ejb.module;
 
 import ejb.AbstractFacade;
+import ejb.administration.ProgrammerCoursFacade;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -26,6 +28,8 @@ import util.JsfUtil;
  */
 @Stateless
 public class MatiereFacade extends AbstractFacade<Matiere> {
+    @EJB
+    private ProgrammerCoursFacade programmerCoursFacade;
     @PersistenceContext(unitName = "gestionnotesPU")
     private EntityManager em;
 
@@ -55,12 +59,10 @@ public class MatiereFacade extends AbstractFacade<Matiere> {
 
     public List<Matiere> getMatiereByGroupe(GroupePedagogique groupePedagogique) {
         List<Matiere> liste;
-        int etat = 0;
         try {
-            Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.groupePedagogique =:groupePedagogique AND M.etat =:etat ORDER BY M ASC");
+            Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.groupePedagogique =:groupePedagogique ORDER BY M.libelle ASC");
             // set parameters
             query.setParameter("groupePedagogique", groupePedagogique);
-            query.setParameter("etat", etat);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
             liste = new ArrayList<>();

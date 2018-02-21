@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
 
 
@@ -11,48 +12,48 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="editDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
                         <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h1>#{bundle.Edit}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
+                            
                             <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <label class="col-md-3">#{bundle.Code}</label>
+                                <p:outputLabel for="libelle" value="#{bundle.Description}" class="col-md-3"/>
                                 <div class="col-md-9">
-                                    <label class="form-control input-sm">
-                                        #{parametresBean.selectedParametres.id}
-                                    </label>
+                                    <p:inputText id="libelle" value="#{parametresBean.selectedParametres.libelle}" required="true"/>
                                 </div>
                             </div>
                             
                             <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <!--<label class="control-label col-sm-4">#{bundle.Nom}</label>-->
                                 <p:outputLabel for="moyenneUE" value="#{bundle.moyenneUE}" class="col-md-3"/>
                                 <div class="col-md-9">
-    
                                     <p:inputText id="moyenneUE" value="#{parametresBean.selectedParametres.moyenneUE}" required="true"/>
-
                                 </div>
                             </div>
                             
                             <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <!--<label class="control-label col-sm-4">#{bundle.Nom}</label>-->
-                                <p:outputLabel for="proportionAdmission" value="#{bundle.proportionAdmission}" class="col-md-3"/>
+                                <p:outputLabel for="moyenneMat" value="#{bundle.moyenneUE}" class="col-md-3"/>
                                 <div class="col-md-9">
-    
-                                    <p:inputText id="proportionAdmission" value="#{parametresBean.selectedParametres.proportionAdmission}" required="true"/>
-
+                                    <p:inputText id="moyenneMat" value="#{parametresBean.selectedParametres.moyenneMatiere}" required="true"/>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <p:outputLabel for="admission" value="#{bundle.Admission}" class="col-md-3"/>
+                                <div class="col-md-9">
+                                    <p:inputText id="admission" value="#{parametresBean.selectedParametres.proportionAdmission}" required="true"/>
                                 </div>
                             </div>
                             
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form :ajoutListForm" actionListener="#{parametresBean.doEdit}" 
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{parametresBean.doEdit}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
-                                             class="btn btn-default" icon="i-checkmark-2">
+                                             class="btn btn-default">
                             </p:commandButton>
-                            <button type="button" class="btn btn-default  btn-xs" data-dismiss="modal" style="font-size: 11px;vertical-align: middle;">
-                                <i class="i-cancel-2"></i>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>
                         </div> <!-- /.modal-footer -->

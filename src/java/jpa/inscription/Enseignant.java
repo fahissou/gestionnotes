@@ -49,6 +49,8 @@ public class Enseignant implements Serializable {
     private Filiere filiere;
     @OneToMany(mappedBy = "enseignant")
     private List<ProgrammerCours> programmerCourss;
+    @OneToMany(mappedBy = "enseignant")
+    private List<Enseigner> enseigners;
     
 
     public Enseignant() {

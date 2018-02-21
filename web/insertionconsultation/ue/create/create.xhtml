@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:composition>
         <div class="col-md-12">
             <div class="block">
@@ -16,16 +17,32 @@
                     <p:growl id="growl" showDetail="true"/>
                     <div class="block-fluid">
                         
-                        <div class="row-form clearfix">
+                        <div class=" row-form clearfix" >
                             <div class="col-md-3">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-9" jsf:id="filiereArea">
+                                <p:selectOneMenu id="filiere" value="#{ueBean.filiere}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{ueBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                    <p:ajax listener="#{ueBean.initGroupePedagogique()}" update="groupePedagogiqueArea groupePedagogique" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3" jsf:id="groupePedagogiqueArea">
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{ueBean.groupePedagogique}" 
+                                <p:selectOneMenu id="groupePedagogique" value="#{ueBean.newUe.groupePedagogique}" 
                                                  required="true">
-                                    <p:ajax listener="#{ueBean.onGroupePedagogiqueChange()}" update="semestre" />
+                                    <p:ajax listener="#{ueBean.initSemestre()}" update="semestre"/>
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
+                                    <f:selectItems value="#{ueBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
                                                    itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
@@ -41,8 +58,8 @@
                                                  required="true">
                                     
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{ueBean.semestres}" var="itemSemestre"
-                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.libelle}"/>
+                                    <f:selectItems value="#{ueBean.listeSemestres}" var="itemSemestre"
+                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.valeur}"/>
                                     <f:converter  converterId="semestreConverter"/>
                                 </p:selectOneMenu>
                             </div>

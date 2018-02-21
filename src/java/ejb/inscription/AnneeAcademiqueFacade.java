@@ -35,10 +35,12 @@ public class AnneeAcademiqueFacade extends AbstractFacade<AnneeAcademique> {
     }
     
     public AnneeAcademique getCurrentAcademicYear(){
+        System.out.println("ok ici");
         int etat = 1;
         AnneeAcademique  anneeAcademique = null;
         try {
             Query query = em.createQuery("SELECT A FROM AnneeAcademique A WHERE A.etat = :etat");
+            
             // set parameters
             query.setParameter("etat", etat);
             anneeAcademique = (AnneeAcademique) query.getSingleResult();
@@ -57,8 +59,6 @@ public class AnneeAcademiqueFacade extends AbstractFacade<AnneeAcademique> {
             // set parameters
             query.setParameter("etat", etat);
             anneeAcademique = (AnneeAcademique) query.getSingleResult();
-            System.out.println("ici 1"+anneeAcademique.getDescription());
-            System.out.println("ici 2"+JsfUtil.nextAcademicYear(anneeAcademique.getDescription()));
             anneeAcademic.add(JsfUtil.nextAcademicYear(anneeAcademique.getDescription()));
         } catch (Exception ex) {
             

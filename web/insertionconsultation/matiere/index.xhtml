@@ -13,8 +13,8 @@
             <ui:define name="breadLine">
                 <div class="breadLine">
                     <ul class="breadcrumb">
-                    <li><a href="#">Gestion Note</a> <span class="divider">></span></li> 
-                    <li><a href="#">#{bundle.Module}</a> <span class="divider">></span></li>                
+                    <li><a href="#">Gestion des évaluations</a> <span class="divider">></span></li> 
+                    <li><a href="#">#{bundle.Insertionconsultation}</a> <span class="divider">></span></li>                
                     <li class="active">#{bundle.Matiere}</li>
                 </ul> 
                 </div>
@@ -27,6 +27,8 @@
                         <ui:include src="liste.xhtml"/>
                     </div>
                      <ui:include src="view.xhtml"/>
+                     <ui:include src="edit.xhtml"/>
+                     <ui:include src="delete.xhtml"/>
                 </div>
             </ui:define>
         </ui:composition>

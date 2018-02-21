@@ -20,45 +20,42 @@ import org.primefaces.context.RequestContext;
  */
 
 public class ParametragesBean implements Serializable{
-    @EJB
-    private EtudiantFacade etudiantFacade;
-
-    private  Etudiant etudiant;
-    private static Etudiant etudiant1;
+    
+    private static String idEtudiant;
+    private String idEtudiantTmp ;
     public ParametragesBean() {
     }
 
     @PostConstruct
     public void init() {
-        String id = "fksjk";
-        etudiant = etudiantFacade.find(id);
+         String id = "";
+         idEtudiantTmp = id;
     }
     
-    public Etudiant getEtudiant() {
-        return etudiant;
-    }
-
-    public void setEtudiant(Etudiant etudiant) {
-        this.etudiant = etudiant;
-    }
     
-    public static Etudiant getEtudiantInstance() {
-        return etudiant1;
-    }
     
     public void update(){
-        etudiant1 = etudiant;
-        System.out.println("iiii+ "+etudiant1.getNom());
+        idEtudiant = idEtudiantTmp;
         RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/rechercheravancee/'");
     } 
 
-    public static Etudiant getEtudiant1() {
-        return etudiant1;
+    public static String getIdEtudiant() {
+        return idEtudiant;
     }
 
-    public static void setEtudiant1(Etudiant etudiant1) {
-        ParametragesBean.etudiant1 = etudiant1;
+    public static void setIdEtudiant(String idEtudiant) {
+        ParametragesBean.idEtudiant = idEtudiant;
     }
+
+    public String getIdEtudiantTmp() {
+        return idEtudiantTmp;
+    }
+
+    public void setIdEtudiantTmp(String idEtudiantTmp) {
+        this.idEtudiantTmp = idEtudiantTmp;
+    }
+
+    
     
     
 }

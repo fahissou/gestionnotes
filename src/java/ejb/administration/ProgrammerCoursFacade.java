@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import jpa.administration.ProgrammerCours;
 import jpa.inscription.GroupePedagogique;
+import jpa.module.Matiere;
 import util.JsfUtil;
 
 /**
@@ -57,4 +58,16 @@ public class ProgrammerCoursFacade extends AbstractFacade<ProgrammerCours> {
         return liste;
     }
 
+    public List<Matiere> listeMatieresPC(GroupePedagogique groupePedagogique) {
+        List<Matiere> liste;
+        try {
+            Query query = em.createQuery("SELECT P.matiere FROM ProgrammerCours P WHERE P.groupePedagogique =:groupePedagogique ORDER BY P.matiere.libelle ASC");
+            // set parameters
+            query.setParameter("groupePedagogique", groupePedagogique);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            liste = new ArrayList<>();
+        }
+        return liste;
+    }
 }

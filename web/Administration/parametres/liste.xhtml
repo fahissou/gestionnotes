@@ -6,11 +6,11 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
-         <div class="col-md-12">
+        <div class="col-md-12">
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1>Liste des paramètres</h1>
+                        <h1>Liste des paramètres d'admissions </h1>
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
@@ -32,28 +32,31 @@
                                                  > 
 
                                         <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
+<!--                                        <p:column headerText="Un label"  sortBy="#{item.input1}" 
+                                                  filterBy="#{item.id}" filterMatchMode="contains"
+                                                  >
+                                            <h:outputText value=" #{item.id}" />
+                                        </p:column>-->
+                                        <p:column headerText="#{bundle.Description}"  sortBy="#{item.libelle.toUpperCase()}" filterBy="#{item.libelle.toUpperCase()}">
+                                            <h:outputText value=" #{item.libelle.toUpperCase()}" />
+                                        </p:column>
                                         <p:column headerText="#{bundle.moyenneUE}"  sortBy="#{item.moyenneUE}" filterBy="#{item.moyenneUE}">
                                             <h:outputText value=" #{item.moyenneUE}" />
                                         </p:column>
-                                        
-                                        <p:column headerText="#{bundle.moyenneMatiere}"  sortBy="#{item.proportionAdmission}" filterBy="#{item.moyenneMatiere}">
+                                        <p:column headerText="#{bundle.moyenneMatiere}"  sortBy="#{item.moyenneMatiere}" filterBy="#{item.moyenneMatiere}">
                                             <h:outputText value=" #{item.moyenneMatiere}" />
                                         </p:column>
-                                        
-                                        <p:column headerText="#{bundle.proportionAdmission}"  sortBy="#{item.proportionAdmission}" filterBy="#{item.proportionAdmission}">
-                                            <h:outputText value=" #{item.proportionAdmission}" />
+                                        <p:column headerText="#{bundle.Admission}"  sortBy="#{item.proportionAdmission}" filterBy="#{item.proportionAdmission}">
+                                            <h:outputText value=" #{item.proportionAdmission}"/>
                                         </p:column>
-                                        
-                                        
-                                        
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
-                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
+<!--                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
                                                 <f:setPropertyActionListener value="#{item}" target="#{parametresBean.selectedParametres}" />
-                                            </p:commandLink>
+                                            </p:commandLink>-->
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">

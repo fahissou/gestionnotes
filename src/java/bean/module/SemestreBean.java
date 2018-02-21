@@ -7,8 +7,6 @@ package bean.module;
 
 import ejb.module.SemestreFacade;
 import java.io.Serializable;
-import java.time.Clock;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -24,49 +22,56 @@ import util.JsfUtil;
  */
 @Named(value = "semestreBean")
 @ViewScoped
-public class SemestreBean implements Serializable{
+public class SemestreBean implements Serializable {
 
     @EJB
     private SemestreFacade semestreFacade;
+
     private Semestre newSemestre;
     private Semestre selectedSemestre;
     private List<Semestre> listeSemestres;
     private List<Semestre> filteredList;
-    private List<String> defaultSemestres;
+    private List<Integer> defaulteSemestres;
+    private int valeurSemestre;
+
     public SemestreBean() {
     }
+
     @PostConstruct
-    public void init(){
-        
-       listeSemestres = semestreFacade.findAll();
-       prepareCreate();
-       defaultSemestres = new ArrayList<>();
-       defaultSemestres.add("1");
-       defaultSemestres.add("2");
-       defaultSemestres.add("3");
-       defaultSemestres.add("4");
-       defaultSemestres.add("5");
-       defaultSemestres.add("6");
-       defaultSemestres.add("7");
-       defaultSemestres.add("8");
-       defaultSemestres.add("9");
-       defaultSemestres.add("10");
-       
+    public void init() {
+
+        listeSemestres = semestreFacade.findAll();
+        prepareCreate();
+        defaulteSemestres = JsfUtil.getListSemestre(11);
     }
+
     public void doCreate(ActionEvent event) {
         String msg;
+
         try {
-            
-            semestreFacade.create(newSemestre);
-            msg = JsfUtil.getBundleMsg("SemestreCreateSuccessMsg");
-            JsfUtil.addSuccessMessage(msg);
-            prepareCreate();
-            listeSemestres = semestreFacade.findAll();
+            newSemestre.setValeur(valeurSemestre);
+            String[] parametres = JsfUtil.getParametres(newSemestre.getValeur());
+            int ordre = Integer.parseInt(parametres[0]);
+            String libelle = parametres[1];
+            if (ordre != -1) {
+                newSemestre.setOrdre(ordre);
+                newSemestre.setLibelle(libelle);
+                semestreFacade.create(newSemestre);
+                msg = JsfUtil.getBundleMsg("SemestreCreateSuccessMsg");
+                JsfUtil.addSuccessMessage(msg);
+                prepareCreate();
+                listeSemestres = semestreFacade.findAll();
+            } else {
+                msg = JsfUtil.getBundleMsg("SemestreCreateErrorMsg");
+                JsfUtil.addErrorMessage(msg);
+            }
+
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("SemestreCreateErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
     }
+
     public void doEdit(ActionEvent event) {
         String msg;
         try {
@@ -80,6 +85,7 @@ public class SemestreBean implements Serializable{
             JsfUtil.addErrorMessage(msg);
         }
     }
+
     public void doDel(ActionEvent event) {
         String msg;
         try {
@@ -126,20 +132,28 @@ public class SemestreBean implements Serializable{
         this.filteredList = filteredList;
     }
 
-    public List<String> getDefaultSemestres() {
-        return defaultSemestres;
+    public List<Integer> getDefaulteSemestres() {
+        return defaulteSemestres;
     }
 
-    public void setDefaultSemestres(List<String> defaultSemestres) {
-        this.defaultSemestres = defaultSemestres;
+    public void setDefaulteSemestres(List<Integer> defaulteSemestres) {
+        this.defaulteSemestres = defaulteSemestres;
     }
 
-    
-    public void prepareCreate(){
+    public int getValeurSemestre() {
+        return valeurSemestre;
+    }
+
+    public void setValeurSemestre(int valeurSemestre) {
+        this.valeurSemestre = valeurSemestre;
+    }
+
+    public void prepareCreate() {
         newSemestre = new Semestre();
     }
-    public void reset(){
+
+    public void reset() {
         newSemestre.reset();
     }
-    
+
 }

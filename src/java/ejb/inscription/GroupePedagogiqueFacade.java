@@ -44,7 +44,7 @@ public class GroupePedagogiqueFacade extends AbstractFacade<GroupePedagogique> {
         super.create(groupePedagogique);
     }
 
-   public List<GroupePedagogique> getListGpByFilire(Filiere filiere) {
+    public List<GroupePedagogique> getListGpByFilire(Filiere filiere) {
         List<GroupePedagogique> liste;
         try {
             Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.filiere = :filiere");
@@ -55,17 +55,37 @@ public class GroupePedagogiqueFacade extends AbstractFacade<GroupePedagogique> {
         }
         return liste;
     }
-    
-    public  GroupePedagogique getGroupePedagogique(String groupeP){
-         
-        Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.description = :groupeP");
-        query.setParameter("groupeP", groupeP);
+
+    public GroupePedagogique getGroupePedagogique(GroupePedagogique groupeP) {
+        String idGP = groupeP.getId();
+        Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.id = :idGP");
+        query.setParameter("idGP", idGP);
         try {
-             return (GroupePedagogique) query.getSingleResult();
+            return (GroupePedagogique) query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {
             return null;
         }
- 
+
+    }
+
+    public GroupePedagogique getPrevGroupePedagogique(GroupePedagogique groupeP, Filiere filiere) {
+        
+        String idFiliere = filiere.getId();
+        int order = groupeP.getOrdre() - 1;
+        GroupePedagogique groupePedagogique = null;
+        if (order == 0) {
+            groupePedagogique = groupeP;
+        } else {
+            try {
+                Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.ordre = :order AND G.filiere.id = :idFiliere");
+                query.setParameter("order", order);
+                query.setParameter("idFiliere", idFiliere);
+                groupePedagogique = (GroupePedagogique) query.getSingleResult();
+            } catch (NoResultException | NonUniqueResultException e) {
+                 groupePedagogique = new GroupePedagogique();
+            }
+        }
+        return groupePedagogique;
     }
 
 }
