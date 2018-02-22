@@ -316,10 +316,10 @@ button.close{
 /*ul.nav.nav-pills li a:first-child{
     background: yellowgreen!important;
 }*/
-.col-md-4{
+/*.col-md-4{
     width: 45%!important;
     left: 165px!important;
-}
+}*/
 .ui-growl-info{
     color: #3A87AD;
     background-color: #D9EDF7;
@@ -337,7 +337,7 @@ button.close{
     border-left: 1px solid #335A85;
     width:auto;
     float: right;
-    
+
 }
 /*.menu .navigation li:hover, .menu .navigation li.active {
     border-color: #143D6B;
@@ -351,6 +351,12 @@ button.close{
 .ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal{
     border: 1px solid;
     margin: 0px 16px!important;
+    margin-left: 0px!important;
+    padding: 0px 1px!important;
+}
+#formeEx .ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal{
+    border: 1px solid;
+    margin: 0px 1px!important;
     margin-left: 0px!important;
     padding: 0px 1px!important;
 }
@@ -398,29 +404,53 @@ div.block_loading {
 
 .icon-spinner:before {
     /*background: url('images/loaders/c_loader_bw.gif.xhtml');*/
-	content: "\e031";
-        /*\e030*/
+    content: "\e031";
+    /*\e030*/
 }
 
 @keyframes anim-rotate {
-	0% {
-		transform: rotate(0);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .spinner {
-	display: inline-block;
-	font-size:2em;
-	height: 1em;
-	line-height: 1;
-	margin: 20px;
-	animation: anim-rotate 2s infinite linear;
-	color: #fff;
-	text-shadow: 0 0 .25em rgba(255,255,255, .3);
+    display: inline-block;
+    font-size:2em;
+    height: 1em;
+    line-height: 1;
+    margin: 20px;
+    animation: anim-rotate 2s infinite linear;
+    color: #fff;
+    text-shadow: 0 0 .25em rgba(255,255,255, .3);
 }
 .spinner--steps {
-	animation: anim-rotate 1s infinite steps(8);
+    animation: anim-rotate 1s infinite steps(8);
+}
+
+.col-md-4, .col-md-8{
+    /*    padding-right: 0px;
+        padding-left: 0px;*/
+    margin-left: 132px;
+}
+.header .header_menu{
+    width: 258px!important;
+}
+.header .header_menu li a{
+    margin: 2px!important;
+    padding: 1px!important;
+    color: #fff!important;
+    font-size: 12px!important;
+}
+a.link_bcPopupList {
+    width: 86px!important;
+}
+a.link_bcPopupSearch{
+    width: 84px!important;
+}
+.glyphicon{
+    margin: 2px;
 }

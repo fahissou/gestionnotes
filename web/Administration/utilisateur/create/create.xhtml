@@ -7,15 +7,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>    
-        <div class="row">
             <div class="col-md-12">
 
                 <div class="block">
                     <div class="head clearfix">
                         <div class="isw-documents"></div>
-                        <h1>#{bundle.listeUtilisateurs}</h1>
+                        <h1>#{bundle.AjoutUtilisateur}</h1>
                     </div>
                     <h:form id="formeEx" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
                         <div class="block-fluid">                                        
 
                             <div class=" row-form clearfix">
@@ -23,21 +23,23 @@
                                     <p:outputLabel for="login" value="#{bundle.UserLogin}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:inputText id="login" value="#{utilisateurBean.newUtilisateur.login}" required="true" placeholder="#{bundle.UserLogin}" requiredMessage="obligatoire"
+                                    <p:inputText id="login" value="#{utilisateurBean.newUtilisateur.login}" required="true" placeholder="#{bundle.UserLogin}" requiredMessage="#{bundle.ChampObligatoire}"
                                                  validator="#{utilisateurBean.loginExiste}">
-                                        <f:ajax event="blur" render="loginMessage" />
-                                        
+                                        <f:ajax event="blur" render="loginMessage" />                                        
                                     </p:inputText>
                                     <p:message  id="loginMessage" for="login"/>
                                 </div>
                             </div>
 
-<!--                            <div class="row-form clearfix">
+                            <div class="row-form clearfix">
                                 <div class="col-md-3">
                                     <p:outputLabel for="nom" value="#{bundle.Nom}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:inputText id="nom" value="#{utilisateurBean.newUtilisateur.nom}" required="true" placeholder="#{bundle.Nom}"/>
+                                    <p:inputText id="nom" value="#{utilisateurBean.newUtilisateur.nom}" required="true" placeholder="#{bundle.Nom}" requiredMessage="#{bundle.ChampObligatoire}">
+                                                 <f:ajax event="blur" render="nomMessage" />                            
+                                    </p:inputText>
+                                    <p:message  id="nomMessage" for="nom"/>
                                 </div>
 
                             </div>
@@ -47,7 +49,10 @@
                                     <p:outputLabel for="prenom" value="#{bundle.Prenoms}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:inputText id="prenom" value="#{utilisateurBean.newUtilisateur.prenom}" required="true" placeholder="#{bundle.Prenoms}"/>
+                                    <p:inputText id="prenom" value="#{utilisateurBean.newUtilisateur.prenom}" required="true" placeholder="#{bundle.Prenoms}" requiredMessage="#{bundle.ChampObligatoire}">
+                                                <f:ajax event="blur" render="prenomMessage" />                            
+                                    </p:inputText>
+                                    <p:message  id="prenomMessage" for="prenom"/>
                                 </div>
                             </div>
 
@@ -56,44 +61,28 @@
                                     <p:outputLabel for="telephone" value="#{bundle.Telephone}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:inputText id="telephone" value="#{utilisateurBean.newUtilisateur.telephone}" required="true" placeholder="#{bundle.Telephone}"/>
+                                    <p:inputText id="telephone" value="#{utilisateurBean.newUtilisateur.telephone}" required="true" placeholder="#{bundle.Telephone}" requiredMessage="#{bundle.ChampObligatoire}" validatorMessage="#{bundle.FormatIncorrecte}">
+                                        <f:validateRegex pattern="^([+]?[\d]{8,13}+)?$" />
+                                        <f:ajax event="blur" render="telephoneMessage" />                            
+                                    </p:inputText>
+                                    <p:message  id="telephoneMessage" for="telephone"/>
                                 </div>
                             </div>
 
                             <div class="row-form clearfix">
                                 <div class="col-md-3">
-                                    <p:outputLabel for="adresse" value="#{bundle.Adresse}"/>
+                                    <p:outputLabel for="adresse" value="#{bundle.Email}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:inputText id="adresse" value="#{utilisateurBean.newUtilisateur.adresse}" required="true" placeholder="#{bundle.Adresse}"/>
+                                    <p:inputText id="adresse" value="#{utilisateurBean.newUtilisateur.mail}" required="true" placeholder="#{bundle.Adresse}" requiredMessage="#{bundle.ChampObligatoire}" validatorMessage="#{bundle.FormatIncorrecte}">
+                                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                        <f:ajax event="blur" render="adresseMessage" />                            
+                                    </p:inputText>
+                                    <p:message  id="adresseMessage" for="adresse"/>
                                 </div>
                             </div>
-
-                            <div class="row-form clearfix">
-                                <div class="col-md-3">
-                                    <p:outputLabel 
-                                        value="#{bundle.DateNaissance}" for="dateNaiss"/>
-                                </div>
-                                <div class="col-md-9">
-                                    <p:calendar id="dateNaiss" required="false" placeholder="Date"
-                                                value="#{utilisateurBean.newUtilisateur.dateNaissance}" pattern="dd/MM/yyyy"
-                                                navigator="true" showOn="button"/>
-                                </div>
-                            </div>
-
-                            <div class="row-form clearfix">
-                                <div class="col-md-3">
-                                    <p:outputLabel value="#{bundle.Genre}" for="genre"/>
-                                </div>
-                                <div class="col-md-9">
-                                    <p:selectOneRadio id="genre" value="#{utilisateurBean.newUtilisateur.genre}" layout="grid" columns="2" required="true">
-                                        <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
-                                        <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
-                                    </p:selectOneRadio>
-                                </div>
-                            </div>-->
                             
-                            <div class="row-form clearfix">
+<!--                            <div class="row-form clearfix">
                                 <div class="col-md-3">
                                     <p:outputLabel value="#{bundle.Responsabilite}" for="responsabilite"/>
                                 </div>
@@ -104,7 +93,7 @@
                                         <f:selectItem itemLabel="#{bundle.Dr}" itemValue="Dr"/>
                                     </p:selectOneRadio>
                                 </div>
-                            </div>
+                            </div>-->
 
 
 
@@ -115,19 +104,21 @@
                                 </div>
                                 <div class="col-md-9">
                                     <p:selectOneMenu id="groupe" value="#{utilisateurBean.newUtilisateur.groupe}" 
-                                                     required="false">
+                                                     required="true" requiredMessage="#{bundle.ChampObligatoire}">
                                         <f:selectItem itemValue="#{null}" itemLabel="selection"/>
                                         <f:selectItems value="#{groupeBean.listeGroupes}"
                                                        var="groupeItem"
                                                        itemValue="#{groupeItem}"
                                                        itemLabel="#{groupeItem.libelle.toUpperCase()}"/>
                                         <f:converter  converterId="groupeConverter"/>
+                                        <f:ajax event="blur" render="groupeMessage" />                            
                                     </p:selectOneMenu>
+                                    <p:message  id="groupeMessage" for="groupe"/>
                                 </div>
                             </div>
 
                             <div class="footer tar">
-                                <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{utilisateurBean.doCreate}" 
+                                <p:commandButton value="Valider" update="@form growl" actionListener="#{utilisateurBean.doCreate}" 
                                                  oncomplete="updateGritter(xhr);" 
                                                  class="btn btn-default"/>
 
@@ -142,9 +133,6 @@
                 </div>
 
             </div>
-
-        </div> 
-
 
     </ui:composition>
 </html>

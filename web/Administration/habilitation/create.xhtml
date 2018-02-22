@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+
+        <div id="createDialog" class="modal fade" data-backdrop="true" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h:form id="createDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
+                        <div class="head clearfix">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h1>#{bundle.AjoutHabilitation}</h1>
+                        </div> <!-- /.modal-header -->
+                        <div class="modal-body">
+                            
+                                <div class="clearfix control">
+                                    <div class="col-md-3">
+                                        <p:outputLabel for="utilisateur" value="#{bundle.utilisateur}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h:selectOneMenu id="utilisateur" value="#{habilitationBean.newHabilitation.utilisateur}" 
+                                                     required="true" styleClass="form-control input-sm">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{utilisateurBean.listeUtilisateurs}"
+                                                       var="utilisateurItem"
+                                                       itemValue="#{utilisateurItem}"
+                                                       itemLabel="#{utilisateurItem.nom} #{utilisateurItem.prenom}"/>
+                                        <f:converter converterId="utilisateurConverter" />
+                                    </h:selectOneMenu>
+                                    </div>
+                                </div>
+                            
+                            
+                            <div class="clearfix control">
+                                    <div class="col-md-3">
+                                        <p:outputLabel for="groupe" value="#{bundle.groupe}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h:selectOneMenu id="groupe" value="#{habilitationBean.newHabilitation.groupeUtilisateur}" 
+                                                 required="true" styleClass="form-control input-sm">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{groupeBean.listeGroupes}"
+                                                   var="groupeItem"
+                                                   itemValue="#{groupeItem}"
+                                                   itemLabel="#{groupeItem.libelle}"/>
+                                    <f:converter converterId="groupeConverter" />
+                                </h:selectOneMenu>
+                                    </div>
+                                </div>
+                            
+
+                        </div> <!-- /.modal-body -->
+                        <div class="footer tar">
+                            <p:commandButton value="#{bundle.Enable}" update="@form :ajoutListForm growl" actionListener="#{habilitationBean.doCreate}" 
+                                             oncomplete="updateGritter(xhr);$('#createDialog').modal('hide');" style="padding: 0;"
+                                             class="btn btn-default"/>
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="padding: 2px 6px;">
+                                #{bundle.Close}
+                            </button>                  
+                        </div> <!-- /.modal-footer --> 
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+
+</html>

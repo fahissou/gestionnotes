@@ -6,9 +6,43 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
-         <div class="col-md-12">
+        <h:form id="ajoutListForm" styleClass="form-horizontal">
+<!--            <div class="col-md-4">
+                <div class="block">
+                    <div class="head clearfix">
+                        <div class="isw-documents"></div>
+                        <h1>#{bundle.AjoutFiliere}</h1>
+                    </div>
+                    <p:growl id="growl" showDetail="true"/>
+                    <div class="block-fluid">
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="libelle" value="#{bundle.Descripetion}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="libelle" value="#{filiereBean.newFiliere.libelle}" placeholder="#{bundle.Description}"
+                                             styleClass="form-control input-sm"/>
+                            </div>
+                        </div>
+
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form growl" actionListener="" 
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default">
+                            </p:commandButton>
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>                                        
+                </div>
+            </div>-->
+         <div class="col-md-8">
             <div class="block">
-                <h:form id="ajoutListForm" styleClass="form-horizontal">
+                
                     <div class="head clearfix enteteTable">
                         <h1>Liste des filières</h1>
                     </div>
@@ -36,13 +70,13 @@
                                             <h:outputText value=" #{item.libelle}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
-                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
+<!--                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
                                                 <f:setPropertyActionListener value="#{item}" target="#{filiereBean.selectedFiliere}" />
-                                            </p:commandLink>
+                                            </p:commandLink>-->
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
@@ -60,9 +94,10 @@
 
                                 </div>
                     
-                </h:form>
+                
             </div>
         </div>
+            </h:form>
     </ui:composition>
 </html>
 

@@ -14,10 +14,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import jpa.inscription.EnumGenre;
-
 /**
  *
  * @author AHISSOU Florent
@@ -33,19 +32,16 @@ public class Utilisateur implements Serializable {
     private String oldPassword;
     private String telephone;
     @Enumerated(EnumType.STRING)
-    private EnumGenre genre;
-    @Enumerated(EnumType.STRING)
     private EnumResponsabilite responsabilite;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
-    private String adresse;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateNaissance;
     @ManyToOne
     private Groupe groupe;
     private String compteurMessage;
     @OneToMany(mappedBy = "utilisateur")
     private List<Notification> messages;
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Habilitation> habilitations;
 
     public Groupe getGroupe() {
         return groupe;
@@ -114,13 +110,6 @@ public class Utilisateur implements Serializable {
         this.telephone = telephone;
     }
 
-    public EnumGenre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(EnumGenre genre) {
-        this.genre = genre;
-    }
 
     public EnumResponsabilite getResponsabilite() {
         return responsabilite;
@@ -138,22 +127,14 @@ public class Utilisateur implements Serializable {
         this.dateCreation = dateCreation;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public List<Habilitation> getHabilitations() {
+        return habilitations;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setHabilitations(List<Habilitation> habilitations) {
+        this.habilitations = habilitations;
     }
-
-    public Date getDateNaissance() {
-        return dateNaissance;
-    }
-
-    public void setDateNaissance(Date dateNaissance) {
-        this.dateNaissance = dateNaissance;
-    }
-
+    
     public String getCompteurMessage() {
         return compteurMessage;
     }
@@ -169,7 +150,10 @@ public class Utilisateur implements Serializable {
     public void setMessages(List<Notification> messages) {
         this.messages = messages;
     }
-    
+    @PrePersist
+    public void initDateCreation() {
+        dateCreation = new Date();
+    }
     @Override
     public int hashCode() {
         int hash = 0;
@@ -192,10 +176,8 @@ public class Utilisateur implements Serializable {
         nom = null;
         prenom = null;
         telephone=null;
-        adresse=null; 
         mail=null;
         password=null;
-        genre=null;
     }
     
     

@@ -11,7 +11,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="delDialogForm" styleClass="form-horizontal">
-                        <p:growl id="growl" showDetail="true" life="1500"/>
+                        <p:growl id="growl" showDetail="true"/>
                         <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h1>#{bundle.Delete}</h1>
@@ -20,16 +20,16 @@
                             <div class="row">
                               
                                     <div class="form-group row" style="margin-bottom: 3px!important; padding-left: 10px;">
-                                        #{bundle.GroupeConfirmDel}
+                                        #{bundle.HabilitationConfirmDel}
                                         <span class="text-bold">
-                                            #{groupeBean.selectedGroupe.libelle}
+                                            #{habilitationBean.selectedHabilitation.utilisateur.login}
                                         </span>?
                                     </div>
                                
                             </div>
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="#{bundle.Yes}" update="@form :ajoutListForm growl" actionListener="#{groupeBean.doDel}" 
+                            <p:commandButton value="#{bundle.Yes}" update="@form :ajoutListForm growl" actionListener="#{habilitationBean.doDel}" 
                                              oncomplete="$('#delDialog').modal('hide');" style="padding: 0;"
                                              class="btn btn-default"/>
 

@@ -18,11 +18,35 @@
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">
+                                <p:outputLabel for="utilisateur" value="#{bundle.utilisateur}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="utilisateur" value="#{habilitationBean.newHabilitation.utilisateur}" 
+                                                 required="false">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{utilisateurBean.listeUtilisateurs}"
+                                                   var="utilisateurItem"
+                                                   itemValue="#{utilisateurItem}"
+                                                   itemLabel="#{utilisateurItem.nom} #{utilisateurItem.prenom}"/>
+                                    <f:converter converterId="utilisateurConverter" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
                                 <p:outputLabel for="groupe" value="#{bundle.groupe}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:inputText id="groupe" value="#{groupeBean.newGroupe.libelle}" placeholder="#{bundle.Description}"
-                                             styleClass="form-control input-sm"/>
+                                <p:selectOneMenu id="groupe" value="#{habilitationBean.newHabilitation.groupeUtilisateur}" 
+                                                 required="false">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{groupeBean.listeGroupes}"
+                                                   var="groupeItem"
+                                                   itemValue="#{groupeItem}"
+                                                   itemLabel="#{groupeItem.libelle}"/>
+                                    <f:converter converterId="groupeConverter" />
+                                </p:selectOneMenu>
                             </div>
                         </div>
 
@@ -45,45 +69,45 @@
 
                 <div class="block">
                     <div class="head clearfix enteteTable">
-                        <h1>Liste des groupes</h1>
+                        <h1>#{bundle.HabilitaionListe}</h1>
                     </div>
 
                     <div class="content np block-fluid table-sorting clearfix">
                         <p:dataTable id="incarcerationTable" var="item"
-                                     selection="#{groupeBean.selectedGroupe}"
-                                     value="#{groupeBean.listeGroupes}"
+                                     selection="#{habilitationBean.selectedHabilitation}"
+                                     value="#{habilitationBean.listeHabilitations}"
                                      emptyMessage="#{bundle.EmptyListMsg}"
                                      rowKey="#{item.id}"
                                      paginator="true"
                                      rows="10"
                                      rowsPerPageTemplate="10,20,30"
                                      sortMode="multiple"
-                                     filteredValue="#{groupeBean.filteredList}"
+                                     filteredValue="#{habilitationBean.filteredList}"
                                      currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
                                      pageLinks="5"
                                      rowIndexVar="rowIndex"
                                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
                                      {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
                                      > 
-                            <p:column headerText="#{bundle.Code}"  sortBy="#{item.id}" filterBy="#{item.id}">
-                                <h:outputText value=" #{item.id}" />
-                            </p:column>
 
-                            <p:column headerText="#{bundle.Libelle}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
-                                <h:outputText value=" #{item.libelle}" />
+                            <p:column headerText="#{bundle.utilisateur}"  sortBy="#{item.utilisateur}" filterBy="#{item.utilisateur}">
+                                <h:outputText value=" #{item.utilisateur.login}" />
+                            </p:column>
+                            <p:column headerText="#{bundle.groupe}"  sortBy="#{item.groupeUtilisateur}" filterBy="#{item.groupeUtilisateur}">
+                                <h:outputText value=" #{item.groupeUtilisateur.libelle}" />
                             </p:column>
                             <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                 <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-pencil glyphicon glyphicon-pencil"/>
-                                    <f:setPropertyActionListener value="#{item}" target="#{groupeBean.selectedGroupe}" />
+                                    <f:setPropertyActionListener value="#{item}" target="#{habilitationBean.selectedHabilitation}" />
                                 </p:commandLink>
                                 <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-trashcan glyphicon glyphicon-trash"/>
-                                    <f:setPropertyActionListener value="#{item}" target="#{groupeBean.selectedGroupe}" />
+                                    <f:setPropertyActionListener value="#{item}" target="#{habilitationBean.selectedHabilitation}" />
                                 </p:commandLink>
                             </p:column>
                         </p:dataTable>

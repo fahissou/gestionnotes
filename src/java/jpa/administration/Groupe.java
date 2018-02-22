@@ -23,6 +23,8 @@ public class Groupe implements Serializable {
     private Date dateCreation;
     @OneToMany(mappedBy = "groupe")
     private List<Utilisateur> utilisateurs;
+    @OneToMany(mappedBy = "groupeUtilisateur")
+    private List<Habilitation> habilitations;
 
     public String getLibelle() {
         return libelle;

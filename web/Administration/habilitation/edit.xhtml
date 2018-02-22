@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
 
 
@@ -17,18 +18,27 @@
                             <h1>#{bundle.Edit}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
-                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <!--<label class="control-label col-sm-4">#{bundle.Nom}</label>-->
-                                <p:outputLabel for="libelle" value="#{bundle.Nom}" class="col-md-3"/>
+                            <div class="clearfix control">
+                                
+                                <div class="col-md-3">
+                                    <p:outputLabel for="groupe" class="input-desc" value="#{bundle.Groupe}" />
+                                </div>                                
                                 <div class="col-md-9">
-    
-                                    <p:inputText id="libelle" value="#{groupeBean.selectedGroupe.libelle}" required="true"/>
-
+                                    <h:selectOneMenu id="groupe" value="#{habilitationBean.selectedHabilitation.groupeUtilisateur}" 
+                                                 required="false" styleClass="form-control input-sm">
+                                                <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                                <f:selectItems value="#{groupeBean.listeGroupes}"
+                                                               var="groupeItem"
+                                                               itemValue="#{groupeItem}"
+                                                               itemLabel="#{groupeItem.libelle.toUpperCase()}"/>
+                                                <f:converter  converterId="groupeConverter"/>
+                                </h:selectOneMenu>
                                 </div>
+                                
                             </div>
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{groupeBean.doEdit}" 
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{habilitationBean.doEdit}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
                                              class="btn btn-default">
                             </p:commandButton>
