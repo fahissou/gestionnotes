@@ -6,14 +6,18 @@
 package ejb.inscription;
 
 import ejb.AbstractFacade;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import jpa.formation.Filiere;
 import jpa.inscription.Enseignant;
 import jpa.inscription.GroupePedagogique;
+import jpa.inscription.Specialite;
 
 /**
  *
@@ -43,6 +47,32 @@ public class EnseignantFacade extends AbstractFacade<Enseignant> {
             enseignant = new Enseignant();
         }
         return enseignant;
+    }
+    
+    public List<Enseignant> findEnseignantBySpecialite(Specialite specialite) {
+        List<Enseignant> liste;
+        String idSpecialite = specialite.getId();
+        try {
+            Query query = em.createQuery("SELECT E FROM Enseignant E WHERE E.specialite.id = :idSpecialite");
+            query.setParameter("idSpecialite", idSpecialite);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            liste = new ArrayList<>();
+        }
+        return liste;
+    }
+    
+    public List<Enseignant> findAllEnseignantResponsa() {
+        List<Enseignant> liste;
+        String reponsabilite = "AUCUNE";
+        try {
+            Query query = em.createQuery("SELECT E FROM Enseignant E WHERE E.responsabilite != :reponsabilite");
+            query.setParameter("reponsabilite", reponsabilite);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            liste = new ArrayList<>();
+        }
+        return liste;
     }
     
     

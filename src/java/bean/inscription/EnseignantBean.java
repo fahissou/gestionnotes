@@ -45,16 +45,10 @@ public class EnseignantBean implements Serializable{
         listeEnseignants = enseignantFacade.findAll();
         prepareCreate();
         // liste des responsabilites
-        listeResponsabilite = new ArrayList<>();
-        listeResponsabilite.add("Directeur");
-        listeResponsabilite.add("Directeur Adjoint");
-        listeResponsabilite.add("Responsable de Formation");
-        listeResponsabilite.add("Aucune");
+        listeResponsabilite = JsfUtil.getResponsabilite();
         // liste des grades 
-        listeGrade = new ArrayList<>();
-        listeGrade.add("Professeur");
-        listeGrade.add("Docteur");
-        listeGrade.add("Ingénieur");
+        listeGrade = JsfUtil.getGradeEnseignant();
+       
     }  
 
     public void doCreate(ActionEvent event) {

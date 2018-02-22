@@ -5,7 +5,14 @@
  */
 package bean.inscription;
 
+import ejb.formation.FiliereFacade;
+import ejb.inscription.EnseignantFacade;
 import ejb.inscription.EnseignerFacade;
+import ejb.inscription.GroupePedagogiqueFacade;
+import ejb.inscription.SpecialiteFacade;
+import ejb.module.MatiereFacade;
+import ejb.module.SemestreFacade;
+import ejb.module.UeFacade;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -13,7 +20,14 @@ import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import jpa.formation.Filiere;
+import jpa.inscription.Enseignant;
 import jpa.inscription.Enseigner;
+import jpa.inscription.GroupePedagogique;
+import jpa.inscription.Specialite;
+import jpa.module.Matiere;
+import jpa.module.Semestre;
+import jpa.module.Ue;
 import util.JsfUtil;
 
 /**
@@ -24,13 +38,40 @@ import util.JsfUtil;
 @Named(value = "enseignerBean")
 public class EnseignerBean implements Serializable{
     @EJB
+    private UeFacade ueFacade;
+    @EJB
+    private SpecialiteFacade specialiteFacade;
+    @EJB
+    private MatiereFacade matiereFacade;
+    @EJB
+    private SemestreFacade semestreFacade;
+    @EJB
+    private GroupePedagogiqueFacade groupePedagogiqueFacade;
+    @EJB
+    private FiliereFacade filiereFacade;
+    @EJB
+    private EnseignantFacade enseignantFacade;
+    @EJB
     private EnseignerFacade enseignerFacade;
+    
     private Enseigner selectedEnseigner;
     private Enseigner newEnseigner;
     private List<Enseigner> listeEnseigners;
     private List<Enseigner> filteredList;
-    private List<String> listeResponsabilite;
-    private List<String> listeGrade;
+    private List<Semestre> listeSemestres;
+    private Semestre semestre;
+    private GroupePedagogique groupePedagogique;
+    private List<GroupePedagogique> listeGroupePedagogiques;
+    private List<Filiere> listeFilieres;
+    private Filiere filiere;
+    private List<Ue> listeUE;
+    private Ue ue;
+    private Matiere matiere;
+    private List<Matiere> listeMatieres;
+    private List<Enseignant> listeEnseignants;
+    private Specialite specialite;
+    private List<Specialite> listeSpecialites;
+    
 
     /**
      * Creates a new instance of EnseignerBean
@@ -42,6 +83,27 @@ public class EnseignerBean implements Serializable{
     public void init(){
         listeEnseigners = enseignerFacade.findAll();
         prepareCreate();
+        
+    }
+    
+    public void initGroupePedagogique(){
+        listeGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(filiere);
+    }
+    
+    public void initSemestre() {
+        listeSemestres = semestreFacade.getSemetreByGP(groupePedagogique);
+    }
+    
+    public void initUe() {
+        listeUE = ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre);
+    }
+    
+    public void initMatiere() {
+        listeMatieres = matiereFacade.getMatiereByUe(ue);
+    }
+    
+    public void initEnseignant() {
+        listeEnseignants = enseignantFacade.findEnseignantBySpecialite(specialite);
     }
     
     public void doCreate(ActionEvent event) {
@@ -116,21 +178,110 @@ public class EnseignerBean implements Serializable{
         this.filteredList = filteredList;
     }
 
-    public List<String> getListeResponsabilite() {
-        return listeResponsabilite;
+    public List<Semestre> getListeSemestres() {
+        return listeSemestres;
     }
 
-    public void setListeResponsabilite(List<String> listeResponsabilite) {
-        this.listeResponsabilite = listeResponsabilite;
+    public void setListeSemestres(List<Semestre> listeSemestres) {
+        this.listeSemestres = listeSemestres;
     }
 
-    public List<String> getListeGrade() {
-        return listeGrade;
+    public Semestre getSemestre() {
+        return semestre;
     }
 
-    public void setListeGrade(List<String> listeGrade) {
-        this.listeGrade = listeGrade;
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
     }
+
+    public GroupePedagogique getGroupePedagogique() {
+        return groupePedagogique;
+    }
+
+    public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
+        this.groupePedagogique = groupePedagogique;
+    }
+
+    public List<GroupePedagogique> getListeGroupePedagogiques() {
+        return listeGroupePedagogiques;
+    }
+
+    public void setListeGroupePedagogiques(List<GroupePedagogique> listeGroupePedagogiques) {
+        this.listeGroupePedagogiques = listeGroupePedagogiques;
+    }
+
+    public List<Filiere> getListeFilieres() {
+        return listeFilieres;
+    }
+
+    public void setListeFilieres(List<Filiere> listeFilieres) {
+        this.listeFilieres = listeFilieres;
+    }
+
+    public Filiere getFiliere() {
+        return filiere;
+    }
+
+    public void setFiliere(Filiere filiere) {
+        this.filiere = filiere;
+    }
+
+    public List<Ue> getListeUE() {
+        return listeUE;
+    }
+
+    public void setListeUE(List<Ue> listeUE) {
+        this.listeUE = listeUE;
+    }
+
+    public Ue getUe() {
+        return ue;
+    }
+
+    public void setUe(Ue ue) {
+        this.ue = ue;
+    }
+
+    public Matiere getMatiere() {
+        return matiere;
+    }
+
+    public void setMatiere(Matiere matiere) {
+        this.matiere = matiere;
+    }
+
+    public List<Matiere> getListeMatieres() {
+        return listeMatieres;
+    }
+
+    public void setListeMatieres(List<Matiere> listeMatieres) {
+        this.listeMatieres = listeMatieres;
+    }
+
+    public List<Enseignant> getListeEnseignants() {
+        return listeEnseignants;
+    }
+
+    public void setListeEnseignants(List<Enseignant> listeEnseignants) {
+        this.listeEnseignants = listeEnseignants;
+    }
+
+    public Specialite getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(Specialite specialite) {
+        this.specialite = specialite;
+    }
+
+    public List<Specialite> getListeSpecialites() {
+        return listeSpecialites;
+    }
+
+    public void setListeSpecialites(List<Specialite> listeSpecialites) {
+        this.listeSpecialites = listeSpecialites;
+    }
+
     
     public void prepareCreate(){
         newEnseigner = new Enseigner();

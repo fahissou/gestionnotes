@@ -1364,4 +1364,58 @@ public class JsfUtil {
         return tab; 
     }
     
+    public static boolean compareDate(Date date1, Date date2) {
+        int j1 = date1.getDate();
+        int m1 = date1.getMonth()+1;
+        int a1 = date1.getYear()+1900;
+        int j2 = date2.getDate();
+        int m2 = date2.getMonth()+1;
+        int a2 = date2.getYear()+1900;
+        boolean bool;
+        if(a2 > a1) {
+            bool = true;
+        }else if(a1 == a2) {
+            if(m2 > m1) {
+                bool = true;
+            }else if(m2 == m1) {
+                if(j2 > j1) {
+                    bool = true;
+                }else{
+                    bool = false;
+                }
+            }else{
+                bool = false;
+            }
+        }else{
+            bool = false;
+        }
+        
+        return bool;
+    }
+    
+    public static String getLabelGradeEnseignant(String grade) {
+        Map<String,String> map = new HashMap<>();
+        map.put("DOCTEUR", "Dr :");
+        map.put("PROFESSEUR", "Prof :");
+        map.put("INGENIEUR", "Ing :");
+        return map.get(grade);
+    }
+    
+    public static List<String> getGradeEnseignant() {
+        List<String> listeGrade = new ArrayList<>();
+        listeGrade.add("PROFESSEUR");
+        listeGrade.add("DOCTEUR");
+        listeGrade.add("INGENIEUR");
+        return listeGrade;
+    }
+    
+    public static List<String> getResponsabilite() {
+        List<String> listeResponsabilite = new ArrayList<>();
+        listeResponsabilite.add("DIRECTEUR");
+        listeResponsabilite.add("DIRECTEUR AJOINT");
+        listeResponsabilite.add("RESPONSABLE DE FORMATION");
+        listeResponsabilite.add("AUCUNE");
+        return listeResponsabilite;
+    }
+    
 }

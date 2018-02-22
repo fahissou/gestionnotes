@@ -51,6 +51,8 @@ public class Enseignant implements Serializable {
     private List<ProgrammerCours> programmerCourss;
     @OneToMany(mappedBy = "enseignant")
     private List<Enseigner> enseigners;
+    @ManyToOne
+    private Specialite specialite;
     
 
     public Enseignant() {
@@ -167,6 +169,22 @@ public class Enseignant implements Serializable {
     public void setProgrammerCourss(List<ProgrammerCours> programmerCourss) {
         this.programmerCourss = programmerCourss;
     }
+
+    public List<Enseigner> getEnseigners() {
+        return enseigners;
+    }
+
+    public void setEnseigners(List<Enseigner> enseigners) {
+        this.enseigners = enseigners;
+    }
+
+    public Specialite getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(Specialite specialite) {
+        this.specialite = specialite;
+    }
     
 
 //    public List<AnneeAcademique> getAnneeAcademiques() {
@@ -221,6 +239,7 @@ public class Enseignant implements Serializable {
         mail = null;
         password = null;
         genre = null;
+        specialite = null;
     }
     
     

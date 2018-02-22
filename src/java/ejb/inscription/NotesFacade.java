@@ -10,7 +10,6 @@ import javax.persistence.Query;
 import jpa.inscription.AnneeAcademique;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
-import jpa.inscription.Inscription_;
 import jpa.inscription.Notes;
 import jpa.module.Matiere;
 import jpa.module.Semestre;

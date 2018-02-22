@@ -48,8 +48,8 @@
                                 <h:outputText value=" #{item.login}"/>
                             </p:column>
 
-                            <p:column headerText="#{bundle.Nom}"  sortBy="#{item.nom}" filterBy="#{item.nom}">
-                                <h:outputText value=" #{item.nom}" />
+                            <p:column headerText="#{bundle.Nom}"  sortBy="#{item.nom.toUpperCase()}" filterBy="#{item.nom.toUpperCase()}">
+                                <h:outputText value=" #{item.nom.toUpperCase()}" />
                             </p:column>
 
                             <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.prenom}" filterBy="#{item.prenom}">
