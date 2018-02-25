@@ -15,22 +15,13 @@
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <div class="block-fluid">
 
-                        
-
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="idEtudient" value="#{bundle.Etudiant}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="idEtudient" value="#{inscriptionBean.etudiant}" 
-                                                 required="false" filter="true" filterMatchMode="contains">
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.RechercherNotesEtudiant}"/>
-                                    <f:selectItems value="#{etudiantBean.listeEtudiants}" var="selection" itemValue="#{selection}"
-                                                   itemLabel=" #{selection.nom.toUpperCase()} #{selection.prenom.toUpperCase()} (#{selection.login.toUpperCase()})"
-                                                   />
-                                    <f:converter  converterId="etudiantConverter"/>
-                                </p:selectOneMenu>
-                            </div>
+                        <div class=" row-form clearfix">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="login" value="#{bundle.matricule}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <p:inputText id="login" value="#{reinscriptionBean.idEtudiant}" required="true" placeholder="#{bundle.matricule}"/>
+                                </div>
                         </div>
 
                         <div class="row-form clearfix">
@@ -38,12 +29,12 @@
                                 <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="filiere" value="#{inscriptionBean.filiere}" 
-                                                 required="false">
-                                    <p:ajax listener="#{inscriptionBean.onFiliereChange()}" update="groupeGPPrev" />
+                                <p:selectOneMenu id="filiere" value="#{reinscriptionBean.filiere}" 
+                                                 required="true">
+                                    <p:ajax listener="#{reinscriptionBean.initGroupePedagogique()}" update="groupeGP" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
-                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle}"/>
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="filiereConverter"/>
                                 </p:selectOneMenu>
                             </div>
@@ -51,26 +42,35 @@
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">
-                                <p:outputLabel for="groupeGPPrev" value="#{bundle.GroupePedagogique}"/>
+                                <p:outputLabel for="groupeGP" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupeGPPrev" value="#{inscriptionBean.groupePedagogique}" 
+                                <p:selectOneMenu id="groupeGP" value="#{reinscriptionBean.groupePedagogique}" 
                                                  required="false">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{inscriptionBean.listGroupePedagogiques}" var="itemGroupe"
+                                    <f:selectItems value="#{reinscriptionBean.listeGroupePedagogiques}" var="itemGroupe"
                                                    itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    <p:ajax listener="#{reinscriptionBean.initNotification()}" update="notification" />
                                 </p:selectOneMenu>
                             </div>
                         </div>
+                        
+                        <div class=" row-form clearfix" >
+                            <div class="col-md-2">
+                                <p:outputLabel id="notification"  value="#{reinscriptionBean.notification}" style="color: red;"/>
+                            </div>
+                        </div>
+                        
+                        
 
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{inscriptionBean.reinscriptionParticuliere()}"
+                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{reinscriptionBean.reinscriptionParticuliere()}"
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>
 
                             <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
-                                             actionListener="#{inscriptionBean.reset}" update="@form :msgForm:msg">
+                                             actionListener="#{reinscriptionBean.reset}" update="@form :msgForm:msg">
                                 <p:resetInput target="formeEx"/>
                             </p:commandButton>
                         </div> 

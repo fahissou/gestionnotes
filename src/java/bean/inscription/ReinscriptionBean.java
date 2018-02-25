@@ -27,6 +27,8 @@ import jpa.inscription.Inscription;
 import jpa.inscription.Notes;
 import jpa.module.Matiere;
 import jpa.module.Ue;
+import org.primefaces.context.RequestContext;
+import util.JsfUtil;
 
 /**
  *
@@ -64,7 +66,8 @@ public class ReinscriptionBean implements Serializable {
     private Inscription selectedInscription;
     private List<String> listValidation;
     private AnneeAcademique anneeAcademic;
-    private String notification ;
+    private String notification;
+    private String idEtudiant;
 
     public ReinscriptionBean() {
     }
@@ -74,9 +77,9 @@ public class ReinscriptionBean implements Serializable {
         listeFilieres = filiereFacade.findAll();
         anneeAcademic = anneeAcademiqueFacade.getCurrentAcademicYear();
         listValidation = new ArrayList<>();
-        listValidation.add("Séléctionner");
-        listValidation.add("Validé");
-        listValidation.add("Non Validé");
+        listValidation.add("SÉLÉCTIONNER");
+        listValidation.add("VALIDÉE");
+        listValidation.add("NON VALIDÉE");
     }
 
     public void initGroupePedagogique() {
@@ -85,19 +88,15 @@ public class ReinscriptionBean implements Serializable {
 
     public void updateDataTable() {
         notification = "";
-        if(groupePedagogique.getOrdre() == 2){
-            notification = "Veuillez faire une réinscription particulière";
-        }else{
-            GroupePedagogique gp = groupePedagogiqueFacade.getPrevGroupePedagogique(groupePedagogique, filiere);
-            if (!gp.getId().equals(groupePedagogique.getId())) {
-            listeInscriptions = initValidation(inscriptionFacade.listeReinscription(gp, groupePedagogique, "A", "R"));
+        GroupePedagogique gp = groupePedagogiqueFacade.getPrevGroupePedagogique(groupePedagogique, filiere);
+        if (groupePedagogique.getOrdre() == 0 || groupePedagogique.getOrdre() == 2) {
+            listeInscriptions = getRealListResinscription(initValidation(inscriptionFacade.listeReinscription(gp, groupePedagogique, "R", "R", "R")));
+//            notification = "Veuillez faire une réinscription particulière";
         } else {
-            listeInscriptions = initValidation(inscriptionFacade.listeReinscription(gp, groupePedagogique, "R", "R"));
+            listeInscriptions = getRealListResinscription(initValidation(inscriptionFacade.listeReinscription(gp, groupePedagogique, "T", "A", "R")));
         }
-    }
-      
-        if(listeInscriptions.isEmpty()){
-            notification = "Vous devez créer une nouvelle année académique";
+        if (listeInscriptions.isEmpty()) {
+            notification = "Créer une nouvelle année académique ou vérifier si les étudiants sont enregistrés pour la filière ou bien les étudiants sont réinscrits !";
         }
     }
 
@@ -180,24 +179,76 @@ public class ReinscriptionBean implements Serializable {
         this.listValidation = listValidation;
     }
 
+    public String getIdEtudiant() {
+        return idEtudiant;
+    }
+
+    public void setIdEtudiant(String idEtudiant) {
+        this.idEtudiant = idEtudiant;
+    }
+
     public void reinscription() {
+        
         Inscription newInscription = null;
+        Inscription oldInscription = null;
         if (!listeInscriptions.isEmpty()) {
+            System.out.println("ok rein");
             for (int i = 0; i < listeInscriptions.size(); i++) {
-                if (listeInscriptions.get(i).getValidation().equals("Validé")) {
-                    newInscription = new Inscription();
-                    newInscription.setAnneeAcademique(anneeAcademic);
-                    newInscription.setCompteurCredit(0);
-                    newInscription.setEtudiant(listeInscriptions.get(i).getEtudiant());
-                    newInscription.setGroupePedagogique(groupePedagogique);
-                    newInscription.setResultat("R");
-                    newInscription.setValidation("V");
-                    inscriptionFacade.create(newInscription);
-                    createDiffaultNotes(newInscription, groupePedagogique);
+                oldInscription = listeInscriptions.get(i);
+                if (oldInscription.getValidation().equals("VALIDÉE")) {
+                    System.out.println("ok rein validé");
+                    if ("R".equals(oldInscription.getResultat())) {
+                        oldInscription.setSessions(anneeAcademic);
+                        oldInscription.setValidation("V");
+                        inscriptionFacade.edit(oldInscription);
+                    } else if ("A".equals(oldInscription.getResultat())) {
+                        oldInscription.setSessions(anneeAcademic);
+                        oldInscription.setValidation("V");
+                        inscriptionFacade.edit(oldInscription);
+                        // nouvelle inscription
+                        newInscription = new Inscription();
+                        newInscription.setAnneeAcademique(anneeAcademic);
+                        newInscription.setCompteurCredit(0);
+                        newInscription.setEtudiant(oldInscription.getEtudiant());
+                        newInscription.setGroupePedagogique(groupePedagogique);
+                        newInscription.setResultat("R");
+                        newInscription.setValidation("V");
+                        inscriptionFacade.create(newInscription);
+                        createDiffaultNotes(newInscription, groupePedagogique);
+                    }else if("T".equals(oldInscription.getResultat())){
+                        oldInscription.setSessions(oldInscription.getAnneeAcademique());
+                        // nouvelle inscription
+                        newInscription = new Inscription();
+                        newInscription.setAnneeAcademique(anneeAcademic);
+                        newInscription.setCompteurCredit(0);
+                        newInscription.setEtudiant(oldInscription.getEtudiant());
+                        newInscription.setGroupePedagogique(groupePedagogique);
+                        newInscription.setResultat("R");
+                        newInscription.setValidation("V");
+                        inscriptionFacade.create(newInscription);
+                        createDiffaultNotes(newInscription, groupePedagogique);
+                    }
+                    
                 }
 
             }
-        } 
+        }
+        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/inscription/reinscriptions/'");
+       
+    }
+    
+    public List<Inscription> getRealListResinscription(List<Inscription> listeEntree) {
+        List<Inscription> listeSortie = new ArrayList<>();
+        for (int i = 0; i < listeEntree.size(); i++) {
+            String idNewInscription = listeEntree.get(i).getEtudiant().getLogin()+"_"+anneeAcademic.getDescription();
+            if(inscriptionFacade.find(idNewInscription) == null && listeEntree.get(i).getSessions() == null) {
+                listeSortie.add(listeEntree.get(i));
+            }
+        }
+        return listeSortie;
+    }
+
+    public void updateOldInscription(Inscription inscription) {
 
     }
 
@@ -234,14 +285,60 @@ public class ReinscriptionBean implements Serializable {
 
     }
     
-    public List<Inscription> getRealInscription( List<Inscription> listeInscriptions) {
-        List<Inscription> inscrip = new ArrayList<>();
-        for (int i = 0; i < listeInscriptions.size(); i++) {
-            if(!inscriptionFacade.isInscriptionExist(listeInscriptions.get(i),anneeAcademic)){
-                inscrip.add(listeInscriptions.get(i));
-            }
+    public void initNotification() {
+        System.out.println("idEtu "+idEtudiant);
+        etudiant = etudiantFacade.find(this.idEtudiant);
+        Inscription inscription2 = getInscriptionNonValide(etudiant);
+        notification = "qdqdqsqd";
+        if(inscription2 != null) {
+            notification = "cet étudiant n'a pas fini sa formation en "+inscription2.getGroupePedagogique().getDescription()+" pour l'année académique "
+                    + "    "+inscription2.getAnneeAcademique().getDescription()+" !";
         }
-        return inscrip;
     }
+
+    public void reinscriptionParticuliere() {
+        etudiant = etudiantFacade.find(idEtudiant);
+        String msg;
+        Inscription inscription = null;
+        try {
+                inscription = new Inscription();
+                inscription.setAnneeAcademique(anneeAcademic);
+                inscription.setGroupePedagogique(groupePedagogique);
+                inscription.setEtudiant(etudiant);
+                inscription.setCompteurCredit(0);
+                inscription.setValidation("V");
+                inscription.setResultat("R");
+                inscriptionFacade.create(inscription);
+                createDiffaultNotes(inscription, groupePedagogique);
+                listeInscriptions = inscriptionFacade.findAll();
+                msg = JsfUtil.getBundleMsg("InscriptionDelSuccessMsg");
+                JsfUtil.addSuccessMessage(msg);
+            
+        } catch (Exception e) {
+               msg = JsfUtil.getBundleMsg("InscriptionEditErrorMsg");
+               JsfUtil.addErrorMessage(msg);
+        }
+       
+        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/inscription/reinscriptions/'");
+    }
+    
+    public Inscription getInscriptionNonValide(Etudiant etudiant) {
+            Inscription inscription1 = null;
+        try {
+             List<Inscription> listeInscr = inscriptionFacade.getListInscriptionByEtudiant(etudiant);
+             if(!listeInscr.isEmpty()){
+                 for (int i = 0; i < listeInscr.size(); i++) {
+                     if(!listeInscr.get(i).getResultat().equals("T")) {
+                         inscription1 = listeInscr.get(i);
+                         break;
+                     }
+                 }
+             }
+             
+        } catch (Exception e) {
+            
+        }
+        return inscription1;
+    } 
 
 }

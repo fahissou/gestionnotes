@@ -13,16 +13,7 @@
                     <div class="head clearfix enteteTable">
                         <h1> #{bundle.InsererNotes}</h1>
                        
-                        <ul class="buttonLien">
-                            <li>
-                                
-                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
-                                               update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
-                                    <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
-                                    <i class="ibw-edit"/>
-                                </p:commandLink>  
-                            </li>
-                        </ul>
+                        
 
                     </div>
 
@@ -35,7 +26,7 @@
                                 <p:selectOneMenu id="filiere" value="#{notesBean.filiere}" 
                                                  required="true">
                                     <p:ajax listener="#{notesBean.initGroupePedagogique()}" update="groupePedagogique" />
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.Filiere}"/>
                                     <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
                                                    itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="filiereConverter"/>
@@ -45,7 +36,7 @@
                             <div class="col-md-2">
                                 <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="true">
                                     <p:ajax listener="#{notesBean.initUE()}" update="ue" />
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.Specialite}" noSelectionOption="true"/>
                                     <f:selectItems value="#{notesBean.listGroupePedagogiques1}"
                                                    var="groupePItem"
                                                    itemValue="#{groupePItem}"
@@ -72,15 +63,21 @@
                                 <p:selectOneMenu id="matiere" value="#{notesBean.newMatiere}" 
                                                  required="true">
                                     <p:ajax listener="#{notesBean.updateTablesN()}" update="incarcerationTable" />
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.Matiere}"/>
                                     <f:selectItems value="#{notesBean.tmpMatieres}" var="itemMatiere"
                                                    itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="matiereConverter"/>
                                 </p:selectOneMenu>
                             </div>
-
-
-
+                            
+                            <div class="col-md-2">
+                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                               update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
+                                    <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                    <i class="ibw-edit"/>
+                                </p:commandLink>
+                            
+                           </div>
                         </div>
                         
                         <p:dataTable id="incarcerationTable" var="item"

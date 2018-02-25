@@ -65,14 +65,14 @@
                             <div class="col-md-2">
                              <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
-                                    <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                    <!--<f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />-->
                                     <i class="ibw-edit"/>
                                 </p:commandLink>
                             </div>
                         </div>
                         <div class=" row-form clearfix" >
                             <div class="col-md-2">
-                                <p:outputLabel id="groupeP"  value="#{reinscriptionBean.notification}"/>
+                                <p:outputLabel id="groupeP"  value="#{reinscriptionBean.notification}" style="color: red;"/>
                             </div>
                         </div>
 

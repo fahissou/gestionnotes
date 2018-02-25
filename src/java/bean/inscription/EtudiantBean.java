@@ -3,6 +3,7 @@ package bean.inscription;
 
 import ejb.inscription.EtudiantFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
+import ejb.inscription.InscriptionFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
+import jpa.formation.Filiere;
 import jpa.inscription.Etudiant;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
@@ -29,7 +31,13 @@ import util.JsfUtil;
 @Named(value = "etudiantBean")
 public class EtudiantBean implements Serializable{
     @EJB
+    private InscriptionFacade inscriptionFacade;
+    private List <Inscription> listeInscriptionByGroupePedagogigue;
+    
+    
+    @EJB
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
+    private List<GroupePedagogique> listGroupePedagogiques;
     @EJB
     private EtudiantFacade etudiantFacade;
     
@@ -42,35 +50,15 @@ public class EtudiantBean implements Serializable{
     private Map<GroupePedagogique, List<Inscription>> data1; // = new HashMap<>();
     private List<GroupePedagogique> groupePedagogiques;
     private GroupePedagogique groupePedagogique;
+    private Filiere selectedFiliere;
+    private GroupePedagogique selectedGroupePedagogique;
     public EtudiantBean() {
     }
     
     @PostConstruct
     public void init() {
-        listeEtudiants = etudiantFacade.findAll();
-        groupePedagogiques = groupePedagogiqueFacade.findAll();
-        loadData();
         prepareCreate();
     }  
-
-    public void loadData() {
-        data1 = new HashMap<>();
-        for (int i = 0; i < groupePedagogiques.size(); i++) {
-            List<Inscription> list1 = etudiantFacade.findAllEtudiantInscris(groupePedagogiques.get(i).getDescription());
-            data1.put(groupePedagogiques.get(i), list1);
-        }
-    }
-    
-      public void onGroupePedagogiqueChange() {
-        if (groupePedagogique != null) {
-            
-            listeEtudiantsInscris = data1.get(groupePedagogique);
-
-            loadData();
-        } else {
-            listeEtudiantsInscris = new ArrayList<>();
-        }
-    }
     
     public void doCreate(ActionEvent event) {
         String msg;
@@ -162,7 +150,20 @@ public class EtudiantBean implements Serializable{
 //    
     public void prepareCreate() {
         this.newEtudiant = new Etudiant();
+        initList();
     }
+    
+    public void initList(){
+        listGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(selectedFiliere);
+        listeInscriptionByGroupePedagogigue = inscriptionFacade.findListEtudiant(selectedGroupePedagogique);
+        listeEtudiantByIncription();
+    }
+     public void listeEtudiantByIncription(){
+         listeEtudiants = new ArrayList<>();
+        for (Inscription tmp : listeInscriptionByGroupePedagogigue) {            
+            listeEtudiants.add(tmp.getEtudiant());
+        }
+     }
     
     public void reset(ActionEvent e) {
         this.newEtudiant.reset();
@@ -195,6 +196,39 @@ public class EtudiantBean implements Serializable{
     public void setGroupePedagogique(GroupePedagogique groupePedagogique) {
         this.groupePedagogique = groupePedagogique;
     }
+
+    public List<Inscription> getListeInscriptionByGroupePedagogigue() {
+        return listeInscriptionByGroupePedagogigue;
+    }
+
+    public void setListeInscriptionByGroupePedagogigue(List<Inscription> listeInscriptionByGroupePedagogigue) {
+        this.listeInscriptionByGroupePedagogigue = listeInscriptionByGroupePedagogigue;
+    }
+
+    public List<GroupePedagogique> getListGroupePedagogiques() {
+        return listGroupePedagogiques;
+    }
+
+    public void setListGroupePedagogiques(List<GroupePedagogique> listGroupePedagogiques) {
+        this.listGroupePedagogiques = listGroupePedagogiques;
+    }
+
+    public Filiere getSelectedFiliere() {
+        return selectedFiliere;
+    }
+
+    public void setSelectedFiliere(Filiere selectedFiliere) {
+        this.selectedFiliere = selectedFiliere;
+    }
+
+    public GroupePedagogique getSelectedGroupePedagogique() {
+        return selectedGroupePedagogique;
+    }
+
+    public void setSelectedGroupePedagogique(GroupePedagogique selectedGroupePedagogique) {
+        this.selectedGroupePedagogique = selectedGroupePedagogique;
+    }
+    
 
     
 }

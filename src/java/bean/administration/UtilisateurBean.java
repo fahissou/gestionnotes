@@ -59,12 +59,7 @@ public class UtilisateurBean implements Serializable{
     public void doCreate(ActionEvent event) {
         String msg;
         try {
-            newGroupe = new Groupe();
-            newGroupe.setLibelle(newUtilisateur.getGroupe().getLibelle());
-            newGroupe.setUsername(newUtilisateur.getLogin());
-            groupeFacade.create(newGroupe);
             newUtilisateur.setPassword(JsfUtil.encryptPasswordReal(newUtilisateur.getLogin(), "SHA-256"));
-            newUtilisateur.setGroupe(newGroupe);
             utilisateurFacade.create(newUtilisateur);
             msg = JsfUtil.getBundleMsg("UtilisateurCreateSuccessMsg");
             JsfUtil.addSuccessMessage(msg);

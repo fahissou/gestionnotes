@@ -81,6 +81,15 @@
                                             navigator="true" showOn="button"/>
                             </div>
                         </div>
+                        
+                        <div class=" row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="lieuNaiss" value="#{bundle.LieuNaissance}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:inputText id="lieuNaiss" value="#{inscriptionBean.newInscription.etudiant.lieuNaissance}" required="true" placeholder="#{bundle.LieuNaissance}"/>
+                            </div>
+                        </div>
 
                         <div class=" row-form clearfix">
                             <div class="col-md-3">

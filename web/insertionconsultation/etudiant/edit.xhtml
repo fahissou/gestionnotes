@@ -25,7 +25,7 @@
                                 <label class="col-md-3">#{bundle.matricule}</label>
                                     <div class="col-md-9">
                                         <label class="form-control input-sm">                                       
-                                            #{inscriptionBean.selectedInscription.etudiant.login}
+                                            #{etudiantBean.selectedEtudiant.login}
                                         </label>
                                     </div>
                             </div>-->
@@ -34,7 +34,7 @@
                                     <label class="col-md-3">#{bundle.Nom}</label>
                                     <div class="col-md-9">
                                         
-                                        <p:inputText id="nom" value="#{inscriptionBean.selectedInscription.etudiant.nom}" required="true" placeholder="#{bundle.Nom}"
+                                        <p:inputText id="nom" value="#{etudiantBean.selectedEtudiant.nom}" required="true" placeholder="#{bundle.Nom}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
@@ -43,7 +43,7 @@
                                 <label class="col-md-3">#{bundle.Prenoms}</label>
                                     <div class="col-md-9">
                                         
-                                        <p:inputText id="prenom" value="#{inscriptionBean.selectedInscription.etudiant.prenom}" required="true" placeholder="#{bundle.Prenoms}"
+                                        <p:inputText id="prenom" value="#{etudiantBean.selectedEtudiant.prenom}" required="true" placeholder="#{bundle.Prenoms}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
@@ -51,7 +51,7 @@
                             <div class="row-form clearfix" style="margin-bottom: 3px!important;">
                                  <label class="col-md-3">#{bundle.Telephone}</label>
                                     <div class="col-md-9">                                        
-                                        <p:inputText id="telephone" value="#{inscriptionBean.selectedInscription.etudiant.telephone}" required="true" placeholder="#{bundle.Telephone}"
+                                        <p:inputText id="telephone" value="#{etudiantBean.selectedEtudiant.telephone}" required="true" placeholder="#{bundle.Telephone}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                              </div>
@@ -60,7 +60,7 @@
                                 <label class="col-md-3">#{bundle.Email}</label>
                                     <div class="col-md-9">
                                         
-                                        <p:inputText id="adresse" value="#{inscriptionBean.selectedInscription.etudiant.mail}" required="true" placeholder="#{bundle.Email}"
+                                        <p:inputText id="adresse" value="#{etudiantBean.selectedEtudiant.mail}" required="true" placeholder="#{bundle.Email}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
@@ -69,7 +69,7 @@
                                 <label class="col-md-3">#{bundle.Adresse}</label>
                                     <div class="col-md-9">
                                         
-                                        <p:inputText id="boitePostale" value="#{inscriptionBean.selectedInscription.etudiant.adresse}" required="true" placeholder="#{bundle.Adresse}"
+                                        <p:inputText id="boitePostale" value="#{etudiantBean.selectedEtudiant.adresse}" required="true" placeholder="#{bundle.Adresse}"
                                                      styleClass="form-control input-sm"/>
                                     </div>
                             </div>
@@ -79,7 +79,7 @@
                                 
                                 <div class="col-md-9">
 
-                                    <p:selectOneRadio id="genre" value="#{inscriptionBean.selectedInscription.etudiant.genre}" layout="grid" columns="2" required="false">
+                                    <p:selectOneRadio id="genre" value="#{etudiantBean.selectedEtudiant.genre}" layout="grid" columns="2" required="false">
                                         <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
                                         <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
                                     </p:selectOneRadio>
@@ -93,7 +93,7 @@
                                     <p:outputLabel for="groupe" value="#{bundle.GroupePedagogique}" />
                                 </div>
                                 <div class="col-md-9">
-                                    <h:selectOneMenu id="groupe" value="#{inscriptionBean.selectedInscription.groupePedagogique.description}" required="true" styleClass="form-control">
+                                    <h:selectOneMenu id="groupe" value="" required="true" styleClass="form-control">
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}"
                                                        var="groupeItem" itemValue="#{groupeItem}" itemLabel="#{groupeItem.description.toUpperCase()}"/>
@@ -106,7 +106,7 @@
                             
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{inscriptionBean.doEdit}" 
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{etudiantBean.doEdit}" 
                                              oncomplete="updateGritter(xhr);$('#editDialog').modal('hide');" 
                                              class="btn btn-default"/>
 

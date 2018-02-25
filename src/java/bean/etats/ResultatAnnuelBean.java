@@ -6,16 +6,15 @@
 package bean.etats;
 
 import bean.inscription.AnneeAcademiqueBean;
-import ejb.administration.ParametresFacade;
 import ejb.formation.FiliereFacade;
 import ejb.formation.HistoriquesFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.inscription.InscriptionFacade;
 import ejb.module.SemestreFacade;
+import ejb.module.UeFacade;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +22,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import jpa.administration.Parametres;
 import jpa.formation.Filiere;
 import jpa.formation.Historiques;
 import jpa.inscription.AnneeAcademique;
 import jpa.inscription.Etudiant;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
+import jpa.module.Ue;
 import org.primefaces.context.RequestContext;
 import util.JsfUtil;
 
@@ -40,6 +39,8 @@ import util.JsfUtil;
 @Named(value = "resultatAnnuelBean")
 @ViewScoped
 public class ResultatAnnuelBean implements Serializable{
+    @EJB
+    private UeFacade ueFacade;
     @EJB
     private HistoriquesFacade historiquesFacade;
     @EJB
@@ -133,7 +134,8 @@ public class ResultatAnnuelBean implements Serializable{
         String nomFichier = JsfUtil.generateId();
         String[] semestress = JsfUtil.semestreGP(semestreFacade.getSemetreByGP(groupePedagogique));
         List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP1(groupePedagogique, anneeAcademique);
-  
+        List<Ue> ues = ueFacade.getRealUE(ueFacade.getUeByGroupePedagogique(groupePedagogique));
+        int creditTotal = JsfUtil.getCreditTotal(ues);
         try {
             // Paramètres d'entete du resultat final
             Map<String, Object> parametreEntetes = new HashMap<>();
@@ -156,14 +158,10 @@ public class ResultatAnnuelBean implements Serializable{
 
                 Map<String, Object> row = new HashMap<>();
                 Etudiant student = inscriptions.get(j).getEtudiant();
-
                 row.put("N", (j + 1));
                 row.put("NP", student.getNom() + " " + student.getPrenom());
-
                 row.put("TC", inscriptions.get(j).getCompteurCredit());
-                String result = admissible(inscriptions.get(j).getCompteurCredit(), groupePedagogique.getParametres().getProportionAdmission());
-//                createDefaultInscription(inscriptions.get(j), result);
-                row.put("Ob", result);
+                row.put("Ob", JsfUtil.decisionFinal(inscriptions.get(j).getCompteurCredit(), creditTotal,groupePedagogique));
                 conteneur.add(row);
             }
             JsfUtil.generateurXDOCReport(pathIn + "/resultatFinal1.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "Resultat_Final" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes);
@@ -173,8 +171,10 @@ public class ResultatAnnuelBean implements Serializable{
             historique.setLibelle(groupePedagogique.getDescription() + "ResultatFinal");
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal"));
             historique.setGroupePedagogique(groupePedagogique.getDescription());
-            historique.setDateCreation(new Date());
+            historique.setDateEdition(JsfUtil.getDateEdition());
             historiquesFacade.create(historique);
+            File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal" + ".pdf");
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "ResultatFinal");
 
         } catch (Exception ex) {
             System.out.println("Exceptionfghff " + ex.getMessage());

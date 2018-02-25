@@ -14,7 +14,7 @@
     .isw-chats{background: url('./images/icons/ws/ic_chats.png.xhtml') center center no-repeat transparent;}
     .isw-cloud{background: url('./images/icons/ws/ic_cloud.png.xhtml') center center no-repeat transparent;}
     .isw-delete{background: url('./images/icons/ws/ic_delete.png.xhtml') center center no-repeat transparent;}
-    .isw-documents{background: url('./images/icons/ws/ic_documents.png.xhtml') center center no-repeat transparent;}
+    /*.isw-documents{background: url('./images/icons/ws/ic_documents.png.xhtml') center center no-repeat transparent;}*/
     .isw-down{background: url('./images/icons/ws/ic_down.png.xhtml') center center no-repeat transparent;}
     .isw-donw_circle{background: url('./images/icons/ws/ic_down_circle.png.xhtml') center center no-repeat transparent;}
     .isw-download{background: url('./images/icons/ws/ic_download.png.xhtml') center center no-repeat transparent;}
@@ -24,11 +24,11 @@
     .isw-folder{background: url('./images/icons/ws/ic_folder.png.xhtml') center center no-repeat transparent;}
     .isw-fullscreen{background: url('./images/icons/ws/ic_fullscreen.png.xhtml') center center no-repeat transparent;}
     .isw-graph{background: url('./images/icons/ws/ic_graph.png.xhtml') center center no-repeat transparent;}
-    .isw-grid{background: url('./images/icons/ws/ic_grid.png.xhtml') center center no-repeat transparent;}
+    /*.isw-grid{background: url('./images/icons/ws/ic_grid.png.xhtml') center center no-repeat transparent;}*/
     .isw-left{background: url('./images/icons/ws/ic_left.png.xhtml') center center no-repeat transparent;}
     .isw-left_circle{background: url('./images/icons/ws/ic_left_circle.png.xhtml') center center no-repeat transparent;}
     .isw-list{background: url('./images/icons/ws/ic_list.png.xhtml') center center no-repeat transparent;}
-    .isw-lock{background: url('./images/icons/ws/ic_lock.png.xhtml') center center no-repeat transparent;}
+    /*.isw-lock{background: url('./images/icons/ws/ic_lock.png.xhtml') center center no-repeat transparent;}*/
     .isw-mail{background: url('./images/icons/ws/ic_mail.png.xhtml') center center no-repeat transparent;}
     .isw-minus{background: url('./images/icons/ws/ic_minus.png.xhtml') center center no-repeat transparent;}
     .isw-ok{background: url('./images/icons/ws/ic_ok.png.xhtml') center center no-repeat transparent;}
@@ -50,7 +50,7 @@
     .isw-unlock{background: url('./images/icons/ws/ic_unlock.png.xhtml') center center no-repeat transparent;}
     .isw-up{background: url('./images/icons/ws/ic_up.png.xhtml') center center no-repeat transparent;}
     .isw-up_circle{background: url('./images/icons/ws/ic_up_circle.png.xhtml') center center no-repeat transparent;}
-    .isw-user{background: url('./images/icons/ws/ic_user.png.xhtml') center center no-repeat transparent;}
+    /*.isw-user{background: url('./images/icons/ws/ic_user.png.xhtml') center center no-repeat transparent;}*/
     .isw-users{background: url('./images/icons/ws/ic_users.png.xhtml') center center no-repeat transparent;}
     .isw-zoom{background: url('./images/icons/ws/ic_zoom.png.xhtml') center center no-repeat transparent;}
     /* eof icon small whit */

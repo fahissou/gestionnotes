@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import jpa.inscription.AnneeAcademique;
 import jpa.inscription.Enseignant;
 import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
@@ -30,6 +31,8 @@ public class ProgrammerCours implements Serializable {
     private GroupePedagogique groupePedagogique;
     @ManyToOne
     private Enseignant enseignant;
+    @ManyToOne
+    private AnneeAcademique anneeAcademique;
 
     public ProgrammerCours() {
     }
@@ -100,6 +103,15 @@ public class ProgrammerCours implements Serializable {
         ProgrammerCours other = (ProgrammerCours) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
+
+    public AnneeAcademique getAnneeAcademique() {
+        return anneeAcademique;
+    }
+
+    public void setAnneeAcademique(AnneeAcademique anneeAcademique) {
+        this.anneeAcademique = anneeAcademique;
+    }
+    
     
     public void reset() {
         id = null;

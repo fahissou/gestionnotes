@@ -27,6 +27,8 @@ public class Inscription implements Serializable {
     private List<Notes> notess;
     @ManyToOne
     private AnneeAcademique anneeAcademique;
+    @ManyToOne
+    private AnneeAcademique sessions;
     
     public Inscription() {
         this.resultat = "R";
@@ -96,6 +98,16 @@ public class Inscription implements Serializable {
     public void setValidation(String validation) {
         this.validation = validation;
     }
+
+    public AnneeAcademique getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(AnneeAcademique sessions) {
+        this.sessions = sessions;
+    }
+
+   
 
     @Override
     public int hashCode() {

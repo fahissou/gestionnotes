@@ -2,19 +2,15 @@
 package jpa.formation;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class Historiques implements Serializable{
     @Id
     private String id;
     private String libelle;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreation;
+    private String dateEdition;
     private String groupePedagogique;
     private String lienFile;
 
@@ -37,12 +33,12 @@ public class Historiques implements Serializable{
         this.libelle = libelle;
     }
 
-    public Date getDateCreation() {
-        return dateCreation;
+    public String getDateEdition() {
+        return dateEdition;
     }
 
-    public void setDateCreation(Date dateCreation) {
-        this.dateCreation = dateCreation;
+    public void setDateEdition(String dateEdition) {
+        this.dateEdition = dateEdition;
     }
 
     public String getGroupePedagogique() {

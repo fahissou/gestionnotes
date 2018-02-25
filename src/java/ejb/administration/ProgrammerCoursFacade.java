@@ -15,6 +15,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import jpa.administration.ProgrammerCours;
+import jpa.inscription.AnneeAcademique;
 import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
 import util.JsfUtil;
@@ -44,12 +45,13 @@ public class ProgrammerCoursFacade extends AbstractFacade<ProgrammerCours> {
         super.create(programmerCours);
     }
 
-    public List<ProgrammerCours> listeProgrammeByGroupe(GroupePedagogique groupePedagogique) {
+    public List<ProgrammerCours> listeProgrammeByGroupe(GroupePedagogique groupePedagogique, AnneeAcademique anneeAcademique) {
         List<ProgrammerCours> liste;
         try {
-            Query query = em.createQuery("SELECT P FROM ProgrammerCours P WHERE P.groupePedagogique =:groupePedagogique ORDER BY P.matiere.libelle ASC");
+            Query query = em.createQuery("SELECT P FROM ProgrammerCours P WHERE P.groupePedagogique =:groupePedagogique AND P.anneeAcademique = :anneeAcademique ORDER BY P.matiere.libelle ASC");
             // set parameters
             query.setParameter("groupePedagogique", groupePedagogique);
+            query.setParameter("anneeAcademique", anneeAcademique);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
             liste = new ArrayList<>();

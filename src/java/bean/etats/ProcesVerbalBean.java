@@ -1,5 +1,3 @@
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -18,21 +16,9 @@ import ejb.inscription.NotesFacade;
 import ejb.module.MatiereFacade;
 import ejb.module.SemestreFacade;
 import ejb.module.UeFacade;
-import fr.opensagres.xdocreport.core.XDocReportException;
-import fr.opensagres.xdocreport.document.IXDocReport;
-import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
-import fr.opensagres.xdocreport.template.IContext;
-import fr.opensagres.xdocreport.template.TemplateEngineKind;
-import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +27,6 @@ import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import jpa.administration.Parametres;
 import jpa.formation.Filiere;
 import jpa.formation.Historiques;
 import jpa.inscription.AnneeAcademique;
@@ -91,7 +76,6 @@ public class ProcesVerbalBean implements Serializable {
     private List<GroupePedagogique> listGroupePedagogiques;
     private List<Semestre> listSemestres;
     private AnneeAcademique anneeAcademique;
-    private List<Parametres> parametres;
 
     public ProcesVerbalBean() {
     }
@@ -100,7 +84,6 @@ public class ProcesVerbalBean implements Serializable {
     public void init() {
         listFilieres = filiereFacade.findAll();
         anneeAcademique = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
-        parametres = parametresFacade.findAll();
     }
 
     public void initGroupePedagogique() {
@@ -201,17 +184,17 @@ public class ProcesVerbalBean implements Serializable {
 
                     parametreEntetes1.put("annee", anneeAcademique.getDescription());
                     parametreEntetes1.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
-                    parametreEntetes1.put("semestre", semestre.getLibelle());
+                    parametreEntetes1.put("semestre", semestre.getValeur());
                     parametreEntetes1.put("d", JsfUtil.getDateEdition());
 
                     parametreEntetes2.put("annee", anneeAcademique.getDescription());
                     parametreEntetes2.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
-                    parametreEntetes2.put("semestre", semestre.getLibelle());
+                    parametreEntetes2.put("semestre", semestre.getValeur());
                     parametreEntetes2.put("d", JsfUtil.getDateEdition());
 
                     parametreEntetes3.put("annee", anneeAcademique.getDescription());
                     parametreEntetes3.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
-                    parametreEntetes3.put("semestre", semestre.getLibelle());
+                    parametreEntetes3.put("semestre", semestre.getValeur());
                     parametreEntetes3.put("d", JsfUtil.getDateEdition());
 
                     // Definition des champs du proces fichier 1
@@ -298,14 +281,14 @@ public class ProcesVerbalBean implements Serializable {
                                 som = +notes.getNote();
                             }
                             double moyUE = som / matieres.size();
-                            nombreCreditValider += isValide(moyUE, currentUE.getCredit());
+                            nombreCreditValider += isValide(moyUE, currentUE.getCredit(), groupePedagogique);
                             somMoySemestre = +moyUE;
 
                             if (i < max) {
                                 row1.put("m" + (i + 1), JsfUtil.formatNote(moyUE));
                                 row1.put("o" + (i + 1), decision2(moyUE));
                                 row1.put("c" + (i + 1), currentUE.getCredit());
-                                System.out.println(" ok1 "+currentUE.getLibelle());
+                                System.out.println(" ok1 " + currentUE.getLibelle());
                                 parametreEntetes1.put("UE" + (i + 1), JsfUtil.getAbrevUE(currentUE.getLibelle()));
                                 parametreEntetes1.put("ue" + (i + 1), currentUE.getLibelle());
                                 l = i + 1;
@@ -344,13 +327,15 @@ public class ProcesVerbalBean implements Serializable {
                         JsfUtil.generateurXDOCReport(pathIn + "/" + nameFile[2], champs3, conteneur3, "T", repertoire1.getAbsolutePath() + "/", "Proces_Verbale3" + "_" + groupePedagogique.getDescription() + "3", parametreEntetes3);
                     }
                     JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
-                    JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getLibelle());
+                    JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur());
                     Historiques historique = new Historiques();
-                    historique.setLibelle("proces" + groupePedagogique.getDescription() + "_" + anneeAcademique.getDescription() + "_" + semestre.getLibelle());
-                    historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getLibelle()));
+                    historique.setLibelle("proces" + groupePedagogique.getDescription() + "_" + anneeAcademique.getDescription() + "_" + semestre.getValeur());
+                    historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur()));
                     historique.setGroupePedagogique(groupePedagogique.getDescription());
-                    historique.setDateCreation(new Date());
+                    historique.setDateEdition(JsfUtil.getDateEdition());
                     historiquesFacade.create(historique);
+                    File fileDowload = new File(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");
+                    JsfUtil.flushToBrowser(fileDowload, nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur());
 //                docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
                     msg = JsfUtil.getBundleMsg("ProcesGenererSucces");
                     JsfUtil.addSuccessMessage(msg);
@@ -360,20 +345,20 @@ public class ProcesVerbalBean implements Serializable {
                     JsfUtil.addErrorMessage(msg);
                 }
             } else {
-                 msg = JsfUtil.getBundleMsg("ISEmptyUE");
-                 JsfUtil.addErrorMessage(msg);
+                msg = JsfUtil.getBundleMsg("ISEmptyUE");
+                JsfUtil.addErrorMessage(msg);
             }
 
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
 
         }
-      RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
+        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
     }
 
-    public int isValide(double moyUE, int credit) {
+    public int isValide(double moyUE, int credit, GroupePedagogique groupP) {
         int var = 0;
-        if (moyUE >= parametres.get(0).getMoyenneUE()) {
+        if (moyUE >= groupP.getParametres().getMoyenneUE()) {
             var = credit;
         }
         return var;
@@ -417,5 +402,4 @@ public class ProcesVerbalBean implements Serializable {
 //
 //        return resultat;
 //    }
-
 }

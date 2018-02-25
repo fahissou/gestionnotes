@@ -16,6 +16,7 @@
                         <h1>#{bundle.Inscription}</h1>
                     </div>
                     <h:form id="formeEx" styleClass="form-horizontal" enctype="multipart/form-data"  prependId="false">
+                        <p:growl id="growl" showDetail="true"/>
                         <div class="block-fluid"> 
 
                             
@@ -69,7 +70,7 @@
 
                                 <a href="../create.xhtml"></a>
                                 <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
-                                                 actionListener="#{enseignantBean.reset}" update="@form :msgForm:msg">
+                                                 actionListener="#{enseignantBean.reset}" update="@form :formeEx growl">
                                     <p:resetInput target="formeEx"/>
                                 </p:commandButton>
                             </div> 

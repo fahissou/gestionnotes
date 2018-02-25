@@ -265,7 +265,7 @@ public class ProgrammerCoursBean implements Serializable {
     public void initList() {
         listGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(selectedFiliere);
         listMatieres = getMatieresNP(newProgrammerCours.getGroupePedagogique());
-        listeProgrammerCourss = programmerCoursFacade.listeProgrammeByGroupe(newProgrammerCours.getGroupePedagogique());
+        listeProgrammerCourss = programmerCoursFacade.listeProgrammeByGroupe(newProgrammerCours.getGroupePedagogique(), anneeAcademique);
     }
 
     public void reset(ActionEvent e) {
@@ -342,7 +342,7 @@ public class ProgrammerCoursBean implements Serializable {
             historique.setLibelle(newProgrammerCours.getGroupePedagogique().getDescription() + "CoursProgramme"+" "+newProgrammerCours.getMatiere().getLibelle());
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "coursprogramme_" + newProgrammerCours.getMatiere().getLibelle()));
             historique.setGroupePedagogique(newProgrammerCours.getGroupePedagogique().getDescription());
-            historique.setDateCreation(new Date());
+            historique.setDateEdition(JsfUtil.getDateEdition());
             historiquesFacade.create(historique);
 
         } catch (Exception ex) {

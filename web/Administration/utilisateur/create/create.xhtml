@@ -98,24 +98,6 @@
 
 
 
-                            <div class="row-form clearfix">
-                                <div class="col-md-3">
-                                    <p:outputLabel for="groupe" value="#{bundle.Groupe}"/>
-                                </div>
-                                <div class="col-md-9">
-                                    <p:selectOneMenu id="groupe" value="#{utilisateurBean.newUtilisateur.groupe}" 
-                                                     required="true" requiredMessage="#{bundle.ChampObligatoire}">
-                                        <f:selectItem itemValue="#{null}" itemLabel="selection"/>
-                                        <f:selectItems value="#{groupeBean.listeGroupes}"
-                                                       var="groupeItem"
-                                                       itemValue="#{groupeItem}"
-                                                       itemLabel="#{groupeItem.libelle.toUpperCase()}"/>
-                                        <f:converter  converterId="groupeConverter"/>
-                                        <f:ajax event="blur" render="groupeMessage" />                            
-                                    </p:selectOneMenu>
-                                    <p:message  id="groupeMessage" for="groupe"/>
-                                </div>
-                            </div>
 
                             <div class="footer tar">
                                 <p:commandButton value="Valider" update="@form growl" actionListener="#{utilisateurBean.doCreate}" 

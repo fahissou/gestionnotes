@@ -42,13 +42,15 @@ import jpa.module.Semestre;
 import jpa.module.Ue;
 import org.primefaces.context.RequestContext;
 import util.JsfUtil;
+
 /**
  *
  * @author AHISSOU Florent
  */
 @Named(value = "releveNotesBean")
 @ViewScoped
-public class ReleveNotesBean implements Serializable{
+public class ReleveNotesBean implements Serializable {
+
     @EJB
     private HistoriquesFacade historiquesFacade;
     @EJB
@@ -69,7 +71,7 @@ public class ReleveNotesBean implements Serializable{
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
     @EJB
     private FiliereFacade filiereFacade;
-    
+
     private Filiere filiere;
     private GroupePedagogique groupePedagogique;
     private Semestre semestre;
@@ -77,20 +79,17 @@ public class ReleveNotesBean implements Serializable{
     private List<GroupePedagogique> listGroupePedagogiques;
     private List<Semestre> listSemestres;
     private AnneeAcademique anneeAcademique;
-    private List<Parametres> parametres;
     private List<Inscription> listInscription;
     private Inscription inscription;
     private String signataire;
-   
-    
+
     public ReleveNotesBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         listFilieres = filiereFacade.findAll();
         anneeAcademique = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
-        parametres = parametresFacade.findAll();
     }
 
     public void initGroupePedagogique() {
@@ -101,13 +100,13 @@ public class ReleveNotesBean implements Serializable{
         }
 
     }
-    
+
     public void initSemetre() {
         listSemestres = semestreFacade.getSemetreByGP(groupePedagogique);
         listInscription = inscriptionFacade.getListInscriptionByGP(groupePedagogique, anneeAcademique);
     }
-    
-    public List<String> initSignataire(){
+
+    public List<String> initSignataire() {
         List<String> listeSignataires = new ArrayList<>();
         listeSignataires.add("Directeur");
         listeSignataires.add("Directeur Adjoint");
@@ -170,13 +169,6 @@ public class ReleveNotesBean implements Serializable{
         this.listSemestres = listSemestres;
     }
 
-    public List<Parametres> getParametres() {
-        return parametres;
-    }
-
-    public void setParametres(List<Parametres> parametres) {
-        this.parametres = parametres;
-    }
 
     public List<Inscription> getListInscription() {
         return listInscription;
@@ -194,20 +186,19 @@ public class ReleveNotesBean implements Serializable{
         this.inscription = inscription;
     }
 
-     // dynamique releve notes
+    // dynamique releve notes
     public void genererReleveDynamic() {
         List<Inscription> inscriptions1 = new ArrayList<>();
-        if(inscription != null){
+        if (inscription != null) {
             inscriptions1.add(inscription);
-             genererRelevetNotes1(inscriptions1,inscription.getEtudiant().getNom()+"_"+inscription.getEtudiant().getPrenom());
-        }else{
-            genererRelevetNotes1(listInscription,"_Releve_");
+            genererRelevetNotes1(inscriptions1, inscription.getEtudiant().getNom() + "_" + inscription.getEtudiant().getPrenom());
+        } else {
+            genererRelevetNotes1(listInscription, "_Releve_");
         }
         RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
     }
-    
-    // END dynamique releve
 
+    // END dynamique releve
     public void genererRelevetNotes1(List<Inscription> inscriptions, String nameFileGen) {
         String pathOut = JsfUtil.getPathOutTmp();
         String pathIn = JsfUtil.getPathIntModelReleve();
@@ -219,7 +210,6 @@ public class ReleveNotesBean implements Serializable{
         JsfUtil.deleteFile(repertoire1.getAbsolutePath() + "/");
         JsfUtil.deleteFile(repertoire2.getAbsolutePath() + "/");
         try {
-//            parametreEntetes.put("semestre", semestre.getLibelle());
             // Definition des champs du proces fichier 1
             List<String> champs = new ArrayList<>();
             champs.add("UE");
@@ -233,26 +223,21 @@ public class ReleveNotesBean implements Serializable{
             parametreEntetes.put("a", anneeAcademique.getDescription().split("-")[1].trim());
             parametreEntetes.put("aa", anneeAcademique.getDescription());
             parametreEntetes.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
-            parametreEntetes.put("semestre", semestre.getLibelle());
-            
+            parametreEntetes.put("semestre", semestre.getValeur());
+
             // signature du responsable pédagogique
             Enseignant respo = enseignantFacade.getEnseignantByResponsabilite(signataire);
-            if(signataire.equals("Directeur")){
-                parametreEntetes.put("Signataire", "Le "+ signataire);
+            if (signataire.equals("Directeur")) {
+                parametreEntetes.put("Signataire", "Le " + signataire);
                 parametreEntetes.put("da", "");
-                parametreEntetes.put("nomS", respo.getGrade() +" " + respo.getPrenom() + " " +respo.getNom());
-            }else{
+                parametreEntetes.put("nomS", respo.getGrade() + " " + respo.getPrenom() + " " + respo.getNom());
+            } else {
                 parametreEntetes.put("Signataire", "Pour Le Directeur et P.O,");
-                parametreEntetes.put("da", "Le "+signataire);
-                parametreEntetes.put("nomS", respo.getGrade() +" " + respo.getPrenom() + " " +respo.getNom());
+                parametreEntetes.put("da", "Le " + signataire);
+                parametreEntetes.put("nomS", respo.getGrade() + " " + respo.getPrenom() + " " + respo.getNom());
             }
-            
-//            if(semestre.getLibelle() == listSemestres.get(1).getLibelle()) {
-//              parametreEntetes.put("da", "Le "+signataire);
-//            }
-            
-            
-            
+
+
             String nomFichier = JsfUtil.generateId();
             for (int j = 0; j < inscriptions.size(); j++) {
 
@@ -274,31 +259,43 @@ public class ReleveNotesBean implements Serializable{
                 int totalCredit = 0;
                 List<String> uenv = new ArrayList<>();
                 Map<String, Object> row1 = null;
-                List<Ue> ues1 = ueFacade.getRealUE(ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre));
+                List<Ue> ues1 = null;
+                List<Semestre> semestresTmp = semestreFacade.getSemetreByGP(groupePedagogique);
+                
+                if(semestre.getValeur() == semestresTmp.get(0).getValeur()) {
+                    ues1 = ueFacade.getRealUE(ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre));
+                    totalCredit = JsfUtil.getCreditTotal(ues1);
+                }else{
+                    ues1 = ueFacade.getRealUE(ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre));
+                    List<Ue> ues0 = ueFacade.getRealUE(ueFacade.getUeByGroupePedagogique(groupePedagogique, semestresTmp.get(0)));
+                    totalCredit = JsfUtil.getCreditTotal(ues0) + JsfUtil.getCreditTotal(ues1);
+                }
+                
+                
                 for (int i = 0; i < ues1.size(); i++) {
                     List<String> matieresByUE = new ArrayList<>();
                     row1 = new HashMap<>();
                     double som = 0.0;
                     List<Matiere> matieres = null;
                     Ue currentUE = ues1.get(i);
-                    totalCredit += currentUE.getCredit();
+//                    totalCredit += currentUE.getCredit();
                     matieres = matiereFacade.getMatiereByUe(currentUE);
                     for (int k = 0; k < matieres.size(); k++) {
                         Notes notes = notesFacade.getNotesByInscriptionMatiere(inscriptions.get(j), matieres.get(k));
                         som = +notes.getNote();
                         matieresByUE.add(matieres.get(k).getLibelle());
                     }
-                    
+
                     double moyUE = som / matieres.size();
-                    if (moyUE < parametres.get(0).getMoyenneUE()) {
+                    if (moyUE < groupePedagogique.getParametres().getMoyenneUE()) {
                         uenv.add(currentUE.getLibelle());
                     }
-                    nombreCreditValider += isValide(moyUE, currentUE.getCredit());
+                    nombreCreditValider += isValide(moyUE, currentUE.getCredit(), groupePedagogique);
                     somMoySemestre = +moyUE;
-                    
-                    if(matieresByUE.size() > 1){
-                       row1.put("UE", currentUE.getLibelle()+" ("+listeToString(matieresByUE)+")");
-                    }else{
+
+                    if (matieresByUE.size() > 1) {
+                        row1.put("UE", currentUE.getLibelle() + " (" + listeToString(matieresByUE) + ")");
+                    } else {
                         row1.put("UE", currentUE.getLibelle());
                     }
                     row1.put("N", JsfUtil.formatNote(moyUE));
@@ -309,55 +306,60 @@ public class ReleveNotesBean implements Serializable{
                 }
 
                 parametreEntetes.put("TC", totalCredit);
-                parametreEntetes.put("TCV", nombreCreditValider);
-//                double moyenneSemestre = somMoySemestre / ues.size();
                 parametreEntetes.put("UENV", listeToString(uenv));
-//                pocheParametres.put("M", totalCredit);
+                if(semestre.getValeur() == semestresTmp.get(0).getValeur()) {
+                    parametreEntetes.put("TCV", nombreCreditValider);
+                    JsfUtil.generateurXDOCReport(pathIn + "/dynamiqueReleve.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "Releve" + "_" + student.getNom() + " " + student.getPrenom(), parametreEntetes);
+                }else{
+                    parametreEntetes.put("TCV", inscriptions.get(j).getCompteurCredit());
+                    parametreEntetes.put("decision", JsfUtil.decisionFinal(inscriptions.get(j).getCompteurCredit(), totalCredit,groupePedagogique));
+                    JsfUtil.generateurXDOCReport(pathIn + "/dynamiqueReleveS2.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "Releve" + "_" + student.getNom() + " " + student.getPrenom(), parametreEntetes);
+                }
 
-                JsfUtil.generateurXDOCReport(pathIn + "/dynamiqueReleve.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "Releve" + "_" + student.getNom() + " " + student.getPrenom(), parametreEntetes);
-
-//            docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
             }
             JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
-            JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getLibelle());
+            JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur());
             Historiques historique = new Historiques();
-            historique.setLibelle(groupePedagogique.getDescription() + nameFileGen + semestre.getLibelle());
-            historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getLibelle()));
+            historique.setLibelle(groupePedagogique.getDescription() + nameFileGen + semestre.getValeur());
+            historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur()));
             historique.setGroupePedagogique(groupePedagogique.getDescription());
-            historique.setDateCreation(new Date());
+            historique.setDateEdition(JsfUtil.getDateEdition());
             historiquesFacade.create(historique);
+            File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur() + ".pdf");
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur());
 
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
         }
-        
+
     }
-    
+
+   
     public String listeToString(List<String> arg) {
         String var = "";
         if (arg.size() == 0) {
             var = "NEANT";
         } else {
             for (int i = 0; i < arg.size(); i++) {
-                if(i == 0){
+                if (i == 0) {
                     var += arg.get(i);
-                }else{
-                   var += " ; " + arg.get(i); 
+                } else {
+                    var += " ; " + arg.get(i);
                 }
-                
+
             }
         }
         return var;
     }
-    
-    public int isValide(double val, int credit) {
+
+    public int isValide(double val, int credit, GroupePedagogique groupeP) {
         int som = 0;
-        if (val >= parametres.get(0).getMoyenneUE()) {
+        if (val >= groupeP.getParametres().getMoyenneUE()) {
             som = credit;
         }
         return som;
     }
-    
+
     public String decision(double note) {
         String arg = "NON VALIDER";
         if (note >= 12.0) {
@@ -365,6 +367,5 @@ public class ReleveNotesBean implements Serializable{
         }
         return arg;
     }
-    
 
 }

@@ -71,11 +71,12 @@ public class GroupePedagogiqueFacade extends AbstractFacade<GroupePedagogique> {
     public GroupePedagogique getPrevGroupePedagogique(GroupePedagogique groupeP, Filiere filiere) {
         
         String idFiliere = filiere.getId();
-        int order = groupeP.getOrdre() - 1;
+        int order = groupeP.getOrdre();
         GroupePedagogique groupePedagogique = null;
-        if (order == 0) {
+        if (order == 0 || order == 2) {
             groupePedagogique = groupeP;
         } else {
+            order = order - 1;
             try {
                 Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.ordre = :order AND G.filiere.id = :idFiliere");
                 query.setParameter("order", order);

@@ -31,7 +31,7 @@
                                                             </div>-->
                                 <div class="col-md-12">
                                     <p:selectOneMenu id="anneeAcademic" value="#{anneeAcademiqueBean.anneeAcademicChoisi}" 
-                                                     required="true">
+                                                     required="false">
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{anneeAcademiqueBean.listeAnneeAcademiques}" var="itemAnneeAcademique"
                                                        itemValue="#{itemAnneeAcademique}" itemLabel="#{itemAnneeAcademique.description}"/>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="footer">
                             <!--<button class="btn btn-default" type="button">Add new</button>-->
-                            <p:commandButton value="#{bundle.Actualiser}" update=":msgForm:msg @form" action="#{anneeAcademiqueBean.initAnneeAcademique}"
+                            <p:commandButton value="#{bundle.Actualiser}" update=":msgForm:msg @form" action="#{anneeAcademiqueBean.initAnneeAcademique()}"
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>
                             <button class="btn btn-danger link_bcPopupList" type="button">#{bundle.Close}</button>
@@ -58,6 +58,7 @@
                     </div>                    
 
                 </li>
+                
                 <li>
                     <a href="#" class="link_bcPopupSearch"><span class="glyphicon glyphicon-search"></span><span class="text">#{bundle.Search}</span></a>
 
@@ -74,7 +75,7 @@
                                     <p:outputLabel for="login" value="#{bundle.matricule}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <p:inputText id="login" value="#{parametragesBean.idEtudiantTmp}" required="true" placeholder="#{bundle.matricule}"/>
+                                    <p:inputText id="login" value="#{parametragesBean.idEtudiantTmp}" required="false" placeholder="#{bundle.matricule}"/>
                                 </div>
                             </div>
 

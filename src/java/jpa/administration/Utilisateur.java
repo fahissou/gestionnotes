@@ -35,21 +35,13 @@ public class Utilisateur implements Serializable {
     private EnumResponsabilite responsabilite;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
-    @ManyToOne
-    private Groupe groupe;
+    
     private String compteurMessage;
     @OneToMany(mappedBy = "utilisateur")
     private List<Notification> messages;
     @OneToMany(mappedBy = "utilisateur")
     private List<Habilitation> habilitations;
-
-    public Groupe getGroupe() {
-        return groupe;
-    }
-
-    public void setGroupe(Groupe groupe) {
-        this.groupe = groupe;
-    }
+    
     public Utilisateur() {
     }
 

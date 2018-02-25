@@ -53,7 +53,7 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         List<Inscription> liste = null;
         try {
             String currentInscription = anneeAcademiqueFacade.getCurrentAcademicYear().getDescription();
-            Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.anneeAcademique.description = :currentInscription");
+            Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.anneeAcademique.description = :currentInscription OR I.sessions.description = :currentInscription");
 //        Query query = em.createNativeQuery("SELECT * FROM Inscription AS I WHERE I. .anneeAcademique. = currentInscription");
             query.setParameter("currentInscription", currentInscription);
             liste = query.getResultList();
@@ -113,13 +113,15 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
     }
 
     public List<Inscription> getListInscriptionByGP(GroupePedagogique groupePedagogique, AnneeAcademique anneeAcademique) {
-
+        
         List<Inscription> inscriptions = null;
         String idGP = groupePedagogique.getId();
         String idAnneAca = anneeAcademique.getId();
-        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique.id = :idGP AND I.anneeAcademique.id = :idAnneAca");
+        String res = "R";
+        Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique.id = :idGP AND ((I.anneeAcademique.id = :idAnneAca) OR (I.sessions.id = :idAnneAca AND I.resultat = :res))");
         query.setParameter("idGP", idGP);
         query.setParameter("idAnneAca", idAnneAca);
+        query.setParameter("res", res);
         try {
             inscriptions = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
@@ -172,7 +174,7 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         return inscriptions;
     }
 
-    public List<Inscription> listeReinscription(GroupePedagogique groupePedagogique1, GroupePedagogique groupePedagogique2,String var1,String var2) {
+    public List<Inscription> listeReinscription(GroupePedagogique groupePedagogique1, GroupePedagogique groupePedagogique2,String var1,String var2,String var3) {
         AnneeAcademique anneeAcademique = anneeAcademiqueFacade.getCurrentAcademicYear();
         String anneeAc = JsfUtil.previousAcademicYear(anneeAcademique.getDescription());
         String idGP1 = groupePedagogique1.getId();
@@ -182,39 +184,18 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         List<Inscription> inscriptions = null;
 //        String var1 = "A";
 //        String var2 = "R";
-        Query query1 = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique.id = :idGP1 AND I.anneeAcademique.description = :anneeAc AND I.resultat = :var1 OR I.groupePedagogique.id = :idGP2 AND I.anneeAcademique.description = :anneeAc AND I.resultat = :var2");
+        Query query1 = em.createQuery("SELECT I FROM Inscription I WHERE (I.groupePedagogique.id = :idGP1 AND I.anneeAcademique.description = :anneeAc AND (I.resultat = :var1 OR I.resultat = :var2)) OR (I.groupePedagogique.id = :idGP2 AND I.anneeAcademique.description = :anneeAc AND I.resultat = :var3)");
         query1.setParameter("idGP1", idGP1);
         query1.setParameter("idGP2", idGP2);
         query1.setParameter("var1", var1);
         query1.setParameter("var2", var2);
+        query1.setParameter("var3", var3);
         query1.setParameter("anneeAc", anneeAc);
         try {
             inscriptions = query1.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
             inscriptions = new ArrayList<>();
         }
-//        Query query2 = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique.id = :idGP2 AND I.anneeAcademique.description = :anneeAc AND I.resultat = :var2");
-//        query2.setParameter("var2", var2);
-//        query2.setParameter("idGP2", idGP2);
-//        query2.setParameter("anneeAc", anneeAc);
-//        try {
-//            inscriptions2 = query2.getResultList();
-//        } catch (NoResultException | NonUniqueResultException e) {
-//            inscriptions2 = new ArrayList<>();
-//        }
-
-//            if(compteur1 == 1 & compteur2 == 2) {
-//                inscriptions = new ArrayList<>();
-//            }else{
-//                if(compteur1 == 0){
-//                    inscriptions = inscriptions1;
-//                }
-//                if(compteur2 == 0) {
-//                    inscriptions = inscriptions2;
-//                }
-//            }
-//        inscriptions = getListConcat(inscriptions1,inscriptions2);
-
         return inscriptions;
     }
 
@@ -226,5 +207,20 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         }
         return l1;
     }
+    
+    public List<Inscription>findListEtudiant(GroupePedagogique groupePedagogique){
+        List<Inscription> liste;
+        try {
+            Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique =:groupePedagogique");
+            // set parameters
+            query.setParameter("groupePedagogique", groupePedagogique);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            liste = new ArrayList<>();
+        }
+
+        return liste;
+    }
+    
 
 }

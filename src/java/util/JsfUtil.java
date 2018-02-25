@@ -80,7 +80,9 @@ import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import jpa.inscription.GroupePedagogique;
+import jpa.inscription.Inscription;
 import jpa.module.Semestre;
+import jpa.module.Ue;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfOptions;
@@ -1056,13 +1058,9 @@ public class JsfUtil {
     }
 
     public static String getDateEdition() {
-
         Date date1 = new Date();
-        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy  HH:mm:SS"); 
         String date2 = formatDate.format(date1);
-//        int annee = date1.getYear() + 1900;
-//        int mois  = date1.getMonth();
-//        int jour = date1.getDate();
         return date2;
     }
 
@@ -1291,8 +1289,10 @@ public class JsfUtil {
             response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
             response.setContentLength((int) file.length());
             FileInputStream input = new FileInputStream(file);
+            System.out.println("ok flush5");
             try (BufferedInputStream buf = new BufferedInputStream(input)) {
                 int readBytes;
+                System.out.println("ok flush6");
                 while ((readBytes = buf.read()) != -1) {
                     response.getOutputStream().write(readBytes);
                 }
@@ -1303,12 +1303,12 @@ public class JsfUtil {
             }
 
         } catch (IOException ex) {
-            //System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         } finally {
         }
     }
     
-    public static List<Object> getListConcat(List<Object> l1, List<Object> l2){
+    public static List<Inscription> getListConcat(List<Inscription> l1, List<Inscription> l2){
         int index1 = l1.size();
         for (int i = 0; i < l2.size(); i++) {
             int index = index1 + i;
@@ -1416,6 +1416,23 @@ public class JsfUtil {
         listeResponsabilite.add("RESPONSABLE DE FORMATION");
         listeResponsabilite.add("AUCUNE");
         return listeResponsabilite;
+    }
+    
+    public static int getCreditTotal(List<Ue> ue) {
+        int som = 0;
+        for (int i = 0; i < ue.size(); i++) {
+            som += ue.get(i).getCredit();
+        }
+        return som;
+    }
+    
+     public static String decisionFinal(int creditValide, int creditTotal,GroupePedagogique groupeP ) {
+        String resultat = "Réfusé";
+        double creditAdmis = groupeP.getParametres().getProportionAdmission()*creditTotal;
+        if(creditValide >= creditAdmis) {
+            resultat = "Admis";
+        }
+        return resultat;
     }
     
 }

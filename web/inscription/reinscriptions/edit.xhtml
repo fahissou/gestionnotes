@@ -24,7 +24,7 @@
 
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" action="#{notesBean.updateNotes()}" 
+                            <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" action="#{reinscriptionBean.reinscription()}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
                                              class="btn btn-default">
                                 <f:param name="utilisateurSession" value="#{authentificateBean.currentUser.login}"/>

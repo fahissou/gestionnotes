@@ -24,6 +24,7 @@ public class Notes implements Serializable {
     private Date dateEnregistrement;
     @ManyToOne
     private Inscription inscription;
+    private String sessions;
     
     @ManyToOne
     private Matiere matiere;
@@ -74,6 +75,14 @@ public class Notes implements Serializable {
         this.inscription = inscription;
     }
 
+    public String getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(String sessions) {
+        this.sessions = sessions;
+    }
+
    
 
     
@@ -113,6 +122,9 @@ public class Notes implements Serializable {
         Notes other = (Notes) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
+
+   
+    
     
     public void reset() {
         id = null;

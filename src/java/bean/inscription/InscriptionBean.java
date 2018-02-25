@@ -126,18 +126,14 @@ public class InscriptionBean implements Serializable {
     private GroupePedagogique groupePedagogiquePrev;
     private String resultats;
     private List<String> listeResultat;
-    private Map<Filiere, List<GroupePedagogique>> data1;
-    private Map<GroupePedagogique, List<Inscription>> data2; // = new HashMap<>();
+    
     private List<GroupePedagogique> listGroupePedagogiques;
     private List<Inscription> listeInscriptionsGP;
     private List<GroupePedagogique> listGroupePedagogiqueFilter;
     private List<Filiere> listFiliere;
     private Filiere filiere;
-    private String pathIn;
-    private String pathIn1;
-    private String pathOut1;
-    private String pathIn3;
-    private String pathOut;
+   
+    private AnneeAcademique anneeAcademiqueChoisi;
 //    private AnneeAcademique currentAcademicYear;
 
     /**
@@ -148,17 +144,11 @@ public class InscriptionBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        listeInscriptions = inscriptionFacade.findAllByInscription(AnneeAcademiqueBean.getAnneeAcademicChoisi1());
+//        listeInscriptions = inscriptionFacade.findAllByInscription(AnneeAcademiqueBean.getAnneeAcademicChoisi1());
+        anneeAcademiqueChoisi = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
         listFiliere = filiereFacade.findAll();
         
         prepareCreate();
-
-        
-        pathIn = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/";
-        pathIn1 = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/resources/releve/releveNouveau/";
-        pathOut = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/";
-        pathOut1 = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
-
     }
 
     public void initGroupePedagogique() {
@@ -168,6 +158,10 @@ public class InscriptionBean implements Serializable {
             listGroupePedagogiqueFilter = new ArrayList<>();
 
         }
+    }
+    
+    public void updateTable() {
+        listeInscriptions = inscriptionFacade.getListInscriptionByGP(groupePedagogique, anneeAcademiqueChoisi);
     }
 
     public void doCreate(ActionEvent event) throws ExceptionsGestionnotes {
@@ -594,30 +588,6 @@ public class InscriptionBean implements Serializable {
 
     }
 
-//    public void createDiffaultNotes(Inscription inscription, groupePedagogique) {
-//        List<Ue> listeUe = ueFacade.getUeByGroupePedagogique(groupePedagogique);
-//        try {
-//            if (!listeUe.isEmpty()) {
-//                for (int i = 0; i < listeUe.size(); i++) {
-//                    List<Matiere> matieres = matiereFacade.getMatiereByUe(listeUe.get(i));
-//                    newNote = new Notes();
-//                    for (int j = 0; j < matieres.size(); j++) {
-//                        newNote.setMatiere(matieres.get(j));
-//                        newNote.setInscription(inscription);
-//                        newNote.setEtatValidation("UENV");
-//                        newNote.setNote(0.0);
-//                        notesFacade.create(newNote);
-//                    }
-//
-//                }
-//            }
-//
-//        } catch (Exception ex) {
-//
-//        }
-//
-//    }
-
     public void inscriptionRedirect() {
         switch (typeInscription) {
             case "collective":
@@ -661,22 +631,6 @@ public class InscriptionBean implements Serializable {
         return resul;
     }
 
-    public void onGroupePedagogiqueChange() {
-        if (groupePedagogique != null) {
-            listeInscriptions = data2.get(groupePedagogique);
-        } else {
-            listeInscriptions = new ArrayList<>();
-        }
-    }
-    
-    public void onGroupePedagogiqueChange1() {
-        if (groupePedagogique != null) {
-            listeInscriptionsGP = data2.get(groupePedagogique);
-        } else {
-            listeInscriptionsGP = new ArrayList<>();
-        }
-    }
-
     public List<Inscription> getListeInscriptionsGP() {
         return listeInscriptionsGP;
     }
@@ -704,190 +658,63 @@ public class InscriptionBean implements Serializable {
         return "succes3";
     }
 //
-//    public String reinscriptionParticuliere() {
-//        String msg;
-//        Inscription inscription = null;
-//        try {
-//            if (!inscriptionFacade.isInscriptionExist(etudiant.getLogin(), currentAcademicYear.getDescription())) {
-//                inscription = new Inscription();
-//                inscription.setAnneeAcademique(currentAcademicYear);
-//                inscription.setGroupePedagogique(groupePedagogique);
-//                inscription.setEtudiant(etudiant);
-//                inscriptionFacade.create(inscription);
-//                createDiffaultNotes(inscription);
-//                listeInscriptions = inscriptionFacade.findAll();
-//                msg = JsfUtil.getBundleMsg("InscriptionDelSuccessMsg");
-//                JsfUtil.addSuccessMessage(msg);
-//            } else {
-//                msg = JsfUtil.getBundleMsg("InscriptionEditErrorMsg");
-//                JsfUtil.addErrorMessage(msg);
-//            }
-//
-//        } catch (Exception e) {
-//
-//        }
-//        return null;
-//    }
-//    
+   
     
     // Liste des etudiants autorisés
-//    public String genererListeEtudiant() {
-//        GroupePedagogique gP = groupePedagogique;
-//        String nomFichier = JsfUtil.generateId();
-//        File repertoire1 = new File(pathOut + "/tmp2/");
-//        File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
-//        repertoire1.mkdir();
-//        repertoire2.mkdir();
-//        deleteFile(repertoire1.getAbsolutePath() + "/");
-//        deleteFile(repertoire2.getAbsolutePath() + "/");
-//
-//        try {
-//            // Paramètres d'entete du resultat final
-//            Map<String, Object> parametreEntetes = new HashMap<>();
-//            parametreEntetes.put("aa", currentAcademicYear.getDescription());
-//            parametreEntetes.put("filiere", gP.getFiliere().getLibelle() + " :  " + gP.getDescription());
-//            parametreEntetes.put("d", JsfUtil.getDateEdition());
-//            // Definition des champs du proces fichier 1
-//            List<String> champs = new ArrayList<>();
-//            champs.add("N");
-//            champs.add("NP");
-//
-//            // Table contenant les enregistrements du fichier resultat
-//            List< Map<String, Object>> conteneur = new ArrayList<>();
-//
-//            for (int j = 0; j < listeInscriptionsGP.size(); j++) {
-//                Map<String, Object> row = new HashMap<>();
-//                Inscription currentInscription = listeInscriptionsGP.get(j);
-//
-//                row.put("N", (j + 1));
-//                row.put("NP", currentInscription.getEtudiant().getNom() + " " + currentInscription.getEtudiant().getPrenom());
-//                
-//                conteneur.add(row);
-//            }
-//
-//            genererProcesVerval(pathIn + "/listeEtudiant.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "listeEtudiant" + "_" + gP.getDescription() + "1", parametreEntetes);
-//            docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
-////            docxToPDF(repertoire1.getAbsolutePath() + "/", pathOut1);
-//            System.out.println("Ok1");
-//            mergePDF(repertoire2.getAbsolutePath() + "/", pathOut1, nomFichier + "listeEtudiant" + gP.getDescription());
-//            System.out.println("OK2");
-//            Historiques historique = new Historiques();
-//            historique.setLibelle("listeEtudiant" + gP.getDescription());
-//            historique.setLienFile(JsfUtil.getRealPath(pathOut1 + nomFichier + "listeEtudiant" + gP.getDescription()));
-//            historique.setGroupePedagogique(gP.getDescription());
-//            historique.setDateCreation(new Date());
-//            historiquesFacade.create(historique);
-//        } catch (Exception ex) {
-//            System.out.println("Exception " + ex.getMessage());
-//
-//        }
-//        return "success4";
-//    }
+    public void genererListeEtudiant() {
+        GroupePedagogique gP = groupePedagogique;
+        String nomFichier = JsfUtil.generateId();
+        String pathOut = JsfUtil.getPathOutTmp();
+        String pathIn = JsfUtil.getPathIntModelProces();
+        String pathOutPDF = JsfUtil.getPathOutPDF();
+        File repertoire1 = new File(pathOut + "/tmp2/");
+        File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
+        repertoire1.mkdir();
+        repertoire2.mkdir();
+        JsfUtil.deleteFile(repertoire1.getAbsolutePath() + "/");
+        JsfUtil.deleteFile(repertoire2.getAbsolutePath() + "/");
 
-    public void deleteFile(String folderName) {
-        File repertoire = new File(folderName);
-        File[] files = repertoire.listFiles();
         try {
-            if (files.length != 0) {
-                for (int i = 0; i < files.length; i++) {
-                    boolean bool = files[i].delete();
-                }
+            // Paramètres d'entete du resultat final
+            Map<String, Object> parametreEntetes = new HashMap<>();
+            parametreEntetes.put("aa", anneeAcademiqueChoisi.getDescription());
+            parametreEntetes.put("filiere", gP.getFiliere().getLibelle() + " :  " + gP.getDescription());
+            parametreEntetes.put("d", JsfUtil.getDateEdition());
+            // Definition des champs du proces fichier 1
+            List<String> champs = new ArrayList<>();
+            champs.add("N");
+            champs.add("NP");
+
+            // Table contenant les enregistrements du fichier resultat
+            List< Map<String, Object>> conteneur = new ArrayList<>();
+
+            for (int j = 0; j < listeInscriptions.size(); j++) {
+                Map<String, Object> row = new HashMap<>();
+                Inscription currentInscription = listeInscriptions.get(j);
+
+                row.put("N", (j + 1));
+                row.put("NP", currentInscription.getEtudiant().getNom() + " " + currentInscription.getEtudiant().getPrenom());
+                
+                conteneur.add(row);
             }
-        } catch (Exception e) {
+            
+            JsfUtil.generateurXDOCReport(pathIn + "/listeEtudiant.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "listeEtudiant" + "_" + gP.getDescription() + "1", parametreEntetes);
+            
+            JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
+            JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "listeEtudiant" + gP.getDescription());
+            Historiques historique = new Historiques();
+            historique.setLibelle("listeEtudiant" + gP.getDescription());
+            historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()));
+            historique.setGroupePedagogique(gP.getDescription());
+            historique.setDateEdition(JsfUtil.getDateEdition());
+            historiquesFacade.create(historique);
+            File fileDowload = new File(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + "listeEtudiant" + gP.getDescription());
+        } catch (Exception ex) {
+            System.out.println("Exception " + ex.getMessage());
+
         }
-    }
-    
-    public boolean genererProcesVerval(String fichier, List<String> champs, List< Map<String, Object>> conteneur, String tableName, String chemin, String fileName, Map<String, Object> parametreEntetes) {
-        boolean resultat = false;
-        try {
-            System.out.println("Proces debut");
-            InputStream in = new FileInputStream(new File(fichier));
-            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
-            //Put the table
-            FieldsMetadata metadata = new FieldsMetadata();
-            for (String ch : champs) {
-                metadata.addFieldAsList(tableName + "." + ch);
-            }
-            report.setFieldsMetadata(metadata);
-            // 3) Create context Java model
-            IContext context = report.createContext();
-            context.put(tableName, conteneur);
-            context.putMap(parametreEntetes);
-            // context.putMap(mapsP);
-            // fichier de sortie
-            String outputFile = fileName + ".docx";
-
-            // 4) Generate report by merging Java model with the Docx
-            OutputStream out = new FileOutputStream(new File(chemin + outputFile));
-            report.process(context, out);
-            resultat = true;
-            System.out.println("Proces fin");
-        } catch (IOException | XDocReportException ex) {
-        }
-
-        return resultat;
-    }
-    
-    public void docxToPDF(String folderName, String destination) {
-        File repertoire = new File(folderName);
-        File[] files = repertoire.listFiles();
-        try {
-            int i;
-            for (i = 0; i < files.length; i++) {
-                String fileNam = files[i].getName();
-                createPDF(folderName + fileNam, destination + "file" + i + ".pdf");
-            }
-//            if(i == 1){
-//            Desktop d = Desktop.getDesktop();
-//            d.open(new File("destination + file0.pdf"));
-//            }
-
-        } catch (Exception e) {
-            System.out.println(" pdf error " + e.getMessage());
-        }
-
-    }
-    
-    //*********************
-    public void mergePDF(String folderName, String pathOut, String fileName) throws IOException {
-        System.out.println("toto1");
-        File repertoire = new File(folderName);
-        System.out.println("toto2");
-        File[] files = repertoire.listFiles();
-        System.out.println("toto3");
-        PDFMergerUtility PDFmerger = new PDFMergerUtility();
-        System.out.println("icicc " + files.length);
-        try {
-            for (int i = 0; i < files.length; i++) {
-                PDFmerger.addSource(files[i]);
-            }
-            PDFmerger.setDestinationFileName(pathOut + fileName + ".pdf");
-            PDFmerger.mergeDocuments();
-        } catch (Exception e) {
-        }
-    }
-    
-    public void createPDF(String pathIn, String pathOut) {
-        try {
-            long start = System.currentTimeMillis();
-
-            // 1) Load DOCX into XWPFDocument
-            InputStream is = new FileInputStream(new File(pathIn));
-            XWPFDocument document = new XWPFDocument(is);
-
-            // 2) Prepare Pdf options
-            PdfOptions options = PdfOptions.create();
-//            PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
-//            PdfOptions options = PdfOptions.create().fontEncoding("iso-8859-15");
-            // 3) Convert XWPFDocument to Pdf
-            OutputStream out = new FileOutputStream(new File(pathOut));
-            PdfConverter.getInstance().convert(document, out, options);
-//            System.out.println("Generate pdf/HelloWorld.pdf with "
-//                    + (System.currentTimeMillis() - start) + "ms");
-
-        } catch (Throwable e) {
-            System.out.println(" pdf error " + e.getMessage());
-        }
+        
     }
     
     public void createDiffaultNotes(Inscription inscription, GroupePedagogique groupePedagogique1) {

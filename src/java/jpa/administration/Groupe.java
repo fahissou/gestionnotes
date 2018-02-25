@@ -21,8 +21,6 @@ public class Groupe implements Serializable {
     private String username;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
-    @OneToMany(mappedBy = "groupe")
-    private List<Utilisateur> utilisateurs;
     @OneToMany(mappedBy = "groupeUtilisateur")
     private List<Habilitation> habilitations;
 
@@ -44,15 +42,6 @@ public class Groupe implements Serializable {
 
     
     public Groupe() {
-    }
-
-    
-    public List<Utilisateur> getUtilisateurs() {
-        return utilisateurs;
-    }
-
-    public void setUtilisateurs(List<Utilisateur> utilisateurs) {
-        this.utilisateurs = utilisateurs;
     }
 
     

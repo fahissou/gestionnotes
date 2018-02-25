@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:composition>
 
@@ -16,58 +17,50 @@
                         <!--<div class="i-cycle glyphicon glyphicon-refresh"></div>-->
                         <h1>#{bundle.listeEtudiant}</h1>
 
-                        <div class="row-form clearfix selectgp">
-
-                        <div class="col-md-3 buttonLien">
-                                <ul class="buttonLien">
-                                <li>
-
-                                    <p:commandLink id="editButton" value="#{null}" title="#{bundle.Releve}" styleClass="btn btn-primary btn-xs"
-                                                   action="#{inscriptionBean.genererListeEtudiant()}" >
-                                        <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
-                                        <i class="ibw-edit"/>
-                                    </p:commandLink>
-                                </li>
-                            </ul>
-                         </div>
-                            
-                            <div class="col-md-3">
-                                <p:selectOneMenu id="description" value="#{inscriptionBean.groupePedagogique}" 
-                                                 required="false">
-                                    <p:ajax listener="#{inscriptionBean.onGroupePedagogiqueChange1()}" update="incarcerationTable" />
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.GroupePedagogique}"/>
-                                    <f:selectItems value="#{inscriptionBean.listesGroupePedagogiques}"
-                                                   var="groupePedagogiquesItem"
-                                                   itemValue="#{groupePedagogiquesItem}"
-                                                   itemLabel="#{groupePedagogiquesItem.description}"/>
-                                    <f:converter  converterId="groupePedagogiqueConverter"/>
-                                </p:selectOneMenu>
-
-                            </div>
-                        </div>
-
-                        
-
-
-
-
-                        <!--                        </li>
-                                                </ul>-->
-
-
-
                     </div>
                     <div class="content np block-fluid table-sorting clearfix">
+                        <div class=" row-form clearfix" >
+                            <div class="col-md-2">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-3" jsf:id="filiereArea">
+                                <p:selectOneMenu id="filiere" value="#{etudiantBean.selectedFiliere}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                    <p:ajax listener="#{etudiantBean.initList()}" update="groupePedagogiqueArea" />
+                                </p:selectOneMenu>
+                            </div>
+
+
+                            <div class="col-md-2">
+
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                            </div>
+                            <div class="col-md-3" jsf:id="groupePedagogiqueArea">
+                                <p:selectOneMenu id="groupePedagogique" value="#{etudiantBean.selectedGroupePedagogique}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{etudiantBean.listGroupePedagogiques}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    <p:ajax listener="#{etudiantBean.initList()}" update="@form filiere incarcerationTable" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
                         <p:dataTable id="incarcerationTable" var="item"
-                                     selection="#{inscriptionBean.selectedInscription}"
-                                     value="#{inscriptionBean.listeInscriptionsGP}"
+                                     selection="#{etudiantBean.selectedEtudiant}"
+                                     value="#{etudiantBean.listeEtudiants}"
                                      emptyMessage="#{bundle.EmptyListMsg}"
-                                     rowKey="#{item.id}"
+                                     rowKey="#{item.login}"
                                      paginator="true"
                                      rows="10"
                                      rowsPerPageTemplate="10,20,30"
                                      sortMode="multiple"
-                                     filteredValue="#{inscriptionBean.filteredList}"
+                                     filteredValue="#{etudiantBean.filteredList}"
                                      currentPageReportTemplate="({startRecord} #{bundle.PaginationTemplate_var1} {endRecord} #{bundle.PaginationTemplate_var2} {totalRecords} #{bundle.PaginationTemplate_var3} {currentPage} #{bundle.PaginationTemplate_var2} {totalPages})"
                                      pageLinks="5"
                                      rowIndexVar="rowIndex"
@@ -76,24 +69,23 @@
                                      > 
 
                             <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
-                            <p:column headerText="#{bundle.matricule}"  sortBy="#{item.etudiant.login}" 
-                                      filterBy="#{item.etudiant.login}" filterMatchMode="contains"
+                            <p:column headerText="#{bundle.matricule}"  sortBy="#{item.login}" 
+                                      filterBy="#{item.login}" filterMatchMode="contains"
                                       >
-                                <h:outputText value=" #{item.etudiant.login}"/>
+                                <h:outputText value=" #{item.login}"/>
                             </p:column>
 
-                            <p:column headerText="#{bundle.Nom}"  sortBy="#{item.etudiant.nom.toUpperCase()}" filterBy="#{item.etudiant.nom.toUpperCase()}">
-                                <h:outputText value=" #{item.etudiant.nom.toUpperCase()}" />
+                            <p:column headerText="#{bundle.Nom}"  sortBy="#{item.nom}" filterBy="#{item.nom}">
+                                <h:outputText value=" #{item.nom}" />
                             </p:column>
 
-                            <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.etudiant.prenom}" filterBy="#{item.etudiant.prenom}">
-                                <h:outputText value=" #{item.etudiant.prenom}" />
+                            <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.prenom}" filterBy="#{item.prenom}">
+                                <h:outputText value=" #{item.prenom}" />
                             </p:column>
-
-<!--                                        <p:column headerText="#{bundle.GroupePedagogique}"  sortBy="#{item.groupePedagogique}" filterBy="#{item.groupePedagogique}">
-    <h:outputText value=" #{item.groupePedagogique.description}" />
-</p:column>-->
-
+                            
+                            <p:column headerText="#{bundle.Telephone}"  sortBy="#{item.telephone}" filterBy="#{item.telephone}">
+                                <h:outputText value=" #{item.telephone}" />
+                            </p:column>
 
                             <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
 
@@ -102,21 +94,21 @@
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
-                                    <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedEtudiant}" />
+                                    <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
                                 </p:commandLink>
 
                                 <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-pencil glyphicon glyphicon-pencil"/>
-                                    <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedEtudiant}" />
+                                    <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
                                 </p:commandLink>
 
                                 <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-trashcan glyphicon glyphicon-trash"/>
-                                    <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedEtudiant}" />
+                                    <f:setPropertyActionListener value="#{item}" target="#{etudiantBean.selectedEtudiant}" />
                                 </p:commandLink>
 
 <!--                                            <p:commandLink value="#{null}" title="Success" styleClass="btn btn-default btn-xs"

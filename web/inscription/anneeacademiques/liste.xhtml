@@ -10,7 +10,7 @@
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1>#{bundle.ABConcerne}</h1>
+                        <h1>#{bundle.AnneeAcademique}</h1>
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
@@ -43,12 +43,12 @@
 
                                                 <f:setPropertyActionListener value="#{item}" target="#{anneeAcademiqueBean.selectedAnneeAcademique}" />
                                             </p:commandLink>-->
-                                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+<!--                                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-pencil glyphicon glyphicon-pencil"/>
                                                 <f:setPropertyActionListener value="#{item}" target="#{anneeAcademiqueBean.selectedAnneeAcademique}" />
-                                            </p:commandLink>
+                                            </p:commandLink>-->
                                             <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                            update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">

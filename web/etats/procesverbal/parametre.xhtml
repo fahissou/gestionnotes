@@ -58,7 +58,7 @@
 
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{procesVerbalBean.listSemestres}" var="itemSemestre"
-                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.libelle}"/>
+                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.valeur}"/>
                                     <f:converter  converterId="semestreConverter"/>
                                 </p:selectOneMenu>
                             </div>

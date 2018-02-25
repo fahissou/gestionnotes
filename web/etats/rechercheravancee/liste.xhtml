@@ -43,7 +43,7 @@
                                     <p:ajax listener="#{rechercheAvanceeBean.updatetable()}" update="incarcerationTable" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{rechercheAvanceeBean.listSemestres}" var="itemSemestre"
-                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.libelle}"/>
+                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.valeur}"/>
                                     <f:converter  converterId="semestreConverter"/>
                                 </p:selectOneMenu>
                             </div>

@@ -159,7 +159,9 @@ public class AnneeAcademiqueBean implements Serializable{
     }
     
     public void initAnneeAcademique(){
+        System.out.println("Init Ann");
         if(anneeAcademicChoisi != null){
+            System.out.println("Out her !");
            RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/'"); 
         }
         

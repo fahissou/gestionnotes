@@ -44,7 +44,7 @@
                                     <p:ajax listener="#{matiereBean.initSemestre()}" update="semestre"/>
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{matiereBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
-                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
+                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
@@ -76,7 +76,7 @@
                                     
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{matiereBean.listeUE}" var="itemUE"
-                                                   itemValue="#{itemUE}" itemLabel="#{itemUE.libelle}"/>
+                                                   itemValue="#{itemUE}" itemLabel="#{itemUE.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="ueConverter"/>
                                 </p:selectOneMenu>
                             </div>

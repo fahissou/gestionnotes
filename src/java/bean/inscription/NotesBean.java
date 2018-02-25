@@ -157,7 +157,6 @@ public class NotesBean implements Serializable {
     private String signataire;
     private List<String> listeSignataires;
     List<GroupePedagogique> list1GP;
-    List<Parametres> listeParametres;
 
     /**
      * Creates a new instance of NotesBean
@@ -173,7 +172,6 @@ public class NotesBean implements Serializable {
         listeNotess = notesFacade.findAll();
         listFiliere = filiereFacade.findAll();
         anneeAcademique = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
-        listeParametres = parametresFacade.findAll();
         prepareCreate();
         
         
@@ -209,7 +207,7 @@ public class NotesBean implements Serializable {
     
     public void updateTable() {
         if (newMatiere != null) {
-            listeNotesGroupPeda = notesFacade.listeNoteGpAnnee(anneeAcademique, groupePedagogique, newMatiere);
+            listeNotesGroupPeda = notesFacade.listeNoteGpAnnee1(anneeAcademique, groupePedagogique, newMatiere);
         } else {
             listeNotesGroupPeda = new ArrayList<>();
         }   
@@ -217,7 +215,7 @@ public class NotesBean implements Serializable {
     
     public void updateTablesN() {
         if (newMatiere != null) {
-            listeNotesEnregistrement = notesFacade.listeNotesNonValide(groupePedagogique, newMatiere);
+            listeNotesEnregistrement = notesFacade.listeNotesNonValide(anneeAcademique, groupePedagogique, newMatiere);
         } else {
             listeNotesEnregistrement = new ArrayList<>();
         }   
@@ -748,7 +746,6 @@ public class NotesBean implements Serializable {
     public String affichage1() {
         liste = new ArrayList<>();
         try {
-            System.out.println(anneeAcademique + " " + groupePedagogique.getDescription() + " " + newMatiere.getLibelle());
             liste = notesFacade.listeNoteGpAnnee(anneeAcademique, groupePedagogique, newMatiere);
             if (!liste.isEmpty()) {
                 setListeNotesGroupPeda(liste);
@@ -764,7 +761,7 @@ public class NotesBean implements Serializable {
     public void affichageNotes() {
         liste = new ArrayList<>();
         try {
-            liste = notesFacade.listeNotesNonValide(groupePedagogique, newMatiere);
+            liste = notesFacade.listeNotesNonValide(anneeAcademique,groupePedagogique, newMatiere);
             setGroupePedagogique(groupePedagogique);
             setEnseignant(enseignant);
             if (!liste.isEmpty()) {
@@ -810,7 +807,7 @@ public class NotesBean implements Serializable {
         try {
             for (int i = 0; i < listeNotesEnregistrement.size(); i++) {
                 Inscription inscription = listeNotesEnregistrement.get(i).getInscription();
-                if (listeNotesEnregistrement.get(i).getNote() < listeParametres.get(0).getMoyenneMatiere()) {
+                if (listeNotesEnregistrement.get(i).getNote() < groupePedagogique.getParametres().getMoyenneMatiere()) {
                     listeNotesEnregistrement.get(i).setOldNote(listeNotesEnregistrement.get(i).getNote());
                 }
                 notesFacade.edit(listeNotesEnregistrement.get(i));
@@ -825,16 +822,27 @@ public class NotesBean implements Serializable {
                     }
                 }
                 double moyUE = som / matieres.size();
-                if (moyUE >= listeParametres.get(0).getMoyenneUE() && compteur == 0) {
-                    inscription.setCompteurCredit(inscription.getCompteurCredit() + ue.getCredit());
+                if (moyUE >= groupePedagogique.getParametres().getMoyenneUE() && compteur == 0) {
+                    int compteurEtu = inscription.getCompteurCredit() + ue.getCredit();
+                    inscription.setCompteurCredit(compteurEtu);
+                    if(compteurEtu == 30){
+                        inscription.setResultat("T");
+                    }else if(compteurEtu == 24){
+                        inscription.setResultat("A");
+                    }
                     inscriptionFacade.edit(inscription);
                     // mise à jour des notes de l'UE
                     for (int k = 0; k < matieres.size(); k++) {
                         Notes note = notesFacade.getNotesByInscriptionMatiere(listeNotesEnregistrement.get(i).getInscription(), matieres.get(k));
                         note.setEtatValidation("UEV");
+                        note.setSessions(anneeAcademique.getDescription());
                         notesFacade.edit(note);
                     }
                 }
+                
+                
+                
+                
             }
             liste = new ArrayList<>();
             liste = notesFacade.listeNoteGpAnnee(anneeAcademique, groupePedagogique, newMatiere);
@@ -1029,7 +1037,7 @@ public class NotesBean implements Serializable {
             parametreEntetes.put("aa", anneeAcademique.getDescription());
             parametreEntetes.put("filiere",groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
             parametreEntetes.put("matiere", listeNotesEnregistrement.get(0).getMatiere().getLibelle());
-            parametreEntetes.put("semestre", listeNotesEnregistrement.get(0).getMatiere().getUe().getSemestre().getLibelle());
+            parametreEntetes.put("semestre", listeNotesEnregistrement.get(0).getMatiere().getUe().getSemestre().getValeur());
             parametreEntetes.put("d", JsfUtil.getDateEdition());
             parametreEntetes.put("enseignant", "SANDA Amadou");
             // Definition des champs du proces fichier 1
@@ -1059,8 +1067,10 @@ public class NotesBean implements Serializable {
             historique.setLibelle("FeuilleNotes" + groupePedagogique.getDescription());
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription()));
             historique.setGroupePedagogique(groupePedagogique.getDescription());
-            historique.setDateCreation(new Date());
+            historique.setDateEdition(JsfUtil.getDateEdition());
             historiquesFacade.create(historique);
+            File fileDowload = new File(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription() + ".pdf");
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + "FeuilleNotes" + groupePedagogique.getDescription());
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
 

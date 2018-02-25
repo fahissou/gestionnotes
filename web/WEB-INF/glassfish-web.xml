@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
 <glassfish-web-app error-url="">
-  <security-role-mapping>
+<!--  <security-role-mapping>
     <role-name>ADMIN</role-name>
     <group-name>Admin</group-name>
   </security-role-mapping>
@@ -16,7 +16,7 @@
   <security-role-mapping>
     <role-name>RESPONSABLE</role-name>
     <group-name>Responsable</group-name>
-  </security-role-mapping>
+  </security-role-mapping>-->
   <context-root>/gestionnotes</context-root>
   <class-loader delegate="true"/>
   <jsp-config>
