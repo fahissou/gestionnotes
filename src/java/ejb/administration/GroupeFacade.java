@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jpa.administration.Groupe;
+import util.JsfUtil;
 
 /**
  *
@@ -35,7 +36,7 @@ public class GroupeFacade extends AbstractFacade<Groupe> {
     
     @Override
     public void create(Groupe groupe) {
-        groupe.setId(groupe.getLibelle()+code);
+        groupe.setId(JsfUtil.generateId());
         super.create(groupe);
     }
     

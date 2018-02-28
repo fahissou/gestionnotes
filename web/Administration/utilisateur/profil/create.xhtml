@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>  
+        <h:form id="formeEx" styleClass="form-horizontal">
+            <p:growl id="growl" showDetail="true"/>
+            <div class="col-md-6">
+
+                <div class="block">
+                    <div class="head clearfix">
+                        <!--<div class="isw-documents"></div>-->
+                        <h1>#{bundle.ProfilUtilisateur}</h1>
+                    </div>
+
+
+                    <div class="block-fluid"> 
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel value="#{bundle.utilisateur}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <label class="form-control input-sm">
+                                    #{authentificateBean.recupUtilisateur().login}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel value="#{bundle.Nom}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <label class="form-control input-sm">
+                                    #{authentificateBean.recupUtilisateur().nom}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel value="#{bundle.Prenoms}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <label class="form-control input-sm">
+                                    #{authentificateBean.recupUtilisateur().prenom}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel value="#{bundle.Telephone}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <label class="form-control input-sm">
+                                    #{authentificateBean.recupUtilisateur().telephone}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel value="#{bundle.Email}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <label class="form-control input-sm">
+                                    #{authentificateBean.recupUtilisateur().mail}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="block">
+                    <div class="head clearfix">
+                        <!--<div class="isw-documents"></div>-->
+                        <h1>#{bundle.passwdChangeTitle}</h1>
+                    </div>
+                    <div class="block-fluid">
+
+                        <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                            <div class="col-md-3">
+                                <p:outputLabel for="oldmotdepasse" value="#{bundle.Password}"/>
+                            </div>
+                            <div class="col-md-8">
+                                <p:password id="oldmotdepasse" value="#{authentificateBean.currentUser.oldPassword}" placeholder="#{bundle.OldPassword}"
+                                            validator="#{authentificateBean.olPasswordVerification}" required="true" requiredMessage="#{bundle.ChampObligatoire}">
+                                    <f:ajax event="blur" render="oldmotdepasseMessage" />
+                                </p:password>
+                                <p:message id="oldmotdepasseMessage" for="oldmotdepasse"/>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                            <div class="col-md-3">
+                                <p:outputLabel for="motdepasse" value="#{bundle.Password}"/>
+                            </div>
+                            <div class="col-md-8">
+
+                                <p:password id="motdepasse" value="#{authentificateBean.currentUser.password}" binding="#{composantMotDePasse}" size="20" maxlength="20"
+                                            placeholder="#{bundle.NewPassword}" required="true" requiredMessage="#{bundle.ChampObligatoire}">
+                                    <f:ajax event="blur" render="motDePasseMessage" />
+                                </p:password>
+                                <p:message id="motDePasseMessage" for="motdepasse"/>
+                            </div>
+                        </div>
+
+                        <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                            <div class="col-md-3">
+                                <p:outputLabel value="#{bundle.ConfirmTitle}" for="confirmation"/>
+                            </div>
+                            <div class="col-md-8">
+                                <p:password id="confirmation" value="#{authentificateBean.currentUser.password}" size="20" maxlength="20" placeholder="#{bundle.ConfirmTitle}" required="true"
+                                            requiredMessage="#{bundle.ChampObligatoire}">
+                                    <f:ajax event="blur" render="confirmationMessage" />
+                                    <f:attribute name="composantMotDePasse" value="#{composantMotDePasse}" />
+                                    <f:validator validatorId="confirmationMotDePasseValidator" />
+                                </p:password>
+                                <p:message id="confirmationMessage" for="confirmation"/> 
+
+                            </div>
+                        </div>
+
+                        <div class="footer tar">
+                            <p:commandButton id="delButton" value="#{bundle.Enable}" styleClass="btn btn-default"
+                                           update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"
+                                           style="border-radius: 0px; margin-right: 1px;">
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:composition>
+</html>

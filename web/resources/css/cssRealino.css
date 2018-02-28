@@ -431,10 +431,10 @@ div.block_loading {
     animation: anim-rotate 1s infinite steps(8);
 }
 
-.col-md-4, .col-md-8{
+.col-md-8{
     /*    padding-right: 0px;
         padding-left: 0px;*/
-    margin-left: 132px;
+    /*margin-left: 132px;*/
 }
 .header .header_menu{
     width: 258px!important;
@@ -453,4 +453,32 @@ a.link_bcPopupSearch{
 }
 .glyphicon{
     margin: 2px;
+}
+/*.connexion.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}*/
+.connexion .btn{
+    float: right;
+    padding: 4px 10px;
+    margin-top: 1px;
+    margin-bottom: 4px;
+    margin-right: 4px;
+    font-size: 12px;
+    line-height: 20px;
+    border-radius: 4px;
+    border-left: 1px solid #D5D5D5;
+    border-bottom: 1px solid #D5D5D5;
+    right: 13px;
+}
+/*.connexion .btn:hover{
+    background-color: #333;
+    border-color: #ccc;
+}*/
+.input-group-addon {
+    font-size: 12px!important;
+}
+.glyphicon {
+    line-height: 0!important;
 }

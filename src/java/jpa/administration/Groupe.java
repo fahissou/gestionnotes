@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -18,7 +19,6 @@ public class Groupe implements Serializable {
     @Id
     private String id;
     private String libelle;
-    private String username;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
     @OneToMany(mappedBy = "groupeUtilisateur")
@@ -39,12 +39,9 @@ public class Groupe implements Serializable {
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
     }
-
     
     public Groupe() {
     }
-
-    
     
     public String getId() {
         return id;
@@ -54,14 +51,18 @@ public class Groupe implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public List<Habilitation> getHabilitations() {
+        return habilitations;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setHabilitations(List<Habilitation> habilitations) {
+        this.habilitations = habilitations;
     }
     
+    @PrePersist
+    public void initDateCreation() {
+        dateCreation = new Date();
+    }
     @Override
     public int hashCode() {
         int hash = 0;
@@ -81,7 +82,6 @@ public class Groupe implements Serializable {
     
     public void reset() {
         id = null;
-        username = null;
         libelle=null;
     }
     

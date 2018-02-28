@@ -25,22 +25,23 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>none</param-value>
     </context-param>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
     
     <mime-mapping>  
         <extension>woff2</extension>  
         <mime-type>application/x-font-woff2</mime-type>  
     </mime-mapping>
     
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+    
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     
-<!--     <error-page>
+     <error-page>
         <error-code>403</error-code>
         <location>/authenticate/403.xhtml</location>
     </error-page>
@@ -86,7 +87,7 @@
         <web-resource-collection>
             <web-resource-name>adminZone</web-resource-name>
             <description>Zone d'administration</description>
-            <url-pattern>/administration/*</url-pattern>
+            <url-pattern>/Administration/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -126,6 +127,6 @@
     <security-role>
         <description>Enseignant</description>
         <role-name>ENSEIGNANT</role-name>
-    </security-role>-->
+    </security-role>
     
 </web-app>

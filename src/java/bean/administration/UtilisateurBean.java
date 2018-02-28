@@ -5,10 +5,8 @@
  */
 package bean.administration;
 
-import ejb.administration.GroupeFacade;
 import ejb.administration.UtilisateurFacade;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,7 +18,6 @@ import javax.inject.Named;
 import javax.faces.event.ActionEvent;
 import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
-import jpa.administration.Groupe;
 import jpa.administration.Utilisateur;
 import util.JsfUtil;
 
@@ -32,10 +29,6 @@ import util.JsfUtil;
 @Named(value = "utilisateurBean")
 @ViewScoped
 public class UtilisateurBean implements Serializable{
-    @EJB
-    private GroupeFacade groupeFacade;
-    private Groupe newGroupe;
-
 
     @EJB
     private UtilisateurFacade utilisateurFacade;

@@ -9,7 +9,7 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <title> <ui:insert name="title">Authtentification </ui:insert></title>
+        <title> <ui:insert name="title">#{bundle.LoginPageTitle} </ui:insert></title>
         <link rel="icon" type="image/ico" href="#{resource['images:favicon.ico']}"> </link>
 
         <h:outputStylesheet library="css" name="stylesheets.css"/>
@@ -84,7 +84,7 @@
     </h:head>
     <h:body>
         <div class="loginBlock" id="login" style="display: block;">
-            <h1>#{bundle.gestionEvaluation}</h1>
+            <h1>#{bundle.LoginPanelTitle}</h1>
             <div class="dr"><span></span></div>
             <div class="loginForm">
 <!--                <h:form id="msgForm">
@@ -111,13 +111,16 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                            <p:password id="inputPassword" value="#{authentificateBean.mdp}" placeholder="#{bundle.Password}" class="form-control validate[required]"/>
+                            <p:password id="inputPassword" value="#{authentificateBean.mdp}" placeholder="#{bundle.Password}" required="true" requiredMessage="#{bundle.RequiredMessage}">
+                                <f:ajax event="blur" render="inputPasswordMessage" />
+                            </p:password>
+                            <p:message id="inputPasswordMessage" for="inputPassword"/>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="connexion">
                             <div class="form-group" style="margin-top: 5px;">
-                                <p:commandButton value="#{bundle.LoginButtonLabel}" action="#{authentificateBean.connexion}" class="btn btn-default btn-block"
+                                <p:commandButton value="#{bundle.LoginButtonLabel}" action="#{authentificateBean.connexion}" class="btn btn-default"
                                                  update="@form :validation growl" >
                                 </p:commandButton>       
                             </div>

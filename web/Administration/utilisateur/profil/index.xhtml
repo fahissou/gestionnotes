@@ -14,15 +14,15 @@
                         </ui:define>-->
 
             <ui:define name="title">
-                #{bundle.listeUtilisateurs}
+                #{bundle.Profil}
             </ui:define>
 
             <ui:define name="breadLine">
                 <div class="breadLine">
                     <ul class="breadcrumb">
-                        <li><a href="#">#{bundle.administration1}</a> <span class="divider">></span></li>  
-                        <li><a href="#">#{bundle.utilisateur}</a> <span class="divider">></span></li> 
-                        <li class="active">#{bundle.listeUtilisateurs}</li>
+                        <li><a href="#">#{bundle.Dashbord}</a> <span class="divider">></span></li>  
+                        <!--<li><a href="#">#{bundle.utilisateur}</a> <span class="divider">></span></li>--> 
+                        <li class="active">#{bundle.Profil}</li>
                     </ul> 
                 </div>
             </ui:define>
@@ -30,16 +30,16 @@
             <ui:define name="main">
                 <div class="workplace">
                 <div class="row">
-                    <ui:include src="menunav.xhtml"/>
-                    <ui:include src="liste.xhtml"/>
-<!--                <div class ="nav-position">
-                    
-                </div>-->
+                <div class ="nav-position">
+                    <!--<ui:include src="../menunav.xhtml"/>-->
+                    <ui:include src="create.xhtml"/>
+                    <ui:include src="delete.xhtml"/>
+                </div>
                 </div>
                 
-                <ui:include src="view.xhtml"/>
-                   <ui:include src="edit.xhtml"/>
-                   <ui:include src="delete.xhtml"/>
+<!--                <ui:include src="view.xhtml"/>-->
+<!--                   <ui:include src="edit.xhtml"/>
+                   <ui:include src="delete.xhtml"/>-->
                </div>
                 
            </ui:define>

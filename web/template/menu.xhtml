@@ -10,19 +10,34 @@
         <h:form>
 
             <div class="breadLine">            
-                <div class="arrow"></div>
-<!--                <div class="adminControl active">
-                    
-                </div>-->
+                <div class="arrow">
+                    <div class="adminControl active">
+                        
+                    </div>
+                </div>
+                <div class="adminControl active">
+                    #{bundle.UtilisateurWelcome} #{authentificateBean.recupUtilisateur().nom} #{authentificateBean.recupUtilisateur().prenom}
+                </div>
             </div>
 
             <div class="admin">
                 <div class="image">
-                    <p:graphicImage library="images/users" name="aqvatarius.jpg" class="img-thumbnail"/>
+                    <p:graphicImage library="images/users" name="imsp.jpg" class="img-thumbnail"/>
                 </div>
                 <ul class="control">                
-                    <!--<li><span class="glyphicon glyphicon-comment"></span> <a href="messages.html">Messages</a> <a href="messages.html" class="caption red">12</a></li>-->
-                    <li><span class="glyphicon glyphicon-cog"></span> <a href="forms.html">#{bundle.parametres}</a></li>
+                    <!--<li><span class="glyphicon glyphicon-comment"></span> <a href="messages.html">Profil</a> <a href="messages.html" class="caption red">12</a></li>-->
+                    <li>
+                        <span class="glyphicon glyphicon-user"></span>
+                        <a href="/gestionnotes/Administration/utilisateur/profil">
+                            #{bundle.Profil}
+                        </a>
+                    </li>
+<!--                    <li>
+                        <span class="glyphicon glyphicon-cog"></span> 
+                        <a href="/gestionnotes/Administration/parametres">
+                            #{bundle.parametres}
+                        </a>
+                    </li>-->
                     <li>
                         <!--<span class="glyphicon glyphicon-share-alt"></span> <a href="login.html">#{bundle.Logout}</a>-->
                         <p:commandLink id="deconnexion" value="#{null}" action="#{authentificateBean.deconnexion}">
@@ -32,20 +47,20 @@
                     </li>
                 </ul>
                 <div class="info">
-                    <span>Welcom back! Your last visit: 24.10.2012 in 19:55</span>
+                    <span>Bienvenu dans votre espace de travail!</span>
                 </div>
             </div>
 
             <ul class="navigation">            
                 <li class="active">
                     <a href="/gestionnotes">
-                        <span class="isw-grid"></span><span class="text">#{bundle.Dashbord}</span>
+                        <span class="text">#{bundle.Dashbord}</span>
                     </a>
                 </li>
 
                 <li class="openable #{administration}">
                     <a href="#">
-                        <span class="isw-lock"></span><span class="text">#{bundle.administration1}</span>
+                        <span class="text">#{bundle.administration1}</span>
                     </a>
                     <ul>
                         <li>
@@ -53,7 +68,7 @@
                                 <span class="isb-users"></span><span class="text">#{bundle.Groupe}</span>
                             </a>
                         </li>
-                         <li>
+                        <li>
                             <a href="/gestionnotes/Administration/habilitation">
                                 <span class="isb-users"></span><span class="text">#{bundle.habilitation}</span>
                             </a>
@@ -63,7 +78,7 @@
                                 <span class="isb-settings"></span> <span class="text">#{bundle.Parametres}</span>
                             </a>
                         </li>
-                        
+
                         <li>
                             <a href="/gestionnotes/Administration/utilisateur">                               
                                 <span class="isb-user"></span> <span class="text">#{bundle.utilisateur}</span>
@@ -111,137 +126,137 @@
 
                 <li class="openable">
                     <a href="#">
-                        <span class="isw-user"></span><span class="text">#{bundle.Inscription}</span>                    
+                        <span class="text">#{bundle.Inscription}</span>                    
                     </a>
                     <ul>
-                                            <li>
-                                                <a href="/gestionnotes/inscription/anneeacademiques">
-                                                    <span class="glyphicon glyphicon-edit"></span><span class="text">#{bundle.AnneeAcademique}</span>
-                                                </a>
-                                            </li>
-                        
+                        <li>
+                            <a href="/gestionnotes/inscription/anneeacademiques">
+                                <span class="glyphicon glyphicon-edit"></span><span class="text">#{bundle.AnneeAcademique}</span>
+                            </a>
+                        </li>
+
                         <li>
                             <a href="/gestionnotes/inscription/formatfichier/FichierInscription.xls">
                                 <span class=" glyphicon glyphicon-file"></span><span class="text">#{bundle.Formatfichier}</span>
                             </a>
                         </li>
-                        
+
                         <li>
                             <a href="/gestionnotes/inscription/enseignant">
                                 <span class="glyphicon glyphicon-user"></span><span class="text">#{bundle.Enseignant}</span>
                             </a>
                         </li>
-                        
+
                         <li>
                             <a href="/gestionnotes/inscription/inscription/">
                                 <span class="glyphicon glyphicon-info-sign"></span><span class="text">#{bundle.Inscription}</span>
                             </a>
                         </li>  
-                        
-                        
+
+
                         <li>
                             <a href="/gestionnotes/inscription/reinscriptions">
                                 <span class="glyphicon glyphicon-info-sign"></span><span class="text">#{bundle.Reinscription}</span>
                             </a>
                         </li>
-                     
+
                     </ul>
                 </li> 
 
 
                 <li class="openable">
                     <a href="#">
-                        <span class="isw-documents"></span><span class="text">#{bundle.Insertionconsultation}</span>
+                        <span class="text">#{bundle.Insertionconsultation}</span>
                     </a>
                     <ul>
-                        
-                        
-<!--                        <li>
-                            <a href="/gestionnotes/insertionconsultation/espacetravail">
-                                <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.EspaceTravail}</span>
-                            </a>
-                            
-                        </li>-->
+
+
+                        <!--                        <li>
+                                                    <a href="/gestionnotes/insertionconsultation/espacetravail">
+                                                        <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.EspaceTravail}</span>
+                                                    </a>
+                                                    
+                                                </li>-->
                         <li>
 <!--                            <p:commandLink id="createButton" value="#{null}" styleClass="iplus"
                                        oncomplete="$('#createDialog').modal('show')">
                             <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
                         </p:commandLink>-->
-                            
-                            
+
+
                             <a href="/gestionnotes/insertionconsultation/etudiant">
                                 <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
                             </a>
-                            
-                           
-                            
-<!--                           <h:form>
-                            <li>
-                                <a href="#">
-                                    <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
-                                </a>
-
-                                <div id="navPopMessages" class="popup" style="display: none;">
-                                    <div class="head clearfix">
-                                        <div class="arrow"></div>
-                                        <span class="isw-zoom"></span>
-                                        <span class="name">#{bundle.Search}</span>
-                                    </div>
-                                    <div class="body search">
 
 
-                                    </div>
-                                    <div class="footer">
-                                        <button class="btn btn-danger link_navPopMessages" type="button">#{bundle.Close}</button>
-                                        
-                                    </div>
-                                </div>                
-                            </li>
-                    </h:form> -->
+
+                            <!--                           <h:form>
+                                                        <li>
+                                                            <a href="#">
+                                                                <span class="glyphicon glyphicon-share"></span><span class="text">#{bundle.Etudiant}</span>
+                                                            </a>
                             
-               
-                            
-                            
-                            
-                            
-                            
-                            
+                                                            <div id="navPopMessages" class="popup" style="display: none;">
+                                                                <div class="head clearfix">
+                                                                    <div class="arrow"></div>
+                                                                    <span class="isw-zoom"></span>
+                                                                    <span class="name">#{bundle.Search}</span>
+                                                                </div>
+                                                                <div class="body search">
                             
                             
+                                                                </div>
+                                                                <div class="footer">
+                                                                    <button class="btn btn-danger link_navPopMessages" type="button">#{bundle.Close}</button>
+                                                                    
+                                                                </div>
+                                                            </div>                
+                                                        </li>
+                                                </h:form> -->
+
+
+
+
+
+
+
+
+
+
 
                         </li>
-                        
+
                         <li>
                             <a href="/gestionnotes/insertionconsultation/filiere">
                                 <span class="isb-tag"></span><span class="text">#{bundle.Filiere}</span>
                             </a>                  
                         </li> 
-                        
+
                         <li>
                             <a href="/gestionnotes/insertionconsultation/groupePedagogique">
                                 <span class="isb-users"></span><span class="text">#{bundle.GroupePedagogique}</span>
                             </a>
                         </li> 
-                        
+
                         <li>
                             <a href="/gestionnotes/insertionconsultation/matiere">
                                 <span class="isb-documents"></span><span class="text">#{bundle.Matiere}</span>
                             </a>                  
                         </li>   
-                        
+
                         <li>
                             <a href="/gestionnotes/insertionconsultation/notes/affichage">
                                 <span class="glyphicon glyphicon-upload"></span><span class="text">#{bundle.notes}</span>
                             </a>
                         </li>
-                        
+
                         <li>
                             <a href="/gestionnotes/insertionconsultation/semestres">
                                 <span class="isb-plus"></span><span class="text">#{bundle.Semestre}</span>
                             </a>                  
                         </li>
 
-                         <li>
+                        <li>
                             <a href="/gestionnotes/insertionconsultation/specialite">
                                 <span class="isb-edit"></span><span class="text">#{bundle.Specialite}</span>
                             </a>                  
@@ -254,12 +269,12 @@
                         </li> 
                     </ul>                
                 </li> 
-                
+
                 <li class="openable ">
                     <a href="#">
-                        <span class="isw-documents"></span><span class="text">#{bundle.ProgrammationCours}</span>
+                        <span class="text">#{bundle.ProgrammationCours}</span>
                     </a>
-                    
+
                     <ul>
                         <li>
                             <a href="/gestionnotes/programmerCours/programmercours">
@@ -268,7 +283,7 @@
                         </li>
 
                     </ul> 
-                    
+
                     <ul>
                         <li>
                             <a href="/gestionnotes/programmerCours/attribuercours">
@@ -280,59 +295,59 @@
 
 
                 </li>
-                
+
 
                 <li class="openable">
                     <a href="#">
-                        <span class="isw-documents"></span><span class="text">#{bundle.EtatStatistique}</span>
+                        <span class="text">#{bundle.EtatStatistique}</span>
                     </a>
                     <ul>
-                        
+
                         <li>
                             <a href="/gestionnotes/etats/attestationsucces">
                                 <span class="isb-documents"></span><span class="text">#{bundle.AttestationSucces}</span>
                             </a>                  
                         </li>
-                        
+
                         <li>
                             <a href="/gestionnotes/etats/historiques">
                                 <span class="isb-documents"></span><span class="text">#{bundle.Historique}</span>
                             </a>                  
                         </li>
-                        
+
                         <li>
                             <a href="/gestionnotes/etats/procesverbal">
                                 <span class="isb-documents"></span><span class="text">#{bundle.ProcesVerbal}</span>
                             </a>                  
                         </li>  
-                        
-<!--                        <li>
-                            <a href="/gestionnotes/etats/rechercher">
-                                <span class="isb-documents"></span><span class="text">#{bundle.RechercherEtudiant}</span>
-                            </a>                  
-                        </li>-->
-                        
-<!--                        <li>
-                            <a href="/gestionnotes/etats/rechercheravancee">
-                                <span class="isb-documents"></span><span class="text">#{bundle.RechercheAvancee}</span>
-                            </a>                  
-                        </li>-->
-                        
+
+                        <!--                        <li>
+                                                    <a href="/gestionnotes/etats/rechercher">
+                                                        <span class="isb-documents"></span><span class="text">#{bundle.RechercherEtudiant}</span>
+                                                    </a>                  
+                                                </li>-->
+
+                        <!--                        <li>
+                                                    <a href="/gestionnotes/etats/rechercheravancee">
+                                                        <span class="isb-documents"></span><span class="text">#{bundle.RechercheAvancee}</span>
+                                                    </a>                  
+                                                </li>-->
+
                         <li>
                             <a href="/gestionnotes/etats/relevesnotes">
                                 <span class="isb-documents"></span><span class="text">#{bundle.Releve}</span>
                             </a>                  
                         </li>
-                        
+
                         <li>
                             <a href="/gestionnotes/etats/resultatannuel">
                                 <span class="isb-documents"></span><span class="text">#{bundle.ResultatAnnuel}</span>
                             </a>                  
                         </li>
-                        
-                        
 
-                        
+
+
+
                         <!--                    <li>
                                                 <a href="/gestionnotes/module/semestre">
                                                     <span class="isb-plus"></span><span class="text">#{bundle.Semestre}</span>
