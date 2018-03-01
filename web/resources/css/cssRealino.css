@@ -479,6 +479,6 @@ a.link_bcPopupSearch{
 .input-group-addon {
     font-size: 12px!important;
 }
-/*.glyphicon {
+.input-group-addon .glyphicon {
     line-height: 0!important;
-}*/
+}
