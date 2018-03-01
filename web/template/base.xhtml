@@ -92,15 +92,16 @@
             <div class="content">
 
 
-                <h:form id="msgForm">
-                    <p:messages id="msg" showDetail="true"/>
-                </h:form>
+                
 
                 <ui:insert name="breadLine" > 
                     <ui:include src="breadLine.xhtml"/>
                     <ui:include src="recherche.xhtml"/>
 
                 </ui:insert>
+                <h:form id="msgForm">
+                    <p:messages id="msg" showDetail="true"/>
+                </h:form>
 
 <!--                <ui:insert name="recherche">
                     <ui:include src="recherche.xhtml"/>

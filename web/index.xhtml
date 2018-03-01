@@ -8,14 +8,14 @@
     <h:body>
         <ui:composition template="/template/base.xhtml">
             <ui:define name="title">
-                Acceuil
+                #{bundle.Acceuil}
             </ui:define>
 
             <ui:define name="breadLine">
                 <div class="breadLine">
                     <ul class="breadcrumb">
                         <li><a href="#">Gestion des évaluations </a> <span class="divider">></span></li>                
-                        <li class="active">Tableau de bord </li>
+                        <li class="active">#{bundle.Dashbord}</li>
                     </ul>
 
                     
@@ -26,7 +26,7 @@
             <ui:define name="main">
                 <div class="workplace">
                     <div class="row">
-                        <!--<ui:include src="parametre.xhtml"/>-->
+                        <!--<ui:include src="dashboard.xhtml"/>-->
                     </div>
                 </div>
             </ui:define>

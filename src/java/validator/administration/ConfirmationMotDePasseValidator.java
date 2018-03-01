@@ -21,7 +21,7 @@ import javax.faces.validator.ValidatorException;
 public class ConfirmationMotDePasseValidator implements Validator {
 
     private static final String CHAMP_MOT_DE_PASSE = "composantMotDePasse";
-    private static final String MOTS_DE_PASSE_DIFFERENTS = "Le mot de passe et la confirmation doivent être identiques.";
+    private static final String MOTS_DE_PASSE_DIFFERENTS = "Confirmation non identique au mot de passe.";
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {

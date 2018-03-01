@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -31,6 +30,7 @@ public class Utilisateur implements Serializable {
     private String password;
     private String oldPassword;
     private String telephone;
+    private boolean passwordinit = false;
     @Enumerated(EnumType.STRING)
     private EnumResponsabilite responsabilite;
     @Temporal(TemporalType.TIMESTAMP)
@@ -102,6 +102,13 @@ public class Utilisateur implements Serializable {
         this.telephone = telephone;
     }
 
+    public boolean isPasswordinit() {
+        return passwordinit;
+    }
+
+    public void setPasswordinit(boolean passwordinit) {
+        this.passwordinit = passwordinit;
+    }
 
     public EnumResponsabilite getResponsabilite() {
         return responsabilite;

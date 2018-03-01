@@ -55,7 +55,6 @@ public class AuthentificateBean implements Serializable{
         try {
             request.login(login, mdp);
             RequestContext.getCurrentInstance().execute("window.location='" + request.getContextPath() + "'");
-
         } catch (ServletException e) {
             JsfUtil.addErrorMessage(JsfUtil.getBundleMsg("LoginFailMsg"));
         }
@@ -134,12 +133,22 @@ public class AuthentificateBean implements Serializable{
             tmp.setOldPassword(JsfUtil.encryptPasswordReal(currentUser.getOldPassword(), "SHA-256"));
             tmp.setPassword(JsfUtil.encryptPasswordReal(currentUser.getPassword(), "SHA-256"));
             utilisateurFacade.edit(tmp);
-            msg = JsfUtil.getBundleMsg("PasswdChangSuccess");
-            JsfUtil.addSuccessMessage(msg);
+            RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/'");
+//            msg = JsfUtil.getBundleMsg("PasswdChangSuccess");
+//            JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("PasswdChangeFail");
             JsfUtil.addErrorMessage(msg);
         }
+    }
+    public void firstConnexion(){
+        currentUser = recupUtilisateur();
+            if(currentUser.isPasswordinit()) {
+            } else {
+                JsfUtil.addSuccessMessage(JsfUtil.getBundleMsg("msgFirstLogin"));
+                currentUser.setPasswordinit(true);
+                utilisateurFacade.edit(currentUser);
+            }
     }
 
 }
