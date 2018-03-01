@@ -14,16 +14,16 @@
                     <div class="head clearfix enteteTable">
                         <h1> #{bundle.Reinscription}</h1>
 
-<!--                        <ul class="buttonLien">
-                            <li>
-
-                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
-                                               update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
-                                    <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
-                                    <i class="ibw-edit"/>
-                                </p:commandLink>  
-                            </li>
-                        </ul>-->
+                        <!--                        <ul class="buttonLien">
+                                                    <li>
+                        
+                                                        <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                                                       update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
+                                                            <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                                            <i class="ibw-edit"/>
+                                                        </p:commandLink>  
+                                                    </li>
+                                                </ul>-->
 
                     </div>
 
@@ -59,22 +59,28 @@
                                     <p:ajax listener="#{reinscriptionBean.updateDataTable()}" update="@form filiere incarcerationTable groupeP" />
                                 </p:selectOneMenu>
                             </div>
-                            
-                            
-                            
+
+
+
+                            <!--                            <div class="col-md-2">
+                                                         <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                                                           update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
+                                                                <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
+                                                                <i class="ibw-edit"/>
+                                                            </p:commandLink>
+                                                        </div>-->
                             <div class="col-md-2">
-                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
-                                               update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
-                                    <!--<f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />-->
-                                    <i class="ibw-edit"/>
+                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Reinscription}" action="#{inscriptionBean.genererListeEtudiant()}" styleClass="btn btn-primary"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
                                 </p:commandLink>
                             </div>
-                        </div>
-                        <div class=" row-form clearfix" >
+                            
                             <div class="col-md-2">
                                 <p:outputLabel id="groupeP"  value="#{reinscriptionBean.notification}" style="color: red;"/>
                             </div>
                         </div>
+                        
 
                         <p:dataTable id="incarcerationTable" var="item"
                                      selection="#{reinscriptionBean.selectedInscription}"

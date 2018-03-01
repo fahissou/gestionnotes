@@ -12,24 +12,24 @@
                 <div class="modal-content">
                     <h:form id="delDialogForm" styleClass="form-horizontal">
                         <p:growl id="growl" showDetail="true"/>
-                        <div class="modal-header">
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 class="modal-title">#{bundle.Delete}</h3>
+                            <h1>#{bundle.Delete}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
                             <div class="row">
                               
                                     <div class="form-group row" style="margin-bottom: 3px!important; padding-left: 10px;">
-                                        #{bundle.UeConfirmDel}
+                                        #{bundle.MatiereConfirmDel}
                                         <span class="text-bold">
-                                            #{ueBean.selectedUe.libelle}
+                                            #{matiereBean.selectedMatiere.libelle}
                                         </span>?
                                     </div>
                                
                             </div>
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="#{bundle.Yes}" update="@form :ajoutListForm growl" actionListener="#{ueBean.doDel}" 
+                            <p:commandButton value="#{bundle.Yes}" update="@form :ajoutListForm growl" actionListener="#{matiereBean.doDel}" 
                                              oncomplete="$('#delDialog').modal('hide');" style="padding: 0;"
                                              styleClass="btn btn-default"/>
 

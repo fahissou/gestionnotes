@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:composition>
         <div class="col-md-12">
             <div class="block">
@@ -14,6 +15,71 @@
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
+                        <div class=" row-form clearfix" >
+                            <div class="col-md-2">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-2" jsf:id="filiereArea">
+                                <p:selectOneMenu id="filiere" value="#{matiereBean.filiere}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                    <p:ajax listener="#{matiereBean.initGroupePedagogique()}" update="groupePedagogiqueArea" />
+                                </p:selectOneMenu>
+                            </div>
+
+
+                            <div class="col-md-2">
+
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                            </div>
+                            <div class="col-md-2" jsf:id="groupePedagogiqueArea">
+                                <p:selectOneMenu id="groupePedagogique" value="#{matiereBean.newMatiere.groupePedagogique}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{matiereBean.listeGroupePedagogiques}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    <p:ajax listener="#{matiereBean.initSemestre()}" update="semestreArea" />
+                                </p:selectOneMenu>
+                            </div>
+                            
+                            <div class="col-md-2">
+
+                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                            </div>
+                            <div class="col-md-2" jsf:id="semestreArea">
+                                <p:selectOneMenu id="semestre" value="#{matiereBean.semestre}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{matiereBean.listeSemestres}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="semestreConverter"/>
+                                    <p:ajax listener="#{matiereBean.initUe()}" update="ueArea" />
+                                </p:selectOneMenu>
+                            </div>
+                            
+                            <div class="col-md-2">
+
+                                <p:outputLabel for="ue" value="UE"/>
+                            </div>
+                            <div class="col-md-2" jsf:id="ueArea">
+                                <p:selectOneMenu id="ue" value="#{matiereBean.newMatiere.ue}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{matiereBean.listeUE}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="ueConverter"/>
+                                    <p:ajax listener="#{matiereBean.initListMatiere()}" update="@form filiere incarcerationTable" />
+                                </p:selectOneMenu>
+                            </div>
+                            
+                        </div>
                                     <p:dataTable id="incarcerationTable" var="item"
                                                  selection="#{matiereBean.selectedMatiere}"
                                                  value="#{matiereBean.listeMatieres}"
@@ -47,13 +113,13 @@
                                             <h:outputText value=" #{item.coefficiant}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
-                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
+<!--                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
                                                 <f:setPropertyActionListener value="#{item}" target="#{matiereBean.selectedMatiere}" />
-                                            </p:commandLink>
+                                            </p:commandLink>-->
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">

@@ -18,9 +18,9 @@
                     <div class="content np block-fluid table-sorting clearfix">
 
                         <div class="row-form clearfix">
-                            <!--                            <div class="col-md-2">
-                                                            <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
-                                                        </div>-->
+                            <div class="col-md-2">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
                             <div class="col-md-2">
                                 <p:selectOneMenu id="filiere" value="#{notesBean.filiere}" 
                                                  required="true">
@@ -30,6 +30,10 @@
                                                    itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="filiereConverter"/>
                                 </p:selectOneMenu>
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.Groupe}"/>
                             </div>
 
                             <div class="col-md-2">
@@ -42,6 +46,10 @@
                                                    itemLabel="#{groupePItem.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <p:outputLabel for="ue" value="UE"/>
                             </div>
 
                             <div class="col-md-2">
@@ -57,6 +65,10 @@
                                     <f:converter  converterId="ueConverter"/>
                                 </p:selectOneMenu>
                             </div>
+                            
+                            <div class="col-md-2">
+                                <p:outputLabel for="matiere" value="#{bundle.Matiere}"/>
+                            </div>
 
                             <div class="col-md-2">
                                 <p:selectOneMenu id="matiere" value="#{notesBean.newMatiere}" 
@@ -69,14 +81,21 @@
                                 </p:selectOneMenu>
                             </div>
 
-                        <div class="col-md-2">
+<!--                        <div class="col-md-2">
                                 <p:commandLink id="editButton" value="#{null}" title="#{bundle.FeuilleNotes}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
                                     <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
                                     <i class="ibw-edit"/>
                                 </p:commandLink>
          
-                         </div>
+                         </div>-->
+                            
+                            <div class="col-md-2">
+                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.FeuilleNotes}" action="#{inscriptionBean.genererListeEtudiant()}" styleClass="btn btn-primary"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                </p:commandLink>
+                            </div>
 
                         </div>
 

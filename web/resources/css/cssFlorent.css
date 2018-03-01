@@ -67,7 +67,8 @@ and open the template in the editor.
 .table-sorting{
     width: 100%;
     top: 0px;
-    right: 220px;
+    /*right: 220px;*/
+    float: right;
 }
 
 .ui-datatable table {

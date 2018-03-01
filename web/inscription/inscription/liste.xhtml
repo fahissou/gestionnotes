@@ -17,11 +17,11 @@
                         <!--<div class="i-cycle glyphicon glyphicon-refresh"></div>-->
                         <h1>#{bundle.listeIncriptions}</h1>
 
-                        <ul class="buttons">
+<!--                        <ul class="buttons">
 
                             <li><a href="#" class="block_toggle slideMe"><span class="i-arrow-down-3"></span></a></li>
                             <li><a href="#" class="block_remove"><span class="i-cancel-2"></span></a></li>
-                        </ul>
+                        </ul>-->
 
                     </div>
                     
@@ -60,11 +60,10 @@
                             </div>
                             
                             <div class="col-md-2">
-                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Releve}" styleClass="btn btn-primary btn-xs"
-                                                   action="#{inscriptionBean.genererListeEtudiant()}" >
-                                        <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
-                                        <i class="ibw-edit"/>
-                                    </p:commandLink>
+                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Inscription}" action="#{inscriptionBean.genererListeEtudiant()}" styleClass="btn btn-primary"
+                                               style="border-radius: 0px; margin-right: 1px;">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                </p:commandLink>
                             </div>
                         </div>
 

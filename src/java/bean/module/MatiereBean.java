@@ -82,9 +82,9 @@ public class MatiereBean implements Serializable {
     @PostConstruct
     public void init() {
         anneeAcademique = anneeAcademiqueFacade.getCurrentAcademicYear();
-        listeMatieres = matiereFacade.findAll();
+//        listeMatieres = matiereFacade.findAll();
         prepareCreate();
-        listeFilieres = filiereFacade.findAll();
+//        listeFilieres = filiereFacade.findAll();
         
     }
     
@@ -93,11 +93,14 @@ public class MatiereBean implements Serializable {
     }
     
     public void initSemestre() {
-        listeSemestres = semestreFacade.getSemetreByGP(groupePedagogique);
+        listeSemestres = semestreFacade.getSemetreByGP(newMatiere.getGroupePedagogique());
     }
     
     public void initUe() {
-        listeUE = ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre);
+        listeUE = ueFacade.getUeByGroupePedagogique(newMatiere.getGroupePedagogique(), semestre);
+    }
+    public void initListMatiere(){
+        listeMatieres = matiereFacade.getMatiereByUe(newMatiere.getUe());
     }
 
     

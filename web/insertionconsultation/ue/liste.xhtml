@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:composition>
         <div class="col-md-12">
             <div class="block">
@@ -14,6 +15,55 @@
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
+                        <div class=" row-form clearfix" >
+                            <div class="col-md-2">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-2" jsf:id="filiereArea">
+                                <p:selectOneMenu id="filiere" value="#{ueBean.filiere}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
+                                                   itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                    <p:ajax listener="#{ueBean.initGroupePedagogique()}" update="groupePedagogiqueArea" />
+                                </p:selectOneMenu>
+                            </div>
+
+
+                            <div class="col-md-2">
+
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                            </div>
+                            <div class="col-md-2" jsf:id="groupePedagogiqueArea">
+                                <p:selectOneMenu id="groupePedagogique" value="#{ueBean.newUe.groupePedagogique}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{ueBean.listeGroupePedagogiques}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.description.toUpperCase()}"/>
+                                    <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    <p:ajax listener="#{ueBean.initSemestre()}" update="semestreArea" />
+                                </p:selectOneMenu>
+                            </div>
+                            
+                            <div class="col-md-2">
+
+                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                            </div>
+                            <div class="col-md-2" jsf:id="semestreArea">
+                                <p:selectOneMenu id="semestre" value="#{ueBean.newUe.semestre}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{ueBean.listeSemestres}"
+                                                   var="groupePItem"
+                                                   itemValue="#{groupePItem}"
+                                                   itemLabel="#{groupePItem.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="semestreConverter"/>
+                                    <p:ajax listener="#{ueBean.initListUE()}" update="@form filiere incarcerationTable" />
+                                </p:selectOneMenu>
+                            </div>
+                            
+                        </div>
                                     <p:dataTable id="incarcerationTable" var="item"
                                                  selection="#{ueBean.selectedUe}"
                                                  value="#{ueBean.listeUes}"

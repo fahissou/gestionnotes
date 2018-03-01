@@ -38,7 +38,7 @@
                                     <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <h:selectOneMenu id="semestre" value="#{ueBean.selectedUe.semestre}" required="true" styleClass="form-control">
+                                    <h:selectOneMenu id="semestre" value="#{matiereBean.semestre}" required="true" styleClass="form-control">
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{semestreBean.listeSemestres}"
                                                        var="item" itemValue="#{item}" itemLabel="#{item.valeur}"/>
@@ -52,7 +52,7 @@
                                     <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                                 </div>
                                 <div class="col-md-9">
-                                    <h:selectOneMenu id="groupePedagogique" value="#{ueBean.selectedUe.groupePedagogique}" required="true" styleClass="form-control">
+                                    <h:selectOneMenu id="groupePedagogique" value="#{matiereBean.selectedMatiere.groupePedagogique}" required="true" styleClass="form-control">
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}"
                                                        var="itemGroupe" itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description}"/>

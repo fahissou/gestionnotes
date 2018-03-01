@@ -32,7 +32,7 @@
                             <div class="col-md-2">
                                 <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
                             </div>
-                            <div class="col-md-3" jsf:id="filiereArea">
+                            <div class="col-md-2" jsf:id="filiereArea">
                                 <p:selectOneMenu id="filiere" value="#{programmerCoursBean.selectedFiliere}" 
                                                  required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
@@ -48,7 +48,7 @@
 
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
-                            <div class="col-md-3" jsf:id="groupePedagogiqueArea">
+                            <div class="col-md-2" jsf:id="groupePedagogiqueArea">
                                 <p:selectOneMenu id="groupePedagogique" value="#{programmerCoursBean.newProgrammerCours.groupePedagogique}" required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{programmerCoursBean.listGroupePedagogiques}"

@@ -5,16 +5,13 @@
  */
 package bean.module;
 
-import bean.inscription.NotesBean;
 import ejb.formation.FiliereFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.module.SemestreFacade;
 import ejb.module.UeFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -58,9 +55,7 @@ public class UeBean implements Serializable{
     }
     @PostConstruct
     public void init(){
-        listeUes = ueFacade.findAll();
         prepareCreate();
-        listeFilieres = filiereFacade.findAll();
     }
     
     public void initGroupePedagogique(){
@@ -187,14 +182,15 @@ public class UeBean implements Serializable{
     public void setListeSemestres(List<Semestre> listeSemestres) {
         this.listeSemestres = listeSemestres;
     }
-
-   
     
     public void prepareCreate(){
         newUe = new Ue();
     }
     public void reset(){
         newUe.reset();
+    }
+    public void initListUE() {
+        listeUes = ueFacade.getUeByGroupePedagogique(newUe.getGroupePedagogique(), newUe.getSemestre());
     }
     
 }
