@@ -93,14 +93,14 @@ public class MatiereBean implements Serializable {
     }
     
     public void initSemestre() {
-        listeSemestres = semestreFacade.getSemetreByGP(newMatiere.getGroupePedagogique());
+        listeSemestres = semestreFacade.getSemetreByGP(groupePedagogique);
     }
     
     public void initUe() {
-        listeUE = ueFacade.getUeByGroupePedagogique(newMatiere.getGroupePedagogique(), semestre);
+        listeUE = ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre);
     }
     public void initListMatiere(){
-        listeMatieres = matiereFacade.getMatiereByUe(newMatiere.getUe());
+        listeMatieres = matiereFacade.getMatiereByGroupe(groupePedagogique, semestre);
     }
 
     

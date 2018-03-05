@@ -36,7 +36,7 @@
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-2" jsf:id="groupePedagogiqueArea">
-                                <p:selectOneMenu id="groupePedagogique" value="#{matiereBean.newMatiere.groupePedagogique}" required="true">
+                                <p:selectOneMenu id="groupePedagogique" value="#{matiereBean.groupePedagogique}" required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{matiereBean.listeGroupePedagogiques}"
                                                    var="groupePItem"
@@ -55,27 +55,11 @@
                                 <p:selectOneMenu id="semestre" value="#{matiereBean.semestre}" required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{matiereBean.listeSemestres}"
-                                                   var="groupePItem"
-                                                   itemValue="#{groupePItem}"
-                                                   itemLabel="#{groupePItem.libelle.toUpperCase()}"/>
+                                                   var="semestreItem"
+                                                   itemValue="#{semestreItem}"
+                                                   itemLabel="#{semestreItem.valeur}"/>
                                     <f:converter  converterId="semestreConverter"/>
-                                    <p:ajax listener="#{matiereBean.initUe()}" update="ueArea" />
-                                </p:selectOneMenu>
-                            </div>
-                            
-                            <div class="col-md-2">
-
-                                <p:outputLabel for="ue" value="UE"/>
-                            </div>
-                            <div class="col-md-2" jsf:id="ueArea">
-                                <p:selectOneMenu id="ue" value="#{matiereBean.newMatiere.ue}" required="true">
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{matiereBean.listeUE}"
-                                                   var="groupePItem"
-                                                   itemValue="#{groupePItem}"
-                                                   itemLabel="#{groupePItem.libelle.toUpperCase()}"/>
-                                    <f:converter  converterId="ueConverter"/>
-                                    <p:ajax listener="#{matiereBean.initListMatiere()}" update="@form filiere incarcerationTable" />
+                                   <p:ajax listener="#{matiereBean.initListMatiere()}" update="@form filiere incarcerationTable" />
                                 </p:selectOneMenu>
                             </div>
                             

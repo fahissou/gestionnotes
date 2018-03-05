@@ -12,6 +12,7 @@ import ejb.inscription.EnseignantFacade;
 import ejb.inscription.EnseignerFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
 import ejb.module.MatiereFacade;
+import ejb.module.SemestreFacade;
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -38,6 +39,7 @@ import jpa.inscription.Enseignant;
 import jpa.inscription.Enseigner;
 import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
+import jpa.module.Semestre;
 import util.JsfUtil;
 
 /**
@@ -47,6 +49,8 @@ import util.JsfUtil;
 @ViewScoped
 @Named(value = "programmerCoursBean")
 public class ProgrammerCoursBean implements Serializable {
+    @EJB
+    private SemestreFacade semestreFacade;
     @EJB
     private EnseignantFacade enseignantFacade;
 
@@ -72,9 +76,11 @@ public class ProgrammerCoursBean implements Serializable {
     private ProgrammerCours selectedProgrammerCours;
     private ProgrammerCours newProgrammerCours;
     private List<ProgrammerCours> listeProgrammerCourss;
+    private List<ProgrammerCours> listeProgrammerCourssDynamic;
     private List<ProgrammerCours> filteredList;
     private Filiere selectedFiliere;
-
+    private List<Semestre> listeSemestres;
+    private Semestre selectedSemestre;
     private List<GroupePedagogique> listGroupePedagogiques;
     private List<Matiere> listMatieres;
     private List<Enseignant> listeEnseignants;
@@ -102,7 +108,22 @@ public class ProgrammerCoursBean implements Serializable {
     public void initEnseignants() {
         listeEnseignants = getEnseignants(enseignerFacade.findEnseignerByMatiere(newProgrammerCours.getMatiere()));
     }
-
+    
+    public void initSemestre() {
+        listeSemestres = semestreFacade.getSemetreByGP(newProgrammerCours.getGroupePedagogique());
+    }
+    
+    public void initGroupePedagogique() {
+        listGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(selectedFiliere);
+    }
+    public void initMatiere() {
+        listMatieres = getMatieresNP(newProgrammerCours.getGroupePedagogique(), selectedSemestre);
+    }
+    
+    public void initTable() {
+        listeProgrammerCourssDynamic = programmerCoursFacade.listeProgrammeByGroupe(selectedGroupePedagogique, anneeAcademique);
+    }
+    
     public List<Enseignant> getEnseignants(List<Enseigner> liste) {
         List<Enseignant> list = new ArrayList<>();
         for (int i = 0; i < liste.size(); i++) {
@@ -115,6 +136,7 @@ public class ProgrammerCoursBean implements Serializable {
         String msg;
         try {
             if (JsfUtil.compareDate(newProgrammerCours.getDateDebut(), newProgrammerCours.getDateFin())) {
+                newProgrammerCours.setAnneeAcademique(anneeAcademique);
                 programmerCoursFacade.create(newProgrammerCours);
                 matiereFacade.edit(newProgrammerCours.getMatiere());
                 genererEtatCoursProgrammer();
@@ -259,18 +281,40 @@ public class ProgrammerCoursBean implements Serializable {
 
     public void prepareCreate() {
         this.newProgrammerCours = new ProgrammerCours();
-        initList();
+    }
+
+    public List<Semestre> getListeSemestres() {
+        return listeSemestres;
+    }
+
+    public void setListeSemestres(List<Semestre> listeSemestres) {
+        this.listeSemestres = listeSemestres;
+    }
+
+    public Semestre getSelectedSemestre() {
+        return selectedSemestre;
+    }
+
+    public void setSelectedSemestre(Semestre selectedSemestre) {
+        this.selectedSemestre = selectedSemestre;
     }
 
     public void initList() {
-        listGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(selectedFiliere);
-        listMatieres = getMatieresNP(newProgrammerCours.getGroupePedagogique());
-        listeProgrammerCourss = programmerCoursFacade.listeProgrammeByGroupe(newProgrammerCours.getGroupePedagogique(), anneeAcademique);
+        listeProgrammerCourssDynamic = programmerCoursFacade.listeProgrammeByGroupe(selectedGroupePedagogique, anneeAcademique);
     }
 
     public void reset(ActionEvent e) {
         this.newProgrammerCours.reset();
     }
+
+    public List<ProgrammerCours> getListeProgrammerCourssDynamic() {
+        return listeProgrammerCourssDynamic;
+    }
+
+    public void setListeProgrammerCourssDynamic(List<ProgrammerCours> listeProgrammerCourssDynamic) {
+        this.listeProgrammerCourssDynamic = listeProgrammerCourssDynamic;
+    }
+    
 
 //    public void validationDate(FacesContext context, UIComponent component, Object value) {
 //        String validateDate = "composantDate";
@@ -289,9 +333,9 @@ public class ProgrammerCoursBean implements Serializable {
 //        } catch (Exception e) {
 //        }
 //    }
-    public List<Matiere> getMatieresNP(GroupePedagogique groupePedagogique) {
+    public List<Matiere> getMatieresNP(GroupePedagogique groupePedagogique, Semestre semestre) {
         List<Matiere> matieres = new ArrayList<>();
-        List<Matiere> matieresM = matiereFacade.getMatiereByGroupe(groupePedagogique);
+        List<Matiere> matieresM = matiereFacade.getMatiereByGroupe(groupePedagogique, semestre);
         List<Matiere> matieresPC = programmerCoursFacade.listeMatieresPC(groupePedagogique);
         for (int i = 0; i < matieresM.size(); i++) {
             int compteur = 0;
@@ -344,6 +388,8 @@ public class ProgrammerCoursBean implements Serializable {
             historique.setGroupePedagogique(newProgrammerCours.getGroupePedagogique().getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historiquesFacade.create(historique);
+            File fileDowload = new File(pathOutPDF + nomFichier + "coursprogramme_" + newProgrammerCours.getMatiere().getLibelle() + ".pdf");
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + "coursprogramme_" + newProgrammerCours.getMatiere().getLibelle() + ".pdf");
 
         } catch (Exception ex) {
             System.out.println("ExceptionR " + ex.getMessage());

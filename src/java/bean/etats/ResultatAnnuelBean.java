@@ -14,6 +14,7 @@ import ejb.module.SemestreFacade;
 import ejb.module.UeFacade;
 import java.io.File;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -147,7 +148,10 @@ public class ResultatAnnuelBean implements Serializable{
             // Definition des champs du proces fichier 1
             List<String> champs = new ArrayList<>();
             champs.add("N");
+            champs.add("M");
             champs.add("NP");
+            champs.add("DN");
+            champs.add("LN");
             champs.add("TC");
             champs.add("Ob");
 
@@ -155,11 +159,15 @@ public class ResultatAnnuelBean implements Serializable{
             List< Map<String, Object>> conteneur = new ArrayList<>();
 
             for (int j = 0; j < inscriptions.size(); j++) {
-
+                SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
                 Map<String, Object> row = new HashMap<>();
                 Etudiant student = inscriptions.get(j).getEtudiant();
                 row.put("N", (j + 1));
+                row.put("M", student.getLogin());
                 row.put("NP", student.getNom() + " " + student.getPrenom());
+                String date = formatDate.format(student.getDateNaissance());
+                row.put("DN", date);
+                row.put("LN", student.getLieuNaissance());
                 row.put("TC", inscriptions.get(j).getCompteurCredit());
                 row.put("Ob", JsfUtil.decisionFinal(inscriptions.get(j).getCompteurCredit(), creditTotal,groupePedagogique));
                 conteneur.add(row);
@@ -174,13 +182,18 @@ public class ResultatAnnuelBean implements Serializable{
             historique.setDateEdition(JsfUtil.getDateEdition());
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal" + ".pdf");
-            JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "ResultatFinal");
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "ResultatFinal"+ ".pdf");
 
         } catch (Exception ex) {
             System.out.println("Exceptionfghff " + ex.getMessage());
 
         }
-        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
+//        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
+    }
+    
+    public void reset() {
+        this.filiere.reset();
+        this.groupePedagogique.reset();
     }
     
     public String admissible(double a, double admissibilite) {

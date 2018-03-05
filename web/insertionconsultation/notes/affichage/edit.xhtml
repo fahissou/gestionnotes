@@ -18,13 +18,20 @@
                             <h1>#{bundle.Modification}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
-                            
-                                        #{bundle.confirmEnregistrement}
-                           
+
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <label class="col-md-3">#{bundle.notes}</label>
+                                <div class="col-md-9">
+
+                                    <p:inputText id="prenom" value="#{notesBean.selectedNotes.note}" required="true" placeholder="#{bundle.Prenoms}"
+                                                 styleClass="form-control input-sm"/>
+                                </div>
+                            </div>
+
 
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" action="#{notesBean.genererFeuilleNotes()}" 
+                            <p:commandButton value="#{bundle.Valider}" update="@form :ajoutListForm growl" actionListener="#{notesBean.doEdit}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
                                              class="btn btn-default">
                                 <f:param name="utilisateurSession" value="#{authentificateBean.currentUser.login}"/>

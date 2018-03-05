@@ -6,16 +6,20 @@
     <group-name>Admin</group-name>
   </security-role-mapping>
   <security-role-mapping>
-    <role-name>COLLABORATEURS</role-name>
-    <group-name>Collaborateur</group-name>
+    <role-name>DIRECTEURS</role-name>
+    <group-name>Directeurs</group-name>
   </security-role-mapping>
   <security-role-mapping>
-    <role-name>ENSEIGNANT</role-name>
-    <group-name>Enseignant</group-name>
+    <role-name>RESPONSABLES</role-name>
+    <group-name>Responsables</group-name>
   </security-role-mapping>
   <security-role-mapping>
-    <role-name>RESPONSABLE</role-name>
-    <group-name>Responsable</group-name>
+    <role-name>CSA</role-name>
+    <group-name>Csa</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>SECRETAIRE</role-name>
+    <group-name>Secretaire</group-name>
   </security-role-mapping>
   <context-root>/gestionnotes</context-root>
   <class-loader delegate="true"/>

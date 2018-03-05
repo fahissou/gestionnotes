@@ -23,8 +23,11 @@
                                                             <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
                                                         </div>-->
                             <div class="col-md-2">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-2">
                                 <p:selectOneMenu id="filiere" value="#{notesBean.filiere}" 
-                                                 required="true">
+                                                 required="true" requiredMessage="#{bundle.ChampObligatoire}">
                                     <p:ajax listener="#{notesBean.initGroupePedagogique()}" update="groupePedagogique" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.Filiere}"/>
                                     <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
@@ -32,9 +35,12 @@
                                     <f:converter  converterId="filiereConverter"/>
                                 </p:selectOneMenu>
                             </div>
-
+                            
+                             <div class="col-md-2">
+                                <p:outputLabel for="groupePedagogique" value="#{bundle.Groupe}"/>
+                            </div>
                             <div class="col-md-2">
-                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="true">
+                                <p:selectOneMenu id="groupePedagogique" value="#{notesBean.groupePedagogique}" required="true" requiredMessage="#{bundle.ChampObligatoire}">
                                     <p:ajax listener="#{notesBean.initUE()}" update="ue" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.Specialite}" noSelectionOption="true"/>
                                     <f:selectItems value="#{notesBean.listGroupePedagogiques1}"
@@ -44,10 +50,13 @@
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
-
+                            
+                            <div class="col-md-2">
+                                <p:outputLabel for="ue" value="UE"/>
+                            </div>
                             <div class="col-md-2">
                                 <p:selectOneMenu id="ue" value="#{notesBean.ue}" 
-                                                 required="true">
+                                                 required="true" requiredMessage="#{bundle.ChampObligatoire}">
                                     <p:ajax listener="#{notesBean.initMatiere()}" update="matiere" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{notesBean.ues}"
@@ -58,11 +67,14 @@
                                     <f:converter  converterId="ueConverter"/>
                                 </p:selectOneMenu>
                             </div>
-
+                            
+                            <div class="col-md-2">
+                                <p:outputLabel for="matiere" value="#{bundle.Matiere}"/>
+                            </div>
                             <div class="col-md-2">
                                 <p:selectOneMenu id="matiere" value="#{notesBean.newMatiere}" 
-                                                 required="true">
-                                    <p:ajax listener="#{notesBean.updateTablesN()}" update="incarcerationTable" />
+                                                 required="true" requiredMessage="#{bundle.ChampObligatoire}">
+                                    <p:ajax listener="#{notesBean.updateTablesN()}" update="incarcerationTable notification" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.Matiere}"/>
                                     <f:selectItems value="#{notesBean.tmpMatieres}" var="itemMatiere"
                                                    itemValue="#{itemMatiere}" itemLabel="#{itemMatiere.libelle.toUpperCase()}"/>
@@ -71,13 +83,16 @@
                             </div>
                             
                             <div class="col-md-2">
-                            <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Inserer}" styleClass="btn btn-primary"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')" >
                                     <f:setPropertyActionListener value="#{item}" target="#{groupePedagogiqueBean.selectedGroupePedagogique}" />
-                                    <i class="ibw-edit"/>
+                                    <i class="glyphicon glyphicon-download-alt"></i>
                                 </p:commandLink>
                             
                            </div>
+                            <div class="col-md-2">
+                                <p:outputLabel id="notification"  value="#{notesBean.notification}" style="color: #{notesBean.color};"/>
+                            </div>
                         </div>
                         
                         <p:dataTable id="incarcerationTable" var="item"

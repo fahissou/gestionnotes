@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import jpa.administration.ProgrammerCours;
 import jpa.inscription.AnneeAcademique;
+import jpa.inscription.Enseignant;
 import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
 import util.JsfUtil;
@@ -48,7 +49,7 @@ public class ProgrammerCoursFacade extends AbstractFacade<ProgrammerCours> {
     public List<ProgrammerCours> listeProgrammeByGroupe(GroupePedagogique groupePedagogique, AnneeAcademique anneeAcademique) {
         List<ProgrammerCours> liste;
         try {
-            Query query = em.createQuery("SELECT P FROM ProgrammerCours P WHERE P.groupePedagogique =:groupePedagogique AND P.anneeAcademique = :anneeAcademique ORDER BY P.matiere.libelle ASC");
+            Query query = em.createQuery("SELECT P FROM ProgrammerCours P WHERE P.groupePedagogique = :groupePedagogique AND P.anneeAcademique = :anneeAcademique ORDER BY P.matiere.libelle ASC");
             // set parameters
             query.setParameter("groupePedagogique", groupePedagogique);
             query.setParameter("anneeAcademique", anneeAcademique);
@@ -71,5 +72,15 @@ public class ProgrammerCoursFacade extends AbstractFacade<ProgrammerCours> {
             liste = new ArrayList<>();
         }
         return liste;
+    }
+    
+   public Enseignant findEtudiantByMatiere(Matiere matiere) {
+        try {
+            Query query = em.createQuery("SELECT P.enseignant FROM ProgrammerCours P WHERE P.matiere = :matiere");
+            query.setParameter("matiere", matiere);
+            return (Enseignant) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
     }
 }

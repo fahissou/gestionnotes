@@ -55,9 +55,9 @@
                                 <p:selectOneMenu id="semestre" value="#{ueBean.newUe.semestre}" required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{ueBean.listeSemestres}"
-                                                   var="groupePItem"
-                                                   itemValue="#{groupePItem}"
-                                                   itemLabel="#{groupePItem.libelle.toUpperCase()}"/>
+                                                   var="semestreItem"
+                                                   itemValue="#{semestreItem}"
+                                                   itemLabel="#{semestreItem.valeur}"/>
                                     <f:converter  converterId="semestreConverter"/>
                                     <p:ajax listener="#{ueBean.initListUE()}" update="@form filiere incarcerationTable" />
                                 </p:selectOneMenu>
@@ -95,12 +95,6 @@
                                         </p:column>
                                         <p:column headerText="#{bundle.Credit}"  sortBy="#{item.credit}" filterBy="#{item.credit}">
                                             <h:outputText value=" #{item.credit}" />
-                                        </p:column>
-                                        <p:column headerText="#{bundle.GroupePedagogique}"  sortBy="#{item.groupePedagogique.description}" filterBy="#{item.groupePedagogique.description}">
-                                            <h:outputText value=" #{item.groupePedagogique.description}"/>
-                                        </p:column>
-                                        <p:column headerText="#{bundle.Filiere}"  sortBy="#{item.groupePedagogique.filiere.libelle.toUpperCase()}" filterBy="#{item.groupePedagogique.filiere.libelle.toUpperCase()}">
-                                            <h:outputText value=" #{item.groupePedagogique.filiere.libelle.toUpperCase()}"/>
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                             <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"

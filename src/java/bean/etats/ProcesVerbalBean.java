@@ -168,6 +168,7 @@ public class ProcesVerbalBean implements Serializable {
         String msg;
         String nomFichier = JsfUtil.generateId();
         List<Ue> ues = ueFacade.getRealUE(ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre));
+        System.out.println("ok1");
         try {
             int nombreUE;
             if (!ues.isEmpty()) {
@@ -175,6 +176,7 @@ public class ProcesVerbalBean implements Serializable {
 
                 if (nombreUE <= 18 && nombreUE >= 4) {
                     List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(groupePedagogique, anneeAcademique);
+                    System.out.println("ok2");
                     // Paramètres d'entete du proces fichier 1
                     Map<String, Object> parametreEntetes1 = new HashMap<>();
                     // Paramètres d'entete du proces fichier 2
@@ -254,8 +256,6 @@ public class ProcesVerbalBean implements Serializable {
 
                         Etudiant student = inscriptions.get(j).getEtudiant();
 
-//                pocheParametres.put("dateNaiss", student.getDateCreation().toString());
-//                pocheParametres.put("filiere", student.getGroupePedagogique().getDescription());
                         row1.put("C", (j + 1));
                         row1.put("nom", student.getNom() + " " + student.getPrenom());
 
@@ -271,37 +271,50 @@ public class ProcesVerbalBean implements Serializable {
                         int l = 0;
                         int p = 0;
                         for (int i = 0; i < nombreUE; i++) {
+                            
                             double som = 0.0;
                             List<Matiere> matieres = null;
                             Ue currentUE = ues.get(i);
                             totalCredit += currentUE.getCredit();
                             matieres = matiereFacade.getMatiereByUe(currentUE);
-                            for (int k = 0; k < matieres.size(); k++) {
-                                Notes notes = notesFacade.getNotesByInscriptionMatiere(inscriptions.get(j), matieres.get(k));
-                                som = +notes.getNote();
+                            System.out.println("ok7");
+//                            for (int k = 0; k < matieres.size(); k++) {
+//                                Notes notes = notesFacade.getNotesByInscriptionMatiere(inscriptions.get(j), matieres.get(k));
+//                                som = +notes.getNote();
+//                            }
+                            String moyUEString = getMoyUE(matieres,inscriptions.get(j), anneeAcademique);
+                            System.out.println(" ok  "+moyUEString);
+                            String moyUE;
+                            String decision;
+                            if(moyUEString.equals("***")) {
+                                System.out.println(" ok  "+moyUEString);
+                                moyUE = moyUEString;
+                                decision = moyUEString;
+                            }else{
+                                System.out.println(" ok  "+moyUEString);
+                                nombreCreditValider += isValide(Double.parseDouble(moyUEString), currentUE.getCredit(), groupePedagogique);
+                                System.out.println(" ok  "+moyUEString);
+                                moyUE = JsfUtil.formatNote(Double.parseDouble(moyUEString));
+                                decision = decision2(Double.parseDouble(moyUEString), groupePedagogique);
                             }
-                            double moyUE = som / matieres.size();
-                            nombreCreditValider += isValide(moyUE, currentUE.getCredit(), groupePedagogique);
-                            somMoySemestre = +moyUE;
 
                             if (i < max) {
-                                row1.put("m" + (i + 1), JsfUtil.formatNote(moyUE));
-                                row1.put("o" + (i + 1), decision2(moyUE));
+                                row1.put("m" + (i + 1), moyUE);
+                                row1.put("o" + (i + 1), decision);
                                 row1.put("c" + (i + 1), currentUE.getCredit());
-                                System.out.println(" ok1 " + currentUE.getLibelle());
                                 parametreEntetes1.put("UE" + (i + 1), JsfUtil.getAbrevUE(currentUE.getLibelle()));
                                 parametreEntetes1.put("ue" + (i + 1), currentUE.getLibelle());
                                 l = i + 1;
                             } else if (i >= max && i < (2 * max)) {
-                                row2.put("m" + (i + 1 - l), JsfUtil.formatNote(moyUE));
-                                row2.put("o" + (i + 1 - l), decision2(moyUE));
+                                row2.put("m" + (i + 1 - l), moyUE);
+                                row2.put("o" + (i + 1 - l), decision);
                                 row2.put("c" + (i + 1 - l), currentUE.getCredit());
                                 parametreEntetes2.put("UE" + (i + 1), JsfUtil.getAbrevUE(currentUE.getLibelle()));
                                 parametreEntetes2.put("ue" + (i + 1), currentUE.getLibelle());
                                 p = i + 1;
                             } else {
-                                row3.put("m" + (i + 1 - p), JsfUtil.formatNote(moyUE));
-                                row3.put("o" + (i + 1 - p), decision2(moyUE));
+                                row3.put("m" + (i + 1 - p), moyUE);
+                                row3.put("o" + (i + 1 - p), decision);
                                 row3.put("c" + (i + 1 - p), currentUE.getCredit());
                                 parametreEntetes3.put("UE" + (i + 1), JsfUtil.getAbrevUE(currentUE.getLibelle()));
                                 parametreEntetes3.put("ue" + (i + 1), currentUE.getLibelle());
@@ -334,9 +347,10 @@ public class ProcesVerbalBean implements Serializable {
                     historique.setGroupePedagogique(groupePedagogique.getDescription());
                     historique.setDateEdition(JsfUtil.getDateEdition());
                     historiquesFacade.create(historique);
+                    System.out.println("lien1 " + JsfUtil.getRealPath(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur()) + ".pdf");
+                    System.out.println("lien2 " + pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");
                     File fileDowload = new File(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");
-                    JsfUtil.flushToBrowser(fileDowload, nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur());
-//                docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire3.getAbsolutePath() + "/");
+                    JsfUtil.flushToBrowser(fileDowload, "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");
                     msg = JsfUtil.getBundleMsg("ProcesGenererSucces");
                     JsfUtil.addSuccessMessage(msg);
 
@@ -364,42 +378,41 @@ public class ProcesVerbalBean implements Serializable {
         return var;
     }
 
-    public String decision2(double note) {
+    public String decision2(double note, GroupePedagogique groupePedagogique) {
         String arg = "N.V";
-        if (note >= 12.0) {
+        if (note >= groupePedagogique.getParametres().getMoyenneUE()) {
             arg = "V";
         }
         return arg;
     }
+    
+    public void reset() {
+        this.filiere.reset();
+        this.groupePedagogique.reset();
+        this.semestre.reset();
+    }
 
-//    public boolean genererProcesVerval(String fichier, List<String> champs, List< Map<String, Object>> conteneur, String tableName, String chemin, String fileName, Map<String, Object> parametreEntetes) {
-//        boolean resultat = false;
-//        try {
-//            System.out.println("Proces debut");
-//            InputStream in = new FileInputStream(new File(fichier));
-//            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
-//            //Put the table
-//            FieldsMetadata metadata = new FieldsMetadata();
-//            for (String ch : champs) {
-//                metadata.addFieldAsList(tableName + "." + ch);
-//            }
-//            report.setFieldsMetadata(metadata);
-//            // 3) Create context Java model
-//            IContext context = report.createContext();
-//            context.put(tableName, conteneur);
-//            context.putMap(parametreEntetes);
-//            // context.putMap(mapsP);
-//            // fichier de sortie
-//            String outputFile = fileName + ".docx";
-//
-//            // 4) Generate report by merging Java model with the Docx
-//            OutputStream out = new FileOutputStream(new File(chemin + outputFile));
-//            report.process(context, out);
-//            resultat = true;
-//            System.out.println("Proces fin");
-//        } catch (IOException | XDocReportException ex) {
-//        }
-//
-//        return resultat;
-//    }
+    public String getMoyUE(List<Matiere> matieres, Inscription inscription, AnneeAcademique anneeAcademique) {
+        String resultat = "***";
+        String session = null;
+        double som = 0.0;
+        try {
+            for (int k = 0; k < matieres.size(); k++) {
+            Notes notes = notesFacade.getNotesByInscriptionMatiere(inscription, matieres.get(k));
+            som = +notes.getNote();
+            if(k == 0) {
+                session = notes.getSessions();
+            }else{
+                session = JsfUtil.getSessionValidation(session, notes.getSessions());
+            }
+        }
+        double moyUE = som / matieres.size();
+        if(session.equals(anneeAcademique.getDescription())){
+            resultat = String.valueOf(moyUE);
+        }
+        } catch (Exception e) {
+        }
+        return resultat;
+    }
+    
 }

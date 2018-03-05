@@ -933,7 +933,7 @@ public class JsfUtil {
             if ((arg1[i].length() > 3) || i == 0 || i == arg1.length - 1) {
                 String val = arg1[i];
                 for (int j = 0; j < val.length(); j++) {
-                    if (j < 4) {
+                    if (j < 5) {
                         result += val.charAt(j);
                     }
                 }
@@ -1059,7 +1059,7 @@ public class JsfUtil {
 
     public static String getDateEdition() {
         Date date1 = new Date();
-        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy  HH:mm:SS"); 
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy  HH:mm"); 
         String date2 = formatDate.format(date1);
         return date2;
     }
@@ -1191,11 +1191,15 @@ public class JsfUtil {
     }
 
     public static String formatNote(double note) {
+        String resultat ="***";
+        if(note != 0.0){
         note = (double) Math.round((note) * 100) / 100;
         String noteString = String.valueOf(note);
         String[] args = noteString.split("\\.");
-        String t = args[0] + "," + args[1];
-        return t;
+        resultat = args[0] + "," + args[1];
+        }
+        
+        return resultat;
     }
 
     public static void generateurXDOCReportStatic(String fichier, Map<String, Object> maps, String chemin, String nomfichier) throws Exception {
@@ -1206,7 +1210,6 @@ public class JsfUtil {
 
             in = new FileInputStream(new File(fichier));
             IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
-            System.out.println("ok ici");
             // 3) Create context Java model
             IContext context = report.createContext();
             context.putMap(maps);
@@ -1229,8 +1232,8 @@ public class JsfUtil {
         s[0] = "";
         s[1] = "";
         if (!semest.isEmpty()) {
-            s[0] = String.valueOf(semest.get(0).getLibelle());
-            s[1] = String.valueOf(semest.get(1).getLibelle());
+            s[0] = String.valueOf(semest.get(0).getValeur());
+            s[1] = String.valueOf(semest.get(1).getValeur());
         }
         return s;
     }
@@ -1289,10 +1292,8 @@ public class JsfUtil {
             response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
             response.setContentLength((int) file.length());
             FileInputStream input = new FileInputStream(file);
-            System.out.println("ok flush5");
             try (BufferedInputStream buf = new BufferedInputStream(input)) {
                 int readBytes;
-                System.out.println("ok flush6");
                 while ((readBytes = buf.read()) != -1) {
                     response.getOutputStream().write(readBytes);
                 }
@@ -1395,9 +1396,9 @@ public class JsfUtil {
     
     public static String getLabelGradeEnseignant(String grade) {
         Map<String,String> map = new HashMap<>();
-        map.put("DOCTEUR", "Dr :");
-        map.put("PROFESSEUR", "Prof :");
-        map.put("INGENIEUR", "Ing :");
+        map.put("DOCTEUR", "Dr. ");
+        map.put("PROFESSEUR", "Prof. ");
+        map.put("INGENIEUR", "Ing. ");
         return map.get(grade);
     }
     
@@ -1435,4 +1436,15 @@ public class JsfUtil {
         return resultat;
     }
     
+    public static String getSessionValidation(String s1, String s2) {
+        String s11 = s1.split("-")[1].trim();
+        String s12 = s2.split("-")[1].trim();
+        int a1 = Integer.parseInt(s11);
+        int a2 = Integer.parseInt(s12);
+        String resultat = s2;
+        if(a1 > a2) {
+            resultat = s1;
+        }
+        return resultat;
+    }
 }

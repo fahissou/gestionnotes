@@ -10,7 +10,7 @@
             <div class="block">
                 <div class="head clearfix">
                     <div class="isw-documents"></div>
-                    <h1>#{bundle.Releve}</h1>
+                    <h1>#{bundle.AttestationSucces}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
                     <div class="block-fluid">
@@ -21,9 +21,9 @@
                                 <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="filiere" value="#{releveNotesBean.filiere}" 
+                                <p:selectOneMenu id="filiere" value="#{attestationSuccesBean.filiere}" 
                                                  required="true">
-                                    <p:ajax listener="#{releveNotesBean.initGroupePedagogique()}" update="groupePedagogique" />
+                                    <p:ajax listener="#{attestationSuccesBean.initGroupePedagogique()}" update="groupePedagogique" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
                                                    itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
@@ -37,11 +37,11 @@
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{releveNotesBean.groupePedagogique}" 
+                                <p:selectOneMenu id="groupePedagogique" value="#{attestationSuccesBean.groupePedagogique}" 
                                                  required="true">
-                                    <p:ajax listener="#{releveNotesBean.initSemetre()}" update="semestre etudiant" />
+                                    <p:ajax listener="#{attestationSuccesBean.initSemetre()}" update="etudiant" />
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{releveNotesBean.listGroupePedagogiques}" var="itemGroupePedagogique"
+                                    <f:selectItems value="#{attestationSuccesBean.listGroupePedagogiques}" var="itemGroupePedagogique"
                                                    itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
@@ -53,10 +53,10 @@
                                 <p:outputLabel for="etudiant" value="#{bundle.Etudiant}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="etudiant" value="#{releveNotesBean.inscription}" 
+                                <p:selectOneMenu id="etudiant" value="#{attestationSuccesBean.inscription}" 
                                                  required="false" filter="false" filterMatchMode="contains">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{releveNotesBean.listInscription}" var="selection" itemValue="#{selection}"
+                                    <f:selectItems value="#{attestationSuccesBean.listInscription}" var="selection" itemValue="#{selection}"
                                                    itemLabel=" #{selection.etudiant.nom.toUpperCase()} #{selection.etudiant.prenom.toUpperCase()} (#{selection.etudiant.login})"
                                                    />
                                     <f:converter  converterId="inscriptionConverter"/>
@@ -66,44 +66,26 @@
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">
-                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="semestre" value="#{releveNotesBean.semestre}" 
-                                                 required="true">
-
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{releveNotesBean.listSemestres}" var="itemSemestre"
-                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.valeur}"/>
-                                    <f:converter  converterId="semestreConverter"/>
-                                </p:selectOneMenu>
-                            </div>
-                        </div>
-
-                        
-
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
                                 <p:outputLabel for="signataire" value="#{bundle.Signataire}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="signataire" value="#{releveNotesBean.signataire}" 
+                                <p:selectOneMenu id="signataire" value="#{attestationSuccesBean.signataire}" 
                                                  required="true">
 
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{releveNotesBean.initSignataire()}" var="item"
+                                    <f:selectItems value="#{attestationSuccesBean.initSignataire()}" var="item"
                                                    itemValue="#{item}" itemLabel="#{item.toUpperCase()}"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
 
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{releveNotesBean.genererReleveDynamic}"
+                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{attestationSuccesBean.genererAttestation()}"
                                              oncomplete="updateGritter(xhr);" 
                                              class="btn btn-default"/>
 
                             <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
-                                             actionListener="#{releveNotesBean.reset}" update="@form :msgForm:msg">
+                                             actionListener="#{notesBean.reset}" update="@form :msgForm:msg">
                                 <p:resetInput target="formeEx"/>
                             </p:commandButton>
                         </div> 

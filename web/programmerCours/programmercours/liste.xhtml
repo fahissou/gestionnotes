@@ -32,14 +32,14 @@
                             <div class="col-md-2">
                                 <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
                             </div>
-                            <div class="col-md-2" jsf:id="filiereArea">
+                            <div class="col-md-3" jsf:id="filiereArea">
                                 <p:selectOneMenu id="filiere" value="#{programmerCoursBean.selectedFiliere}" 
                                                  required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
                                                    itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="filiereConverter"/>
-                                    <p:ajax listener="#{programmerCoursBean.initList()}" update="groupePedagogiqueArea" />
+                                    <p:ajax listener="#{programmerCoursBean.initGroupePedagogique()}" update="groupePedagogiqueArea groupePedagogique" />
                                 </p:selectOneMenu>
                             </div>
 
@@ -48,21 +48,21 @@
 
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
-                            <div class="col-md-2" jsf:id="groupePedagogiqueArea">
-                                <p:selectOneMenu id="groupePedagogique" value="#{programmerCoursBean.newProgrammerCours.groupePedagogique}" required="true">
+                            <div class="col-md-3" jsf:id="groupePedagogiqueArea">
+                                <p:selectOneMenu id="groupePedagogique" value="#{programmerCoursBean.selectedGroupePedagogique}" required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{programmerCoursBean.listGroupePedagogiques}"
                                                    var="groupePItem"
                                                    itemValue="#{groupePItem}"
                                                    itemLabel="#{groupePItem.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
-                                    <p:ajax listener="#{programmerCoursBean.initList()}" update="@form filiere incarcerationTable" />
+                                    <p:ajax listener="#{programmerCoursBean.initTable()}" update="@form filiere incarcerationTable" />
                                 </p:selectOneMenu>
                             </div>
                         </div>
                         <p:dataTable id="incarcerationTable" var="item"
                                      selection="#{programmerCoursBean.selectedProgrammerCours}"
-                                     value="#{programmerCoursBean.listeProgrammerCourss}"
+                                     value="#{programmerCoursBean.listeProgrammerCourssDynamic}"
                                      emptyMessage="#{bundle.EmptyListMsg}"
                                      rowKey="#{item.id}"
                                      paginator="true"

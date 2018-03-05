@@ -8,6 +8,7 @@ package bean.inscription;
 import ejb.inscription.AnneeAcademiqueFacade;
 import ejb.administration.NotificationFacade;
 import ejb.administration.ParametresFacade;
+import ejb.administration.ProgrammerCoursFacade;
 import ejb.administration.UtilisateurFacade;
 import ejb.formation.FiliereFacade;
 import ejb.formation.HistoriquesFacade;
@@ -78,6 +79,8 @@ import util.JsfUtil;
 @ViewScoped
 
 public class NotesBean implements Serializable {
+    @EJB
+    private ProgrammerCoursFacade programmerCoursFacade;
     @EJB
     private ParametresFacade parametresFacade;
     @EJB
@@ -157,6 +160,8 @@ public class NotesBean implements Serializable {
     private String signataire;
     private List<String> listeSignataires;
     List<GroupePedagogique> list1GP;
+    private String notification;
+    private String color;
 
     /**
      * Creates a new instance of NotesBean
@@ -173,25 +178,26 @@ public class NotesBean implements Serializable {
         listFiliere = filiereFacade.findAll();
         anneeAcademique = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
         prepareCreate();
-        
-        
-
-        
+  
     }
     
     public void initGroupePedagogique(){
         if (filiere != null) {
             listGroupePedagogiques1 = groupePedagogiqueFacade.getListGpByFilire(filiere);
+            notification = "";
         } else {
+            notification = "";
             listGroupePedagogiques1 = new ArrayList<>();
         }
     }
     
     public void initUE() {
         if (groupePedagogique != null) {
+            notification = "";
             ues = ueFacade.getUeByGroupePedagogique(groupePedagogique);
         } else {
             ues = new ArrayList<>();
+            notification = "";
         }
 
     }
@@ -199,9 +205,10 @@ public class NotesBean implements Serializable {
     public void initMatiere() {
         if (ue != null) {
             tmpMatieres = matiereFacade.getMatiereByUe(ue);
-            updateTable();
+            notification = "";
         } else {
             tmpMatieres = new ArrayList<>();
+            notification = "";
         }   
     }
     
@@ -215,8 +222,18 @@ public class NotesBean implements Serializable {
     
     public void updateTablesN() {
         if (newMatiere != null) {
-            listeNotesEnregistrement = notesFacade.listeNotesNonValide(anneeAcademique, groupePedagogique, newMatiere);
+            enseignant = programmerCoursFacade.findEtudiantByMatiere(newMatiere);
+            if(enseignant !=null) {
+                color = "blue";
+              listeNotesEnregistrement = notesFacade.listeNotesNonValide(anneeAcademique, groupePedagogique, newMatiere);
+              notification = "Enseignant : " +JsfUtil.getLabelGradeEnseignant(enseignant.getGrade()) + " " +enseignant.getPrenom() + " " +enseignant.getNom();
+            }else{
+                notification = "Cette matière n'est pas encore programmée !";
+                listeNotesEnregistrement = new ArrayList<>();
+                color = "red";
+            }
         } else {
+            notification = "";
             listeNotesEnregistrement = new ArrayList<>();
         }   
     }
@@ -233,6 +250,22 @@ public class NotesBean implements Serializable {
             }
         } catch (Exception ex) {
         }
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
     }
     
     
@@ -263,7 +296,9 @@ public class NotesBean implements Serializable {
     public void doEdit(ActionEvent event) {
         String msg;
         try {
+            
             notesFacade.edit(selectedNotes);
+            updateUeNotes(selectedNotes, selectedNotes.getInscription());
             msg = JsfUtil.getBundleMsg("NotesEditSuccessMsg");
             JsfUtil.addSuccessMessage(msg);
             listeNotess = notesFacade.findAll();
@@ -806,43 +841,15 @@ public class NotesBean implements Serializable {
     public void updateNotes() {
         try {
             for (int i = 0; i < listeNotesEnregistrement.size(); i++) {
-                Inscription inscription = listeNotesEnregistrement.get(i).getInscription();
+                Inscription inscription1 = listeNotesEnregistrement.get(i).getInscription();
                 if (listeNotesEnregistrement.get(i).getNote() < groupePedagogique.getParametres().getMoyenneMatiere()) {
                     listeNotesEnregistrement.get(i).setOldNote(listeNotesEnregistrement.get(i).getNote());
                 }
+                listeNotesEnregistrement.get(i).setSessions(anneeAcademique.getDescription());
                 notesFacade.edit(listeNotesEnregistrement.get(i));
-                List<Matiere> matieres = matiereFacade.getMatiereByUe(ue);
-                double som = 0.0;
-                int compteur = 0;
-                for (int j = 0; j < matieres.size(); j++) {
-                    Notes note = notesFacade.getNotesByInscriptionMatiere(listeNotesEnregistrement.get(i).getInscription(), matieres.get(j));
-                    som = som + note.getNote();
-                    if (note.getNote() == 0.0) {
-                        compteur++;
-                    }
-                }
-                double moyUE = som / matieres.size();
-                if (moyUE >= groupePedagogique.getParametres().getMoyenneUE() && compteur == 0) {
-                    int compteurEtu = inscription.getCompteurCredit() + ue.getCredit();
-                    inscription.setCompteurCredit(compteurEtu);
-                    if(compteurEtu == 30){
-                        inscription.setResultat("T");
-                    }else if(compteurEtu == 24){
-                        inscription.setResultat("A");
-                    }
-                    inscriptionFacade.edit(inscription);
-                    // mise à jour des notes de l'UE
-                    for (int k = 0; k < matieres.size(); k++) {
-                        Notes note = notesFacade.getNotesByInscriptionMatiere(listeNotesEnregistrement.get(i).getInscription(), matieres.get(k));
-                        note.setEtatValidation("UEV");
-                        note.setSessions(anneeAcademique.getDescription());
-                        notesFacade.edit(note);
-                    }
-                }
+                updateUeNotes(listeNotesEnregistrement.get(i), inscription1);
                 
-                
-                
-                
+                       
             }
             liste = new ArrayList<>();
             liste = notesFacade.listeNoteGpAnnee(anneeAcademique, groupePedagogique, newMatiere);
@@ -852,6 +859,50 @@ public class NotesBean implements Serializable {
         }
         
         RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/insertionconsultation/notes/affichage/'");
+    }
+    
+    public void updateUeNotes(Notes notes, Inscription inscription) {
+        
+        List<Matiere> matieres = matiereFacade.getMatiereByUe(ue);
+                double som = 0.0;
+                int compteur = 0;
+                for (int j = 0; j < matieres.size(); j++) {
+                    Notes note = notesFacade.getNotesByInscriptionMatiere(notes.getInscription(), matieres.get(j));
+                    som = som + note.getNote();
+                    if (note.getNote() == 0.0) {
+                        compteur++;
+                    }
+                }
+                double moyUE = som / matieres.size();
+                
+        if (moyUE >= groupePedagogique.getParametres().getMoyenneUE() && compteur == 0) {
+                    int compteurTotalUe = getTotalCreditUe(groupePedagogique);
+                    int compteurEtu = inscription.getCompteurCredit() + ue.getCredit();
+                    inscription.setCompteurCredit(compteurEtu);
+                    if(compteurEtu == compteurTotalUe){
+                        inscription.setResultat("T"); 
+                    }else if(compteurEtu == compteurTotalUe*groupePedagogique.getParametres().getProportionAdmission()){
+                        inscription.setResultat("A");
+                    }
+                    inscriptionFacade.edit(inscription);
+                    // mise à jour des notes de l'UE
+                    for (int k = 0; k < matieres.size(); k++) {
+                        Notes note = notesFacade.getNotesByInscriptionMatiere(notes.getInscription(), matieres.get(k));
+                        note.setEtatValidation("UEV");
+                        note.setSessions(anneeAcademique.getDescription());
+                        notesFacade.edit(note);
+                    }
+                }
+        
+    }
+    
+    public int getTotalCreditUe(GroupePedagogique groupePedagogique) {
+        List<Ue> ues = ueFacade.getRealUE(ueFacade.getUeByGroupePedagogique(groupePedagogique));
+        int compteur = 0;
+        for (int i = 0; i < ues.size(); i++) {
+            compteur += ues.get(i).getCredit();
+        }
+        return compteur;
     }
 
     public void afficherUE(List<Ue> ues) {
@@ -907,21 +958,6 @@ public class NotesBean implements Serializable {
         return arg;
     }
 
-   
-    public String affichage2() {
-        liste = new ArrayList<>();
-        try {
-            liste = toutesLesNotesEtudiant();
-            if (!liste.isEmpty()) {
-                setListeNotesEtudiant(liste);
-            } else {
-                listeNotesEtudiant = new ArrayList<>();
-            }
-        } catch (Exception ex) {
-        }
-        return "succes2";
-    }
-
     public String affichage3() {
         
         liste = new ArrayList<>();
@@ -942,27 +978,6 @@ public class NotesBean implements Serializable {
         return resultat;
     }
 
-    public List<Notes> toutesLesNotesEtudiant() {
-        List<Notes> liste = new ArrayList<>();
-        List<Notes> notes1 = new ArrayList<>();
-        List<Notes> notes2 = new ArrayList<>();
-        List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByEtudiant(etudiant);
-        setListGroupePedagogiqueEtudiant(getListGrPByEtudiant(inscriptions));
-        System.out.println("svdsv "+getListGrPByEtudiant(inscriptions).size());
-        for (int i = 0; i < inscriptions.size(); i++) {
-            if (i == 0) {
-                notes1 = notesFacade.listeNoteByInscription(inscriptions.get(i));
-                liste = notes1;
-                System.out.println(" i == 0" + liste.size());
-            } else {
-                notes2 = notesFacade.listeNoteByInscription(inscriptions.get(i));
-                notes1 = concateListe(notes1, notes2);
-                liste = notes1;
-            }
-        }
-        return liste;
-    }
-
     public List<GroupePedagogique> getListGrPByEtudiant(List<Inscription> inscriptions) {
         List<GroupePedagogique> gp = new ArrayList<>();
         for (int i = 0; i < inscriptions.size(); i++) {
@@ -971,34 +986,6 @@ public class NotesBean implements Serializable {
         return gp;
     }
     
-    public List<Notes> concateListe(List<Notes> liste1, List<Notes> liste2) {
-        List<Notes> liste = new ArrayList<>();
-        if (liste1.size() > liste2.size()) {
-            for (int i = 0; i < liste1.size(); i++) {
-                liste.add(liste1.get(i));
-                if (i < liste2.size()) {
-                    liste.add(liste2.get(i));
-                }
-
-            }
-        } else if (liste1.size() < liste2.size()) {
-            for (int i = 0; i < liste2.size(); i++) {
-                liste.add(liste2.get(i));
-                if (i < liste1.size()) {
-                    liste.add(liste1.get(i));
-                }
-
-            }
-        } else {
-            for (int i = 0; i < liste1.size(); i++) {
-                liste.add(liste1.get(i));
-                liste.add(liste2.get(i));
-
-            }
-        }
-        return liste;
-    }
-
     public void validationNote(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         Double note = (Double) value;
         String msg;
@@ -1039,10 +1026,11 @@ public class NotesBean implements Serializable {
             parametreEntetes.put("matiere", listeNotesEnregistrement.get(0).getMatiere().getLibelle());
             parametreEntetes.put("semestre", listeNotesEnregistrement.get(0).getMatiere().getUe().getSemestre().getValeur());
             parametreEntetes.put("d", JsfUtil.getDateEdition());
-            parametreEntetes.put("enseignant", "SANDA Amadou");
+            parametreEntetes.put("enseignant", JsfUtil.getLabelGradeEnseignant(enseignant.getGrade()) + " " +enseignant.getPrenom() + " " +enseignant.getNom());
             // Definition des champs du proces fichier 1
             List<String> champs = new ArrayList<>();
             champs.add("N");
+            champs.add("M");
             champs.add("NP");
             champs.add("N");
             champs.add("Ob");
@@ -1054,6 +1042,7 @@ public class NotesBean implements Serializable {
                 Notes currentNotes = listeNotesEnregistrement.get(j);
                
                 row.put("N", (j + 1));
+                row.put("M", currentNotes.getInscription().getEtudiant().getLogin());
                 row.put("NP", currentNotes.getInscription().getEtudiant().getNom() + " " + currentNotes.getInscription().getEtudiant().getPrenom());
                 row.put("No", JsfUtil.formatNote(currentNotes.getNote()));
                 row.put("Ob", decision(currentNotes.getNote()));
@@ -1070,50 +1059,11 @@ public class NotesBean implements Serializable {
             historique.setDateEdition(JsfUtil.getDateEdition());
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription() + ".pdf");
-            JsfUtil.flushToBrowser(fileDowload, nomFichier + "FeuilleNotes" + groupePedagogique.getDescription());
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + "FeuilleNotes" + groupePedagogique.getDescription() + ".pdf");
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
 
         }
     }
-
-    public String admissible(int a) {
-        String res = "Réfusé";
-        if (a >= 50) {
-            res = "Admis";
-        }
-        return res;
-    }
-
-//    public void createDefaultInscription(Inscription inscription, String arg) {
-//
-//        try {
-//            if (arg.equals("Admis")) {
-//                Etudiant etudiant1 = inscription.getEtudiant();
-//                GroupePedagogique groupePedagogique1 = inscription.getGroupePedagogique();
-//                AnneeAcademique anneeAca = inscription.getAnneeAcademique();
-//                String groupeP = JsfUtil.nextGP(groupePedagogique1.getDescription());
-//                if (groupeP.equals(groupePedagogique1.getDescription())) {
-//                    inscription.setResultat("T");
-//                    inscriptionFacade.edit(inscription);
-//                } else {
-//                    inscription.setResultat("A");
-//                    inscriptionFacade.edit(inscription);
-//                    Inscription defaultInscription = new Inscription();
-//                    defaultInscription.setAnneeAcademique(anneeAca);
-//                    defaultInscription.setEtudiant(etudiant1);
-//                    defaultInscription.setGroupePedagogique(groupePedagogique1);
-//                    defaultInscription.setValidation("NV");
-//                    GroupePedagogique gP = groupePedagogiqueFacade.getGroupePedagogique(groupeP);
-//                    defaultInscription.setGroupePedagogique(gP);
-//                    inscriptionFacade.create(defaultInscription);
-//                }
-//            }
-//        } catch (Exception e) {
-//            System.out.println("erreur" + e.getMessage());
-//        }
-//
-//    }
-    
 
 }

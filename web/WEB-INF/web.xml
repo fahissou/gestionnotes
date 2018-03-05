@@ -99,6 +99,46 @@
         </user-data-constraint>
     </security-constraint>
     
+    <security-constraint>
+        <display-name>DirecteurConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>DirecteurZone</web-resource-name>
+            <description>Zone Directeur</description>
+            <url-pattern>/inscription/anneeacademiques/*</url-pattern>
+            <url-pattern>/insertionconsultation/*</url-pattern>
+            <url-pattern>/programmerCours/*</url-pattern>
+            <url-pattern>/etats/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>DIRECTEURS</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <display-name>secretaireConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>secretaireZone</web-resource-name>
+            <description>Zone secretaire</description>
+            <url-pattern>/inscription/inscription/*</url-pattern>
+            <url-pattern>/inscription/reinscriptions/*</url-pattern>
+            <url-pattern>insertionconsultation/notes/inserernotes/*</url-pattern>
+            insertionconsultation/notes/inserernotes/
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>SECRETAIRE</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>securityGestionNotes</realm-name>
@@ -113,20 +153,26 @@
         <role-name>ADMIN</role-name>
     </security-role>
     
-    <security-role>
-        <description>Les directeurs et consorts</description>
-        <role-name>RESPONSABLE</role-name>
+     <security-role>
+        <description>Directeurs</description>
+        <role-name>DIRECTEURS</role-name>
     </security-role>
     
     <security-role>
-        <description>CSA et secretaire da</description>
-        <role-name>COLLABORATEURS</role-name>
+        <description>Responsables</description>
+        <role-name>RESPONSABLES</role-name>
     </security-role>
-    
     
     <security-role>
-        <description>Enseignant</description>
-        <role-name>ENSEIGNANT</role-name>
+        <description>Csa</description>
+        <role-name>CSA</role-name>
     </security-role>
+    
+    <security-role>
+        <description>secretaire</description>
+        <role-name>SECRETAIRE</role-name>
+    </security-role>
+    
+    
     
 </web-app>

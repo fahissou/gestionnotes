@@ -30,7 +30,7 @@
                                     <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
                                                    itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="filiereConverter"/>
-                                    <p:ajax listener="#{programmerCoursBean.initList()}" update="groupePedagogiqueArea" />
+                                    <p:ajax listener="#{programmerCoursBean.initGroupePedagogique()}" update="groupePedagogiqueArea" />
                                 </p:selectOneMenu>
                             </div>
                         </div>
@@ -48,7 +48,23 @@
                                                    itemValue="#{groupePItem}"
                                                    itemLabel="#{groupePItem.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
-                                    <p:ajax listener="#{programmerCoursBean.initList()}" update="matiereArea groupePedagogique" />
+                                    <p:ajax listener="#{programmerCoursBean.initSemestre()}" update="semestre" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="semestre" value="#{programmerCoursBean.selectedSemestre}" 
+                                                 required="true">
+                                    <p:ajax listener="#{programmerCoursBean.initMatiere()}" update="matiere"/>
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{programmerCoursBean.listeSemestres}" var="itemSemestre"
+                                                   itemValue="#{itemSemestre}" itemLabel="#{itemSemestre.valeur}"/>
+                                    <f:converter  converterId="semestreConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>

@@ -19,6 +19,7 @@ import javax.persistence.Query;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Notes;
 import jpa.module.Matiere;
+import jpa.module.Semestre;
 import jpa.module.Ue;
 import util.JsfUtil;
 
@@ -63,6 +64,20 @@ public class MatiereFacade extends AbstractFacade<Matiere> {
             Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.groupePedagogique =:groupePedagogique ORDER BY M.libelle ASC");
             // set parameters
             query.setParameter("groupePedagogique", groupePedagogique);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+            liste = new ArrayList<>();
+        }
+        return liste;
+    }
+    
+    public List<Matiere> getMatiereByGroupe(GroupePedagogique groupePedagogique, Semestre semestre) {
+        List<Matiere> liste;
+        try {
+            Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.groupePedagogique =:groupePedagogique AND M.ue.semestre = :semestre ORDER BY M.libelle ASC");
+            // set parameters
+            query.setParameter("groupePedagogique", groupePedagogique);
+            query.setParameter("semestre", semestre);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
             liste = new ArrayList<>();

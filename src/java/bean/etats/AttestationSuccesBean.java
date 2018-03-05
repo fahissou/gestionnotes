@@ -45,9 +45,9 @@ import util.JsfUtil;
  *
  * @author AHISSOU Florent
  */
-@Named(value = "releveNotesBean")
+@Named(value = "attestationSuccesBean")
 @ViewScoped
-public class ReleveNotesBean implements Serializable {
+public class AttestationSuccesBean implements Serializable {
 
     @EJB
     private HistoriquesFacade historiquesFacade;
@@ -81,7 +81,7 @@ public class ReleveNotesBean implements Serializable {
     private Inscription inscription;
     private String signataire;
 
-    public ReleveNotesBean() {
+    public AttestationSuccesBean() {
     }
 
     @PostConstruct
@@ -183,7 +183,13 @@ public class ReleveNotesBean implements Serializable {
     public void setInscription(Inscription inscription) {
         this.inscription = inscription;
     }
+    
+    public void genererAttestation() {
+        String msg = JsfUtil.getBundleMsg("NotDefine");
+        JsfUtil.addErrorMessage(msg);
+    } 
 
+    
     // dynamique releve notes
     public void genererReleveDynamic() {
         List<Inscription> inscriptions1 = new ArrayList<>();
@@ -340,7 +346,7 @@ public class ReleveNotesBean implements Serializable {
             historique.setDateEdition(JsfUtil.getDateEdition());
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur() + ".pdf");
-            JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur()+ ".pdf");
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur());
 
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
@@ -364,13 +370,6 @@ public class ReleveNotesBean implements Serializable {
             }
         }
         return var;
-    }
-    
-    public void reset() {
-        this.filiere.reset();
-        this.groupePedagogique.reset();
-        this.inscription.reset();
-        this.semestre.reset();
     }
 
     public int isValide(double val, int credit, GroupePedagogique groupeP) {

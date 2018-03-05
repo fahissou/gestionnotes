@@ -25,7 +25,7 @@
                                 <p:selectOneMenu id="filiere" value="#{ueBean.filiere}" 
                                                  required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{ueBean.listeFilieres}" var="itemFiliere"
+                                    <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
                                                    itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="filiereConverter"/>
                                     <p:ajax listener="#{ueBean.initGroupePedagogique()}" update="groupePedagogiqueArea groupePedagogique" />
