@@ -72,9 +72,10 @@
         <auth-constraint>
             <description/>
             <role-name>ADMIN</role-name>
-            <role-name>RESPONSABLE</role-name>
-            <role-name>COLLABORATEURS</role-name>
-            <role-name>ENSEIGNANT</role-name>
+            <role-name>DIRECTEURS</role-name>
+            <role-name>RESPONSABLES</role-name>
+            <role-name>CSA</role-name>
+            <role-name>SECRETAIRE</role-name>
         </auth-constraint>
         <user-data-constraint>
             <description/>
@@ -126,8 +127,7 @@
             <description>Zone secretaire</description>
             <url-pattern>/inscription/inscription/*</url-pattern>
             <url-pattern>/inscription/reinscriptions/*</url-pattern>
-            <url-pattern>insertionconsultation/notes/inserernotes/*</url-pattern>
-            insertionconsultation/notes/inserernotes/
+            <url-pattern>/insertionconsultation/notes/inserernotes/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
