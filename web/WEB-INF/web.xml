@@ -109,6 +109,7 @@
             <url-pattern>/insertionconsultation/*</url-pattern>
             <url-pattern>/programmerCours/*</url-pattern>
             <url-pattern>/etats/*</url-pattern>
+            <url-pattern>/Administration/utilisateur/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -125,13 +126,37 @@
         <web-resource-collection>
             <web-resource-name>secretaireZone</web-resource-name>
             <description>Zone secretaire</description>
-            <url-pattern>/inscription/inscription/*</url-pattern>
-            <url-pattern>/inscription/reinscriptions/*</url-pattern>
             <url-pattern>/insertionconsultation/notes/inserernotes/*</url-pattern>
+            <url-pattern>/etats/historiques/*</url-pattern>
+            <url-pattern>/etats/relevesnotes/*</url-pattern>
+            <url-pattern>/etats/attestationsucces/*</url-pattern>
+            <url-pattern>/Administration/utilisateur/*</url-pattern>
+            
         </web-resource-collection>
         <auth-constraint>
             <description/>
             <role-name>SECRETAIRE</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <display-name>csaConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>csaZone</web-resource-name>
+            <description>Zone csa</description>
+            <url-pattern>/inscription/inscription/*</url-pattern>
+            <url-pattern>/inscription/reinscriptions/*</url-pattern>
+            <url-pattern>/etats/rechercheravancee/*</url-pattern>
+            <url-pattern>/Administration/utilisateur/*</url-pattern>
+            
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>CSA</role-name>
         </auth-constraint>
         <user-data-constraint>
             <description/>
