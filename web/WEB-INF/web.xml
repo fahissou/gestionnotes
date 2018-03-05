@@ -105,7 +105,7 @@
         <web-resource-collection>
             <web-resource-name>DirecteurZone</web-resource-name>
             <description>Zone Directeur</description>
-            <url-pattern>/inscription/anneeacademiques/*</url-pattern>
+            <url-pattern>/inscription/*</url-pattern>
             <url-pattern>/insertionconsultation/*</url-pattern>
             <url-pattern>/programmerCours/*</url-pattern>
             <url-pattern>/etats/*</url-pattern>
@@ -150,6 +150,7 @@
             <description>Zone csa</description>
             <url-pattern>/inscription/inscription/*</url-pattern>
             <url-pattern>/inscription/reinscriptions/*</url-pattern>
+            <url-pattern>/inscription/formatfichier/*</url-pattern>
             <url-pattern>/etats/rechercheravancee/*</url-pattern>
             <url-pattern>/Administration/utilisateur/*</url-pattern>
             
