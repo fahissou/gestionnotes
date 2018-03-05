@@ -89,6 +89,7 @@
             <web-resource-name>adminZone</web-resource-name>
             <description>Zone d'administration</description>
             <url-pattern>/Administration/*</url-pattern>
+            <url-pattern>/Administration/utilisateur/profil/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -109,7 +110,7 @@
             <url-pattern>/insertionconsultation/*</url-pattern>
             <url-pattern>/programmerCours/*</url-pattern>
             <url-pattern>/etats/*</url-pattern>
-            <url-pattern>/Administration/utilisateur/*</url-pattern>
+            <url-pattern>/Administration/utilisateur/profil/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -130,7 +131,7 @@
             <url-pattern>/etats/historiques/*</url-pattern>
             <url-pattern>/etats/relevesnotes/*</url-pattern>
             <url-pattern>/etats/attestationsucces/*</url-pattern>
-            <url-pattern>/Administration/utilisateur/*</url-pattern>
+            <url-pattern>/Administration/utilisateur/profil/*</url-pattern>
             
         </web-resource-collection>
         <auth-constraint>
@@ -152,7 +153,7 @@
             <url-pattern>/inscription/reinscriptions/*</url-pattern>
             <url-pattern>/inscription/formatfichier/*</url-pattern>
             <url-pattern>/etats/rechercheravancee/*</url-pattern>
-            <url-pattern>/Administration/utilisateur/*</url-pattern>
+            <url-pattern>/Administration/utilisateur/profil/*</url-pattern>
             
         </web-resource-collection>
         <auth-constraint>
