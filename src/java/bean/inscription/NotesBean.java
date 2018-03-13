@@ -1078,6 +1078,7 @@ public class NotesBean implements Serializable {
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription()));
             historique.setGroupePedagogique(groupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
+            historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription() + ".pdf");
             JsfUtil.flushToBrowser(fileDowload, nomFichier + "FeuilleNotes" + groupePedagogique.getDescription() + ".pdf");

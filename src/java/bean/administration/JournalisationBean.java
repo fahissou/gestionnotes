@@ -48,32 +48,32 @@ public class JournalisationBean  implements Serializable{
         listeJournalisations = journalisationFacade.findAll();
         prepareCreate();
     }  
-    public void doCreate(ActionEvent event) {
-        String msg;
-        try {
-            journalisationFacade.create(newJournalisation);
-            msg = JsfUtil.getBundleMsg("JournalisationCreateSuccessMsg");
-            JsfUtil.addSuccessMessage(msg);
-            prepareCreate();
-            listeJournalisations = journalisationFacade.findAll();
-        } catch (Exception e) {
-            msg = JsfUtil.getBundleMsg("JournalisationCreateErrorMsg");
-            JsfUtil.addErrorMessage(msg);
-        }
-    }
+//    public void doCreate(ActionEvent event) {
+//        String msg;
+//        try {
+//            journalisationFacade.create(newJournalisation);
+//            msg = JsfUtil.getBundleMsg("JournalisationCreateSuccessMsg");
+//            JsfUtil.addSuccessMessage(msg);
+//            prepareCreate();
+//            listeJournalisations = journalisationFacade.findAll();
+//        } catch (Exception e) {
+//            msg = JsfUtil.getBundleMsg("JournalisationCreateErrorMsg");
+//            JsfUtil.addErrorMessage(msg);
+//        }
+//    }
 
-    public void doEdit(ActionEvent event) {
-        String msg;
-        try {
-            journalisationFacade.edit(selectedJournalisation);
-            msg = JsfUtil.getBundleMsg("JournalisationEditSuccessMsg");
-            JsfUtil.addSuccessMessage(msg);
-            listeJournalisations = journalisationFacade.findAll();
-        } catch (Exception e) {
-            msg = JsfUtil.getBundleMsg("JournalisationEditErrorMsg");
-            JsfUtil.addErrorMessage(msg);
-        }
-    }
+//    public void doEdit(ActionEvent event) {
+//        String msg;
+//        try {
+//            journalisationFacade.edit(selectedJournalisation);
+//            msg = JsfUtil.getBundleMsg("JournalisationEditSuccessMsg");
+//            JsfUtil.addSuccessMessage(msg);
+//            listeJournalisations = journalisationFacade.findAll();
+//        } catch (Exception e) {
+//            msg = JsfUtil.getBundleMsg("JournalisationEditErrorMsg");
+//            JsfUtil.addErrorMessage(msg);
+//        }
+//    }
 
     public void doDel(ActionEvent event) {
         String msg;
