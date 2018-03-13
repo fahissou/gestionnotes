@@ -90,10 +90,6 @@
 
 
             <div class="content">
-
-
-                
-
                 <ui:insert name="breadLine" > 
                     <ui:include src="breadLine.xhtml"/>
                     <ui:include src="recherche.xhtml"/>
@@ -112,6 +108,18 @@
                 </ui:insert>
 
             </div>
+                        
+                        <footer class="footer footerbase">
+                            <div class="pull-right hidden-xs">
+                                <span class="text-xs">1.0</span>
+                            </div>
+                            #{bundle.AppName}&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+                            #{bundle.AppOffice}&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+                            <h:outputText value="#{bundle.Copyright}" escape="false"/> Tout droit réservé.
+                            <a href="http://www.logicbenin.com/" target="_blank">
+                                <i class="i-mail"></i>
+                            </a>.
+                        </footer>
 
         </div>
 

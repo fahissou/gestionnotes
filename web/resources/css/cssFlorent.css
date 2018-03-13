@@ -213,3 +213,12 @@ h2 {
     top: -11px;
     right: 10px;
 }
+
+.footerbase{
+    position: relative!important;
+    width: 77%!important;
+    right: -259px!important;
+    top: -17px!important;
+    background: transparent!important;
+    border-color: transparent!important;
+}
