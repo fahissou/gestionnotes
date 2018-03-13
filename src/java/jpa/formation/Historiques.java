@@ -4,6 +4,8 @@ package jpa.formation;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import jpa.inscription.AnneeAcademique;
 
 @Entity
 public class Historiques implements Serializable{
@@ -13,6 +15,8 @@ public class Historiques implements Serializable{
     private String dateEdition;
     private String groupePedagogique;
     private String lienFile;
+    @ManyToOne
+    private AnneeAcademique anneeAcademique;
 
     public Historiques() {
     }
@@ -55,6 +59,14 @@ public class Historiques implements Serializable{
 
     public void setLienFile(String lienFile) {
         this.lienFile = lienFile;
+    }
+
+    public AnneeAcademique getAnneeAcademique() {
+        return anneeAcademique;
+    }
+
+    public void setAnneeAcademique(AnneeAcademique anneeAcademique) {
+        this.anneeAcademique = anneeAcademique;
     }
     
     

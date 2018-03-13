@@ -59,7 +59,6 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
             liste = query.getResultList();
 
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
         return liste;
     }
@@ -72,7 +71,6 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
             query.setParameter("id", id);
             inscriptions = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            inscriptions = new ArrayList<>();
         }
         return inscriptions;
     }
@@ -125,7 +123,6 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         try {
             inscriptions = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            inscriptions = new ArrayList<>();
         }
         return inscriptions;
     }
@@ -140,23 +137,22 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
             query.setParameter("idGP", idGP);
             query.setParameter("idAnneeAcad", idAnneeAcad);
             query.setParameter("var", var);
-
             inscriptions = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            inscriptions = new ArrayList<>();
         }
         return inscriptions;
     }
 
     public List<Inscription> getListInscriptionByEtudiant(Etudiant etudiant) {
         String matricule = etudiant.getLogin();
+        List<Inscription> inscriptions = null;
+        try {
         Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.etudiant.login = :matricule");
         query.setParameter("matricule", matricule);
-        try {
-            return query.getResultList();
+            inscriptions = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            return null;
         }
+        return inscriptions;
     }
 
     public List<Inscription> getInscriptionByEtudiant(Etudiant etudiant, GroupePedagogique groupePedagogique) {
@@ -169,7 +165,6 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
             query.setParameter("idGp", idGp);
             inscriptions = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            inscriptions = new ArrayList<>();
         }
         return inscriptions;
     }
@@ -194,7 +189,6 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
         try {
             inscriptions = query1.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            inscriptions = new ArrayList<>();
         }
         return inscriptions;
     }
@@ -209,14 +203,13 @@ public class InscriptionFacade extends AbstractFacade<Inscription> {
     }
     
     public List<Inscription>findListEtudiant(GroupePedagogique groupePedagogique){
-        List<Inscription> liste;
+        List<Inscription> liste = null;
         try {
             Query query = em.createQuery("SELECT I FROM Inscription I WHERE I.groupePedagogique =:groupePedagogique");
             // set parameters
             query.setParameter("groupePedagogique", groupePedagogique);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
 
         return liste;

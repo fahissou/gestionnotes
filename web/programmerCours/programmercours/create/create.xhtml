@@ -12,7 +12,7 @@
 
             <div class="block">
                 <div class="head clearfix">
-                    <div class="isw-documents"></div>
+                    <!--<div class="isw-documents"></div>-->
                     <h1>#{bundle.ProgrammationCours}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
@@ -41,7 +41,7 @@
                                 <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="groupePedagogique" value="#{programmerCoursBean.newProgrammerCours.groupePedagogique}" required="true">
+                                <p:selectOneMenu id="groupePedagogique" value="#{programmerCoursBean.selectedGroupePedagogique}" required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
                                     <f:selectItems value="#{programmerCoursBean.listGroupePedagogiques}"
                                                    var="groupePItem"

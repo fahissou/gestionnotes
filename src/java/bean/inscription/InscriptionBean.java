@@ -132,6 +132,7 @@ public class InscriptionBean implements Serializable {
     private List<GroupePedagogique> listGroupePedagogiqueFilter;
     private List<Filiere> listFiliere;
     private Filiere filiere;
+    AnneeAcademique currentAnneeAcademique;
    
     private AnneeAcademique anneeAcademiqueChoisi;
 //    private AnneeAcademique currentAcademicYear;
@@ -146,6 +147,7 @@ public class InscriptionBean implements Serializable {
     public void init() {
 //        listeInscriptions = inscriptionFacade.findAllByInscription(AnneeAcademiqueBean.getAnneeAcademicChoisi1());
         anneeAcademiqueChoisi = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
+        currentAnneeAcademique = anneeAcademiqueFacade.getCurrentAcademicYear();
         listFiliere = filiereFacade.findAll();
         
         prepareCreate();
@@ -573,13 +575,16 @@ public class InscriptionBean implements Serializable {
         String msg;
         try {
             newEtudiant = newInscription.getEtudiant();
-            newEtudiant.setFiliere(newInscription.getGroupePedagogique().getFiliere());
             etudiantFacade.create(newEtudiant);
+            etudiantFacade.findAll();
+            newInscription.setAnneeAcademique(anneeAcademiqueFacade.getCurrentAcademicYear());
+            newInscription.setValidation("V");
             inscriptionFacade.create(newInscription);
+            createDiffaultNotes(newInscription,newInscription.getGroupePedagogique());
             msg = JsfUtil.getBundleMsg("InscriptionCreateSuccessMsg");
             JsfUtil.addSuccessMessage(msg);
-            prepareCreate();
             listeInscriptions = inscriptionFacade.findAll();
+            prepareCreate();
 
         } catch (Exception e) {
             msg = JsfUtil.getBundleMsg("InscriptionCreateErrorMsg");
@@ -587,6 +592,7 @@ public class InscriptionBean implements Serializable {
         }
 
     }
+    
 
     public void inscriptionRedirect() {
         switch (typeInscription) {
@@ -660,12 +666,12 @@ public class InscriptionBean implements Serializable {
 //
    
     
-    // Liste des etudiants autorisés
+    // Liste des etudiants
     public void genererListeEtudiant() {
         GroupePedagogique gP = groupePedagogique;
         String nomFichier = JsfUtil.generateId();
         String pathOut = JsfUtil.getPathOutTmp();
-        String pathIn = JsfUtil.getPathIntModelProces();
+        String pathIn = JsfUtil.getPathIntModelReleve();
         String pathOutPDF = JsfUtil.getPathOutPDF();
         File repertoire1 = new File(pathOut + "/tmp2/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
@@ -684,6 +690,8 @@ public class InscriptionBean implements Serializable {
             List<String> champs = new ArrayList<>();
             champs.add("N");
             champs.add("NP");
+            champs.add("tel");
+            champs.add("M");
 
             // Table contenant les enregistrements du fichier resultat
             List< Map<String, Object>> conteneur = new ArrayList<>();
@@ -691,15 +699,14 @@ public class InscriptionBean implements Serializable {
             for (int j = 0; j < listeInscriptions.size(); j++) {
                 Map<String, Object> row = new HashMap<>();
                 Inscription currentInscription = listeInscriptions.get(j);
-
                 row.put("N", (j + 1));
                 row.put("NP", currentInscription.getEtudiant().getNom() + " " + currentInscription.getEtudiant().getPrenom());
-                
+                row.put("tel", currentInscription.getEtudiant().getTelephone());
+                row.put("M", currentInscription.getEtudiant().getLogin());
                 conteneur.add(row);
             }
             
             JsfUtil.generateurXDOCReport(pathIn + "/listeEtudiant.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "listeEtudiant" + "_" + gP.getDescription() + "1", parametreEntetes);
-            
             JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "listeEtudiant" + gP.getDescription());
             Historiques historique = new Historiques();
@@ -707,14 +714,13 @@ public class InscriptionBean implements Serializable {
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()));
             historique.setGroupePedagogique(gP.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
+            historique.setAnneeAcademique(anneeAcademiqueChoisi);
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
-            JsfUtil.flushToBrowser(fileDowload, nomFichier + "listeEtudiant" + gP.getDescription());
+            JsfUtil.flushToBrowser(fileDowload, nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
-
         }
-        
     }
     
     public void createDiffaultNotes(Inscription inscription, GroupePedagogique groupePedagogique1) {

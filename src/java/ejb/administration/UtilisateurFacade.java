@@ -38,7 +38,19 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
             query.setParameter("responsabilite", responsabilite);
             utilisateur = (Utilisateur) query.getSingleResult();
         } catch (Exception ex) {
-            utilisateur = new Utilisateur();
+        }
+        return utilisateur;
+    }
+    
+    public Utilisateur getCurrentUser(String id){
+        System.out.println("ok userFacade "+id);
+        Utilisateur  utilisateur = null;
+        try {
+            Query query = em.createQuery("SELECT U FROM Utilisateur U WHERE U.login = :id");
+            // set parameters
+            query.setParameter("id", id);
+            utilisateur = (Utilisateur) query.getSingleResult();
+        } catch (Exception ex) {
         }
         return utilisateur;
     }

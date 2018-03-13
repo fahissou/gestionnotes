@@ -7,11 +7,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:composition>
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1>Liste des matières</h1>
+                        <h1>#{bundle.listeMatieres}</h1>
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
@@ -88,10 +88,10 @@
                                             <h:outputText value=" #{item.id}" />
                                         </p:column>-->
                                         <p:column headerText="#{bundle.Description}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
-                                            <h:outputText value=" #{item.libelle}" />
+                                            <h:outputText value=" #{item.libelle.toUpperCase()}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.UE}"  sortBy="#{item.ue.libelle}" filterBy="#{item.ue.libelle}">
-                                            <h:outputText value=" #{item.ue.libelle}" />
+                                            <h:outputText value=" #{item.ue.libelle.toUpperCase()}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Coefficiant}"  sortBy="#{item.coefficiant}" filterBy="#{item.coefficiant}">
                                             <h:outputText value=" #{item.coefficiant}" />

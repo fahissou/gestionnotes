@@ -25,6 +25,7 @@ import util.JsfUtil;
  */
 @Stateless
 public class UeFacade extends AbstractFacade<Ue> {
+
     @EJB
     private MatiereFacade matiereFacade;
 
@@ -47,11 +48,15 @@ public class UeFacade extends AbstractFacade<Ue> {
     }
 
     public List<Ue> getUeByGroupePedagogique(GroupePedagogique groupePeda) {
-        String groupePedagogique = groupePeda.getId();
-        Query query = em.createQuery("SELECT U FROM Ue U WHERE U.groupePedagogique.id = :groupePedagogique");
-        // set parameters
-        query.setParameter("groupePedagogique", groupePedagogique);
-        List<Ue> list = query.getResultList();
+        List<Ue> list = null;
+        try {
+            Query query = em.createQuery("SELECT U FROM Ue U WHERE U.groupePedagogique = :groupePeda");
+            // set parameters
+            query.setParameter("groupePeda", groupePeda);
+            list = query.getResultList();
+        } catch (Exception e) {
+        }
+
         return list;
     }
 
@@ -66,9 +71,7 @@ public class UeFacade extends AbstractFacade<Ue> {
             query.setParameter("idSemestre", idSemestre);
             list = query.getResultList();
         } catch (Exception e) {
-            list = new ArrayList<>();
         }
-        System.out.println("UE "+list.size());
         return list;
     }
 
@@ -76,7 +79,7 @@ public class UeFacade extends AbstractFacade<Ue> {
         List<Ue> uesReal = new ArrayList<>();
         for (int i = 0; i < ues.size(); i++) {
             int val = matiereFacade.getMatiereByUe(ues.get(i)).size();
-            if(val != 0){
+            if (val != 0) {
                 uesReal.add(ues.get(i));
             }
         }

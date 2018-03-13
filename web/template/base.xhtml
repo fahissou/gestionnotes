@@ -20,7 +20,7 @@
         <title><ui:insert name="title">Aquarius - responsive admin panel</ui:insert></title>
 
         <!--<link rel="icon" type="image/ico" href="favicon.ico"/>-->
-        <link rel="icon" type="image/ico" href="#{resource['images:favicon.ico']}"> </link>
+        <link rel="icon" type="image/ico" href="#{resource['images:favicon.jpg']}"> </link>
         <!--<link href="css/stylesheets.css" rel="stylesheet" type="text/css" />-->  
         <!--[if lt IE 8]>
             <link href="css/ie7.css" rel="stylesheet" type="text/css" />
@@ -160,7 +160,6 @@
         <script type="text/javascript">
             function updateGritter(xhr)
             {
-
                 doc = $(xhr['responseXML']).find('update#msgForm\\:msg');
                 doc = $(doc.text());
                 doc.find('div[class^="ui-messages-"]').each(function () {

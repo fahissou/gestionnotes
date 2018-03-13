@@ -11,7 +11,7 @@
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
-                        <h1> #{rechercheAvanceeBean.etudiant.nom} #{rechercheAvanceeBean.etudiant.prenom} #{rechercheAvanceeBean.inscription.groupePedagogique.description}</h1>
+                        <h1> #{rechercheAvanceeBean.etudiant.nom} #{rechercheAvanceeBean.etudiant.prenom} </h1>
                     </div>
                     
                     <div class="content np block-fluid table-sorting clearfix">
@@ -19,7 +19,11 @@
                         <div class="row-form clearfix">
                             <!--                            <div class="col-md-2">
                                                             <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
-                                                        </div>-->
+                             
+                            </div>-->
+                            <div class="col-md-2">
+                                <p:outputLabel for="inscription" value="#{bundle.AnneeAcademique}"/>
+                            </div>
                             <div class="col-md-2">
                                 <p:selectOneMenu id="inscription" value="#{rechercheAvanceeBean.inscription}" 
                                                  required="true">
@@ -35,7 +39,9 @@
                                 <p:outputLabel id="groupeP"  value="#{rechercheAvanceeBean.inscription.groupePedagogique.description}"/>
                             </div>
                             
-                                    
+                            <div class="col-md-2">
+                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                            </div>
 
                             <div class="col-md-2">
                                 <p:selectOneMenu id="semestre" value="#{rechercheAvanceeBean.semestre}" 
@@ -48,7 +54,9 @@
                                 </p:selectOneMenu>
                             </div>
 
-
+                          <div class="col-md-2">
+                                <p:outputLabel id="notification"  value="#{rechercheAvanceeBean.notification}" style="color: #{rechercheAvanceeBean.color};"/>
+                         </div>
 
                         </div>
                         

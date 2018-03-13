@@ -35,7 +35,6 @@ public class AnneeAcademiqueFacade extends AbstractFacade<AnneeAcademique> {
     }
     
     public AnneeAcademique getCurrentAcademicYear(){
-        System.out.println("ok ici");
         int etat = 1;
         AnneeAcademique  anneeAcademique = null;
         try {
@@ -45,7 +44,6 @@ public class AnneeAcademiqueFacade extends AbstractFacade<AnneeAcademique> {
             query.setParameter("etat", etat);
             anneeAcademique = (AnneeAcademique) query.getSingleResult();
         } catch (Exception ex) {
-            anneeAcademique = new AnneeAcademique();
         }
         return anneeAcademique;
     }
@@ -53,7 +51,7 @@ public class AnneeAcademiqueFacade extends AbstractFacade<AnneeAcademique> {
     public List<String> newAnneeAcademique(){
         int etat = 1;
         AnneeAcademique  anneeAcademique = null;
-        List<String> anneeAcademic = new ArrayList<>();
+        List<String> anneeAcademic = null;
         try {
             Query query = em.createQuery("SELECT A FROM AnneeAcademique A WHERE A.etat = :etat");
             // set parameters

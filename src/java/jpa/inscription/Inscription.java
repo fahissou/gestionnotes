@@ -33,6 +33,8 @@ public class Inscription implements Serializable {
     public Inscription() {
         this.resultat = "R";
         this.compteurCredit = 0;
+        this.etudiant = new Etudiant();
+        this.groupePedagogique = new GroupePedagogique();
     }
     
     public String getId() {

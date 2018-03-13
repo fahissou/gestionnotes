@@ -82,6 +82,15 @@ public class ReinscriptionBean implements Serializable {
         listValidation.add("NON VALIDÉE");
     }
 
+    public void initEtudiant() {
+        etudiant = etudiantFacade.find(idEtudiant);
+        if (etudiant != null) {
+            notification = etudiant.getNom().toUpperCase() + " " + etudiant.getPrenom();
+        } else {
+            notification = "Numéro matricule incorrect !";
+        }
+    }
+
     public void initGroupePedagogique() {
         listeGroupePedagogiques = groupePedagogiqueFacade.getListGpByFilire(filiere);
     }
@@ -188,7 +197,7 @@ public class ReinscriptionBean implements Serializable {
     }
 
     public void reinscription() {
-        
+
         Inscription newInscription = null;
         Inscription oldInscription = null;
         if (!listeInscriptions.isEmpty()) {
@@ -215,7 +224,7 @@ public class ReinscriptionBean implements Serializable {
                         newInscription.setValidation("V");
                         inscriptionFacade.create(newInscription);
                         createDiffaultNotes(newInscription, groupePedagogique);
-                    }else if("T".equals(oldInscription.getResultat())){
+                    } else if ("T".equals(oldInscription.getResultat())) {
                         oldInscription.setSessions(oldInscription.getAnneeAcademique());
                         // nouvelle inscription
                         newInscription = new Inscription();
@@ -228,20 +237,20 @@ public class ReinscriptionBean implements Serializable {
                         inscriptionFacade.create(newInscription);
                         createDiffaultNotes(newInscription, groupePedagogique);
                     }
-                    
+
                 }
 
             }
         }
         RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/inscription/reinscriptions/'");
-       
+
     }
-    
+
     public List<Inscription> getRealListResinscription(List<Inscription> listeEntree) {
         List<Inscription> listeSortie = new ArrayList<>();
         for (int i = 0; i < listeEntree.size(); i++) {
-            String idNewInscription = listeEntree.get(i).getEtudiant().getLogin()+"_"+anneeAcademic.getDescription();
-            if(inscriptionFacade.find(idNewInscription) == null && listeEntree.get(i).getSessions() == null) {
+            String idNewInscription = listeEntree.get(i).getEtudiant().getLogin() + "_" + anneeAcademic.getDescription();
+            if (inscriptionFacade.find(idNewInscription) == null && listeEntree.get(i).getSessions() == null) {
                 listeSortie.add(listeEntree.get(i));
             }
         }
@@ -284,16 +293,21 @@ public class ReinscriptionBean implements Serializable {
         }
 
     }
-    
+
     public void initNotification() {
-        System.out.println("idEtu "+idEtudiant);
-        etudiant = etudiantFacade.find(this.idEtudiant);
-        Inscription inscription2 = getInscriptionNonValide(etudiant);
-        notification = "qdqdqsqd";
-        if(inscription2 != null) {
-            notification = "cet étudiant n'a pas fini sa formation en "+inscription2.getGroupePedagogique().getDescription()+" pour l'année académique "
-                    + "    "+inscription2.getAnneeAcademique().getDescription()+" !";
+        System.out.println("idEtu " + idEtudiant);
+        etudiant = etudiantFacade.find("igisahsg1");
+        if (etudiant != null) {
+            notification = etudiant.getNom() + " " + etudiant.getPrenom();
+        } else {
+            notification = "Numéro matricule incorrect !";
         }
+//        Inscription inscription2 = getInscriptionNonValide(etudiant);
+//        notification = "qdqdqsqd";
+//        if(inscription2 != null) {
+//            notification = "cet étudiant n'a pas fini sa formation en "+inscription2.getGroupePedagogique().getDescription()+" pour l'année académique "
+//                    + "    "+inscription2.getAnneeAcademique().getDescription()+" !";
+//        }
     }
 
     public void reinscriptionParticuliere() {
@@ -301,6 +315,7 @@ public class ReinscriptionBean implements Serializable {
         String msg;
         Inscription inscription = null;
         try {
+            if (etudiant != null) {
                 inscription = new Inscription();
                 inscription.setAnneeAcademique(anneeAcademic);
                 inscription.setGroupePedagogique(groupePedagogique);
@@ -313,32 +328,36 @@ public class ReinscriptionBean implements Serializable {
                 listeInscriptions = inscriptionFacade.findAll();
                 msg = JsfUtil.getBundleMsg("InscriptionDelSuccessMsg");
                 JsfUtil.addSuccessMessage(msg);
-            
+            } else {
+                msg = JsfUtil.getBundleMsg("IdEtudiantError");
+                JsfUtil.addErrorMessage(msg);
+            }
+
         } catch (Exception e) {
-               msg = JsfUtil.getBundleMsg("InscriptionEditErrorMsg");
-               JsfUtil.addErrorMessage(msg);
+            msg = JsfUtil.getBundleMsg("InscriptionEditErrorMsg");
+            JsfUtil.addErrorMessage(msg);
         }
-       
+
         RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/inscription/reinscriptions/'");
     }
-    
+
     public Inscription getInscriptionNonValide(Etudiant etudiant) {
-            Inscription inscription1 = null;
+        Inscription inscription1 = null;
         try {
-             List<Inscription> listeInscr = inscriptionFacade.getListInscriptionByEtudiant(etudiant);
-             if(!listeInscr.isEmpty()){
-                 for (int i = 0; i < listeInscr.size(); i++) {
-                     if(!listeInscr.get(i).getResultat().equals("T")) {
-                         inscription1 = listeInscr.get(i);
-                         break;
-                     }
-                 }
-             }
-             
+            List<Inscription> listeInscr = inscriptionFacade.getListInscriptionByEtudiant(etudiant);
+            if (!listeInscr.isEmpty()) {
+                for (int i = 0; i < listeInscr.size(); i++) {
+                    if (!listeInscr.get(i).getResultat().equals("T")) {
+                        inscription1 = listeInscr.get(i);
+                        break;
+                    }
+                }
+            }
+
         } catch (Exception e) {
-            
+
         }
         return inscription1;
-    } 
+    }
 
 }

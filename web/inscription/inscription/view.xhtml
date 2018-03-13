@@ -19,81 +19,34 @@
                         <div class="modal-body">
 
                                 <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.utilisateur}</label>
+                                    <label class="control-label col-sm-4">#{bundle.AnneeAcademique}</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm">
-                                            #{utilisateurBean.selectedUtilisateur.login}
+                                            #{inscriptionBean.selectedInscription.anneeAcademique.description}
                                         </label>
                                     </div>
                                 </div>
                             
                             <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Nom}</label>
+                                <label class="control-label col-sm-4">#{bundle.Credit}</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm">
-                                            #{utilisateurBean.selectedUtilisateur.nom}
-                                        </label>
-                                    </div>
-                            </div>
-                            
-                            
-                                <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.Prenoms}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm">
-                                            #{utilisateurBean.selectedUtilisateur.prenom}
-                                        </label>
-                                    </div>
-                                </div>
-                            
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Telephone}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm">
-                                            #{utilisateurBean.selectedUtilisateur.telephone}
-                                        </label>
-                                    </div>
-                                </div>
-                            
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Adresse}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm">
-                                            #{utilisateurBean.selectedUtilisateur.adresse}
+                                            #{inscriptionBean.selectedInscription.compteurCredit}
                                         </label>
                                     </div>
                             </div>
                             
                             <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Email}</label>
+                                <label class="control-label col-sm-4">#{bundle.GroupePedagogique}</label>
                                     <div class="col-sm-8">
                                         <label class="form-control input-sm">
-                                            #{utilisateurBean.selectedUtilisateur.mail}
+                                            #{inscriptionBean.selectedInscription.groupePedagogique.description}
                                         </label>
                                     </div>
                             </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.DateNaissance}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm">
-                                            #{utilisateurBean.selectedUtilisateur.dateNaissance}
-                                        </label>
-                                    </div>
-                            </div>
-                            
-
-                                
-                            
-                                <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.Groupe}</label>
-                                    <div class="col-sm-8">
-                                        <label class="form-control input-sm"
-                                               >
-                                            #{utilisateurBean.selectedUtilisateur.groupe.libelle}
-                                        </label>
-                                    </div>
-                                </div>
+                           
+                              
 <!--                                <div class="form-group row" style="margin-bottom: 3px!important;">
                                     <label class="control-label col-sm-4">Sélection 2</label>
                                     <div class="col-sm-8">

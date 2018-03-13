@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jpa.administration.Journalisation;
+import util.JsfUtil;
 
 /**
  *
@@ -29,4 +30,9 @@ public class JournalisationFacade extends AbstractFacade<Journalisation> {
         super(Journalisation.class);
     }
     
+    @Override
+    public void create(Journalisation journalisation) {
+        journalisation.setId(JsfUtil.generateId());
+        super.create(journalisation);
+    } 
 }

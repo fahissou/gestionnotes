@@ -91,7 +91,7 @@
                          </div>-->
                             
                             <div class="col-md-2">
-                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.FeuilleNotes}" action="#{inscriptionBean.genererListeEtudiant()}" styleClass="btn btn-primary"
+                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.FeuilleNotes}" action="#{notesBean.genererFeuilleNotes()}" styleClass="btn btn-primary"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="glyphicon glyphicon-download-alt"></i>
                                 </p:commandLink>
@@ -134,14 +134,14 @@
                             <p:column headerText="#{bundle.Decision}"  sortBy="#{item.etatValidation}" filterBy="#{item.etatValidation}">
                                 <h:outputText value="#{item.etatValidation}"/>
                             </p:column>
-                            <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
+<!--                            <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                 <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-pencil glyphicon glyphicon-pencil"/>
                                     <f:setPropertyActionListener value="#{item}" target="#{notesBean.selectedNotes}" />
                                 </p:commandLink>
-                            </p:column>
+                            </p:column>-->
                         </p:dataTable>
 
                     </div>

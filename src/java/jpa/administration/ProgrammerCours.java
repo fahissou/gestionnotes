@@ -32,8 +32,11 @@ public class ProgrammerCours implements Serializable {
     @ManyToOne
     private Enseignant enseignant;
     @ManyToOne
+    private Enseignant responsable;
+    @ManyToOne
     private AnneeAcademique anneeAcademique;
-
+    private String etat;
+    
     public ProgrammerCours() {
     }
 
@@ -78,6 +81,14 @@ public class ProgrammerCours implements Serializable {
     public void setEnseignant(Enseignant enseignant) {
         this.enseignant = enseignant;
     }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
     
     @Override
     public int hashCode() {
@@ -110,6 +121,14 @@ public class ProgrammerCours implements Serializable {
 
     public void setAnneeAcademique(AnneeAcademique anneeAcademique) {
         this.anneeAcademique = anneeAcademique;
+    }
+
+    public Enseignant getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(Enseignant responsable) {
+        this.responsable = responsable;
     }
     
     

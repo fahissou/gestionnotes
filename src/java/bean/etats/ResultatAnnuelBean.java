@@ -180,6 +180,7 @@ public class ResultatAnnuelBean implements Serializable{
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal"));
             historique.setGroupePedagogique(groupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
+            historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal" + ".pdf");
             JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "ResultatFinal"+ ".pdf");

@@ -45,10 +45,11 @@ public class SemestreFacade extends AbstractFacade<Semestre> {
     public List<Semestre> getSemetreByGP(GroupePedagogique groupePedagogique) {
        int ordre = groupePedagogique.getOrdre();
        List<Semestre> list = null;
+       try {
         Query query = em.createQuery("SELECT S FROM Semestre S WHERE S.ordre = :ordre ORDER BY S.valeur ASC");
         // set parameters
         query.setParameter("ordre", ordre);
-        try {
+        
              list = query.getResultList();
         } catch (Exception e) {
             list = new ArrayList<>();

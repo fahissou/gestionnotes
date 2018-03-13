@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:composition>
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
@@ -90,9 +90,9 @@
                                         <p:column headerText="#{bundle.Description}"  sortBy="#{item.libelle.toUpperCase()}" filterBy="#{item.libelle.toUpperCase()}">
                                             <h:outputText value=" #{item.libelle.toUpperCase()}" />
                                         </p:column>
-                                        <p:column headerText="#{bundle.Semestre}"  sortBy="#{item.semestre.valeur}" filterBy="#{item.semestre.valeur}">
+<!--                                        <p:column headerText="#{bundle.Semestre}"  sortBy="#{item.semestre.valeur}" filterBy="#{item.semestre.valeur}">
                                             <h:outputText value=" #{item.semestre.valeur}" />
-                                        </p:column>
+                                        </p:column>-->
                                         <p:column headerText="#{bundle.Credit}"  sortBy="#{item.credit}" filterBy="#{item.credit}">
                                             <h:outputText value=" #{item.credit}" />
                                         </p:column>

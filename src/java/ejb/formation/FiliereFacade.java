@@ -32,7 +32,7 @@ public class FiliereFacade extends AbstractFacade<Filiere> {
     
     @Override
     public void create(Filiere filiere) {
-        filiere.setId(JsfUtil.generateId());
+        filiere.setId(filiere.getLibelle());
         super.create(filiere);
     }
 }

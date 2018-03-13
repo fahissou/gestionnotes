@@ -54,7 +54,6 @@ public class NotesFacade extends AbstractFacade<Notes> {
             query.setParameter("matiereID", matiereID);
             notes = query.getResultList();
         } catch (Exception ex) {
-            notes = new ArrayList<>();
         }
         return notes;
     }
@@ -66,14 +65,13 @@ public class NotesFacade extends AbstractFacade<Notes> {
         String idGP = groupePedagogique.getId();
         try {
             
-            Query query = em.createQuery("SELECT N FROM Notes N WHERE (N.inscription.anneeAcademique.id = :idAnneAca OR N.inscription.sessions.id =:idAnneAca) AND N.inscription.groupePedagogique.id = :idGP AND N.matiere.id = :matiereID");
+            Query query = em.createQuery("SELECT N FROM Notes N WHERE (N.inscription.anneeAcademique.id = :idAnneAca OR N.inscription.sessions.id =:idAnneAca) AND N.inscription.groupePedagogique.id = :idGP AND N.matiere.id = :matiereID ORDER BY N.inscription.etudiant.nom");
             // set parameters
             query.setParameter("idAnneAca", idAnneAca);
             query.setParameter("idGP", idGP);
             query.setParameter("matiereID", matiereID);
             notes = query.getResultList();
         } catch (Exception ex) {
-            notes = new ArrayList<>();
         }
         return notes;
     }
@@ -91,7 +89,6 @@ public class NotesFacade extends AbstractFacade<Notes> {
             query.setParameter("matiereID", matiereID);
             notes = (Notes) query.getSingleResult();
         } catch (Exception ex) {
-            notes = new Notes();
         }
         return notes;
     }

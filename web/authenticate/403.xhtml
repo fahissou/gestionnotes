@@ -11,7 +11,7 @@
 
         <title>#{bundle.AppName} - #{bundle.ErrorPageTitle}</title>
 
-        <link rel="icon" type="image/ico" href="#{resource['images:favicon.ico']}"> </link>
+        <link rel="icon" type="image/ico" href="#{resource['images:favicon.jpg']}"> </link>
 
         <h:outputStylesheet library="css" name="stylesheets.css"/>
         <!--[if lt IE 8]>
@@ -90,7 +90,7 @@
         <div class="errorPage">        
             <p class="name">403</p>
             <p class="description">#{bundle.msg403}</p>        
-            <p><button class="btn btn-danger" onClick="document.location.href = '/gestionnotes';">Retour à l'acceuil</button> <button class="btn btn-warning" onClick="history.back();">Page précédente</button></p>       
+            <p><button class="btn btn-danger" onClick="document.location.href = '/gestionnotes/';">Retour à l'acceuil</button> <button class="btn btn-warning" onClick="history.back();">Page précédente</button></p>       
         </div>
     </h:body>
 </html>

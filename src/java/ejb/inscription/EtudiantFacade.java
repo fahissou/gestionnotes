@@ -47,7 +47,6 @@ public class EtudiantFacade extends AbstractFacade<Etudiant> {
         query.setParameter("groupePedagogique", groupePedagogique);
         liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-             liste = new ArrayList<>();
         }
         return liste;
     }

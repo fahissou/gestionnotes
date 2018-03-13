@@ -53,6 +53,8 @@ public class Enseignant implements Serializable {
     private List<Enseigner> enseigners;
     @ManyToOne
     private Specialite specialite;
+    @OneToMany(mappedBy = "responsable")
+    private List<ProgrammerCours> programmerCourss1;
     
 
     public Enseignant() {

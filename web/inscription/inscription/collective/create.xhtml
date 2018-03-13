@@ -12,7 +12,7 @@
 
                 <div class="block">
                     <div class="head clearfix">
-                        <div class="isw-documents"></div>
+                        <!--<div class="isw-documents"></div>-->
                         <h1>#{bundle.Inscription}</h1>
                     </div>
                     <h:form id="formeEx" styleClass="form-horizontal" enctype="multipart/form-data"  prependId="false">
@@ -45,7 +45,7 @@
                                                      required="true">
                                         <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{inscriptionBean.listGroupePedagogiqueFilter}" var="itemGroupe"
-                                                       itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description}"/>
+                                                       itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description.toUpperCase()}"/>
                                         <f:converter  converterId="groupePedagogiqueConverter"/>
                                     </p:selectOneMenu>
                                 </div>

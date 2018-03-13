@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="adminControl active">
-                    #{bundle.UtilisateurWelcome} #{authentificateBean.recupUtilisateur().nom} #{authentificateBean.recupUtilisateur().prenom} #{authentificateBean.firstConnexion()}
+                    #{bundle.UtilisateurWelcome} #{authentificateBean.recupUtilisateur().prenom} #{authentificateBean.recupUtilisateur().nom} #{authentificateBean.firstConnexion()}
                 </div>
             </div>
 
@@ -42,13 +42,13 @@
                     </li>
                     <li>
                         <p:commandLink id="deconnexion" value="#{null}" action="#{authentificateBean.deconnexion}">
-                            <i class="glyphicon glyphicon-share-alt"></i>
+                            <i class="glyphicon glyphicon-off"></i>
                             #{bundle.Logout}
                         </p:commandLink>
                     </li>
                 </ul>
                 <div class="info">
-                    <span>Bienvenu dans votre espace de travail!</span>
+                    <span>#{bundle.MessageBienvenu}</span>
                 </div>
             </div>
 
@@ -74,6 +74,13 @@
                                 <span class="isb-users"></span><span class="text">#{bundle.habilitation}</span>
                             </a>
                         </li>
+                        
+                        <li>
+                            <a href="/gestionnotes/Administration/journalisation">
+                                <span class="isb-users"></span><span class="text">#{bundle.Journalisation}</span>
+                            </a>
+                        </li>
+                        
                         <li>
                             <a href="/gestionnotes/Administration/parametres" >                               
                                 <span class="isb-settings"></span> <span class="text">#{bundle.Parametres}</span>

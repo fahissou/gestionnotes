@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="block">
                 <div class="head clearfix">
-                    <div class="isw-documents"></div>
+                    <!--<div class="isw-documents"></div>-->
                     <h1>#{bundle.AjoutAttribution}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
@@ -44,7 +44,7 @@
                                     <p:ajax listener="#{enseignerBean.initSemestre()}" update="semestre"/>
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{enseignerBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
-                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
+                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
@@ -76,7 +76,7 @@
                                     <p:ajax listener="#{enseignerBean.initMatiere()}" update="matiere"/>
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{enseignerBean.listeUE}" var="itemUE"
-                                                   itemValue="#{itemUE}" itemLabel="#{itemUE.libelle}"/>
+                                                   itemValue="#{itemUE}" itemLabel="#{itemUE.libelle.toUpperCase()}"/>
                                     <f:converter  converterId="ueConverter"/>
                                 </p:selectOneMenu>
                             </div>
@@ -124,7 +124,7 @@
 
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{enseignerBean.listeEnseignants}" var="item"
-                                                   itemValue="#{item}" itemLabel="#{item.nom} #{item.prenom}"/>
+                                                   itemValue="#{item}" itemLabel="#{item.nom.toUpperCase()} #{item.prenom}"/>
                                     <f:converter  converterId="enseignantConverter"/>
                                 </p:selectOneMenu>
                             </div>

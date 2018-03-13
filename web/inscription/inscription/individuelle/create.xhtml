@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <div class="block">
                 <div class="head clearfix">
-                    <div class="isw-documents"></div>
+                    <!--<div class="isw-documents"></div>-->
                     <h1>#{bundle.InscriptionIndividuelle}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
@@ -25,7 +25,7 @@
                                                  required="true">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}" var="itemGroupe"
-                                                   itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description}"/>
+                                                   itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>
@@ -70,6 +70,7 @@
                                 </p:selectOneRadio>
                             </div>
                         </div>
+                        
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">

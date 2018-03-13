@@ -43,14 +43,13 @@ public class EnseignerFacade extends AbstractFacade<Enseigner> {
     }
     
     public List<Enseigner> findEnseignerByMatiere(Matiere matiere) {
-        List<Enseigner> liste;
+        List<Enseigner> liste = null;
         String idMat = matiere.getId();
         try {
             Query query = em.createQuery("SELECT E FROM Enseigner E WHERE E.matiere.id = :idMat");
             query.setParameter("idMat", idMat);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
         return liste;
     }

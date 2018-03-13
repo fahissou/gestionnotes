@@ -1,6 +1,7 @@
 
 package bean.message;
 
+import bean.inscription.AnneeAcademiqueBean;
 import ejb.formation.HistoriquesFacade;
 import java.io.File;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import jpa.formation.Historiques;
+import jpa.inscription.AnneeAcademique;
 import org.primefaces.context.RequestContext;
 import util.JsfUtil;
 
@@ -30,6 +32,7 @@ public class HistoriqueBean implements Serializable{
     private List<Historiques> filteredList;
     private  String lien = "/gestionnotes/fichiergenerer/rapportgestionnotes/touslesrapports/";
     private String pathOut;
+    private AnneeAcademique anneeAcademiqueChoisi;
     
     
     public HistoriqueBean() {
@@ -37,7 +40,8 @@ public class HistoriqueBean implements Serializable{
     
     @PostConstruct
     public void init() {
-        listeHistoriquess = historiquesFacade.findAll();
+        anneeAcademiqueChoisi = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
+        listeHistoriquess = historiquesFacade.findAll1(anneeAcademiqueChoisi);
         prepareCreate();
         pathOut = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
     }  
@@ -134,17 +138,12 @@ public class HistoriqueBean implements Serializable{
     public void removeFile() {
         File repertoire = new File(pathOut);
         File[] files = repertoire.listFiles();
-//        boolean trouve = false;
         try {
             if(files.length != 0) {
-                System.out.println("OK4 "+files[0].getName());
                 for (int i = 0; i < files.length; i++) {
                     String oldFile = JsfUtil.getFileName2(selectedHistoriques.getLienFile())+".pdf";
-                    System.out.println("OK5 "+oldFile);
                     if(files[i].getName().equals(oldFile)) {
-                        System.out.println("ok remove");
                         boolean bool = files[i].delete();
-                        System.out.println("boolean "+bool);
                         break;
                     }
             }

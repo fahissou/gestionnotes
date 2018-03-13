@@ -45,13 +45,12 @@ public class GroupePedagogiqueFacade extends AbstractFacade<GroupePedagogique> {
     }
 
     public List<GroupePedagogique> getListGpByFilire(Filiere filiere) {
-        List<GroupePedagogique> liste;
+        List<GroupePedagogique> liste = null;
         try {
             Query query = em.createQuery("SELECT G FROM GroupePedagogique G WHERE G.filiere = :filiere");
             query.setParameter("filiere", filiere);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
         return liste;
     }
@@ -83,7 +82,6 @@ public class GroupePedagogiqueFacade extends AbstractFacade<GroupePedagogique> {
                 query.setParameter("idFiliere", idFiliere);
                 groupePedagogique = (GroupePedagogique) query.getSingleResult();
             } catch (NoResultException | NonUniqueResultException e) {
-                 groupePedagogique = new GroupePedagogique();
             }
         }
         return groupePedagogique;

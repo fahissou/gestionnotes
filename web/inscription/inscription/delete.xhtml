@@ -20,16 +20,16 @@
                             <div class="row">
                                 
                                     <div class="form-group row" style="margin-bottom: 3px!important; padding-left: 10px;">
-                                        #{bundle.UtilisateurConfirmDel}
+                                        #{bundle.InscriptionConfirm}
                                         <span class="text-bold">
-                                            #{utilisateurBean.selectedUtilisateur.nom} (#{utilisateurBean.selectedUtilisateur.login})
+                                            #{inscriptionBean.selectedInscription.etudiant.login} 
                                         </span>?
                                     </div>
                                
                             </div>
                         </div> <!-- /.modal-body -->
                         <div class="modal-footer">
-                            <p:commandButton value="#{bundle.Yes}" update=":msgForm:msg @form :ajoutListForm" actionListener="#{utilisateurBean.doDel}" 
+                            <p:commandButton value="#{bundle.Yes}" update=":msgForm:msg @form :ajoutListForm" actionListener="#{inscriptionBean.doDel}" 
                                              oncomplete="updateGritter(xhr);$('#delDialog').modal('hide');" style="padding: 0;"
                                              styleClass=" btn-xs btn-primary" icon="i-checkmark-2"/>
 

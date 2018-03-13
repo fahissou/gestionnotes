@@ -29,6 +29,7 @@ import util.JsfUtil;
  */
 @Stateless
 public class MatiereFacade extends AbstractFacade<Matiere> {
+
     @EJB
     private ProgrammerCoursFacade programmerCoursFacade;
     @PersistenceContext(unitName = "gestionnotesPU")
@@ -42,37 +43,41 @@ public class MatiereFacade extends AbstractFacade<Matiere> {
     public MatiereFacade() {
         super(Matiere.class);
     }
-    
+
     @Override
     public void create(Matiere matiere) {
         matiere.setId(JsfUtil.generateId());
         super.create(matiere);
     }
-    
-     public List<Matiere> getMatiereByUe(Ue ue) {
-         String idUE = ue.getId();
-        Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.ue.id = :idUE");
-        // set parameters
-        query.setParameter("idUE",idUE);
-        List<Matiere> list = query.getResultList();
-        return list; 
+
+    public List<Matiere> getMatiereByUe(Ue ue) {
+        String idUE = ue.getId();
+        List<Matiere> list = null;
+        try {
+            Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.ue.id = :idUE");
+            // set parameters
+            query.setParameter("idUE", idUE);
+            list = query.getResultList();
+        } catch (Exception e) {
+        }
+
+        return list;
     }
 
     public List<Matiere> getMatiereByGroupe(GroupePedagogique groupePedagogique) {
-        List<Matiere> liste;
+        List<Matiere> liste = null;
         try {
             Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.groupePedagogique =:groupePedagogique ORDER BY M.libelle ASC");
             // set parameters
             query.setParameter("groupePedagogique", groupePedagogique);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
         return liste;
     }
-    
+
     public List<Matiere> getMatiereByGroupe(GroupePedagogique groupePedagogique, Semestre semestre) {
-        List<Matiere> liste;
+        List<Matiere> liste = null;
         try {
             Query query = em.createQuery("SELECT M FROM Matiere M WHERE M.groupePedagogique =:groupePedagogique AND M.ue.semestre = :semestre ORDER BY M.libelle ASC");
             // set parameters
@@ -80,12 +85,8 @@ public class MatiereFacade extends AbstractFacade<Matiere> {
             query.setParameter("semestre", semestre);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
         return liste;
     }
 
-     
-    
-    
 }

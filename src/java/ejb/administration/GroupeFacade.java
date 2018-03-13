@@ -36,7 +36,7 @@ public class GroupeFacade extends AbstractFacade<Groupe> {
     
     @Override
     public void create(Groupe groupe) {
-        groupe.setId(JsfUtil.generateId());
+        groupe.setId(groupe.getLibelle());
         super.create(groupe);
     }
     

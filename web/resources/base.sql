@@ -8,6 +8,11 @@ INSERT INTO groupe (code, libelle) VALUES ('ADMIN','Administrateur application')
 
 
 //Les enregistrements par défaut pour une première connexion
+// les groupes "Admin" "Directeurs" "Responsables" "Csa" "Secretaire"
+
+
+
+
 
 insert into anneeacademique VALUES ('fzerezr','2016 - 2017',1);
 create view v_groupe_user as select login as login_utilisateur, password as utilisateur_password, libelle as nom_groupe from utilisateur join habilitation on utilisateur.login=habilitation.utilisateur_login join groupe on  groupe.id=habilitation.groupeutilisateur_id;

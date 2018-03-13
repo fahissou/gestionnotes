@@ -97,11 +97,7 @@
 
                             <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.etudiant.prenom}" filterBy="#{item.etudiant.prenom}">
                                 <h:outputText value=" #{item.etudiant.prenom}" />
-                            </p:column>
-
-                            <p:column headerText="#{bundle.GroupePedagogique}"  sortBy="#{item.groupePedagogique.description}" filterBy="#{item.groupePedagogique.description}">
-                                <h:outputText value=" #{item.groupePedagogique.description}" />
-                            </p:column>
+                            </p:column>                 
 
 <!--                                        <p:column headerText="#{bundle.AnneeAcademique}"  sortBy="#{item.anneeAcademique.description}" filterBy="#{item.anneeAcademique.description}">
     <h:outputText value=" #{item.anneeAcademique.description}" />
@@ -116,12 +112,12 @@
                                     <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedInscription}" />
                                 </p:commandLink>
 
-                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
+<!--                                <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-pencil glyphicon glyphicon-pencil"/>
                                     <f:setPropertyActionListener value="#{item}" target="#{inscriptionBean.selectedInscription}" />
-                                </p:commandLink>
+                                </p:commandLink>-->
 
                                 <p:commandLink id="delButton" value="#{null}" title="#{bundle.Delete}" styleClass="btn btn-danger btn-xs"
                                                update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"

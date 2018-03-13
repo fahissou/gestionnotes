@@ -9,11 +9,11 @@
     <ui:composition>  
         <h:form id="formeEx" styleClass="form-horizontal">
             <p:growl id="growl" showDetail="true"/>
-            <div class="col-md-6">
+<!--            <div class="col-md-6">
 
                 <div class="block">
                     <div class="head clearfix">
-                        <!--<div class="isw-documents"></div>-->
+                        <div class="isw-documents"></div>
                         <h1>#{bundle.ProfilUtilisateur}</h1>
                     </div>
 
@@ -75,15 +75,70 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="block">
                     <div class="head clearfix">
                         <!--<div class="isw-documents"></div>-->
-                        <h1>#{bundle.passwdChangeTitle}</h1>
+                        <h1>#{bundle.EditProfilConnexion}</h1>
                     </div>
                     <div class="block-fluid">
+                        
+                        <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                            <div class="col-md-3">
+                                <p:outputLabel for="nomuser" value="#{bundle.utilisateur}"/>
+                            </div>
+                            <div class="col-md-8">
+                                <p:inputText id="nomuser" value="#{authentificateBean.currentUser.login}" placeholder="#{bundle.utilisateur}"
+                                            required="true" requiredMessage="#{bundle.ChampObligatoire}">
+                                </p:inputText>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                            <div class="col-md-3">
+                                <p:outputLabel for="nom" value="#{bundle.Nom}"/>
+                            </div>
+                            <div class="col-md-8">
+                                <p:inputText id="nom" value="#{authentificateBean.currentUser.nom}" placeholder="#{bundle.Nom}"
+                                            required="true" requiredMessage="#{bundle.ChampObligatoire}">
+                                </p:inputText>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                            <div class="col-md-3">
+                                <p:outputLabel for="prenom" value="#{bundle.Prenoms}"/>
+                            </div>
+                            <div class="col-md-8">
+                                <p:inputText id="prenom" value="#{authentificateBean.currentUser.prenom}" placeholder="#{bundle.Prenoms}"
+                                            required="true" requiredMessage="#{bundle.ChampObligatoire}">
+                                </p:inputText>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                            <div class="col-md-3">
+                                <p:outputLabel for="telephone" value="#{bundle.Telephone}"/>
+                            </div>
+                            <div class="col-md-8">
+                                <p:inputText id="telephone" value="#{authentificateBean.currentUser.telephone}" placeholder="#{bundle.Telephone}"
+                                            required="true" requiredMessage="#{bundle.ChampObligatoire}">
+                                </p:inputText>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                            <div class="col-md-3">
+                                <p:outputLabel for="email" value="#{bundle.Email}"/>
+                            </div>
+                            <div class="col-md-8">
+                                <p:inputText id="email" value="#{authentificateBean.currentUser.mail}" placeholder="#{bundle.Email}"
+                                            required="true" requiredMessage="#{bundle.ChampObligatoire}">
+                                </p:inputText>
+                            </div>
+                        </div>
 
                         <div class="row-form clearfix" style="margin-bottom: 3px!important;">
                             <div class="col-md-3">

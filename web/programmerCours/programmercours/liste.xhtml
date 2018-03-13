@@ -56,9 +56,26 @@
                                                    itemValue="#{groupePItem}"
                                                    itemLabel="#{groupePItem.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
-                                    <p:ajax listener="#{programmerCoursBean.initTable()}" update="@form filiere incarcerationTable" />
+                                    <p:ajax listener="#{programmerCoursBean.initSemestre()}" update="semestreArea" />
                                 </p:selectOneMenu>
                             </div>
+                            
+                            <div class="col-md-2">
+
+                                <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                            </div>
+                            <div class="col-md-2" jsf:id="semestreArea">
+                                <p:selectOneMenu id="semestre" value="#{programmerCoursBean.selectedSemestre}" required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{programmerCoursBean.listeSemestres}"
+                                                   var="semestreItem"
+                                                   itemValue="#{semestreItem}"
+                                                   itemLabel="#{semestreItem.valeur}"/>
+                                    <f:converter  converterId="semestreConverter"/>
+                                   <p:ajax listener="#{programmerCoursBean.initTable()}" update="@form filiere incarcerationTable" />
+                                </p:selectOneMenu>
+                            </div>
+                            
                         </div>
                         <p:dataTable id="incarcerationTable" var="item"
                                      selection="#{programmerCoursBean.selectedProgrammerCours}"
@@ -85,14 +102,14 @@
                             </p:column>-->
 
                             <p:column headerText="#{bundle.Matiere}"  sortBy="#{item.matiere}" filterBy="#{item.matiere}">
-                                <h:outputText value=" #{item.matiere.libelle}" />
+                                <h:outputText value=" #{item.matiere.libelle.toUpperCase()}"  style="color: #{item.etat};" />
                             </p:column>
                             
                             <p:column headerText="#{bundle.DateDebut}"  sortBy="#{item.dateDebut}" filterBy="#{item.dateDebut}">
                                 <f:facet name="header">
-                                    <h:outputText value="#{bundle.DateDebut}"/>
+                                    <h:outputText value="#{bundle.DateDebut}" />
                                 </f:facet>
-                                <h:outputText value="#{item.dateDebut}" >
+                                <h:outputText value="#{item.dateDebut}" style="color: #{item.etat};">
                                     <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="Europe/Paris"/>                           
                                 </h:outputText>
                             </p:column>
@@ -102,23 +119,25 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{bundle.DateFin}"/>
                                 </f:facet>
-                                <h:outputText value="#{item.dateFin}" >
+                                <h:outputText value="#{item.dateFin}" style="color: #{item.etat};">
                                     <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="Europe/Paris"/>                           
                                 </h:outputText>
                             </p:column>
 
                             <p:column headerText="#{bundle.Enseignant}"  sortBy="#{item.enseignant}" filterBy="#{item.enseignant}">
-                                <h:outputText value=" #{item.enseignant.nom} #{item.enseignant.prenom}" />
+                                <h:outputText value=" #{item.enseignant.nom} #{item.enseignant.prenom}" style="color: #{item.etat};" />
                             </p:column>
 
                             <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
-<!--                                <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
-                                               update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
+                                <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Telecharger}" styleClass="btn btn-info btn-xs"
+                                               action="#{programmerCoursBean.genererEtatCoursProgrammer()}"
+                                              
                                                style="border-radius: 0px; margin-right: 1px;">
-                                    <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
+<!--                                    <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>-->
+                                        <i class="i-zoom-out glyphicon glyphicon-download-alt"/>
 
                                     <f:setPropertyActionListener value="#{item}" target="#{programmerCoursBean.selectedProgrammerCours}" />
-                                </p:commandLink>-->
+                                </p:commandLink>
 
                                 <p:commandLink id="delButton" value="#{null}" title="#{bundle.Deprogrammer}" styleClass="btn btn-danger btn-xs"
                                                update=":delDialogForm"  oncomplete="$('#delDialog').modal('show')"

@@ -47,6 +47,8 @@ public class RechercheAvanceeBean implements Serializable{
     private List<Notes> listNotes;
     private List<Notes> filteredList;
     private Notes selectedNotes;
+    private String notification;
+    private String color;
     
     public RechercheAvanceeBean() {
     }
@@ -54,10 +56,20 @@ public class RechercheAvanceeBean implements Serializable{
     @PostConstruct
     public void init() {
         String id = ParametragesBean.getIdEtudiant();
-        etudiant = etudiantFacade.find(id);
-        listInscriptions = inscriptionFacade.getListInscriptionByEtudiant(etudiant);
+        initListeInscription(id);
     }
 
+    public void initListeInscription(String id) {
+        etudiant = etudiantFacade.find(id);
+        if(etudiant != null){
+           listInscriptions = inscriptionFacade.getListInscriptionByEtudiant(etudiant); 
+           notification = ""; color ="white";
+        }else{
+           listInscriptions = null;
+           notification = "Le numéro matricule entré est incorrect veuillez vérifier et réessayer !"; color ="red";
+        }
+    }
+    
     public Etudiant getEtudiant() {
         return etudiant;
     }
@@ -88,6 +100,22 @@ public class RechercheAvanceeBean implements Serializable{
 
     public void setInscription(Inscription inscription) {
         this.inscription = inscription;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     

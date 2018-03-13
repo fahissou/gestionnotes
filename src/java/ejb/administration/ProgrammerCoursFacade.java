@@ -19,6 +19,7 @@ import jpa.inscription.AnneeAcademique;
 import jpa.inscription.Enseignant;
 import jpa.inscription.GroupePedagogique;
 import jpa.module.Matiere;
+import jpa.module.Semestre;
 import util.JsfUtil;
 
 /**
@@ -42,39 +43,42 @@ public class ProgrammerCoursFacade extends AbstractFacade<ProgrammerCours> {
 
     @Override
     public void create(ProgrammerCours programmerCours) {
-        programmerCours.setId(JsfUtil.generateId());
-        super.create(programmerCours);
+        try {
+            programmerCours.setId(programmerCours.getMatiere().getLibelle()+"_"+programmerCours.getEnseignant().getLogin());
+            super.create(programmerCours);
+        } catch (Exception e) {
+        }
+        
     }
 
-    public List<ProgrammerCours> listeProgrammeByGroupe(GroupePedagogique groupePedagogique, AnneeAcademique anneeAcademique) {
-        List<ProgrammerCours> liste;
+    public List<ProgrammerCours> listeProgrammeByGroupe(GroupePedagogique groupePedagogique, AnneeAcademique anneeAcademique, Semestre semestre) {
+        List<ProgrammerCours> liste = null;
         try {
-            Query query = em.createQuery("SELECT P FROM ProgrammerCours P WHERE P.groupePedagogique = :groupePedagogique AND P.anneeAcademique = :anneeAcademique ORDER BY P.matiere.libelle ASC");
+            Query query = em.createQuery("SELECT P FROM ProgrammerCours P WHERE P.groupePedagogique = :groupePedagogique AND P.anneeAcademique = :anneeAcademique AND P.matiere.ue.semestre = :semestre ORDER BY P.matiere.libelle ASC");
             // set parameters
             query.setParameter("groupePedagogique", groupePedagogique);
             query.setParameter("anneeAcademique", anneeAcademique);
+            query.setParameter("semestre", semestre);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
 
         return liste;
     }
 
     public List<Matiere> listeMatieresPC(GroupePedagogique groupePedagogique) {
-        List<Matiere> liste;
+        List<Matiere> liste = null;
         try {
             Query query = em.createQuery("SELECT P.matiere FROM ProgrammerCours P WHERE P.groupePedagogique =:groupePedagogique ORDER BY P.matiere.libelle ASC");
             // set parameters
             query.setParameter("groupePedagogique", groupePedagogique);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
         return liste;
     }
-    
-   public Enseignant findEtudiantByMatiere(Matiere matiere) {
+
+    public Enseignant findEnseignantByMatiere(Matiere matiere) {
         try {
             Query query = em.createQuery("SELECT P.enseignant FROM ProgrammerCours P WHERE P.matiere = :matiere");
             query.setParameter("matiere", matiere);
@@ -82,5 +86,18 @@ public class ProgrammerCoursFacade extends AbstractFacade<ProgrammerCours> {
         } catch (NoResultException | NonUniqueResultException e) {
             return null;
         }
+    }
+
+    public ProgrammerCours findProgrCoursByAnneeGpMat(GroupePedagogique groupePedagogique, AnneeAcademique anneeAcademique, Matiere matiere) {
+        ProgrammerCours programmerCours = null;
+        try {
+            Query query = em.createQuery("SELECT P FROM ProgrammerCours P WHERE P.matiere = :matiere AND P.groupePedagogique = :groupePedagogique AND P.anneeAcademique = :anneeAcademique");
+            query.setParameter("matiere", matiere);
+            query.setParameter("groupePedagogique", groupePedagogique);
+            query.setParameter("anneeAcademique", anneeAcademique);
+            programmerCours = (ProgrammerCours) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+        }
+        return programmerCours;
     }
 }

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import jpa.administration.ProgrammerCours;
+import jpa.formation.Historiques;
 
 /**
  *
@@ -14,6 +15,8 @@ import jpa.administration.ProgrammerCours;
  */
 @Entity
 public class AnneeAcademique implements Serializable {
+    @OneToMany(mappedBy = "anneeAcademique")
+    private List<Historiques> historiquess;
     @OneToMany(mappedBy = "anneeAcademique")
     private List<ProgrammerCours> programmerCourss;
     @Id

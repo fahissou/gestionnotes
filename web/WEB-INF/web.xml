@@ -108,6 +108,7 @@
             <description>Zone Directeur</description>
             <url-pattern>/inscription/*</url-pattern>
             <url-pattern>/insertionconsultation/*</url-pattern>
+            <url-pattern> /insertionconsultation/notes/*</url-pattern>
             <url-pattern>/programmerCours/*</url-pattern>
             <url-pattern>/etats/*</url-pattern>
             <url-pattern>/Administration/utilisateur/profil/*</url-pattern>

@@ -55,6 +55,10 @@
                             <p:column headerText="#{bundle.Prenoms}"  sortBy="#{item.prenom}" filterBy="#{item.prenom}">
                                 <h:outputText value=" #{item.prenom}" />
                             </p:column>
+                            
+                            <p:column headerText="#{bundle.Specialite}"  sortBy="#{item.specialite.libelle}" filterBy="#{item.specialite.libelle}">
+                                <h:outputText value=" #{item.specialite.libelle.toUpperCase()}" />
+                            </p:column>
 
 
                             <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 

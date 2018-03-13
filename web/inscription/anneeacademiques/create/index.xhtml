@@ -6,16 +6,16 @@
     <h:body>
         <ui:composition template="/template/base.xhtml">
             <ui:define name="title">
-                #{bundle.AnneeAcademique}
+                #{bundle.NouvelleAnneeAcademique}
             </ui:define>
             
             
             <ui:define name="breadLine">
                 <div class="breadLine">
                     <ul class="breadcrumb">
-                    <li><a href="#">Gestion Note</a> <span class="divider">></span></li> 
+                        <li><a href="#">#{bundle.GestionUtilisateurs}</a> <span class="divider">></span></li> 
                     <li><a href="#">#{bundle.Inscription}</a> <span class="divider">></span></li>                
-                    <li class="active">#{bundle.AnneeAcademique}</li>
+                    <li class="active">#{bundle.NouvelleAnneeAcademique}</li>
                 </ul> 
                 </div>
             </ui:define>

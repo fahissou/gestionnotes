@@ -29,13 +29,13 @@ import util.JsfUtil;
  *
  * @author Sedjro
  */
-@ManagedBean
-@SessionScoped
+//@ManagedBean
+//@SessionScoped
 public class AuthentificateBean implements Serializable{
 
     @EJB
     private UtilisateurFacade utilisateurFacade;
-    private Utilisateur currentUser, tmp;
+    private Utilisateur currentUser, updateUserProfil;
     private String login, mdp;
 
     /**
@@ -104,11 +104,16 @@ public class AuthentificateBean implements Serializable{
 
     public Utilisateur recupUtilisateur() {
         return utilisateurFacade.find(findUserSession());
+        
+    }
+    
+    public  String getIdUserConnected() {
+        return findUserSession();
     }
 
     public void prepareCreate() {
         currentUser = new Utilisateur();
-        tmp = new Utilisateur();
+        updateUserProfil = new Utilisateur();
 
     }
     public void olPasswordVerification(FacesContext context, UIComponent component, Object value) throws ValidatorException{
@@ -129,26 +134,23 @@ public class AuthentificateBean implements Serializable{
     public void doEdit(ActionEvent event) {
         String msg;
         try {
-            tmp = recupUtilisateur();
-            tmp.setOldPassword(JsfUtil.encryptPasswordReal(currentUser.getOldPassword(), "SHA-256"));
-            tmp.setPassword(JsfUtil.encryptPasswordReal(currentUser.getPassword(), "SHA-256"));
-            utilisateurFacade.edit(tmp);
+            currentUser.setOldPassword(JsfUtil.encryptPasswordReal(currentUser.getOldPassword(), "SHA-256"));
+            currentUser.setPassword(JsfUtil.encryptPasswordReal(currentUser.getPassword(), "SHA-256"));
+            currentUser.setPasswordinit(true);
+            utilisateurFacade.edit(currentUser);
+            msg = JsfUtil.getBundleMsg("ProfilModifierSucces");
+            JsfUtil.addSuccessMessage(msg);
             RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/'");
-//            msg = JsfUtil.getBundleMsg("PasswdChangSuccess");
-//            JsfUtil.addSuccessMessage(msg);
+            
         } catch (Exception e) {
-            msg = JsfUtil.getBundleMsg("PasswdChangeFail");
+            msg = JsfUtil.getBundleMsg("ProfilModifierError");
             JsfUtil.addErrorMessage(msg);
         }
     }
     public void firstConnexion(){
         currentUser = recupUtilisateur();
-            if(currentUser.isPasswordinit()) {
-            } else {
+            if(!currentUser.isPasswordinit()) {
                 JsfUtil.addSuccessMessage(JsfUtil.getBundleMsg("msgFirstLogin"));
-                currentUser.setPasswordinit(true);
-                utilisateurFacade.edit(currentUser);
-            }
+            } 
     }
-
 }

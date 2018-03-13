@@ -168,7 +168,6 @@ public class ProcesVerbalBean implements Serializable {
         String msg;
         String nomFichier = JsfUtil.generateId();
         List<Ue> ues = ueFacade.getRealUE(ueFacade.getUeByGroupePedagogique(groupePedagogique, semestre));
-        System.out.println("ok1");
         try {
             int nombreUE;
             if (!ues.isEmpty()) {
@@ -188,12 +187,10 @@ public class ProcesVerbalBean implements Serializable {
                     parametreEntetes1.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
                     parametreEntetes1.put("semestre", semestre.getValeur());
                     parametreEntetes1.put("d", JsfUtil.getDateEdition());
-
                     parametreEntetes2.put("annee", anneeAcademique.getDescription());
                     parametreEntetes2.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
                     parametreEntetes2.put("semestre", semestre.getValeur());
                     parametreEntetes2.put("d", JsfUtil.getDateEdition());
-
                     parametreEntetes3.put("annee", anneeAcademique.getDescription());
                     parametreEntetes3.put("filiere", groupePedagogique.getFiliere().getLibelle() + " :  " + groupePedagogique.getDescription());
                     parametreEntetes3.put("semestre", semestre.getValeur());
@@ -277,23 +274,14 @@ public class ProcesVerbalBean implements Serializable {
                             Ue currentUE = ues.get(i);
                             totalCredit += currentUE.getCredit();
                             matieres = matiereFacade.getMatiereByUe(currentUE);
-                            System.out.println("ok7");
-//                            for (int k = 0; k < matieres.size(); k++) {
-//                                Notes notes = notesFacade.getNotesByInscriptionMatiere(inscriptions.get(j), matieres.get(k));
-//                                som = +notes.getNote();
-//                            }
                             String moyUEString = getMoyUE(matieres,inscriptions.get(j), anneeAcademique);
-                            System.out.println(" ok  "+moyUEString);
                             String moyUE;
                             String decision;
                             if(moyUEString.equals("***")) {
-                                System.out.println(" ok  "+moyUEString);
                                 moyUE = moyUEString;
                                 decision = moyUEString;
                             }else{
-                                System.out.println(" ok  "+moyUEString);
                                 nombreCreditValider += isValide(Double.parseDouble(moyUEString), currentUE.getCredit(), groupePedagogique);
-                                System.out.println(" ok  "+moyUEString);
                                 moyUE = JsfUtil.formatNote(Double.parseDouble(moyUEString));
                                 decision = decision2(Double.parseDouble(moyUEString), groupePedagogique);
                             }
@@ -346,6 +334,7 @@ public class ProcesVerbalBean implements Serializable {
                     historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur()));
                     historique.setGroupePedagogique(groupePedagogique.getDescription());
                     historique.setDateEdition(JsfUtil.getDateEdition());
+                    historique.setAnneeAcademique(anneeAcademique);
                     historiquesFacade.create(historique);
                     System.out.println("lien1 " + JsfUtil.getRealPath(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur()) + ".pdf");
                     System.out.println("lien2 " + pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");

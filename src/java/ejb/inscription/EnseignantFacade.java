@@ -44,33 +44,30 @@ public class EnseignantFacade extends AbstractFacade<Enseignant> {
         try {
              enseignant =  (Enseignant) query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {
-            enseignant = new Enseignant();
         }
         return enseignant;
     }
     
     public List<Enseignant> findEnseignantBySpecialite(Specialite specialite) {
-        List<Enseignant> liste;
+        List<Enseignant> liste = null;
         String idSpecialite = specialite.getId();
         try {
             Query query = em.createQuery("SELECT E FROM Enseignant E WHERE E.specialite.id = :idSpecialite");
             query.setParameter("idSpecialite", idSpecialite);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
         return liste;
     }
     
     public List<Enseignant> findAllEnseignantResponsa() {
-        List<Enseignant> liste;
+        List<Enseignant> liste = null;
         String reponsabilite = "AUCUNE";
         try {
             Query query = em.createQuery("SELECT E FROM Enseignant E WHERE E.responsabilite != :reponsabilite");
             query.setParameter("reponsabilite", reponsabilite);
             liste = query.getResultList();
         } catch (NoResultException | NonUniqueResultException e) {
-            liste = new ArrayList<>();
         }
         return liste;
     }

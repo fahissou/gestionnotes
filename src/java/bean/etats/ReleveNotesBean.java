@@ -338,6 +338,7 @@ public class ReleveNotesBean implements Serializable {
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur()));
             historique.setGroupePedagogique(groupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
+            historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur() + ".pdf");
             JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur()+ ".pdf");

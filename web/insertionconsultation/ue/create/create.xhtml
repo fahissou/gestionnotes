@@ -7,10 +7,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:composition>
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="block">
                 <div class="head clearfix">
-                    <div class="isw-documents"></div>
+<!--                    <div class="isw-documents"></div>-->
                     <h1>#{bundle.AjoutUe}</h1>
                 </div>
                 <h:form id="formeEx" styleClass="form-horizontal">
@@ -43,7 +43,7 @@
                                     <p:ajax listener="#{ueBean.initSemestre()}" update="semestre"/>
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{ueBean.listeGroupePedagogiques}" var="itemGroupePedagogique"
-                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description}"/>
+                                                   itemValue="#{itemGroupePedagogique}" itemLabel="#{itemGroupePedagogique.description.toUpperCase()}"/>
                                     <f:converter  converterId="groupePedagogiqueConverter"/>
                                 </p:selectOneMenu>
                             </div>

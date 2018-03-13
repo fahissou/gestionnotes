@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
-         <div class="col-md-12">
+         <div class="col-md-8">
             <div class="block">
                 <h:form id="ajoutListForm" styleClass="form-horizontal">
                     <div class="head clearfix enteteTable">
@@ -36,13 +36,13 @@
                                             <h:outputText value=" #{item.libelle.toUpperCase()}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
-                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
+<!--                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"
                                                            update=":viewDialogForm"  oncomplete="$('#viewDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">
                                                 <i class="i-zoom-out glyphicon glyphicon-zoom-out"/>
 
                                                 <f:setPropertyActionListener value="#{item}" target="#{specialiteBean.selectedSpecialite}" />
-                                            </p:commandLink>
+                                            </p:commandLink>-->
                                             <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                            update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"
                                                            style="border-radius: 0px; margin-right: 1px;">

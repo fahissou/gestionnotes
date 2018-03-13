@@ -20,7 +20,7 @@
                         <div class="modal-body">
                             
                             <div class="row-form clearfix" style="margin-bottom: 3px!important;">
-                                <p:outputLabel for="libelle" value="#{bundle.UserLogin}" class="col-md-3"/>
+                                <p:outputLabel for="libelle" value="#{bundle.Utilisateur}" class="col-md-3"/>
                                 <div class="col-md-9">
                                     <p:inputText id="libelle" value="#{enseignantBean.selectedEnseignant.login}" required="true"/>
                                 </div>
@@ -44,14 +44,29 @@
 
                             <div class="row-form clearfix">
                                 <div class="col-md-3">
-                                    <p:outputLabel for="adresse" value="#{bundle.Adresse}"/>
+                                    <p:outputLabel for="adresse" value="#{bundle.Email}"/>
                                 </div>
                                 <div class="col-md-9">
                                     <p:inputText id="adresse" value="#{enseignantBean.selectedEnseignant.adresse}" required="true" placeholder="#{bundle.Adresse}"/>
                                 </div>
                             </div>
+                            
+                            <div class="clearfix control">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="responsabilite" value="#{bundle.Responsabilite}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="responsabilite" value="#{enseignantBean.selectedEnseignant.responsabilite}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{enseignantBean.listeResponsabilite}"
+                                                       var="item" itemValue="#{item}" itemLabel="#{item.toUpperCase()}"/>
+                                        <!--<f:converter  converterId="filiereConverter"/>-->
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            
 
-                            <div class="row-form clearfix">
+<!--                            <div class="row-form clearfix">
                                 <div class="col-md-3">
                                     <p:outputLabel value="#{bundle.Genre}" for="genre"/>
                                 </div>
@@ -61,9 +76,9 @@
                                         <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
                                     </p:selectOneRadio>
                                 </div>
-                            </div>
+                            </div>-->
                             
-                            <div class="row-form clearfix">
+<!--                            <div class="row-form clearfix">
                                 <div class="col-md-3">
                                     <p:outputLabel value="#{bundle.Statut}" for="statut"/>
                                 </div>
@@ -73,11 +88,11 @@
                                         <f:selectItem itemLabel="#{bundle.Locale}" itemValue="Locale"/>
                                     </p:selectOneRadio>
                                 </div>
-                            </div>
+                            </div>-->
                             
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{ueBean.doEdit}" 
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{enseignantBean.doEdit}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
                                              class="btn btn-default">
                             </p:commandButton>

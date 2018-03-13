@@ -2,10 +2,15 @@
 package ejb.formation;
 
 import ejb.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import jpa.formation.Historiques;
+import jpa.inscription.AnneeAcademique;
 import util.JsfUtil;
 
 /**
@@ -32,4 +37,14 @@ public class HistoriquesFacade extends AbstractFacade<Historiques> {
         super.create(historiques);
     }
     
+    public List<Historiques> findAll1(AnneeAcademique anneeAcademique) {
+        List<Historiques> liste = null;
+        try {
+            Query query = em.createQuery("SELECT H FROM Historiques H WHERE H.anneeAcademique = :anneeAcademique");
+            query.setParameter("anneeAcademique", anneeAcademique);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+        }
+        return liste;
+    }
 }
