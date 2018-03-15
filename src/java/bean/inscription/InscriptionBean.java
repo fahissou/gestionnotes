@@ -666,7 +666,7 @@ public class InscriptionBean implements Serializable {
 //
    
     
-    // Liste des etudiants
+   // Liste des etudiants autorisés
     public void genererListeEtudiant() {
         GroupePedagogique gP = groupePedagogique;
         String nomFichier = JsfUtil.generateId();
@@ -691,7 +691,6 @@ public class InscriptionBean implements Serializable {
             champs.add("N");
             champs.add("NP");
             champs.add("tel");
-            champs.add("M");
 
             // Table contenant les enregistrements du fichier resultat
             List< Map<String, Object>> conteneur = new ArrayList<>();
@@ -699,10 +698,10 @@ public class InscriptionBean implements Serializable {
             for (int j = 0; j < listeInscriptions.size(); j++) {
                 Map<String, Object> row = new HashMap<>();
                 Inscription currentInscription = listeInscriptions.get(j);
+
                 row.put("N", (j + 1));
                 row.put("NP", currentInscription.getEtudiant().getNom() + " " + currentInscription.getEtudiant().getPrenom());
                 row.put("tel", currentInscription.getEtudiant().getTelephone());
-                row.put("M", currentInscription.getEtudiant().getLogin());
                 conteneur.add(row);
             }
             
@@ -714,13 +713,15 @@ public class InscriptionBean implements Serializable {
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()));
             historique.setGroupePedagogique(gP.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
-            historique.setAnneeAcademique(anneeAcademiqueChoisi);
             historiquesFacade.create(historique);
-            File fileDowload = new File(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
-            JsfUtil.flushToBrowser(fileDowload, nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
+//            File fileDowload = new File(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
+//            JsfUtil.flushToBrowser(fileDowload, nomFichier + "listeEtudiant" + gP.getDescription());
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
+
         }
+        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
+        
     }
     
     public void createDiffaultNotes(Inscription inscription, GroupePedagogique groupePedagogique1) {
