@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import jpa.inscription.Enseignant;
 import jpa.inscription.Etudiant;
 import jpa.inscription.GroupePedagogique;
+import jpa.administration.Responsabilite;
 
 /**
  *
@@ -29,6 +30,8 @@ public class Filiere implements Serializable {
     private List<Enseignant> enseignants;
     @OneToMany(mappedBy = "filiere")
     private List<GroupePedagogique> groupePedagogiques;
+    @OneToMany(mappedBy = "filiere")
+    private List<Responsabilite> responsabilites;
     
     
     public Filiere() {

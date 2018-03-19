@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+
+
+        <div id="editDialog" class="modal fade" data-backdrop="true" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h:form id="editDialogForm" styleClass="form-horizontal">
+                        <p:growl id="growl" showDetail="true"/>
+                        <div class="head clearfix">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h1>#{bundle.Edit}</h1>
+                        </div> <!-- /.modal-header -->
+                        <div class="modal-body">
+                            
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <p:outputLabel for="libelle" value="#{bundle.Description}" class="col-md-3"/>
+                                <div class="col-md-9">
+                                    <p:inputText id="libelle" value="#{matiereBean.selectedMatiere.libelle}" required="true"/>
+                                </div>
+                            </div>
+                            
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <p:outputLabel for="coefficient" value="#{bundle.Coefficiant}" class="col-md-3"/>
+                                <div class="col-md-9">
+                                    <p:inputText id="coefficient" value="#{matiereBean.selectedMatiere.coefficiant}" required="true"/>
+                                </div>
+                            </div>
+                            
+                            <div class="clearfix control">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="semestre" value="#{matiereBean.semestre}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{semestreBean.listeSemestres}"
+                                                       var="item" itemValue="#{item}" itemLabel="#{item.valeur}"/>
+                                        <f:converter  converterId="semestreConverter"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                               <div class="clearfix control">
+                                <div class="col-md-3">
+                                    <p:outputLabel for="groupePedagogique" value="#{bundle.GroupePedagogique}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="groupePedagogique" value="#{matiereBean.selectedMatiere.groupePedagogique}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{groupePedagogiqueBean.listeGroupePedagogiques}"
+                                                       var="itemGroupe" itemValue="#{itemGroupe}" itemLabel="#{itemGroupe.description}"/>
+                                        <f:converter  converterId="groupePedagogiqueConverter"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                        </div> <!-- /.modal-body -->
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{ueBean.doEdit}" 
+                                             oncomplete="$('#editDialog').modal('hide');" 
+                                             class="btn btn-default">
+                            </p:commandButton>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                #{bundle.Close}
+                            </button>
+                        </div> <!-- /.modal-footer -->
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

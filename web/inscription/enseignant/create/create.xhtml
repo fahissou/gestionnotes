@@ -18,14 +18,14 @@
                     <p:growl id="growl" showDetail="true"/>
                     <div class="block-fluid">                                        
 
-                        <div class=" row-form clearfix">
+<!--                        <div class=" row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="login" value="#{bundle.UserLogin}"/>
                             </div>
                             <div class="col-md-9">
                                 <p:inputText id="login" value="#{enseignantBean.newEnseignant.login}" required="true" placeholder="#{bundle.UserLogin}"/>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="row-form clearfix">
                             <div class="col-md-3">
@@ -64,45 +64,30 @@
                             </div>
                         </div>
 
-<!--                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel value="#{bundle.Genre}" for="genre"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneRadio id="genre" value="#{enseignantBean.newEnseignant.genre}" layout="grid" columns="2" required="false">
-                                    <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
-                                    <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
-                                </p:selectOneRadio>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="row-form clearfix">
+                                                    <div class="col-md-3">
+                                                        <p:outputLabel value="#{bundle.Genre}" for="genre"/>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <p:selectOneRadio id="genre" value="#{enseignantBean.newEnseignant.genre}" layout="grid" columns="2" required="false">
+                                                            <f:selectItem itemLabel="#{bundle.masculin}" itemValue="M" />
+                                                            <f:selectItem itemLabel="#{bundle.feminin}" itemValue="F"/>
+                                                        </p:selectOneRadio>
+                                                    </div>
+                                                </div>-->
 
-<!--                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel value="#{bundle.Statut}" for="statut"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneRadio id="statut" value="#{enseignantBean.newEnseignant.statut}" layout="grid" columns="2" required="false">
-                                    <f:selectItem itemLabel="#{bundle.Missionnaire}" itemValue="Missionnaire" />
-                                    <f:selectItem itemLabel="#{bundle.Locale}" itemValue="Locale"/>
-                                </p:selectOneRadio>
-                            </div>
-                        </div>-->
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-3">
-                                <p:outputLabel for="responsabilite" value="#{bundle.Responsabilite}"/>
-                            </div>
-                            <div class="col-md-9">
-                                <p:selectOneMenu id="responsabilite" value="#{enseignantBean.newEnseignant.responsabilite}" 
-                                                 required="true">
-                                    
-                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{enseignantBean.listeResponsabilite}" var="item"
-                                                   itemValue="#{item}" itemLabel="#{item.toUpperCase()}"/>
-                                </p:selectOneMenu>
-                            </div>
-                        </div>
-                        
+                        <!--                        <div class="row-form clearfix">
+                                                    <div class="col-md-3">
+                                                        <p:outputLabel value="#{bundle.Statut}" for="statut"/>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <p:selectOneRadio id="statut" value="#{enseignantBean.newEnseignant.statut}" layout="grid" columns="2" required="false">
+                                                            <f:selectItem itemLabel="#{bundle.Missionnaire}" itemValue="Missionnaire" />
+                                                            <f:selectItem itemLabel="#{bundle.Locale}" itemValue="Locale"/>
+                                                        </p:selectOneRadio>
+                                                    </div>
+                                                </div>-->
+
                         <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="grade" value="#{bundle.grade}"/>
@@ -110,14 +95,14 @@
                             <div class="col-md-9">
                                 <p:selectOneMenu id="grade" value="#{enseignantBean.newEnseignant.grade}" 
                                                  required="true">
-                                    
+
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{enseignantBean.listeGrade}" var="item"
                                                    itemValue="#{item}" itemLabel="#{item.toUpperCase()}"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
-                        
+
                         <div class="row-form clearfix">
                             <div class="col-md-3">
                                 <p:outputLabel for="specialite" value="#{bundle.Specialite}"/>
@@ -125,7 +110,7 @@
                             <div class="col-md-9">
                                 <p:selectOneMenu id="specialite" value="#{enseignantBean.newEnseignant.specialite}" 
                                                  required="true">
-                                    
+
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{specialiteBean.listeSpecialites}" var="item"
                                                    itemValue="#{item}" itemLabel="#{item.libelle.toUpperCase()}"/>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition>
+        <div class="col-md-10">
+            <div class="block">
+                <div class="head clearfix">
+                    <!--<div class="isw-documents"></div>-->
+                    <h1>#{bundle.AjoutResponsabilite}</h1>
+                </div>
+                <h:form id="formeEx" styleClass="form-horizontal">
+                    <p:growl id="growl" showDetail="true"/>
+                    <div class="block-fluid">
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="specialite" value="#{bundle.Specialite}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="specialite" value="#{responsabiliteBean.specialite}" 
+                                                 required="true">
+                                    <p:ajax listener="#{responsabiliteBean.initEnseignant}" update="enseignant"/>
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{specialiteBean.listeSpecialites}" var="itemSpecialites"
+                                                   itemValue="#{itemSpecialites}" itemLabel="#{itemSpecialites.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="specialiteConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        <div class=" row-form clearfix" >
+                            <div class="col-md-3">
+                                <p:outputLabel for="enseignant" value="#{bundle.Enseignant}"/>
+                            </div>
+                            <div class="col-md-9" >
+                                <p:selectOneMenu id="enseignant" value="#{responsabiliteBean.enseignant}" 
+                                                 required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{responsabiliteBean.listeEnseignants}" var="itemEnseignant"
+                                                   itemValue="#{itemEnseignant}" itemLabel="#{itemEnseignant.prenom} #{itemEnseignant.nom.toUpperCase()}"/>
+                                    <f:converter  converterId="enseignantConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="role" value="#{bundle.Responsabilite}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="role" value="#{responsabiliteBean.newResponsabilite.role}" 
+                                                 required="true">
+                                    <p:ajax listener="#{responsabiliteBean.initFiliere}" update="filiere"/>
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{responsabiliteBean.listeRoles}" var="itemRoles"
+                                                   itemValue="#{itemRoles}" itemLabel="#{itemRoles.toUpperCase()}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form clearfix">
+                            <div class="col-md-3">
+                                <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <p:selectOneMenu id="filiere" value="#{responsabiliteBean.filiere}" 
+                                                 required="true">
+                                    
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{responsabiliteBean.listeFilieres}" var="itemFilieres"
+                                                   itemValue="#{itemFilieres}" itemLabel="#{itemFilieres.libelle.toUpperCase()}"/>
+                                    <f:converter  converterId="filiereConverter"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        
+                       
+                        <div class="footer tar">
+                            <p:commandButton value="Valider" update="@form growl" actionListener="#{responsabiliteBean.doCreate}" 
+                                             oncomplete="updateGritter(xhr);" 
+                                             class="btn btn-default"/>
+
+                            <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
+                                             actionListener="#{responsabiliteBean.reset}" update="@form :msgForm:msg">
+                                <p:resetInput target="formeEx"/>
+                            </p:commandButton>
+                        </div> 
+                    </div>                                        
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

@@ -49,9 +49,9 @@
                         </div>
 
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{resultatAnnuelBean.genererResultatFinale()}"
-                                             oncomplete="updateGritter(xhr);" 
-                                             class="btn btn-default"/>
+                            <h:commandButton value="Valider"  action="#{resultatAnnuelBean.genererResultatFinale()}"
+                                             class="btn btn-default">
+                            </h:commandButton>
 
                             <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
                                              actionListener="#{resultatAnnuelBean.reset}" update="@form :msgForm:msg">

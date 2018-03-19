@@ -8,9 +8,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import jpa.formation.Historiques;
 import jpa.inscription.AnneeAcademique;
 import org.primefaces.context.RequestContext;
@@ -33,7 +35,7 @@ public class HistoriqueBean implements Serializable{
     private  String lien = "/gestionnotes/fichiergenerer/rapportgestionnotes/touslesrapports/";
     private String pathOut;
     private AnneeAcademique anneeAcademiqueChoisi;
-    
+    private String pathRoot;
     
     public HistoriqueBean() {
     }
@@ -130,9 +132,21 @@ public class HistoriqueBean implements Serializable{
     public void setLien(String lien) {
         this.lien = lien;
     }
+
+    public String getPathRoot() {
+        return pathRoot;
+    }
+
+    public void setPathRoot(String pathRoot) {
+        this.pathRoot = pathRoot;
+    }
     
     public void openFile() {
         RequestContext.getCurrentInstance().execute("window.location='"+selectedHistoriques.getLienFile()+".pdf"+ "'");
+        
+    }
+    public void dowloadFile() {
+        JsfUtil.flushToBrowser(new File(selectedHistoriques.getLienFile()+".pdf"), "application/pdf");
     }
     
     public void removeFile() {

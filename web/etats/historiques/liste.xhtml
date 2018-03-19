@@ -55,13 +55,15 @@
 
 
 
-                                <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Telecharger}" styleClass="btn btn-info btn-xs"
-                                               action="#{historiqueBean.openFile()}"
+
+                                
+                                <h:commandLink id="viewButton" value="#{null}" title="#{bundle.Telecharger}" styleClass="btn btn-info btn-xs"
+                                               action="#{historiqueBean.dowloadFile()}"
                                                style="border-radius: 0px; margin-right: 1px;">
                                     <i class="i-zoom-out glyphicon glyphicon-download-alt"/>
 
                                     <f:setPropertyActionListener value="#{item}" target="#{historiqueBean.selectedHistoriques}" />
-                                </p:commandLink>
+                                </h:commandLink>
 
                                 
 <!--                                <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"

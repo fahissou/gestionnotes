@@ -689,6 +689,7 @@ public class InscriptionBean implements Serializable {
             // Definition des champs du proces fichier 1
             List<String> champs = new ArrayList<>();
             champs.add("N");
+            champs.add("M");
             champs.add("NP");
             champs.add("tel");
 
@@ -700,6 +701,7 @@ public class InscriptionBean implements Serializable {
                 Inscription currentInscription = listeInscriptions.get(j);
 
                 row.put("N", (j + 1));
+                row.put("M", currentInscription.getEtudiant().getLogin());
                 row.put("NP", currentInscription.getEtudiant().getNom() + " " + currentInscription.getEtudiant().getPrenom());
                 row.put("tel", currentInscription.getEtudiant().getTelephone());
                 conteneur.add(row);
@@ -713,7 +715,9 @@ public class InscriptionBean implements Serializable {
             historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()));
             historique.setGroupePedagogique(gP.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
+            historique.setAnneeAcademique(anneeAcademiqueChoisi);
             historiquesFacade.create(historique);
+            System.out.println("OK icic");
 //            File fileDowload = new File(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
 //            JsfUtil.flushToBrowser(fileDowload, nomFichier + "listeEtudiant" + gP.getDescription());
         } catch (Exception ex) {

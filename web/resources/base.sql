@@ -15,7 +15,8 @@ INSERT INTO groupe (code, libelle) VALUES ('ADMIN','Administrateur application')
 
 
 insert into anneeacademique VALUES ('fzerezr','2016 - 2017',1);
+insert into filiere VALUES ('TOUTES FILIERES','TOUTES FILIERES');
 create view v_groupe_user as select login as login_utilisateur, password as utilisateur_password, libelle as nom_groupe from utilisateur join habilitation on utilisateur.login=habilitation.utilisateur_login join groupe on  groupe.id=habilitation.groupeutilisateur_id;
 INSERT INTO groupe VALUES ('ddhZv601032018085305','2018-03-01 08:55:04.642','Admin');
-INSERT INTO utilisateur (login,datecreation,mail,nom,password,prenom)  VALUES ('toto','2018-03-01 09:55:04.642','jdfhd@dfd.com','Boss','31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66','je m''incline');
+INSERT INTO utilisateur (login,datecreation,mail,nom,password,prenom)  VALUES ('toto','2018-03-01 09:55:04.642','jdfhd@dfd.com','toto','31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66','TOTO');
 INSERT INTO habilitation VALUES ('toto_Admin','2018-03-01 08:54:34.348','2018-03-01 08:54:34.364','ddhZv601032018085305','toto');

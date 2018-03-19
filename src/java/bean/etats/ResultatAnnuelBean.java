@@ -6,6 +6,7 @@
 package bean.etats;
 
 import bean.inscription.AnneeAcademiqueBean;
+import bean.util.ParametragesBean;
 import ejb.formation.FiliereFacade;
 import ejb.formation.HistoriquesFacade;
 import ejb.inscription.GroupePedagogiqueFacade;
@@ -123,9 +124,10 @@ public class ResultatAnnuelBean implements Serializable{
     // Résultat final
     public void genererResultatFinale() {
         
-        String pathOut = JsfUtil.getPathOutTmp();
-        String pathIn = JsfUtil.getPathIntModelReleve();
-        String pathOutPDF = JsfUtil.getPathOutPDF();
+        String absolutPath = ParametragesBean.getPathRoot();
+        String pathOut = absolutPath + "fichiergenerer/rapportgestionnotes/";
+        String pathIn = absolutPath + "resources/releve/";
+        String pathOutPDF = absolutPath + "fichiergenerer/rapportgestionnotes/touslesrapports/";
         File repertoire1 = new File(pathOut + "/tmp2/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
         repertoire1.mkdirs();
@@ -177,13 +179,13 @@ public class ResultatAnnuelBean implements Serializable{
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + groupePedagogique.getDescription() + "ResultatFinal");
             Historiques historique = new Historiques();
             historique.setLibelle(groupePedagogique.getDescription() + "ResultatFinal");
-            historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal"));
+            historique.setLienFile(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal");
             historique.setGroupePedagogique(groupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal" + ".pdf");
-            JsfUtil.flushToBrowser(fileDowload, nomFichier + groupePedagogique.getDescription() + "ResultatFinal"+ ".pdf");
+            JsfUtil.flushToBrowser(fileDowload,"application/pdf");
 
         } catch (Exception ex) {
             System.out.println("Exceptionfghff " + ex.getMessage());

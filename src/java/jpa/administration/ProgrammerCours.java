@@ -32,9 +32,9 @@ public class ProgrammerCours implements Serializable {
     @ManyToOne
     private Enseignant enseignant;
     @ManyToOne
-    private Enseignant responsable;
-    @ManyToOne
     private AnneeAcademique anneeAcademique;
+    @ManyToOne
+    private Responsabilite responsabilite;
     private String etat;
     
     public ProgrammerCours() {
@@ -123,20 +123,19 @@ public class ProgrammerCours implements Serializable {
         this.anneeAcademique = anneeAcademique;
     }
 
-    public Enseignant getResponsable() {
-        return responsable;
-    }
-
-    public void setResponsable(Enseignant responsable) {
-        this.responsable = responsable;
-    }
-    
-    
     public void reset() {
         id = null;
         dateDebut = null;
         dateFin = null;
         this.groupePedagogique = null;
+    }
+
+    public Responsabilite getResponsabilite() {
+        return responsabilite;
+    }
+
+    public void setResponsabilite(Responsabilite responsabilite) {
+        this.responsabilite = responsabilite;
     }
     
 }

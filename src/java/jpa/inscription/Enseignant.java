@@ -1,5 +1,6 @@
 package jpa.inscription;
 
+import jpa.administration.Responsabilite;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -39,12 +40,8 @@ public class Enseignant implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
     private String adresse;
-    private String responsabilite;
     private String grade;
-//    @OneToMany(mappedBy = "enseignant")
-//    private List<AnneeAcademique> anneeAcademiques;
-//    @OneToMany(mappedBy = "enseignant")
-//    private List<Matiere> matieres;
+
     @ManyToOne
     private Filiere filiere;
     @OneToMany(mappedBy = "enseignant")
@@ -53,8 +50,9 @@ public class Enseignant implements Serializable {
     private List<Enseigner> enseigners;
     @ManyToOne
     private Specialite specialite;
-    @OneToMany(mappedBy = "responsable")
-    private List<ProgrammerCours> programmerCourss1;
+    
+    @OneToMany(mappedBy = "enseignant")
+    private List<Responsabilite> responsabilites;
     
 
     public Enseignant() {
@@ -147,15 +145,7 @@ public class Enseignant implements Serializable {
     public void setStatut(EnumMissionnaire statut) {
         this.statut = statut;
     }
-
-    public String getResponsabilite() {
-        return responsabilite;
-    }
-
-    public void setResponsabilite(String responsabilite) {
-        this.responsabilite = responsabilite;
-    }
-
+    
     public String getGrade() {
         return grade;
     }
@@ -188,23 +178,6 @@ public class Enseignant implements Serializable {
         this.specialite = specialite;
     }
     
-
-//    public List<AnneeAcademique> getAnneeAcademiques() {
-//        return anneeAcademiques;
-//    }
-//
-//    public void setAnneeAcademiques(List<AnneeAcademique> anneeAcademiques) {
-//        this.anneeAcademiques = anneeAcademiques;
-//    }
-
-//    public List<Matiere> getMatieres() {
-//        return matieres;
-//    }
-//
-//    public void setMatieres(List<Matiere> matieres) {
-//        this.matieres = matieres;
-//    }
-
     public Filiere getFiliere() {
         return filiere;
     }

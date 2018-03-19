@@ -73,7 +73,6 @@
 
                         <div class="row-form clearfix" jsf:id="matiereArea">
                             <div class="col-md-3">
-
                                 <p:outputLabel for="matiere" value="#{bundle.Matiere}"/>
                             </div>
                             <div class="col-md-9">
@@ -132,17 +131,16 @@
                         
                         <div class="row-form clearfix">
                             <div class="col-md-3">
-
                                 <p:outputLabel for="enseignantResp" value="#{bundle.Responsable}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="enseignantResp" value="#{programmerCoursBean.enseignantResp}" 
+                                <p:selectOneMenu id="enseignantResp" value="#{programmerCoursBean.responsabilite}" 
                                                  required="true"  >
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{programmerCoursBean.listeEnseignantResp}" var="selection" itemValue="#{selection}"
-                                                   itemLabel=" #{selection.nom.toUpperCase()} #{selection.prenom}"
+                                    <f:selectItems value="#{responsabiliteBean.listeResponsabilites}" var="selection" itemValue="#{selection}"
+                                                   itemLabel=" #{selection.enseignant.nom.toUpperCase()} #{selection.enseignant.prenom}"
                                                    />
-                                    <f:converter converterId="enseignantConverter"/>
+                                    <f:converter converterId="responsablesConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>

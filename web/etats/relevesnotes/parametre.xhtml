@@ -52,9 +52,10 @@
                             <div class="col-md-3">
                                 <p:outputLabel for="etudiant" value="#{bundle.Etudiant}"/>
                             </div>
+                                                  
                             <div class="col-md-9">
                                 <p:selectOneMenu id="etudiant" value="#{releveNotesBean.inscription}" 
-                                                 required="false" filter="false" filterMatchMode="contains">
+                                                 required="false" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{releveNotesBean.listInscription}" var="selection" itemValue="#{selection}"
                                                    itemLabel=" #{selection.etudiant.nom.toUpperCase()} #{selection.etudiant.prenom.toUpperCase()} (#{selection.etudiant.login})"
@@ -62,6 +63,7 @@
                                     <f:converter  converterId="inscriptionConverter"/>
                                 </p:selectOneMenu>
                             </div>
+                            
                         </div>
 
                         <div class="row-form clearfix">
@@ -87,20 +89,22 @@
                                 <p:outputLabel for="signataire" value="#{bundle.Signataire}"/>
                             </div>
                             <div class="col-md-9">
-                                <p:selectOneMenu id="signataire" value="#{releveNotesBean.signataire}" 
+                                <p:selectOneMenu id="signataire" value="#{releveNotesBean.responsabilite}" 
                                                  required="true">
 
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{releveNotesBean.initSignataire()}" var="item"
-                                                   itemValue="#{item}" itemLabel="#{item.toUpperCase()}"/>
+                                    <f:selectItems value="#{releveNotesBean.listeResponsables}" var="item"
+                                                   itemValue="#{item}" itemLabel="#{item.enseignant.nom.toUpperCase()} #{item.enseignant.prenom}"/>
+                                    <f:converter  converterId="responsablesConverter"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
 
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" action="#{releveNotesBean.genererReleveDynamic}"
-                                             oncomplete="updateGritter(xhr);" 
-                                             class="btn btn-default"/>
+                            <h:commandButton value="Valider"  action="#{releveNotesBean.genererReleveDynamic}"
+                                             
+                                             class="btn btn-default">
+                            </h:commandButton>
 
                             <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
                                              actionListener="#{releveNotesBean.reset}" update="@form :msgForm:msg">

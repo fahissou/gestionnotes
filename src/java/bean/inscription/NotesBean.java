@@ -7,6 +7,7 @@ package bean.inscription;
 
 import bean.administration.JournalisationBean;
 import bean.authentificate.AuthentificateBean;
+import bean.util.ParametragesBean;
 import ejb.administration.JournalisationFacade;
 import ejb.inscription.AnneeAcademiqueFacade;
 import ejb.administration.NotificationFacade;
@@ -130,7 +131,7 @@ public class NotesBean implements Serializable {
     private Notes newNotes;
     private List<Notes> listeNotess;
 
-    private List<Notes> listeNotesGroupPeda;
+    private List<Notes> listeNotesGroupPeda = null;
     private List<Notes> listeNotesEtudiant;
     private List<Notes> liste;
     private List<Notes> filteredList;
@@ -182,7 +183,7 @@ public class NotesBean implements Serializable {
     @PostConstruct
     public void init() {
 
-        listeNotess = notesFacade.findAll();
+//        listeNotess = notesFacade.findAll();
         listFiliere = filiereFacade.findAll();
         anneeAcademique = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
         prepareCreate();
@@ -223,9 +224,7 @@ public class NotesBean implements Serializable {
     public void updateTable() {
         if (newMatiere != null) {
             listeNotesGroupPeda = notesFacade.listeNoteGpAnnee1(anneeAcademique, groupePedagogique, newMatiere);
-        } else {
-            listeNotesGroupPeda = new ArrayList<>();
-        }
+        } 
     }
 
     public void updateTablesN() {
@@ -811,7 +810,7 @@ public class NotesBean implements Serializable {
         } catch (Exception e) {
 
         }
-        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/insertionconsultation/notes/inserernotes/affichage/'");
+//        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/insertionconsultation/notes/inserernotes/affichage/'");
     }
 
     public String updateNotes1() {
@@ -1028,9 +1027,10 @@ public class NotesBean implements Serializable {
 
     // Feuille notes
     public void genererFeuilleNotes() {
-        String pathOut = JsfUtil.getPathOutTmp();
-        String pathIn = JsfUtil.getPathIntModelReleve();
-        String pathOutPDF = JsfUtil.getPathOutPDF();
+        String absolutPath = ParametragesBean.getPathRoot();
+        String pathOut = absolutPath+ "fichiergenerer/rapportgestionnotes/";
+        String pathIn = absolutPath + "resources/releve/";
+        String pathOutPDF = absolutPath + "fichiergenerer/rapportgestionnotes/touslesrapports/";
         String nomFichier = JsfUtil.generateId();
         File repertoire1 = new File(pathOut + "/tmp2/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
@@ -1074,14 +1074,14 @@ public class NotesBean implements Serializable {
             JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "FeuilleNotes" + groupePedagogique.getDescription());
             Historiques historique = new Historiques();
-            historique.setLibelle("FeuilleNotes" + groupePedagogique.getDescription());
-            historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription()));
+            historique.setLibelle("FeuilleNotes" +"_"+ groupePedagogique.getDescription()+"_"+newMatiere.getLibelle());
+            historique.setLienFile(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription());
             historique.setGroupePedagogique(groupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription() + ".pdf");
-            JsfUtil.flushToBrowser(fileDowload, nomFichier + "FeuilleNotes" + groupePedagogique.getDescription() + ".pdf");
+            JsfUtil.flushToBrowser(fileDowload, "application/pdf");
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
 

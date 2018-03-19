@@ -1418,7 +1418,6 @@ public class JsfUtil {
         listeResponsabilite.add("DIRECTEUR");
         listeResponsabilite.add("DIRECTEUR AJOINT");
         listeResponsabilite.add("RESPONSABLE DE FORMATION");
-        listeResponsabilite.add("AUCUNE");
         return listeResponsabilite;
     }
     

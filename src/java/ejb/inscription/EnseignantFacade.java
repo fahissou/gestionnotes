@@ -14,9 +14,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import jpa.formation.Filiere;
 import jpa.inscription.Enseignant;
-import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Specialite;
 
 /**
@@ -37,16 +35,22 @@ public class EnseignantFacade extends AbstractFacade<Enseignant> {
         super(Enseignant.class);
     }
     
-    public  Enseignant getEnseignantByResponsabilite(String responsabilite){
-         Enseignant enseignant = null;
-        Query query = em.createQuery("SELECT E FROM Enseignant E WHERE E.responsabilite = :responsabilite");
-        query.setParameter("responsabilite", responsabilite);
-        try {
-             enseignant =  (Enseignant) query.getSingleResult();
-        } catch (NoResultException | NonUniqueResultException e) {
-        }
-        return enseignant;
+    @Override
+    public void create(Enseignant enseignant) {
+        enseignant.setLogin(enseignant.getNom()+"_"+enseignant.getPrenom());
+        super.create(enseignant);
     }
+    
+//    public  Enseignant getEnseignantByResponsabilite(String responsabilite){
+//         Enseignant enseignant = null;
+//        Query query = em.createQuery("SELECT E FROM Enseignant E WHERE E.adresse = :responsabilite");
+//        query.setParameter("responsabilite", responsabilite);
+//        try {
+//             enseignant =  (Enseignant) query.getSingleResult();
+//        } catch (NoResultException | NonUniqueResultException e) {
+//        }
+//        return enseignant;
+//    }
     
     public List<Enseignant> findEnseignantBySpecialite(Specialite specialite) {
         List<Enseignant> liste = null;
@@ -60,17 +64,17 @@ public class EnseignantFacade extends AbstractFacade<Enseignant> {
         return liste;
     }
     
-    public List<Enseignant> findAllEnseignantResponsa() {
-        List<Enseignant> liste = null;
-        String reponsabilite = "AUCUNE";
-        try {
-            Query query = em.createQuery("SELECT E FROM Enseignant E WHERE E.responsabilite != :reponsabilite");
-            query.setParameter("reponsabilite", reponsabilite);
-            liste = query.getResultList();
-        } catch (NoResultException | NonUniqueResultException e) {
-        }
-        return liste;
-    }
+//    public List<Enseignant> findAllEnseignantResponsa() {
+//        List<Enseignant> liste = null;
+//        String reponsabilite = "AUCUNE";
+//        try {
+//            Query query = em.createQuery("SELECT E FROM Enseignant E WHERE E.responsabilite != :reponsabilite");
+//            query.setParameter("reponsabilite", reponsabilite);
+//            liste = query.getResultList();
+//        } catch (NoResultException | NonUniqueResultException e) {
+//        }
+//        return liste;
+//    }
     
     
 }

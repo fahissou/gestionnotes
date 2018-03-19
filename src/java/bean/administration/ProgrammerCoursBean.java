@@ -5,7 +5,9 @@
  */
 package bean.administration;
 
+import bean.util.ParametragesBean;
 import ejb.administration.ProgrammerCoursFacade;
+import ejb.administration.ResponsabiliteFacade;
 import ejb.formation.HistoriquesFacade;
 import ejb.inscription.AnneeAcademiqueFacade;
 import ejb.inscription.EnseignantFacade;
@@ -26,6 +28,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import jpa.administration.ProgrammerCours;
+import jpa.administration.Responsabilite;
 import jpa.formation.Filiere;
 import jpa.formation.Historiques;
 import jpa.inscription.AnneeAcademique;
@@ -44,6 +47,8 @@ import util.JsfUtil;
 @Named(value = "programmerCoursBean")
 @ViewScoped
 public class ProgrammerCoursBean implements Serializable {
+    @EJB
+    private ResponsabiliteFacade responsabiliteFacade;
     @EJB
     private SemestreFacade semestreFacade;
     @EJB
@@ -80,8 +85,8 @@ public class ProgrammerCoursBean implements Serializable {
     private List<Matiere> listMatieres;
     private List<Enseignant> listeEnseignants;
     private AnneeAcademique anneeAcademique;
-    private Enseignant enseignantResp;
-    private List<Enseignant> listeEnseignantResp;
+    private Responsabilite responsabilite;
+    private List<Responsabilite> listeResponsables;
     /**
      * Creates a new instance of ProgrammerCoursBean
      */
@@ -90,10 +95,9 @@ public class ProgrammerCoursBean implements Serializable {
 
     @PostConstruct
     public void init() {
-//        listeProgrammerCourss = programmerCoursFacade.findAll();
         prepareCreate();
         anneeAcademique = anneeAcademiqueFacade.getCurrentAcademicYear();
-        listeEnseignantResp = enseignantFacade.findAllEnseignantResponsa();
+        listeResponsables = responsabiliteFacade.findAll();
     }
 
     public void initEnseignants() {
@@ -130,7 +134,7 @@ public class ProgrammerCoursBean implements Serializable {
                 newProgrammerCours.setAnneeAcademique(anneeAcademique);
                 newProgrammerCours.setEtat("red");
                 newProgrammerCours.setGroupePedagogique(selectedGroupePedagogique);
-                newProgrammerCours.setResponsable(enseignantResp);
+                newProgrammerCours.setResponsabilite(responsabilite);
                 programmerCoursFacade.create(newProgrammerCours);
                 msg = JsfUtil.getBundleMsg("ProgrammerCoursCreateSuccessMsg");
                 JsfUtil.addSuccessMessage(msg);
@@ -175,22 +179,6 @@ public class ProgrammerCoursBean implements Serializable {
             msg = JsfUtil.getBundleMsg("ProgrammerCoursDelErrorMsg");
             JsfUtil.addErrorMessage(msg);
         }
-    }
-
-    public List<Enseignant> getListeEnseignantResp() {
-        return listeEnseignantResp;
-    }
-
-    public void setListeEnseignantResp(List<Enseignant> listeEnseignantResp) {
-        this.listeEnseignantResp = listeEnseignantResp;
-    }
-
-    public Enseignant getEnseignantResp() {
-        return enseignantResp;
-    }
-
-    public void setEnseignantResp(Enseignant enseignantResp) {
-        this.enseignantResp = enseignantResp;
     }
 
     public List<Enseignant> getListeEnseignants() {
@@ -308,6 +296,22 @@ public class ProgrammerCoursBean implements Serializable {
     public void setListeProgrammerCourssDynamic(List<ProgrammerCours> listeProgrammerCourssDynamic) {
         this.listeProgrammerCourssDynamic = listeProgrammerCourssDynamic;
     }
+
+    public Responsabilite getResponsabilite() {
+        return responsabilite;
+    }
+
+    public void setResponsabilite(Responsabilite responsabilite) {
+        this.responsabilite = responsabilite;
+    }
+
+    public List<Responsabilite> getListeResponsables() {
+        return listeResponsables;
+    }
+
+    public void setListeResponsables(List<Responsabilite> listeResponsables) {
+        this.listeResponsables = listeResponsables;
+    }
     
 
 //    public void validationDate(FacesContext context, UIComponent component, Object value) {
@@ -327,6 +331,8 @@ public class ProgrammerCoursBean implements Serializable {
 //        } catch (Exception e) {
 //        }
 //    }
+    
+    
     public List<Matiere> getMatieresNP(GroupePedagogique groupePedagogique, Semestre semestre) {
         List<Matiere> matieres = new ArrayList<>();
         List<Matiere> matieresM = matiereFacade.getMatiereByGroupe(groupePedagogique, semestre);
@@ -347,9 +353,11 @@ public class ProgrammerCoursBean implements Serializable {
     }
 
     public void genererEtatCoursProgrammer() {
-        String pathOut = JsfUtil.getPathOutTmp();
-        String pathIn = JsfUtil.getPathIntModelReleve();
-        String pathOutPDF = JsfUtil.getPathOutPDF();
+        String absolutPath = ParametragesBean.getPathRoot();
+        String pathOut = absolutPath + "fichiergenerer/rapportgestionnotes/";
+        String pathIn = absolutPath + "resources/releve/";
+        String pathOutPDF = absolutPath + "fichiergenerer/rapportgestionnotes/touslesrapports/";
+        
         File repertoire1 = new File(pathOut + "/tmp2/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
         repertoire1.mkdirs();
@@ -370,21 +378,21 @@ public class ProgrammerCoursBean implements Serializable {
             String datefin = formatDate.format(selectedProgrammerCours.getDateFin());
             parametreEntetes.put("datefin", datefin);
             parametreEntetes.put("d", JsfUtil.getDateEdition());
-            parametreEntetes.put("responsable", selectedProgrammerCours.getResponsable().getResponsabilite());
-            parametreEntetes.put("nomResp", JsfUtil.getLabelGradeEnseignant(selectedProgrammerCours.getResponsable().getGrade()) + " " + selectedProgrammerCours.getResponsable().getPrenom() + " " + selectedProgrammerCours.getResponsable().getNom());
+            parametreEntetes.put("responsable", selectedProgrammerCours.getResponsabilite().getRole());
+            parametreEntetes.put("nomResp", JsfUtil.getLabelGradeEnseignant(selectedProgrammerCours.getResponsabilite().getEnseignant().getGrade()) + " " + selectedProgrammerCours.getResponsabilite().getEnseignant().getPrenom() + " " + selectedProgrammerCours.getResponsabilite().getEnseignant().getNom());
             JsfUtil.generateurXDOCReportStatic(pathIn + "/programmationcours.docx", parametreEntetes, repertoire1.getAbsolutePath() + "/", "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle());
             JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle());
             // enregistrement dans historique
             Historiques historique = new Historiques();
             historique.setLibelle(selectedGroupePedagogique.getDescription() + "CoursProgramme"+" "+selectedProgrammerCours.getMatiere().getLibelle());
-            historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle()));
+            historique.setLienFile(pathOutPDF + nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle());
             historique.setGroupePedagogique(selectedGroupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
             File fileDowload = new File(pathOutPDF + nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle() + ".pdf");
-            JsfUtil.flushToBrowser(fileDowload, nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle() + ".pdf");
+            JsfUtil.flushToBrowser(fileDowload, "application/pdf");
 
         } catch (Exception ex) {
             System.out.println("ExceptionR " + ex.getMessage());

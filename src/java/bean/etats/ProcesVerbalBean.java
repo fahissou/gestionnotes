@@ -6,6 +6,7 @@
 package bean.etats;
 
 import bean.inscription.AnneeAcademiqueBean;
+import bean.util.ParametragesBean;
 import ejb.administration.ParametresFacade;
 import ejb.formation.FiliereFacade;
 import ejb.formation.HistoriquesFacade;
@@ -156,9 +157,12 @@ public class ProcesVerbalBean implements Serializable {
 
     // essai de proces dynamique
     public void procesVerbal(ActionEvent event) {
-        String pathOut = JsfUtil.getPathOutTmp();
-        String pathIn = JsfUtil.getPathIntModelProces();
-        String pathOutPDF = JsfUtil.getPathOutPDF();
+
+        String absolutPath = ParametragesBean.getPathRoot();
+        String pathOut = absolutPath + "fichiergenerer/rapportgestionnotes/";
+        String pathIn = absolutPath + "resources/releve/releveNouveau/";
+        String pathOutPDF = absolutPath + "fichiergenerer/rapportgestionnotes/touslesrapports/";
+
         File repertoire1 = new File(pathOut + "/tmp2/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
         repertoire1.mkdirs();
@@ -175,7 +179,6 @@ public class ProcesVerbalBean implements Serializable {
 
                 if (nombreUE <= 18 && nombreUE >= 4) {
                     List<Inscription> inscriptions = inscriptionFacade.getListInscriptionByGP(groupePedagogique, anneeAcademique);
-                    System.out.println("ok2");
                     // Paramètres d'entete du proces fichier 1
                     Map<String, Object> parametreEntetes1 = new HashMap<>();
                     // Paramètres d'entete du proces fichier 2
@@ -268,19 +271,19 @@ public class ProcesVerbalBean implements Serializable {
                         int l = 0;
                         int p = 0;
                         for (int i = 0; i < nombreUE; i++) {
-                            
+
                             double som = 0.0;
                             List<Matiere> matieres = null;
                             Ue currentUE = ues.get(i);
                             totalCredit += currentUE.getCredit();
                             matieres = matiereFacade.getMatiereByUe(currentUE);
-                            String moyUEString = getMoyUE(matieres,inscriptions.get(j), anneeAcademique);
+                            String moyUEString = getMoyUE(matieres, inscriptions.get(j), anneeAcademique);
                             String moyUE;
                             String decision;
-                            if(moyUEString.equals("***")) {
+                            if (moyUEString.equals("***")) {
                                 moyUE = moyUEString;
                                 decision = moyUEString;
-                            }else{
+                            } else {
                                 nombreCreditValider += isValide(Double.parseDouble(moyUEString), currentUE.getCredit(), groupePedagogique);
                                 moyUE = JsfUtil.formatNote(Double.parseDouble(moyUEString));
                                 decision = decision2(Double.parseDouble(moyUEString), groupePedagogique);
@@ -331,15 +334,13 @@ public class ProcesVerbalBean implements Serializable {
                     JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur());
                     Historiques historique = new Historiques();
                     historique.setLibelle("proces" + groupePedagogique.getDescription() + "_" + anneeAcademique.getDescription() + "_" + semestre.getValeur());
-                    historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur()));
+                    historique.setLienFile(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur());
                     historique.setGroupePedagogique(groupePedagogique.getDescription());
                     historique.setDateEdition(JsfUtil.getDateEdition());
                     historique.setAnneeAcademique(anneeAcademique);
                     historiquesFacade.create(historique);
-                    System.out.println("lien1 " + JsfUtil.getRealPath(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur()) + ".pdf");
-                    System.out.println("lien2 " + pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");
                     File fileDowload = new File(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");
-                    JsfUtil.flushToBrowser(fileDowload, "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");
+                    JsfUtil.flushToBrowser(fileDowload, "application/pdf");
                     msg = JsfUtil.getBundleMsg("ProcesGenererSucces");
                     JsfUtil.addSuccessMessage(msg);
 
@@ -356,7 +357,6 @@ public class ProcesVerbalBean implements Serializable {
             System.out.println("Exception " + ex.getMessage());
 
         }
-        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
     }
 
     public int isValide(double moyUE, int credit, GroupePedagogique groupP) {
@@ -374,7 +374,7 @@ public class ProcesVerbalBean implements Serializable {
         }
         return arg;
     }
-    
+
     public void reset() {
         this.filiere.reset();
         this.groupePedagogique.reset();
@@ -383,25 +383,27 @@ public class ProcesVerbalBean implements Serializable {
 
     public String getMoyUE(List<Matiere> matieres, Inscription inscription, AnneeAcademique anneeAcademique) {
         String resultat = "***";
-        String session = null;
+        String session = "";
         double som = 0.0;
-        try {
-            for (int k = 0; k < matieres.size(); k++) {
+        int m = 0;
+        for (int k = 0; k < matieres.size(); k++) {
             Notes notes = notesFacade.getNotesByInscriptionMatiere(inscription, matieres.get(k));
-            som = +notes.getNote();
-            if(k == 0) {
-                session = notes.getSessions();
-            }else{
-                session = JsfUtil.getSessionValidation(session, notes.getSessions());
+            som += notes.getNote();
+            if (notes.getSessions() != null) {
+                if (m == 0) {
+                    session = notes.getSessions();
+                    m++;
+                } else {
+                    session = JsfUtil.getSessionValidation(session, notes.getSessions());
+                }
             }
+
         }
         double moyUE = som / matieres.size();
-        if(session.equals(anneeAcademique.getDescription())){
+        if (session.equals(anneeAcademique.getDescription())) {
             resultat = String.valueOf(moyUE);
-        }
-        } catch (Exception e) {
         }
         return resultat;
     }
-    
+
 }

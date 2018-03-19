@@ -68,10 +68,10 @@
 
 
 
-                            <p:commandButton value="Valider" update=":msgForm:msg @form" actionListener="#{procesVerbalBean.procesVerbal}"
-                                             oncomplete="updateGritter(xhr);" class="btn btn-default">
+                            <h:commandButton value="Valider"  actionListener="#{procesVerbalBean.procesVerbal}"
+                                              class="btn btn-default">
                                 
-                            </p:commandButton>
+                            </h:commandButton>
 
                             <p:commandButton value="#{bundle.Cancel}" class="btn btn-default" process="@this"
                                              actionListener="#{procesVerbalBean.reset}" update="@form :msgForm:msg">

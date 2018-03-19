@@ -9,6 +9,8 @@ import ejb.inscription.EtudiantFacade;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import jpa.inscription.Etudiant;
 import org.primefaces.context.RequestContext;
 
@@ -23,6 +25,7 @@ public class ParametragesBean implements Serializable{
     
     private static String idEtudiant;
     private String idEtudiantTmp ;
+    private static String pathRoot;
     public ParametragesBean() {
     }
 
@@ -30,6 +33,8 @@ public class ParametragesBean implements Serializable{
     public void init() {
          String id = "";
          idEtudiantTmp = id;
+         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+         pathRoot = servletContext.getRealPath("/");
     }
     
     
@@ -55,7 +60,13 @@ public class ParametragesBean implements Serializable{
         this.idEtudiantTmp = idEtudiantTmp;
     }
 
-    
+    public static String getPathRoot() {
+        return pathRoot;
+    }
+
+    public static void setPathRoot(String pathRoot) {
+        ParametragesBean.pathRoot = pathRoot;
+    }
     
     
 }
