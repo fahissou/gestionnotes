@@ -11,9 +11,10 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="delDialogForm" styleClass="form-horizontal">
-                        <div class="modal-header">
+                        <p:growl id="growl" showDetail="true"/>
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 class="modal-title">#{bundle.Delete}</h3>
+                            <h1>#{bundle.Delete}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
                             <div class="row">
@@ -27,13 +28,12 @@
                                
                             </div>
                         </div> <!-- /.modal-body -->
-                        <div class="modal-footer">
-                            <p:commandButton value="#{bundle.Yes}" update=":msgForm:msg @form :ajoutListForm" actionListener="#{historiqueBean.doDel}" 
+                        <div class="footer tar">
+                            <p:commandButton value="#{bundle.Yes}" update="@form :ajoutListForm growl" actionListener="#{historiqueBean.doDel}" 
                                              oncomplete="$('#delDialog').modal('hide');" style="padding: 0;"
-                                             styleClass="btn btn-default" icon="i-checkmark-2"/>
+                                             styleClass="btn btn-default"/>
 
-                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal" style="padding: 2px 6px;">
-                                <i class="i-cancel-2" style="font-size: 11px;vertical-align: middle;"/>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="padding: 2px 6px;">
                                 #{bundle.No}
                             </button>
                         </div> <!-- /.modal-footer -->

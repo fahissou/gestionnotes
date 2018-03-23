@@ -3,124 +3,208 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>    
+
+    <ui:composition>  
+        <div class="page-header">
+            <h1>#{bundle.platFormGestionnotes}<br/><small>#{bundle.TitreUniversite} </small></h1>
+        </div>
         <div class="col-md-12">
 
-            <div class="block">
-                <!--                <div class="head clearfix">
-                                    <div class="isw-documents"></div>
-                                    <h1>#{bundle.platFormGestionnotes}</h1>
-                                </div>-->
-                <h:form id="formeEx" styleClass="form-horizontal">
-                    <p:growl id="growl" showDetail="true"/>
-                    <div class="block-fluid">                                        
+            <!--<div class="block">-->
+            <h:form id="formeEx" styleClass="form-horizontal">
+                <div class="col-md-6">
+                    <p:panel>
+                        <p:chart type="bar" model="#{statistiqueBean.barModel}" style="height:250px"/>
+                    </p:panel>
+                    <div class="dr"><span></span></div>
+                </div>
+<!--                <div class="col-md-6">
+                    <p:panel>
+                        <pe:gChart  
+                            value="#{statistiqueBean.chart}"  
+                            title="Company Performance"
+                            height="250">
+                        </pe:gChart>
+                    </p:panel>
+                    <div class="dr"><span></span></div>
+                </div>-->
 
-                        <div class="row-form clearfix">
-                            <div class="col-md-12 ">
-                                <label class="titles">#{bundle.platFormGestionnotes}</label>
-                            </div>
-                            <!--                            <div class="col-sm-9" >
-                                                            <label  class="form-control input-sm">
-                            #{reinscriptionBean.notification}
-                        </label>
-                    </div>-->
-                        </div>
+                <div class="col-md-6">
 
-                        <div class="row-form clearfix">
-                            <div class="col-md-12 ">
-                                <label class="titles1">#{bundle.TitreUniversite}</label>
-                            </div>
-                            <!--                            <div class="col-sm-9" >
-                                                            <label  class="form-control input-sm">
-                            #{reinscriptionBean.notification}
-                        </label>
-                    </div>-->
-                        </div>
+                    <p:panel>
+                        <p:chart type="bar" model="#{statistiqueBean.barModel}" style="height:250px"/>
+                    </p:panel>
+                    <div class="dr"><span></span></div>
+                </div>
 
-                        <div class="row-form clearfix">
-                            <div class="col-md-6">
-                                <label class="titles2">#{bundle.Directeur} #{enseignantBean.directeur}</label>
-                            </div>
-                            <div class="col-md-6 ">
-                                <label class="titles2">#{bundle.DirecteurAjoint} #{enseignantBean.directeurAj}</label>
-                            </div>
-                        </div>
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-6">
-                                <label class="titles1">#{bundle.FormationOffertes}</label>
-                            </div>
-                            
-                        </div>
-
-                        <div class="row-form clearfix">
-                            <div class="col-md-6">
-                                <label class="titles2">#{bundle.ClassePrepa}</label>
-                            </div>
-                            <div class="col-md-6 ">
-                                <label class="titles2">#{bundle.Responsable} #{enseignantBean.directeurAj}</label>
-                            </div>
-                        </div>
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-6">
-                                <label class="titles2">#{bundle.MathematiqueFond}</label>
-                            </div>
-                            <div class="col-md-6 ">
-                                <label class="titles2">#{bundle.Responsable} #{enseignantBean.directeurAj}</label>
-                            </div>
-                        </div>
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-6">
-                                <label class="titles2">#{bundle.PhysiqueTheo} </label>
-                            </div>
-                            <div class="col-md-6 ">
-                                <label class="titles2">#{bundle.Responsable} #{enseignantBean.directeurAj}</label>
-                            </div>
-                        </div>
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-6">
-                                <label class="titles2">#{bundle.RechercheOpera}</label>
-                            </div>
-                            <div class="col-md-6 ">
-                                <label class="titles2">#{bundle.Responsable} #{enseignantBean.directeurAj}</label>
-                            </div>
-                        </div>
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-6">
-                                <label class="titles2">#{bundle.StatistiqueProba} </label>
-                            </div>
-                            <div class="col-md-6 ">
-                                <label class="titles2">#{bundle.Responsable} #{enseignantBean.directeurAj}</label>
-                            </div>
-                        </div>
-                        
-                        <div class="row-form clearfix">
-                            <div class="col-md-6">
-                                <label class="titles2">#{bundle.Informatique}</label>
-                            </div>
-                            <div class="col-md-6 ">
-                                <label class="titles2">#{bundle.Responsable} #{enseignantBean.directeurAj}</label>
-                            </div>
-                        </div>
-
- 
-
-                       
+                <div class="col-md-6"> 
+                    <div class="page-headerTableau">
+                        <h2><small> #{bundle.EquipeDirigeante}</small></h2>
                     </div>
+                    <div class="block messages scrollBox">
+                        <div class="scroll mCustomScrollbar _mCS_1" style="height: 320px;">
+                            <div class="mCustomScrollBox mCS-light" id="mCSB_1" style="position:relative; height:100%; overflow:hidden; max-width:100%;">
+                                <div class="mCSB_container" style="position:relative; top:0;">
 
-                </h:form>
-            </div>
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
 
+                                        <div class="info">
+                                            <a class="name">#{bundle.Directeur}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.grade} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
+
+                                        <div class="info">
+                                            <a class="name">#{bundle.DirecteurAjoint}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.grade} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div>                       
+
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
+
+                                        <div class="info">
+                                            <a class="name">#{bundle.ChefScolarite}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.grade} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div> 
+                                    
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
+
+                                        <div class="info">
+                                            <a class="name">#{bundle.AgentComptable}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.Administratif} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div> 
+                                    
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
+
+                                        <div class="info">
+                                            <a class="name">#{bundle.SGA}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.Administratif} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div>  
+                                    
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
+
+                                        <div class="info">
+                                            <a class="name">#{bundle.CSA}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.Administratif} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div>  
+
+                                </div>
+                                <div class="mCSB_scrollTools" style="position: absolute; display: block;">
+                                    <div class="mCSB_draggerContainer">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">                       
+                    <div class="page-headerTableau">
+                        <h2><small> #{bundle.FormationOffertes}</small></h2>
+                    </div>
+                    <div class="block messages scrollBox">
+
+                        <div class="scroll mCustomScrollbar _mCS_1" style="height: 320px;">
+                            <div class="mCustomScrollBox mCS-light" id="mCSB_1" style="position:relative; height:100%; overflow:hidden; max-width:100%;">
+                                <div class="mCSB_container" style="position:relative; top:0;">
+
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
+
+                                        <div class="info">
+                                            <a class="name">#{bundle.ClassePrepa}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.Responsable} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images/users" name="maths.jpeg" class="img-thumbnail"/></a></div>
+                                        <div class="info">
+                                            <a class="name">#{bundle.MathematiqueFond}</a>
+                                            <p>Cras nec risus dolor, ut tristique neque. Donec mauris sapien, pellentesque at porta id, varius eu tellus.</p>
+                                            <span>#{bundle.Responsable} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div>                        
+
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images/users" name="physique.jpeg" class="img-thumbnail"/></a></div>
+                                        <div class="info">
+                                            <a class="name">#{bundle.PhysiqueTheo}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.Responsable} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div>    
+
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images/users" name="ro.png" class="img-thumbnail"/></a></div>
+                                        <div class="info">
+                                            <a class="name">#{bundle.RechercheOpera}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.Responsable} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div> 
+
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
+                                        <div class="info">
+                                            <a class="name">#{bundle.StatistiqueProba}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.Responsable} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div> 
+
+                                    <div class="item clearfix">
+                                        <div class="image"><a href="#"><p:graphicImage library="images/users" name="info.jpeg" class="img-thumbnail"/></a></div>
+
+                                        <div class="info">
+                                            <a class="name">#{bundle.Informatique}</a>
+                                            <p>In id adipiscing diam. Sed lobortis dui ut odio tempor blandit.</p>
+                                            <span>#{bundle.Responsable} #{enseignantBean.directeurAj}</span>
+                                        </div>
+                                    </div> 
+
+                                </div>
+                                <div class="mCSB_scrollTools" style="position: absolute; display: block;">
+                                    <div class="mCSB_draggerContainer">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>                    
+                </div>
+            </h:form>
+            <!--</div>-->
         </div>
-
-
-
     </ui:composition>
 </html>

@@ -12,39 +12,38 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <h:form id="viewDialogForm" styleClass="form-horizontal">
-                        <div class="modal-header">
+                        <div class="head clearfix">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 class="modal-title">#{bundle.View}</h3>
+                            <h1>#{bundle.View}</h1>
                         </div> <!-- /.modal-header -->
                         <div class="modal-body">
 
-                                <div class="form-group row" style="margin-bottom: 3px!important;">
-                                    <label class="control-label col-sm-4">#{bundle.AnneeAcademique}</label>
-                                    <div class="col-sm-8">
+                                <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                    <label class="col-md-4">#{bundle.AnneeAcademique}</label>
+                                    <div class="col-md-8">
                                         <label class="form-control input-sm">
                                             #{inscriptionBean.selectedInscription.anneeAcademique.description}
                                         </label>
                                     </div>
                                 </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.Credit}</label>
-                                    <div class="col-sm-8">
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <label class="col-md-4">#{bundle.Credit}</label>
+                                    <div class="col-md-8">
                                         <label class="form-control input-sm">
                                             #{inscriptionBean.selectedInscription.compteurCredit}
                                         </label>
                                     </div>
                             </div>
                             
-                            <div class="form-group row" style="margin-bottom: 3px!important;">
-                                <label class="control-label col-sm-4">#{bundle.GroupePedagogique}</label>
-                                    <div class="col-sm-8">
+                            <div class="row-form clearfix" style="margin-bottom: 3px!important;">
+                                <label class="col-md-4">#{bundle.Groupe}</label>
+                                    <div class="col-md-8">
                                         <label class="form-control input-sm">
                                             #{inscriptionBean.selectedInscription.groupePedagogique.description}
                                         </label>
                                     </div>
                             </div>
-                            
                            
                               
 <!--                                <div class="form-group row" style="margin-bottom: 3px!important;">
@@ -67,9 +66,8 @@
                                 </div>-->
                         </div> <!-- /.modal-body -->
                         <!--</div>  /.modal-body -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default btn-success btn-xs" data-dismiss="modal">
-                                <i class="i-cancel-2" style="font-size: 11px;vertical-align: middle;"/>
+                        <div class="footer tar">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 #{bundle.Close}
                             </button>
                         </div> <!-- /.modal-footer -->

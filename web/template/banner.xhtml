@@ -7,8 +7,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition > 
 
-        <a class="logo" href="index.html">
-            <p:graphicImage library="images" name="logNouv.PNG" alt="Aquarius -  responsive admin panel"/>
+        <a class="logo" href="#">
+            <p:graphicImage library="images" name="lognouvo.PNG" alt="Aquarius -  responsive admin panel"/>
         </a>
 
         <ul class="header_menu">
@@ -93,8 +93,8 @@
                 <!--</ul>-->
             </h:form>
 
-            <li class="list_icon"><a href="#">&nbsp;</a></li>
-            <li class="settings_icon">
+            <!--<li class="list_icon"><a href="#">&nbsp;</a></li>-->
+<!--            <li class="settings_icon">
                 <a href="#" class="link_themeSettings">&nbsp;</a>
 
                 <div id="themeSettings" class="popup">
@@ -148,29 +148,12 @@
                     </div>
                 </div>                    
 
-            </li>
+            </li>-->
 
 
 
         </ul> 
 
-        <!--        <h:form>
-                    
-                    <div class="row-form clearfix">
-                                    <div class="col-md-3">
-                                        <p:outputLabel for="filiere" value="#{bundle.Filiere}"/>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p:selectOneMenu id="filiere" value="#{procesVerbalBean.filiere}" 
-                                                         required="true">
-                                            <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
-                                            <f:selectItems value="#{filiereBean.listeFilieres}" var="itemFiliere"
-                                                           itemValue="#{itemFiliere}" itemLabel="#{itemFiliere.libelle.toUpperCase()}"/>
-                                            <f:converter  converterId="filiereConverter"/>
-                                        </p:selectOneMenu>
-                                    </div>
-                                </div>
-                </h:form>-->
 
 
 

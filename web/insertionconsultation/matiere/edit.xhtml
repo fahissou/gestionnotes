@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             
-                            <div class="clearfix control">
+<!--                            <div class="clearfix control">
                                 <div class="col-md-3">
                                     <p:outputLabel for="semestre" value="#{bundle.Semestre}"/>
                                 </div>
@@ -45,7 +45,7 @@
                                         <f:converter  converterId="semestreConverter"/>
                                     </h:selectOneMenu>
                                 </div>
-                            </div>
+                            </div>-->
                             
                                <div class="clearfix control">
                                 <div class="col-md-3">
@@ -63,7 +63,7 @@
                             
                         </div> <!-- /.modal-body -->
                         <div class="footer tar">
-                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{ueBean.doEdit}" 
+                            <p:commandButton value="Valider" update="@form :ajoutListForm growl" actionListener="#{matiereBean.doEdit}" 
                                              oncomplete="$('#editDialog').modal('hide');" 
                                              class="btn btn-default">
                             </p:commandButton>

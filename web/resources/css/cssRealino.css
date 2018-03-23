@@ -7,9 +7,19 @@ and open the template in the editor.
     Created on : 17 sept. 2017, 17:37:09
     Author     : AHISSOU Florent
 */
+.page-header{
+    border-bottom: 1px solid #D5D5D5;
+}
 
 .page-header{
-    margin: 40px 20px 20px!important;
+    /*margin: 40px 20px 20px!important;*/
+    margin: 0px 30px 10px!important;
+}
+.page-headerTableau{
+    /*margin: 40px 20px 20px!important;*/
+    margin: 0px 10px 10px!important;
+    border-bottom: 1px solid #FFF;
+    padding-bottom: 0px;
 }
 .head [class*="isw-"]{
     margin-left: 5px!important;
@@ -436,9 +446,9 @@ div.block_loading {
         padding-left: 0px;*/
     /*margin-left: 132px;*/
 }
-.header .header_menu{
+/*.header .header_menu{
     width: 258px!important;
-}
+}*/
 .header .header_menu li a{
     margin: 2px!important;
     padding: 1px!important;
@@ -481,4 +491,23 @@ a.link_bcPopupSearch{
 }
 .input-group-addon .glyphicon {
     line-height: 0!important;
+}
+.page-header h1 {
+    line-height: 30px!important;
+    margin-left: 15%!important;
+    border-bottom: none!important;
+}
+h1 small{
+    margin-left: 32px!important;
+}
+
+.page-headerTableau h2 {
+    font-family: Cambria,Georgia,serif;
+    text-shadow: 1px 1px 0px #FFF;
+    font-style: italic;
+    margin: 0px;
+    
+    font-size: 30px!important;
+    border-bottom: 1px solid #D5D5D5;
+    padding-bottom: 10px;
 }
