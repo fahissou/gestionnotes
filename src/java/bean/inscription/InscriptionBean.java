@@ -1,5 +1,6 @@
 package bean.inscription;
 
+import bean.util.ParametragesBean;
 import ejb.inscription.AnneeAcademiqueFacade;
 import ejb.formation.FiliereFacade;
 import ejb.formation.HistoriquesFacade;
@@ -9,13 +10,6 @@ import ejb.inscription.InscriptionFacade;
 import ejb.inscription.NotesFacade;
 import ejb.module.MatiereFacade;
 import ejb.module.UeFacade;
-import fr.opensagres.xdocreport.core.XDocReportException;
-import fr.opensagres.xdocreport.document.IXDocReport;
-import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
-import fr.opensagres.xdocreport.template.IContext;
-import fr.opensagres.xdocreport.template.TemplateEngineKind;
-import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -670,9 +664,11 @@ public class InscriptionBean implements Serializable {
     public void genererListeEtudiant() {
         GroupePedagogique gP = groupePedagogique;
         String nomFichier = JsfUtil.generateId();
-        String pathOut = JsfUtil.getPathOutTmp();
-        String pathIn = JsfUtil.getPathIntModelReleve();
-        String pathOutPDF = JsfUtil.getPathOutPDF();
+        String absolutPath = ParametragesBean.getPathRoot();
+        String pathOut = absolutPath + "fichiergenerer/rapportgestionnotes/";
+        String pathIn = absolutPath + "resources/releve/";
+        String pathOutPDF = absolutPath + "fichiergenerer/rapportgestionnotes/touslesrapports/";
+        
         File repertoire1 = new File(pathOut + "/tmp2/");
         File repertoire2 = new File(pathOut + "/" + "fichierPDF" + "/");
         repertoire1.mkdir();
@@ -711,20 +707,19 @@ public class InscriptionBean implements Serializable {
             JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "listeEtudiant" + gP.getDescription());
             Historiques historique = new Historiques();
-            historique.setLibelle("listeEtudiant" + gP.getDescription());
-            historique.setLienFile(JsfUtil.getRealPath(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()));
+            historique.setLibelle(nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
+            historique.setLienFile(pathOutPDF);
             historique.setGroupePedagogique(gP.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historique.setAnneeAcademique(anneeAcademiqueChoisi);
             historiquesFacade.create(historique);
-            System.out.println("OK icic");
-//            File fileDowload = new File(pathOutPDF + nomFichier + "listeEtudiant" + gP.getDescription()+".pdf");
-//            JsfUtil.flushToBrowser(fileDowload, nomFichier + "listeEtudiant" + gP.getDescription());
+            File fileDowload = new File(pathOutPDF + historique.getLibelle());
+            JsfUtil.flushToBrowser(fileDowload,"application/pdf");
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());
 
         }
-        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
+        
         
     }
     

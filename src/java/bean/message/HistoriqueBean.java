@@ -8,11 +8,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
-import javax.servlet.ServletContext;
 import jpa.formation.Historiques;
 import jpa.inscription.AnneeAcademique;
 import org.primefaces.context.RequestContext;
@@ -32,8 +30,6 @@ public class HistoriqueBean implements Serializable{
     private Historiques newHistoriques;
     private List<Historiques> listeHistoriquess;
     private List<Historiques> filteredList;
-    private  String lien = "/gestionnotes/fichiergenerer/rapportgestionnotes/touslesrapports/";
-    private String pathOut;
     private AnneeAcademique anneeAcademiqueChoisi;
     private String pathRoot;
     
@@ -45,7 +41,7 @@ public class HistoriqueBean implements Serializable{
         anneeAcademiqueChoisi = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
         listeHistoriquess = historiquesFacade.findAll1(anneeAcademiqueChoisi);
         prepareCreate();
-        pathOut = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
+//        pathOut = System.getProperty("user.home") + "\\Documents\\" + "/NetBeansProjects/gestionnotes/web/fichiergenerer/rapportgestionnotes/touslesrapports/";
     }  
 
     public void doCreate(ActionEvent event) {
@@ -79,7 +75,7 @@ public class HistoriqueBean implements Serializable{
         String msg;
         try {
             historiquesFacade.remove(selectedHistoriques);
-            removeFile();
+            removeFile(selectedHistoriques);
             msg = JsfUtil.getBundleMsg("HistoriquesDelSuccesMsg");
             JsfUtil.addSuccessMessage(msg);
             listeHistoriquess = historiquesFacade.findAll();
@@ -125,14 +121,6 @@ public class HistoriqueBean implements Serializable{
         this.newHistoriques = new Historiques();
     }
 
-    public String getLien() {
-        return lien;
-    }
-
-    public void setLien(String lien) {
-        this.lien = lien;
-    }
-
     public String getPathRoot() {
         return pathRoot;
     }
@@ -146,17 +134,16 @@ public class HistoriqueBean implements Serializable{
         
     }
     public void dowloadFile() {
-        JsfUtil.flushToBrowser(new File(selectedHistoriques.getLienFile()+".pdf"), "application/pdf");
+        JsfUtil.flushToBrowser(new File(selectedHistoriques.getLienFile()+selectedHistoriques.getLibelle()), "application/pdf");
     }
     
-    public void removeFile() {
-        File repertoire = new File(pathOut);
+    public void removeFile(Historiques historiques) {
+        File repertoire = new File(historiques.getLienFile());
         File[] files = repertoire.listFiles();
         try {
             if(files.length != 0) {
                 for (int i = 0; i < files.length; i++) {
-                    String oldFile = JsfUtil.getFileName2(selectedHistoriques.getLienFile())+".pdf";
-                    if(files[i].getName().equals(oldFile)) {
+                    if(files[i].getName().equals(selectedHistoriques.getLibelle())) {
                         boolean bool = files[i].delete();
                         break;
                     }

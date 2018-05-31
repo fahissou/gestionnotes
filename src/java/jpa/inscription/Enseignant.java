@@ -4,19 +4,16 @@ import jpa.administration.Responsabilite;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-//import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-//import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import jpa.administration.ProgrammerCours;
 import jpa.formation.Filiere;
-import jpa.module.Matiere;
 
 /**
  *
@@ -184,6 +181,14 @@ public class Enseignant implements Serializable {
 
     public void setFiliere(Filiere filiere) {
         this.filiere = filiere;
+    }
+
+    public List<Responsabilite> getResponsabilites() {
+        return responsabilites;
+    }
+
+    public void setResponsabilites(List<Responsabilite> responsabilites) {
+        this.responsabilites = responsabilites;
     }
     
     

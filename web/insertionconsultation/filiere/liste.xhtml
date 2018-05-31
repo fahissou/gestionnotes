@@ -66,8 +66,11 @@
                                                  > 
 
                                         <!--<p:column selectionMode="multiple" style="width:50px;text-align:center"/>-->
-                                        <p:column headerText="#{bundle.Nom}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
+                                        <p:column headerText="#{bundle.Description}"  sortBy="#{item.libelle}" filterBy="#{item.libelle}">
                                             <h:outputText value=" #{item.libelle.toUpperCase()}" />
+                                        </p:column>
+                                        <p:column headerText="#{bundle.Responsable1}"  sortBy="#{responsabiliteBean.responsableFiliere(item.id)}" filterBy="#{responsabiliteBean.responsableFiliere(item.id)}">
+                                            <h:outputText value=" #{responsabiliteBean.responsableFiliere(item.id)}" />
                                         </p:column>
                                         <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
 <!--                                            <p:commandLink id="viewButton" value="#{null}" title="#{bundle.Details}" styleClass="btn btn-info btn-xs"

@@ -16,6 +16,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
+import jpa.administration.Responsabilite;
 import jpa.formation.Filiere;
 import jpa.inscription.Enseignant;
 import util.JsfUtil;
@@ -197,5 +198,29 @@ public class EnseignantBean implements Serializable{
         this.directeurAj = directeurAj;
     }
 
+    public String responsabilite() {
+        String roles = "";
+        try {
+            roles = getRoles(responsabiliteFacade.findResponsabiliteByEnseignant(selectedEnseignant.getLogin()));
+        } catch (Exception e) {
+        }
+        return roles;
+    }
+    
+    public String getRoles(List<Responsabilite> responsabilites) {
+        String roles = "";
+        if(responsabilites.isEmpty()){
+            roles = "AUCUNE";
+        }else{
+            for (int i = 0; i < responsabilites.size(); i++) {
+            if(i == 0){
+               roles = responsabilites.get(i).getRole();  
+            }else{
+               roles  += " - "+responsabilites.get(i).getRole();
+            }
+        }
+        }
+        return roles;
+    }
     
 }

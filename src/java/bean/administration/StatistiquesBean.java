@@ -23,7 +23,7 @@ import util.JsfUtil;
 
 @Named(value = "groupeBean")
 @ViewScoped
-public class GroupeBean implements Serializable{
+public class StatistiquesBean implements Serializable{
 
     @EJB
     private GroupeFacade groupeFacade;
@@ -35,7 +35,7 @@ public class GroupeBean implements Serializable{
     /**
      * Creates a new instance of GroupeBean
      */
-    public GroupeBean() {
+    public StatistiquesBean() {
     }
 
     @PostConstruct

@@ -198,6 +198,15 @@ public class ResponsabiliteBean implements Serializable{
         this.listeFilieres = listeFilieres;
     }
     
+    public String responsableFiliere(String idFiliere) {
+        String responsable = "";
+        try {
+            Enseignant enseignantResp = responsabiliteFacade.getResponsableByFiliere(idFiliere);
+            responsable = enseignantResp.getNom() + " " +enseignantResp.getPrenom();
+        } catch (Exception e) {
+        }
+        return responsable;
+    }
     
     
 }

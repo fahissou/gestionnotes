@@ -333,13 +333,13 @@ public class ProcesVerbalBean implements Serializable {
                     JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
                     JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur());
                     Historiques historique = new Historiques();
-                    historique.setLibelle("proces" + groupePedagogique.getDescription() + "_" + anneeAcademique.getDescription() + "_" + semestre.getValeur());
-                    historique.setLienFile(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur());
+                    historique.setLibelle(nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur()+".pdf");
+                    historique.setLienFile(pathOutPDF);
                     historique.setGroupePedagogique(groupePedagogique.getDescription());
                     historique.setDateEdition(JsfUtil.getDateEdition());
                     historique.setAnneeAcademique(anneeAcademique);
                     historiquesFacade.create(historique);
-                    File fileDowload = new File(pathOutPDF + nomFichier + "procesverbal" + groupePedagogique.getDescription() + semestre.getValeur() + ".pdf");
+                    File fileDowload = new File(pathOutPDF + historique.getLibelle());
                     JsfUtil.flushToBrowser(fileDowload, "application/pdf");
                     msg = JsfUtil.getBundleMsg("ProcesGenererSucces");
                     JsfUtil.addSuccessMessage(msg);

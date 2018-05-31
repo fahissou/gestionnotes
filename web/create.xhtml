@@ -13,32 +13,64 @@
         </div>
         <div class="col-md-12">
 
-            <!--<div class="block">-->
             <h:form id="formeEx" styleClass="form-horizontal">
-                <div class="col-md-6">
-                    <p:panel>
-                        <p:chart type="bar" model="#{statistiqueBean.barModel}" style="height:250px"/>
-                    </p:panel>
-                    <div class="dr"><span></span></div>
-                </div>
-<!--                <div class="col-md-6">
-                    <p:panel>
-                        <pe:gChart  
-                            value="#{statistiqueBean.chart}"  
-                            title="Company Performance"
-                            height="250">
-                        </pe:gChart>
-                    </p:panel>
-                    <div class="dr"><span></span></div>
-                </div>-->
+                
+                    <div class="col-md-6">
+                        <div class="head clearfix">
+                            <div class="isw-right_circle"></div>
+                            <h1>Pie charts</h1>
+                        </div>
+                        <div class="block">
+                            <!--<div class="block-fluid">-->
+                            <div id="chart-3" style="height: 300px;">
+                            </div>
+                            <!--</div>-->
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="head clearfix">
+                            <div class="isw-grid"></div>
+                            <h1>Stacked charts</h1>
+                        </div>
+                        <div class="block">
+                            <div id="chart-2" style="height: 300px; margin-top: 10px;">
 
-                <div class="col-md-6">
+                            </div>
+                        </div>
+                    </div>      
 
-                    <p:panel>
-                        <p:chart type="bar" model="#{statistiqueBean.barModel}" style="height:250px"/>
-                    </p:panel>
-                    <div class="dr"><span></span></div>
-                </div>
+<!--                   <div class="col-md-6">
+                        <div class="head clearfix">                            
+                            <h1>Line chart</h1>
+                        </div>
+                        <div class="block">
+                            <canvas id="pieChart"/>
+                        </div>                        
+                    </div>-->
+                
+            </h:form>
+        </div>
+        <div class="col-md-12">
+            <h:form id="formeEx1" styleClass="form-horizontal">
+                <!--                                <div class="col-md-6">
+                                                    <p:panel>
+                                                        <pe:gChart  
+                                                            value="#{statistiqueBean.chart}"  
+                                                            title="Company Performance"
+                                                            height="250">
+                                                        </pe:gChart>
+                                                    </p:panel>
+                                                    <div class="dr"><span></span></div>
+                                                </div>-->
+
+                <!--                <div class="col-md-6">
+                
+                                    <p:panel>
+                                        <p:chart type="bar" model="#{statistiqueBean.barModel}" style="height:250px"/>
+                                    </p:panel>
+                                    <div class="dr"><span></span></div>
+                                </div>-->
 
                 <div class="col-md-6"> 
                     <div class="page-headerTableau">
@@ -78,7 +110,7 @@
                                             <span>#{bundle.grade} #{enseignantBean.directeurAj}</span>
                                         </div>
                                     </div> 
-                                    
+
                                     <div class="item clearfix">
                                         <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
 
@@ -88,7 +120,7 @@
                                             <span>#{bundle.Administratif} #{enseignantBean.directeurAj}</span>
                                         </div>
                                     </div> 
-                                    
+
                                     <div class="item clearfix">
                                         <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
 
@@ -98,7 +130,7 @@
                                             <span>#{bundle.Administratif} #{enseignantBean.directeurAj}</span>
                                         </div>
                                     </div>  
-                                    
+
                                     <div class="item clearfix">
                                         <div class="image"><a href="#"><p:graphicImage library="images" name="example_mini.jpg" class="img-thumbnail"/></a></div>
 

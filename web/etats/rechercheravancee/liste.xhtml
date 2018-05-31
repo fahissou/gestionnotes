@@ -87,6 +87,9 @@
                                         <p:column headerText="#{bundle.Matiere}"  sortBy="#{item.matiere.libelle.toUpperCase()}" filterBy="#{item.matiere.libelle.toUpperCase()}">
                                             <h:outputText value=" #{item.matiere.libelle.toUpperCase()}" />
                                         </p:column>
+                                        <p:column headerText="#{bundle.UE}"  sortBy="#{item.matiere.ue.libelle.toUpperCase()}" filterBy="#{item.matiere.ue.libelle.toUpperCase()}">
+                                            <h:outputText value=" #{item.matiere.ue.libelle.toUpperCase()}" />
+                                        </p:column>
                                         
                                         <p:column headerText="#{bundle.notes}"  sortBy="#{item.note}" filterBy="#{item.note}">
                                             <h:outputText value=" #{item.note}" />

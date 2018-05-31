@@ -77,23 +77,7 @@ $(document).ready(function(){
         
     }
 
-    if($("#chart-3").length > 0){
-        
-        var data = [];
-        	        
-	for( var i = 0; i < 5; i++)	
-		data[i] = { label: "Series"+(i+1), data: Math.floor(Math.random()*100)+1 };
-	
-
-        $.plot($("#chart-3"), data, 
-	{
-            series: {
-                pie: { show: true }
-            },
-            legend: { show: false }
-	});
-
-    }
+    
 
     if($("#chart-4").length > 0){
         

@@ -7,6 +7,7 @@ package bean.statistique;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.extensions.component.gchart.model.GChartModel;
@@ -22,6 +23,7 @@ import org.primefaces.model.chart.ChartSeries;
  */
 @Named(value = "statistiqueBean")
 @ViewScoped
+//@SessionScoped
 
 public class StatistiqueBean implements Serializable{
 
@@ -86,13 +88,10 @@ public class StatistiqueBean implements Serializable{
     
     private void createBarModel() {
         barModel = initBarModel();
-         
         barModel.setTitle("Bar Chart");
         barModel.setLegendPosition("ne");
-         
         Axis xAxis = barModel.getAxis(AxisType.X);
         xAxis.setLabel("Gender");
-         
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setLabel("Births");
         yAxis.setMin(0);

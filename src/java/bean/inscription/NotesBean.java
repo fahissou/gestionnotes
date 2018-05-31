@@ -1074,13 +1074,13 @@ public class NotesBean implements Serializable {
             JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "FeuilleNotes" + groupePedagogique.getDescription());
             Historiques historique = new Historiques();
-            historique.setLibelle("FeuilleNotes" +"_"+ groupePedagogique.getDescription()+"_"+newMatiere.getLibelle());
-            historique.setLienFile(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription());
+            historique.setLibelle(nomFichier + "FeuilleNotes" + groupePedagogique.getDescription()+".pdf");
+            historique.setLienFile(pathOutPDF);
             historique.setGroupePedagogique(groupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
-            File fileDowload = new File(pathOutPDF + nomFichier + "FeuilleNotes" + groupePedagogique.getDescription() + ".pdf");
+            File fileDowload = new File(pathOutPDF + historique.getLibelle());
             JsfUtil.flushToBrowser(fileDowload, "application/pdf");
         } catch (Exception ex) {
             System.out.println("Exception " + ex.getMessage());

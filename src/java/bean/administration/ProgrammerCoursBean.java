@@ -385,13 +385,13 @@ public class ProgrammerCoursBean implements Serializable {
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle());
             // enregistrement dans historique
             Historiques historique = new Historiques();
-            historique.setLibelle(selectedGroupePedagogique.getDescription() + "CoursProgramme"+" "+selectedProgrammerCours.getMatiere().getLibelle());
-            historique.setLienFile(pathOutPDF + nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle());
+            historique.setLibelle(nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle()+".pdf");
+            historique.setLienFile(pathOutPDF);
             historique.setGroupePedagogique(selectedGroupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
-            File fileDowload = new File(pathOutPDF + nomFichier + "coursprogramme_" + selectedProgrammerCours.getMatiere().getLibelle() + ".pdf");
+            File fileDowload = new File(pathOutPDF + historique.getLibelle());
             JsfUtil.flushToBrowser(fileDowload, "application/pdf");
 
         } catch (Exception ex) {

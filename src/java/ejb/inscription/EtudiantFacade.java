@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import jpa.inscription.EnumGenre;
 import jpa.inscription.Etudiant;
 import util.JsfUtil;
 
@@ -50,6 +51,18 @@ public class EtudiantFacade extends AbstractFacade<Etudiant> {
         }
         return liste;
     }
+    
+    public int sizeOfGenre(EnumGenre genre){
+        Query query = em.createQuery("SELECT COUNT(E) FROM Etudiant E WHERE E.genre = :genre");
+        query.setParameter("genre", genre);
+        int count = 0;
+        try {
+            count = ((Long) query.getSingleResult()).intValue();
+        } catch (NoResultException | NonUniqueResultException e) {
+        }
+        return count;
+    }
+    
 
     
     

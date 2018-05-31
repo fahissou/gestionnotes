@@ -116,9 +116,7 @@
                             <p:column headerText="#{bundle.notes}"  sortBy="#{item.note}" filterBy="#{item.note}">
                                 <h:outputText value=" #{item.note}" />
                             </p:column>
-                            <p:column headerText="#{bundle.Decision}"  sortBy="#{item.etatValidation}" filterBy="#{item.etatValidation}">
-                                <h:outputText value="#{item.etatValidation}"/>
-                            </p:column>
+                            
                             <p:column headerText="#{bundle.Action}" styleClass="actionWidth"> 
                                 <p:commandLink id="editButton" value="#{null}" title="#{bundle.Edit}" styleClass="btn btn-primary btn-xs"
                                                update=":editDialogForm"  oncomplete="$('#editDialog').modal('show')"

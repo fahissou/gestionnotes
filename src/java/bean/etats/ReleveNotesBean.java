@@ -316,10 +316,12 @@ public class ReleveNotesBean implements Serializable {
                     } else {
                         row1.put("UE", currentUE.getLibelle());
                     }
+                    String [] c = {"2","3","5"};
                     row1.put("N", JsfUtil.formatNote(moyUE));
                     row1.put("O", decision(moyUE, groupePedagogique));
                     row1.put("C", currentUE.getCredit());
-                    row1.put("S", session);
+//                    row1.put("S", session);
+                    row1.put("S", c);
                     conteneur.add(row1);
                 }
 
@@ -338,13 +340,13 @@ public class ReleveNotesBean implements Serializable {
             JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur());
             Historiques historique = new Historiques();
-            historique.setLibelle(groupePedagogique.getDescription() + nameFileGen + semestre.getValeur());
-            historique.setLienFile(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur());
+            historique.setLibelle(nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur()+".pdf");
+            historique.setLienFile(pathOutPDF);
             historique.setGroupePedagogique(groupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
-            File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "releves" + semestre.getValeur() + ".pdf");
+            File fileDowload = new File(pathOutPDF + historique.getLibelle());
             JsfUtil.flushToBrowser(fileDowload, "application/pdf");
 
         } catch (Exception ex) {

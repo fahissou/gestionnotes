@@ -114,17 +114,13 @@ public class NotesFacade extends AbstractFacade<Notes> {
             String idGroupePedagogique = groupePedagogique.getId();
             String idAnneAca = anneeAcademique.getId();
             String uenv = "UENV";
-            String uev = "UEV";
-            double valNull = 0.0;
             double moy = groupePedagogique.getParametres().getMoyenneMatiere();
-            Query query = em.createQuery("SELECT N FROM Notes N WHERE (N.inscription.anneeAcademique.id = :idAnneAca OR N.inscription.sessions.id =:idAnneAca) AND ((N.etatValidation = :uenv AND N.note < :moy) OR (N.etatValidation = :uev AND N.note = :valNull)) AND (N.inscription.groupePedagogique.id = :idGroupePedagogique) AND (N.matiere.id = :matiereID)");
+            Query query = em.createQuery("SELECT N FROM Notes N WHERE (N.inscription.anneeAcademique.id = :idAnneAca OR N.inscription.sessions.id =:idAnneAca) AND ((N.etatValidation = :uenv AND N.note < :moy)) AND (N.inscription.groupePedagogique.id = :idGroupePedagogique) AND (N.matiere.id = :matiereID)");
             // set parameters
             query.setParameter("idAnneAca", idAnneAca);
             query.setParameter("idGroupePedagogique", idGroupePedagogique);
             query.setParameter("matiereID", matiereID);
             query.setParameter("uenv", uenv);
-            query.setParameter("uev", uev);
-            query.setParameter("valNull", valNull);
             query.setParameter("moy", moy);
             
             List<Notes> list = query.getResultList();

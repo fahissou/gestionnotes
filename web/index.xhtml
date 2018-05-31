@@ -21,6 +21,7 @@
                 </div>
             </ui:define>
 
+
             <ui:define name="main">
                 <div class="workplace">
                     <div class="row">
@@ -28,9 +29,31 @@
                         <ui:include src="create.xhtml"/>
                     </div>
                 </div>
+
+
             </ui:define>
-            
-            
+
+            <ui:define name="topJS">
+                <script type="text/javascript">
+                if($("#chart-3").length > 0){
+
+                var data = #{satistiqueBean.dataJson};  
+                $.plot($("#chart-3"), data, 
+                {
+                series: {
+                pie: { show: true }
+                },
+                legend: { show: false }
+                });
+
+                }
+                </script>
+                
+            </ui:define>
+
+
+
+
         </ui:composition>
     </h:body>
 </html>

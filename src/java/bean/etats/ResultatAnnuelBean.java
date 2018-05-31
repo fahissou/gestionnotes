@@ -14,6 +14,7 @@ import ejb.inscription.InscriptionFacade;
 import ejb.module.SemestreFacade;
 import ejb.module.UeFacade;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,8 +23,11 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import jpa.formation.Filiere;
 import jpa.formation.Historiques;
 import jpa.inscription.AnneeAcademique;
@@ -31,7 +35,16 @@ import jpa.inscription.Etudiant;
 import jpa.inscription.GroupePedagogique;
 import jpa.inscription.Inscription;
 import jpa.module.Ue;
+import net.sf.jasperreports.ant.JRBaseAntTask;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.context.RequestContext;
+import static org.slf4j.helpers.Util.report;
+import static org.slf4j.helpers.Util.report;
+import static org.slf4j.helpers.Util.report;
 import util.JsfUtil;
 
 /**
@@ -40,7 +53,8 @@ import util.JsfUtil;
  */
 @Named(value = "resultatAnnuelBean")
 @ViewScoped
-public class ResultatAnnuelBean implements Serializable{
+public class ResultatAnnuelBean implements Serializable {
+
     @EJB
     private UeFacade ueFacade;
     @EJB
@@ -53,23 +67,39 @@ public class ResultatAnnuelBean implements Serializable{
     private GroupePedagogiqueFacade groupePedagogiqueFacade;
     @EJB
     private FiliereFacade filiereFacade;
-    
+
     private Filiere filiere;
     private GroupePedagogique groupePedagogique;
     private List<Filiere> listFilieres;
     private List<GroupePedagogique> listGroupePedagogiques;
     private AnneeAcademique anneeAcademique;
-    
-    
+    private JasperPrint jasperPrint;
+
     public ResultatAnnuelBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         listFilieres = filiereFacade.findAll();
         anneeAcademique = AnneeAcademiqueBean.getAnneeAcademicChoisi1();
-        
+
     }
+
+    public void initJR() throws JRException {
+        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listFilieres);
+        String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("");
+        jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<>(), beanCollectionDataSource);
+    }
+    
+    public void PDF() throws JRException, IOException {
+        initJR();
+        HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.pdf");
+        ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+        FacesContext.getCurrentInstance().responseComplete();
+    }
+       
     
     public void initGroupePedagogique() {
         if (filiere != null) {
@@ -78,11 +108,11 @@ public class ResultatAnnuelBean implements Serializable{
             listGroupePedagogiques = new ArrayList<>();
         }
     }
-
+    
     public Filiere getFiliere() {
         return filiere;
     }
-
+    
     public void setFiliere(Filiere filiere) {
         this.filiere = filiere;
     }
@@ -119,11 +149,9 @@ public class ResultatAnnuelBean implements Serializable{
         this.anneeAcademique = anneeAcademique;
     }
 
-    
-    
     // Résultat final
     public void genererResultatFinale() {
-        
+
         String absolutPath = ParametragesBean.getPathRoot();
         String pathOut = absolutPath + "fichiergenerer/rapportgestionnotes/";
         String pathIn = absolutPath + "resources/releve/";
@@ -171,21 +199,21 @@ public class ResultatAnnuelBean implements Serializable{
                 row.put("DN", date);
                 row.put("LN", student.getLieuNaissance());
                 row.put("TC", inscriptions.get(j).getCompteurCredit());
-                row.put("Ob", JsfUtil.decisionFinal(inscriptions.get(j).getCompteurCredit(), creditTotal,groupePedagogique));
+                row.put("Ob", JsfUtil.decisionFinal(inscriptions.get(j).getCompteurCredit(), creditTotal, groupePedagogique));
                 conteneur.add(row);
             }
             JsfUtil.generateurXDOCReport(pathIn + "/resultatFinal1.docx", champs, conteneur, "T", repertoire1.getAbsolutePath() + "/", "Resultat_Final" + "_" + groupePedagogique.getDescription() + "1", parametreEntetes);
             JsfUtil.docxToPDF(repertoire1.getAbsolutePath() + "/", repertoire2.getAbsolutePath() + "/");
             JsfUtil.mergePDF(repertoire2.getAbsolutePath() + "/", pathOutPDF, nomFichier + groupePedagogique.getDescription() + "ResultatFinal");
             Historiques historique = new Historiques();
-            historique.setLibelle(groupePedagogique.getDescription() + "ResultatFinal");
-            historique.setLienFile(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal");
+            historique.setLibelle(nomFichier + groupePedagogique.getDescription() + "ResultatFinal"+".pdf");
+            historique.setLienFile(pathOutPDF);
             historique.setGroupePedagogique(groupePedagogique.getDescription());
             historique.setDateEdition(JsfUtil.getDateEdition());
             historique.setAnneeAcademique(anneeAcademique);
             historiquesFacade.create(historique);
-            File fileDowload = new File(pathOutPDF + nomFichier + groupePedagogique.getDescription() + "ResultatFinal" + ".pdf");
-            JsfUtil.flushToBrowser(fileDowload,"application/pdf");
+            File fileDowload = new File(pathOutPDF + historique.getLibelle());
+            JsfUtil.flushToBrowser(fileDowload, "application/pdf");
 
         } catch (Exception ex) {
             System.out.println("Exceptionfghff " + ex.getMessage());
@@ -193,12 +221,12 @@ public class ResultatAnnuelBean implements Serializable{
         }
 //        RequestContext.getCurrentInstance().execute("window.location='/gestionnotes/etats/historiques/'");
     }
-    
+
     public void reset() {
         this.filiere.reset();
         this.groupePedagogique.reset();
     }
-    
+
     public String admissible(double a, double admissibilite) {
         String res = "Réfusé";
         if (a >= admissibilite) {
@@ -206,7 +234,5 @@ public class ResultatAnnuelBean implements Serializable{
         }
         return res;
     }
-    
-    
-    
+
 }

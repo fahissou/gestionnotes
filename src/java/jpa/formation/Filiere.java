@@ -105,4 +105,14 @@ public class Filiere implements Serializable {
         this.libelle = null;
         this.groupePedagogiques = null;
     }
+
+    public List<Responsabilite> getResponsabilites() {
+        return responsabilites;
+    }
+
+    public void setResponsabilites(List<Responsabilite> responsabilites) {
+        this.responsabilites = responsabilites;
+    }
+    
+    
 }

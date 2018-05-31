@@ -1289,11 +1289,8 @@ public class JsfUtil {
                     .getExternalContext().getResponse();
             response.reset();
             response.setContentType(contentType);
-            System.out.println("OK4");
             response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
-            System.out.println("OK5");
             response.setContentLength((int) file.length());
-            System.out.println("OK6");
             FileInputStream input = new FileInputStream(file);
             try (BufferedInputStream buf = new BufferedInputStream(input)) {
                 int readBytes;

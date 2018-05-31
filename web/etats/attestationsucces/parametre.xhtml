@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-md-9">
                                 <p:selectOneMenu id="etudiant" value="#{attestationSuccesBean.inscription}" 
-                                                 required="false" filter="false" filterMatchMode="contains">
+                                                 required="false" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemValue="#{null}" itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{attestationSuccesBean.listInscription}" var="selection" itemValue="#{selection}"
                                                    itemLabel=" #{selection.etudiant.nom.toUpperCase()} #{selection.etudiant.prenom.toUpperCase()} (#{selection.etudiant.login})"

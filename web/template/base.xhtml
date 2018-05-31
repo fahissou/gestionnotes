@@ -56,6 +56,7 @@
         <ui:insert name="topCSS">
 
         </ui:insert>
+        
 
     </h:head>
 
@@ -109,7 +110,7 @@
 
             </div>
                         
-<!--                        <footer class="footer footerbase">
+                        <footer class="footer footerbase">
                             <div class="pull-right hidden-xs">
                                 <span class="text-xs">1.0</span>
                             </div>
@@ -119,7 +120,7 @@
                             <a href="http://www.logicbenin.com/" target="_blank">
                                 <i class="i-mail"></i>
                             </a>.
-                        </footer>-->
+                        </footer>
 
         </div>
 
@@ -164,6 +165,10 @@
         <h:outputScript library="js" name="plugins.js"/>
         <h:outputScript library="js" name="settings.js"/>
         <h:outputScript library="js" name="p.locale.js"/>
+        
+        <ui:insert name="topJS">
+
+        </ui:insert>
 
         <script type="text/javascript">
             function updateGritter(xhr)
@@ -228,9 +233,6 @@
                 $('.ui-dialog').draggable();
             });
         </script>
-
-
-
 
     </h:body>
 

@@ -6,6 +6,7 @@
 package ejb.administration;
 
 import ejb.AbstractFacade;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -62,6 +63,17 @@ public class ResponsabiliteFacade extends AbstractFacade<Responsabilite> {
         return enseignant;
     }
     
+    public Enseignant getResponsableByFiliere(String idFilieres) {
+        Enseignant enseignant = null;
+        Query query = em.createQuery("SELECT R.enseignant FROM Responsabilite R WHERE R.filiere.id = :idFilieres");
+        query.setParameter("idFilieres", idFilieres);
+        try {
+            enseignant = (Enseignant) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+        }
+        return enseignant;
+    }
+    
     
     public List<Responsabilite> findResponsabilite() {
         List<Responsabilite> liste = null;
@@ -74,5 +86,22 @@ public class ResponsabiliteFacade extends AbstractFacade<Responsabilite> {
         }
         return liste;
     }
+    
+    public List<Responsabilite> findResponsabiliteByEnseignant(String idEnseig) {
+        List<Responsabilite> liste = null;
+        try {
+            Query query = em.createQuery("SELECT R FROM Responsabilite R WHERE R.enseignant.login = :idEnseig");
+            query.setParameter("idEnseig",idEnseig);
+            liste = query.getResultList();
+        } catch (NoResultException | NonUniqueResultException e) {
+//            liste = new ArrayList<>();
+//            Responsabilite responsabilite = new Responsabilite();
+//            responsabilite.setRole("AUCUNE");
+//            liste.add(responsabilite);
+        }
+        return liste;
+    }
+    
+    
 
 }
