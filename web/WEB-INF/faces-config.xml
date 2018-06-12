@@ -21,67 +21,67 @@
         
         <navigation-case>
             <from-outcome>collective</from-outcome>
-            <to-view-id>inscription/inscription/collective/index.xhtml</to-view-id>
+            <to-view-id>/inscription/inscription/collective/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>individuelle</from-outcome>
-            <to-view-id>inscription/inscription/individuelle/index.xhtml</to-view-id>
+            <to-view-id>/inscription/inscription/individuelle/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>particulier</from-outcome>
-            <to-view-id>inscription/reinscriptions/particulier/index.xhtml</to-view-id>
+            <to-view-id>/inscription/reinscriptions/particulier/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>reinscription</from-outcome>
-            <to-view-id>inscription/reinscriptions/reinscriptionsimple/index.xhtml</to-view-id>
+            <to-view-id>/inscription/reinscriptions/reinscriptionsimple/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>succes</from-outcome>
-            <to-view-id>insertionconsultation/notes/afficher/index.xhtml</to-view-id>
+            <to-view-id>/insertionconsultation/notes/afficher/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>succes6</from-outcome>
-            <to-view-id>insertionconsultation/notes/affichage/index.xhtml</to-view-id>
+            <to-view-id>/insertionconsultation/notes/affichage/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>succes1</from-outcome>
-            <to-view-id>insertionconsultation/notes/inserernotes/index_1.xhtml</to-view-id>
+            <to-view-id>/insertionconsultation/notes/inserernotes/index_1.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>succes2</from-outcome>
-            <to-view-id>etats/rechercher/index_1.xhtml</to-view-id>
+            <to-view-id>/etats/rechercher/index_1.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>succes3</from-outcome>
-            <to-view-id>inscription/reinscriptions/affichage/index.xhtml</to-view-id>
+            <to-view-id>/inscription/reinscriptions/affichage/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>success4</from-outcome>
-            <to-view-id>etats/appercudocument/index.xhtml</to-view-id>
+            <to-view-id>/etats/appercudocument/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>succes5</from-outcome>
-            <to-view-id>etats/rechercheravancee/index_1.xhtml</to-view-id>
+            <to-view-id>/etats/rechercheravancee/index_1.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
 

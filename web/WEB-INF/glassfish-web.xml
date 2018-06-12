@@ -21,7 +21,7 @@
     <role-name>SECRETAIRE</role-name>
     <group-name>Secretaire</group-name>
   </security-role-mapping>
-  <context-root>/gestionnotes</context-root>
+  <context-root>gestionnotes</context-root>
   <class-loader delegate="true"/>
   <jsp-config>
     <property name="keepgenerated" value="true">
